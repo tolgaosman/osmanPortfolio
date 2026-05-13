@@ -41,16 +41,34 @@ function type() {
 type();
 
 /* ─── Language Switcher ─── */
-function toggleLang() {
-  currentLang = currentLang === 'en' ? 'tr' : 'en';
-  const btn = document.getElementById('langBtn');
-  btn.textContent = currentLang === 'en' ? 'TR' : 'EN';
+let langMenuOpen = false;
+
+function toggleLangMenu(e) {
+  e.stopPropagation();
+  langMenuOpen = !langMenuOpen;
+  document.getElementById('langMenu').classList.toggle('open', langMenuOpen);
+  document.getElementById('langChevron').classList.toggle('rotated', langMenuOpen);
+}
+
+function setLang(lang) {
+  currentLang = lang;
+  langMenuOpen = false;
+  document.getElementById('langMenu').classList.remove('open');
+  document.getElementById('langChevron').classList.remove('rotated');
+
+  // Update button label
+  document.getElementById('langCurrent').textContent = lang.toUpperCase();
+
+  // Highlight active option
+  document.getElementById('langOptEN').classList.toggle('active', lang === 'en');
+  document.getElementById('langOptTR').classList.toggle('active', lang === 'tr');
+
+  // Reset typing effect
   pi = 0; ci = 0; deleting = false;
 
   // Translate all elements with data-en / data-tr
   document.querySelectorAll('[data-en][data-tr]').forEach(el => {
-    const text = el.getAttribute('data-' + currentLang);
-    // Use innerHTML for elements that contain HTML tags (e.g. section titles)
+    const text = el.getAttribute('data-' + lang);
     if (text && (text.includes('<') || text.includes('&'))) {
       el.innerHTML = text;
     } else if (text) {
@@ -58,6 +76,15 @@ function toggleLang() {
     }
   });
 }
+
+// Close dropdown when clicking outside
+document.addEventListener('click', () => {
+  if (langMenuOpen) {
+    langMenuOpen = false;
+    document.getElementById('langMenu').classList.remove('open');
+    document.getElementById('langChevron').classList.remove('rotated');
+  }
+});
 
 /* ─── Navbar scroll ─── */
 const navbar = document.getElementById('navbar');

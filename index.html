@@ -57,7 +57,20 @@
         <a href="#contact" class="nav-link" data-en="Contact" data-tr="İletişim">Contact</a>
         <a href="osman cv .pdf" download class="btn-primary text-sm px-4 py-2 rounded-lg" data-en="Resume ↓"
           data-tr="CV ↓">Resume ↓</a>
-        <button id="langBtn" class="lang-btn" onclick="toggleLang()">TR</button>
+        <div class="lang-dropdown" id="langDropdown">
+          <button class="lang-btn" id="langBtn" onclick="toggleLangMenu(event)">
+            <span id="langCurrent">EN</span>
+            <i class="fas fa-chevron-down lang-chevron" id="langChevron"></i>
+          </button>
+          <div class="lang-menu" id="langMenu">
+            <button class="lang-option" id="langOptEN" onclick="setLang('en')">
+              🇬🇧 English
+            </button>
+            <button class="lang-option" id="langOptTR" onclick="setLang('tr')">
+              🇹🇷 Türkçe
+            </button>
+          </div>
+        </div>
       </div>
       <button id="menuBtn" class="md:hidden text-gray-300 text-2xl"><i class="fas fa-bars"></i></button>
     </div>
@@ -115,25 +128,32 @@
         <h2 class="section-title" data-en="About <span class='gradient-text'>Me</span>"
           data-tr="Hakkımda <span class='gradient-text'>Ben</span>">About <span class="gradient-text">Me</span></h2>
       </div>
-      <div class="about-content reveal mt-12">
-        <p class="about-para"
-          data-en="Born in Nicosia and a graduate of Eastern Mediterranean University, I am a dedicated software developer driven by a passion for creating impactful digital experiences. My technical foundation is built on HTML, CSS, JavaScript, and Python, allowing me to build seamless, functional, and user-centric applications."
-          data-tr="Lefkoşa doğumlu ve Doğu Akdeniz Üniversitesi mezunu olarak, etkili dijital deneyimler yaratma tutkusuyla hareket eden kararlı bir yazılım geliştiricisiyim. HTML, CSS, JavaScript ve Python üzerine kurulu teknik altyapım, kesintisiz, işlevsel ve kullanıcı odaklı uygulamalar geliştirmemi sağlıyor.">
-          Born in Nicosia and a graduate of Eastern Mediterranean University, I am a dedicated software developer driven
-          by a passion for creating impactful digital experiences. My technical foundation is built on HTML, CSS,
-          JavaScript, and Python, allowing me to build seamless, functional, and user-centric applications.</p>
-        <p class="about-para"
-          data-en="Beyond the code, I pride myself on my strong communication skills and my ability to adapt quickly to new challenges and evolving technologies. I don't just build software; I find genuine joy in delivering high-quality service and solving complex problems that make a difference for my clients."
-          data-tr="Kodun ötesinde, güçlü iletişim becerilerimle ve yeni zorluklara ile gelişen teknolojilere hızla uyum sağlama yeteneğimle öğünüyorum. Sadece yazılım geliştirmiyorum; müşterilerimin farkını yaratan karmaşık sorunları çözerken ve yüksek kaliteli hizmet sunarken gerçek bir mutluluk buluyorum.">
-          Beyond the code, I pride myself on my strong communication skills and my ability to adapt quickly to new
-          challenges and evolving technologies. I don't just build software; I find genuine joy in delivering
-          high-quality service and solving complex problems that make a difference for my clients.</p>
-        <p class="about-para"
-          data-en="Whether it's crafting a sleek front-end interface or developing robust back-end logic, I approach every project with enthusiasm and a commitment to excellence. I am always ready to learn, grow, and contribute to innovative projects."
-          data-tr="İster şık bir ön yüz arayüzü oluşturmak ister sağlam bir arka uç mantığı geliştirmek olsun, her projeye coşkuyla ve mükemmeliyete bağlılıkla yaklaşıyorum. Her zaman öğrenmeye, büyümeye ve yenilikçi projelere katkıda bulunmaya hazırım.">
-          Whether it's crafting a sleek front-end interface or developing robust back-end logic, I approach every
-          project with enthusiasm and a commitment to excellence. I am always ready to learn, grow, and contribute to
-          innovative projects.</p>
+      <div class="about-layout reveal mt-12">
+        <!-- Photo -->
+        <div class="about-photo-wrap">
+          <img src="osman foto.jpeg" alt="Tolga Osman Falay" class="about-photo" />
+        </div>
+        <!-- Paragraphs -->
+        <div class="about-content">
+          <p class="about-para"
+            data-en="Born in Nicosia and a graduate of Eastern Mediterranean University, I am a dedicated software developer driven by a passion for creating impactful digital experiences. My technical foundation is built on HTML, CSS, JavaScript, and Python, allowing me to build seamless, functional, and user-centric applications."
+            data-tr="Lefkoşa doğumlu ve Doğu Akdeniz Üniversitesi mezunu olarak, etkili dijital deneyimler yaratma tutkusuyla hareket eden kararlı bir yazılım geliştiricisiyim. HTML, CSS, JavaScript ve Python üzerine kurulu teknik altyapım, kesintisiz, işlevsel ve kullanıcı odaklı uygulamalar geliştirmemi sağlıyor.">
+            Born in Nicosia and a graduate of Eastern Mediterranean University, I am a dedicated software developer driven
+            by a passion for creating impactful digital experiences. My technical foundation is built on HTML, CSS,
+            JavaScript, and Python, allowing me to build seamless, functional, and user-centric applications.</p>
+          <p class="about-para"
+            data-en="Beyond the code, I pride myself on my strong communication skills and my ability to adapt quickly to new challenges and evolving technologies. I don't just build software; I find genuine joy in delivering high-quality service and solving complex problems that make a difference for my clients."
+            data-tr="Kodun ötesinde, güçlü iletişim becerilerimle ve yeni zorluklara ile gelişen teknolojilere hızla uyum sağlama yeteneğimle öğünüyorum. Sadece yazılım geliştirmiyorum; müşterilerimin farkını yaratan karmaşık sorunları çözerken ve yüksek kaliteli hizmet sunarken gerçek bir mutluluk buluyorum.">
+            Beyond the code, I pride myself on my strong communication skills and my ability to adapt quickly to new
+            challenges and evolving technologies. I don't just build software; I find genuine joy in delivering
+            high-quality service and solving complex problems that make a difference for my clients.</p>
+          <p class="about-para"
+            data-en="Whether it's crafting a sleek front-end interface or developing robust back-end logic, I approach every project with enthusiasm and a commitment to excellence. I am always ready to learn, grow, and contribute to innovative projects."
+            data-tr="İster şık bir ön yüz arayüzü oluşturmak ister sağlam bir arka uç mantığı geliştirmek olsun, her projeye coşkuyla ve mükemmeliyete bağlılıkla yaklaşıyorum. Her zaman öğrenmeye, büyümeye ve yenilikçi projelere katkıda bulunmaya hazırım.">
+            Whether it's crafting a sleek front-end interface or developing robust back-end logic, I approach every
+            project with enthusiasm and a commitment to excellence. I am always ready to learn, grow, and contribute to
+            innovative projects.</p>
+        </div>
       </div>
     </div>
   </section>

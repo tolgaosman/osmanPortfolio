@@ -526,10 +526,39 @@ body {
 }
 
 /* ── About Me ── */
+.about-layout {
+  display: flex;
+  gap: 2rem;
+  align-items: stretch;
+}
+
+.about-photo-wrap {
+  flex-shrink: 0;
+  width: 260px;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 2px solid rgba(59, 130, 246, 0.25);
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(59, 130, 246, 0.08);
+}
+
+.about-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.about-photo-wrap:hover .about-photo {
+  transform: scale(1.03);
+}
+
 .about-content {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1rem;
+  flex: 1;
 }
 
 .about-para {
@@ -549,25 +578,90 @@ body {
   color: #e5e7eb;
 }
 
-/* ── Language toggle button ── */
+/* ── Language dropdown ── */
+.lang-dropdown {
+  position: relative;
+}
+
 .lang-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
   background: rgba(59, 130, 246, 0.12);
   border: 1px solid rgba(59, 130, 246, 0.35);
   color: #60a5fa;
   border-radius: 8px;
-  padding: 0.3rem 0.75rem;
+  padding: 0.3rem 0.65rem;
   font-size: 0.75rem;
   font-weight: 700;
   font-family: 'Fira Code', monospace;
   letter-spacing: 0.08em;
   cursor: pointer;
-  transition: all 0.3s;
+  transition: all 0.25s;
 }
 
 .lang-btn:hover {
   background: rgba(59, 130, 246, 0.25);
   border-color: #3b82f6;
-  transform: translateY(-1px);
+}
+
+.lang-chevron {
+  font-size: 0.6rem;
+  transition: transform 0.25s;
+}
+
+.lang-chevron.rotated {
+  transform: rotate(180deg);
+}
+
+.lang-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  background: #111118;
+  border: 1px solid rgba(59, 130, 246, 0.25);
+  border-radius: 10px;
+  padding: 0.4rem;
+  min-width: 130px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+  display: none;
+  flex-direction: column;
+  gap: 0.2rem;
+  z-index: 100;
+  opacity: 0;
+  transform: translateY(-6px);
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+.lang-menu.open {
+  display: flex;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.lang-option {
+  background: transparent;
+  border: none;
+  color: #9ca3af;
+  font-size: 0.82rem;
+  font-family: 'Inter', sans-serif;
+  padding: 0.5rem 0.75rem;
+  border-radius: 7px;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.lang-option:hover {
+  background: rgba(59, 130, 246, 0.12);
+  color: #e5e7eb;
+}
+
+.lang-option.active {
+  color: #60a5fa;
+  background: rgba(59, 130, 246, 0.1);
+  font-weight: 600;
 }
 
 /* ── Responsive ── */
@@ -578,5 +672,14 @@ body {
 
   .timeline-dot {
     left: -1.35rem;
+  }
+
+  .about-layout {
+    flex-direction: column;
+  }
+
+  .about-photo-wrap {
+    width: 100%;
+    height: 280px;
   }
 }
