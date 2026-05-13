@@ -116,9 +116,8 @@ document.querySelectorAll('.reveal, .skill-card, .project-card, .timeline-item')
 function checkFormValidity() {
   const name = document.getElementById('name').value.trim();
   const email = document.getElementById('email').value.trim();
-  const phone = document.getElementById('phone').value.trim();
   const btn = document.getElementById('submitBtn');
-  const valid = name.length >= 5 && email.length >= 5 && phone.length >= 5;
+  const valid = name.length >= 5 && email.length >= 5;
   btn.disabled = !valid;
   if (valid) {
     btn.classList.remove('opacity-40', 'cursor-not-allowed');
@@ -126,7 +125,7 @@ function checkFormValidity() {
     btn.classList.add('opacity-40', 'cursor-not-allowed');
   }
 }
-['name', 'email', 'phone'].forEach(id => {
+['name', 'email'].forEach(id => {
   document.getElementById(id).addEventListener('input', checkFormValidity);
 });
 
@@ -135,13 +134,12 @@ function handleSubmit(e) {
   e.preventDefault();
   const userName = document.getElementById('name').value.trim();
   const userEmail = document.getElementById('email').value.trim();
-  const countryCode = document.getElementById('countryCode').value;
-  const userPhone = document.getElementById('phone').value.trim().replace(/\s+/g, '');
+  const userMessage = document.getElementById('message').value.trim();
 
-  const text = encodeURIComponent(
-    `Merhaba, ben ${userName}.\nEmail: ${userEmail}\nTelefon: ${countryCode}${userPhone}`
-  );
-  window.open(`https://wa.me/905338346699?text=${text}`, '_blank');
+  let text = `Merhaba, ben ${userName}.\nEmail: ${userEmail}`;
+  if (userMessage) text += `\nMesaj: ${userMessage}`;
+
+  window.open(`https://wa.me/905338346699?text=${encodeURIComponent(text)}`, '_blank');
 }
 
 /* ─── Smooth active nav highlight ─── */
