@@ -1,17 +1,7 @@
-/* ─── EmailJS Init ─── */
-// IMPORTANT: Replace these with your real EmailJS credentials from emailjs.com
-// Service ID: create a service connected to tofbusiness2002@gmail.com
-// Template ID: create a template with {{from_name}}, {{reply_to}}, {{message}} variables
-const EMAILJS_SERVICE_ID = 'YOUR_SERVICE_ID';
-const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';
-const EMAILJS_PUBLIC_KEY = 'YOUR_PUBLIC_KEY';
-
-(function () { emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY }); })();
-
 /* ─── Typing Effect ─── */
 const phrasesEN = [
   'Software Engineer.',
-  'Front-End Developer.',
+  'Web Developer.',
   'Problem Solver.',
   'Open to Opportunities.'
 ];
@@ -126,9 +116,9 @@ document.querySelectorAll('.reveal, .skill-card, .project-card, .timeline-item')
 function checkFormValidity() {
   const name = document.getElementById('name').value.trim();
   const email = document.getElementById('email').value.trim();
-  const message = document.getElementById('message').value.trim();
+  const phone = document.getElementById('phone').value.trim();
   const btn = document.getElementById('submitBtn');
-  const valid = name.length >= 5 && email.length >= 5 && message.length >= 5;
+  const valid = name.length >= 5 && email.length >= 5 && phone.length >= 5;
   btn.disabled = !valid;
   if (valid) {
     btn.classList.remove('opacity-40', 'cursor-not-allowed');
@@ -136,51 +126,29 @@ function checkFormValidity() {
     btn.classList.add('opacity-40', 'cursor-not-allowed');
   }
 }
-['name', 'email', 'message'].forEach(id => {
+['name', 'email', 'phone'].forEach(id => {
   document.getElementById(id).addEventListener('input', checkFormValidity);
 });
 
-/* ─── Contact Form (EmailJS) ─── */
+/* ─── Contact Form (WhatsApp) ─── */
 function handleSubmit(e) {
   e.preventDefault();
-  const btn = document.getElementById('submitBtn');
-  const successEl = document.getElementById('formSuccess');
-  const errorEl = document.getElementById('formError');
-
-  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
-  btn.disabled = true;
-  successEl.classList.add('hidden');
-  errorEl.classList.add('hidden');
 
   const userName = document.getElementById('name').value.trim();
-  const userMessage = document.getElementById('message').value.trim();
   const userEmail = document.getElementById('email').value.trim();
-  const formattedMessage = `${userName}\n\n${userMessage}`;
+  const countryCode = document.getElementById('countryCode').value;
+  const userPhone = document.getElementById('phone').value.trim();
 
-  const templateParams = {
-    from_name: userName,
-    reply_to: userEmail,
-    message: formattedMessage,
-    to_email: 'tofbusiness2002@gmail.com'
-  };
+  // Create the message content
+  const message = `Merhaba, ben ${userName}.\nEmail: ${userEmail}\nTelefon: ${countryCode} ${userPhone}`;
+  const encodedMessage = encodeURIComponent(message);
 
-  emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
-    .then(() => {
-      btn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message';
-      btn.disabled = false;
-      btn.classList.remove('opacity-40', 'cursor-not-allowed');
-      document.getElementById('contactForm').reset();
-      checkFormValidity();
-      successEl.classList.remove('hidden');
-      setTimeout(() => successEl.classList.add('hidden'), 6000);
-    })
-    .catch((err) => {
-      console.error('EmailJS error:', err);
-      btn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message';
-      btn.disabled = false;
-      errorEl.classList.remove('hidden');
-      setTimeout(() => errorEl.classList.add('hidden'), 6000);
-    });
+  // Target WhatsApp Number (Tolga Osman Falay)
+  const targetNumber = '905338346699';
+  const whatsappUrl = `https://wa.me/${targetNumber}?text=${encodedMessage}`;
+
+  // Redirect to WhatsApp
+  window.open(whatsappUrl, '_blank');
 }
 
 /* ─── Smooth active nav highlight ─── */
