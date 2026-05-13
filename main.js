@@ -1,3 +1,13 @@
+/* ─── EmailJS Init ─── */
+// IMPORTANT: Replace these with your real EmailJS credentials from emailjs.com
+// Service ID: create a service connected to tofbusiness2002@gmail.com
+// Template ID: create a template with {{from_name}}, {{reply_to}}, {{message}} variables
+const EMAILJS_SERVICE_ID = 'YOUR_SERVICE_ID';
+const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';
+const EMAILJS_PUBLIC_KEY = 'YOUR_PUBLIC_KEY';
+
+(function () { emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY }); })();
+
 /* ─── Typing Effect ─── */
 const phrasesEN = [
   'Software Engineer.',
@@ -112,7 +122,7 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: 0.1 });
 document.querySelectorAll('.reveal, .skill-card, .project-card, .timeline-item').forEach(el => observer.observe(el));
 
-/* ─── Contact Form (FormSubmit AJAX) ─── */
+/* ─── Contact Form (EmailJS) ─── */
 function handleSubmit(e) {
   e.preventDefault();
   const btn = document.getElementById('submitBtn');
@@ -126,36 +136,25 @@ function handleSubmit(e) {
 
   const userName = document.getElementById('name').value;
   const userMessage = document.getElementById('message').value;
-  const email = document.getElementById('email').value;
   const formattedMessage = `Name/İsim: ${userName}\n\nMessage/Mesaj:\n${userMessage}`;
 
-  fetch("https://formsubmit.co/ajax/tofbusiness2002@gmail.com", {
-    method: "POST",
-    headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json'
-    },
-    body: JSON.stringify({
-      _subject: "New Portfolio Contact from " + userName,
-      name: userName,
-      email: email,
-      message: formattedMessage
-    })
-  })
-    .then(response => response.json())
-    .then(data => {
-      if (data.success) {
-        btn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message';
-        btn.disabled = false;
-        document.getElementById('contactForm').reset();
-        successEl.classList.remove('hidden');
-        setTimeout(() => successEl.classList.add('hidden'), 6000);
-      } else {
-        throw new Error('Form error');
-      }
+  const templateParams = {
+    from_name: userName,
+    reply_to: document.getElementById('email').value,
+    message: formattedMessage,
+    to_email: 'tofbusiness2002@gmail.com'
+  };
+
+  emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
+    .then(() => {
+      btn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message';
+      btn.disabled = false;
+      document.getElementById('contactForm').reset();
+      successEl.classList.remove('hidden');
+      setTimeout(() => successEl.classList.add('hidden'), 6000);
     })
     .catch((err) => {
-      console.error('Email error:', err);
+      console.error('EmailJS error:', err);
       btn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message';
       btn.disabled = false;
       errorEl.classList.remove('hidden');
