@@ -102,10 +102,16 @@ window.addEventListener('scroll', () => {
 
 /* ─── Mobile menu ─── */
 document.getElementById('menuBtn').addEventListener('click', () => {
-  document.getElementById('mobileMenu').classList.toggle('hidden');
+  const menu = document.getElementById('mobileMenu');
+  menu.classList.toggle('hidden');
+  menu.classList.toggle('flex');
 });
 document.querySelectorAll('#mobileMenu a').forEach(a => {
-  a.addEventListener('click', () => document.getElementById('mobileMenu').classList.add('hidden'));
+  a.addEventListener('click', () => {
+    const menu = document.getElementById('mobileMenu');
+    menu.classList.add('hidden');
+    menu.classList.remove('flex');
+  });
 });
 
 /* ─── Scroll Reveal ─── */
