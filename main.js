@@ -116,8 +116,9 @@ document.querySelectorAll('.reveal, .skill-card, .project-card, .timeline-item')
 function checkFormValidity() {
   const name = document.getElementById('name').value.trim();
   const email = document.getElementById('email').value.trim();
+  const message = document.getElementById('message').value.trim();
   const btn = document.getElementById('submitBtn');
-  const valid = name.length >= 5 && email.length >= 5;
+  const valid = name.length >= 5 && email.length >= 5 && message.length >= 5;
   btn.disabled = !valid;
   if (valid) {
     btn.classList.remove('opacity-40', 'cursor-not-allowed');
@@ -125,7 +126,7 @@ function checkFormValidity() {
     btn.classList.add('opacity-40', 'cursor-not-allowed');
   }
 }
-['name', 'email'].forEach(id => {
+['name', 'email', 'message'].forEach(id => {
   document.getElementById(id).addEventListener('input', checkFormValidity);
 });
 
