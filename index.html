@@ -428,21 +428,32 @@
                 data-placeholder-en="Your Mail Address" data-placeholder-tr="Mail Adresiniz" minlength="5" required />
             </div>
             <div>
-              <label class="form-label" for="phone" data-en="Phone" data-tr="Telefon">Phone</label>
+              <label class="form-label" for="phone" data-en="Phone Number" data-tr="Telefon Numarası">Phone Number</label>
               <div class="flex gap-2">
-                <select id="countryCode" class="form-input w-28 px-2 py-3 bg-dark-700 text-white rounded-xl border border-dark-600 focus:border-green-accent focus:outline-none">
+                <select id="countryCode" class="form-input" style="width:110px;flex-shrink:0">
                   <option value="+90">🇹🇷 +90</option>
-                  <option value="+44">🇬🇧 +44</option>
                   <option value="+1">🇺🇸 +1</option>
+                  <option value="+44">🇬🇧 +44</option>
                   <option value="+49">🇩🇪 +49</option>
+                  <option value="+33">🇫🇷 +33</option>
+                  <option value="+39">🇮🇹 +39</option>
+                  <option value="+34">🇪🇸 +34</option>
+                  <option value="+7">🇷🇺 +7</option>
+                  <option value="+86">🇨🇳 +86</option>
+                  <option value="+81">🇯🇵 +81</option>
+                  <option value="+82">🇰🇷 +82</option>
                 </select>
-                <input id="phone" type="tel" class="form-input flex-1" placeholder="533 123 4567"
-                  data-placeholder-en="533 123 4567" data-placeholder-tr="533 123 4567" minlength="5" required />
+                <input id="phone" type="tel" class="form-input" style="flex:1"
+                  placeholder="533 123 45 67"
+                  data-placeholder-en="533 123 45 67"
+                  data-placeholder-tr="533 123 45 67"
+                  minlength="5" required />
               </div>
             </div>
             <button type="submit" id="submitBtn" disabled
-              class="w-full py-3 rounded-xl font-semibold flex items-center justify-center gap-2 opacity-40 cursor-not-allowed bg-green-500 hover:bg-green-600 text-white transition-colors">
-              <i class="fab fa-whatsapp text-xl"></i> <span data-en="Send via WhatsApp" data-tr="WhatsApp'tan Gönder">Send via WhatsApp</span>
+              class="w-full py-3 rounded-xl font-semibold flex items-center justify-center gap-2 opacity-40 cursor-not-allowed transition-all duration-200" style="background:#25d366;color:#fff">
+              <i class="fab fa-whatsapp text-xl"></i>
+              <span data-en="Connect on WhatsApp" data-tr="WhatsApp'tan Yaz">Connect on WhatsApp</span>
             </button>
           </form>
         </div>

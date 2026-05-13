@@ -130,25 +130,18 @@ function checkFormValidity() {
   document.getElementById(id).addEventListener('input', checkFormValidity);
 });
 
-/* ─── Contact Form (WhatsApp) ─── */
+/* ─── Contact Form → WhatsApp Redirect ─── */
 function handleSubmit(e) {
   e.preventDefault();
-
   const userName = document.getElementById('name').value.trim();
   const userEmail = document.getElementById('email').value.trim();
   const countryCode = document.getElementById('countryCode').value;
-  const userPhone = document.getElementById('phone').value.trim();
+  const userPhone = document.getElementById('phone').value.trim().replace(/\s+/g, '');
 
-  // Create the message content
-  const message = `Merhaba, ben ${userName}.\nEmail: ${userEmail}\nTelefon: ${countryCode} ${userPhone}`;
-  const encodedMessage = encodeURIComponent(message);
-
-  // Target WhatsApp Number (Tolga Osman Falay)
-  const targetNumber = '905338346699';
-  const whatsappUrl = `https://wa.me/${targetNumber}?text=${encodedMessage}`;
-
-  // Redirect to WhatsApp
-  window.open(whatsappUrl, '_blank');
+  const text = encodeURIComponent(
+    `Merhaba, ben ${userName}.\nEmail: ${userEmail}\nTelefon: ${countryCode}${userPhone}`
+  );
+  window.open(`https://wa.me/905338346699?text=${text}`, '_blank');
 }
 
 /* ─── Smooth active nav highlight ─── */
