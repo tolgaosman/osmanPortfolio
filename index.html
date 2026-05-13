@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tolga Osman Falay | Software Engineer</title>
+  <meta name="description" content="Portfolio of Tolga Osman Falay – Software Engineering Student skilled in HTML, CSS, JavaScript and more." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="style.css" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { inter: ['Inter','sans-serif'], mono: ['Fira Code','monospace'] },
+          colors: {
+            dark:  { 900:'#0a0a0f', 800:'#111118', 700:'#1a1a24', 600:'#22222f', 500:'#2a2a3a' },
+            blue:  { accent:'#3b82f6', glow:'#60a5fa', dim:'#1d4ed8' },
+            green: { accent:'#10b981', glow:'#34d399', dim:'#065f46' }
+          },
+          animation: {
+            'fade-up':'fadeUp 0.6s ease forwards',
+            'blink':'blink 1s step-end infinite',
+            'float':'float 6s ease-in-out infinite',
+            'pulse-slow':'pulse 4s cubic-bezier(0.4,0,0.6,1) infinite',
+          },
+          keyframes: {
+            fadeUp:{ '0%':{ opacity:'0', transform:'translateY(30px)' }, '100%':{ opacity:'1', transform:'translateY(0)' } },
+            blink:{ '0%,100%':{ opacity:'1' }, '50%':{ opacity:'0' } },
+            float:{ '0%,100%':{ transform:'translateY(0px)' }, '50%':{ transform:'translateY(-20px)' } }
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-dark-900 text-gray-100 font-inter antialiased">
+
+  <!-- ─── NAV ─── -->
+  <nav id="navbar" class="fixed top-0 w-full z-50 transition-all duration-300 py-4">
+    <div class="max-w-7xl mx-auto px-6 flex items-center justify-between">
+      <a href="#hero" class="font-mono text-blue-accent text-xl font-semibold tracking-wider">&lt;TOF /&gt;</a>
+      <div class="hidden md:flex items-center gap-8 text-sm font-medium text-gray-400">
+        <a href="#stack"      class="nav-link">Stack</a>
+        <a href="#projects"   class="nav-link">Projects</a>
+        <a href="#experience" class="nav-link">Experience</a>
+        <a href="#contact"    class="nav-link">Contact</a>
+        <a href="resume.pdf" download class="btn-primary text-sm px-4 py-2 rounded-lg">Resume ↓</a>
+      </div>
+      <button id="menuBtn" class="md:hidden text-gray-300 text-2xl"><i class="fas fa-bars"></i></button>
+    </div>
+    <div id="mobileMenu" class="hidden md:hidden bg-dark-800 border-t border-dark-600 px-6 py-4 flex flex-col gap-4 text-sm text-gray-300">
+      <a href="#stack"      class="nav-link">Stack</a>
+      <a href="#projects"   class="nav-link">Projects</a>
+      <a href="#experience" class="nav-link">Experience</a>
+      <a href="#contact"    class="nav-link">Contact</a>
+      <a href="resume.pdf" download class="btn-primary text-center px-4 py-2 rounded-lg">Resume ↓</a>
+    </div>
+  </nav>
+
+  <!-- ─── HERO ─── -->
+  <section id="hero" class="min-h-screen flex items-center justify-center relative overflow-hidden">
+    <div class="hero-bg-blob blob1"></div>
+    <div class="hero-bg-blob blob2"></div>
+    <div class="grid-overlay"></div>
+    <div class="max-w-4xl mx-auto px-6 text-center relative z-10 reveal">
+      <p class="font-mono text-blue-accent text-sm mb-4 tracking-widest uppercase">Hello World, I'm</p>
+      <h1 class="text-5xl md:text-7xl font-black mb-4 leading-tight">
+        <span class="text-white">Tolga Osman</span><br/>
+        <span class="gradient-text">Falay</span>
+      </h1>
+      <div class="flex items-center justify-center gap-2 text-xl md:text-2xl text-gray-300 font-light mb-6 h-9">
+        <span id="typed" class="text-blue-glow font-semibold"></span>
+        <span class="animate-blink text-blue-accent">|</span>
+      </div>
+      <p class="text-gray-400 max-w-xl mx-auto mb-10 text-base leading-relaxed">
+        Software Engineering student at Eastern Mediterranean University with a passion for building clean, scalable web experiences. Strong communicator with real-world customer-facing experience.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="resume.pdf" download id="resumeBtn" class="btn-primary px-8 py-3 rounded-xl text-base font-semibold flex items-center gap-2 justify-center">
+          <i class="fas fa-file-arrow-down"></i> Download Resume
+        </a>
+        <a href="#projects" class="btn-ghost px-8 py-3 rounded-xl text-base font-semibold">View Projects →</a>
+      </div>
+    </div>
+    <div class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce text-gray-600">
+      <i class="fas fa-chevron-down text-xl"></i>
+    </div>
+  </section>
+
+  <!-- ─── TECH STACK ─── -->
+  <section id="stack" class="py-24 bg-dark-800">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="section-header reveal">
+        <p class="section-tag">My Arsenal</p>
+        <h2 class="section-title">Tech <span class="gradient-text">Stack</span></h2>
+        <p class="section-sub">Technologies and tools I work with</p>
+      </div>
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 mt-12">
+        <!-- Languages -->
+        <div class="skill-card reveal" style="--delay:0.05s"><i class="fab fa-html5 text-orange-400 text-3xl mb-3"></i><span>HTML5</span></div>
+        <div class="skill-card reveal" style="--delay:0.10s"><i class="fab fa-css3-alt text-blue-400 text-3xl mb-3"></i><span>CSS3</span></div>
+        <div class="skill-card reveal" style="--delay:0.15s"><i class="fab fa-js text-yellow-400 text-3xl mb-3"></i><span>JavaScript</span></div>
+        <div class="skill-card reveal" style="--delay:0.20s"><i class="fab fa-python text-sky-400 text-3xl mb-3"></i><span>Python</span></div>
+        <div class="skill-card reveal" style="--delay:0.25s"><i class="fab fa-git-alt text-orange-500 text-3xl mb-3"></i><span>Git</span></div>
+        <!-- Tools -->
+        <div class="skill-card reveal" style="--delay:0.30s"><i class="fab fa-github text-gray-200 text-3xl mb-3"></i><span>GitHub</span></div>
+        <div class="skill-card reveal" style="--delay:0.35s"><i class="fab fa-react text-cyan-400 text-3xl mb-3"></i><span>React</span></div>
+        <div class="skill-card reveal" style="--delay:0.40s"><i class="fab fa-node-js text-green-400 text-3xl mb-3"></i><span>Node.js</span></div>
+        <div class="skill-card reveal" style="--delay:0.45s"><i class="fas fa-database text-indigo-400 text-3xl mb-3"></i><span>SQL</span></div>
+        <div class="skill-card reveal" style="--delay:0.50s"><i class="fas fa-terminal text-green-accent text-3xl mb-3"></i><span>Linux CLI</span></div>
+      </div>
+
+      <!-- Soft Skills -->
+      <div class="mt-16 reveal">
+        <p class="text-center text-gray-500 text-sm uppercase tracking-widest mb-6">Also bring to the table</p>
+        <div class="flex flex-wrap justify-center gap-3">
+          <span class="soft-badge">🗣 Communication</span>
+          <span class="soft-badge">🤝 Teamwork</span>
+          <span class="soft-badge">⚡ Quick Learning</span>
+          <span class="soft-badge">🔧 Problem Solving</span>
+          <span class="soft-badge">🌐 Multilingual (TR/EN/DE)</span>
+          <span class="soft-badge">🎯 Adaptability</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── PROJECTS ─── -->
+  <section id="projects" class="py-24 bg-dark-900">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="section-header reveal">
+        <p class="section-tag">What I've Built</p>
+        <h2 class="section-title">Featured <span class="gradient-text">Projects</span></h2>
+        <p class="section-sub">A selection of projects I'm proud of</p>
+      </div>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
+
+        <!-- Project 1 -->
+        <article class="project-card reveal" style="--delay:0.1s">
+          <div class="project-glow"></div>
+          <div class="project-number">01</div>
+          <h3 class="text-xl font-bold text-white mb-2">Personal Portfolio Site</h3>
+          <p class="text-gray-400 text-sm mb-4 leading-relaxed">A responsive, dark-themed developer portfolio showcasing projects and skills, built with modern web standards and smooth animations.</p>
+          <div class="flex flex-wrap gap-2 mb-6">
+            <span class="tech-tag">HTML</span><span class="tech-tag">CSS</span><span class="tech-tag">JavaScript</span><span class="tech-tag">Tailwind</span>
+          </div>
+          <div class="flex gap-3 mt-auto">
+            <a href="https://github.com/tolgaosman" target="_blank" class="project-link"><i class="fab fa-github"></i> Code</a>
+            <a href="#" class="project-link project-link-live"><i class="fas fa-external-link-alt"></i> Live</a>
+          </div>
+        </article>
+
+        <!-- Project 2 -->
+        <article class="project-card reveal" style="--delay:0.2s">
+          <div class="project-glow"></div>
+          <div class="project-number">02</div>
+          <h3 class="text-xl font-bold text-white mb-2">JavaScript To-Do App</h3>
+          <p class="text-gray-400 text-sm mb-4 leading-relaxed">A fully client-side task management application with localStorage persistence, drag-and-drop reordering, and priority flags.</p>
+          <div class="flex flex-wrap gap-2 mb-6">
+            <span class="tech-tag">JavaScript</span><span class="tech-tag">HTML</span><span class="tech-tag">CSS</span><span class="tech-tag">LocalStorage</span>
+          </div>
+          <div class="flex gap-3 mt-auto">
+            <a href="https://github.com/tolgaosman" target="_blank" class="project-link"><i class="fab fa-github"></i> Code</a>
+            <a href="#" class="project-link project-link-live"><i class="fas fa-external-link-alt"></i> Live</a>
+          </div>
+        </article>
+
+        <!-- Project 3 -->
+        <article class="project-card reveal" style="--delay:0.3s">
+          <div class="project-glow"></div>
+          <div class="project-number">03</div>
+          <h3 class="text-xl font-bold text-white mb-2">Responsive Landing Page</h3>
+          <p class="text-gray-400 text-sm mb-4 leading-relaxed">Pixel-perfect responsive landing page for a fictional SaaS product featuring hero animations, feature grid, and a contact form.</p>
+          <div class="flex flex-wrap gap-2 mb-6">
+            <span class="tech-tag">HTML</span><span class="tech-tag">CSS</span><span class="tech-tag">Flexbox</span><span class="tech-tag">Grid</span>
+          </div>
+          <div class="flex gap-3 mt-auto">
+            <a href="https://github.com/tolgaosman" target="_blank" class="project-link"><i class="fab fa-github"></i> Code</a>
+            <a href="#" class="project-link project-link-live"><i class="fas fa-external-link-alt"></i> Live</a>
+          </div>
+        </article>
+
+      </div>
+      <div class="text-center mt-10 reveal">
+        <a href="https://github.com/tolgaosman" target="_blank" class="btn-ghost px-6 py-3 rounded-xl inline-flex items-center gap-2">
+          <i class="fab fa-github"></i> See All on GitHub
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── EXPERIENCE ─── -->
+  <section id="experience" class="py-24 bg-dark-800">
+    <div class="max-w-4xl mx-auto px-6">
+      <div class="section-header reveal">
+        <p class="section-tag">My Journey</p>
+        <h2 class="section-title">Experience &amp; <span class="gradient-text">Education</span></h2>
+      </div>
+      <div class="timeline mt-14">
+
+        <!-- Education -->
+        <div class="timeline-item reveal" style="--delay:0.1s">
+          <div class="timeline-dot edu-dot"></div>
+          <div class="timeline-card">
+            <span class="timeline-badge edu-badge">Education</span>
+            <h3 class="text-lg font-bold text-white mt-2">Eastern Mediterranean University</h3>
+            <p class="text-blue-accent font-medium text-sm">BSc Software Engineering</p>
+            <p class="text-gray-500 text-xs mt-1 mb-3">2021 – Present · Senior Year (Ongoing)</p>
+            <p class="text-gray-400 text-sm">Studying core CS fundamentals including data structures, algorithms, software design patterns, and web development. Active participant in student engineering projects.</p>
+          </div>
+        </div>
+
+        <!-- Timeless -->
+        <div class="timeline-item reveal" style="--delay:0.2s">
+          <div class="timeline-dot work-dot"></div>
+          <div class="timeline-card">
+            <span class="timeline-badge work-badge">Work</span>
+            <h3 class="text-lg font-bold text-white mt-2">Timeless</h3>
+            <p class="text-green-accent font-medium text-sm">Barista</p>
+            <p class="text-gray-500 text-xs mt-1 mb-3">Feb 2023 – Jan 2024</p>
+            <p class="text-gray-400 text-sm">Delivered premium coffee experiences in a fast-paced environment. Sharpened communication, multitasking, and team-coordination skills under high-volume service conditions.</p>
+          </div>
+        </div>
+
+        <!-- The Walls Inn -->
+        <div class="timeline-item reveal" style="--delay:0.3s">
+          <div class="timeline-dot work-dot"></div>
+          <div class="timeline-card">
+            <span class="timeline-badge work-badge">Work</span>
+            <h3 class="text-lg font-bold text-white mt-2">The Walls Inn</h3>
+            <p class="text-green-accent font-medium text-sm">Bartender</p>
+            <p class="text-gray-500 text-xs mt-1 mb-3">June 2022 – Sep 2023</p>
+            <p class="text-gray-400 text-sm">Managed bar operations and provided top-tier hospitality in a high-pressure environment. Developed strong interpersonal, adaptability, and customer service skills.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── CONTACT ─── -->
+  <section id="contact" class="py-24 bg-dark-900">
+    <div class="max-w-5xl mx-auto px-6">
+      <div class="section-header reveal">
+        <p class="section-tag">Get In Touch</p>
+        <h2 class="section-title">Let's <span class="gradient-text">Connect</span></h2>
+        <p class="section-sub">Open to internships, collaborations, and full-time opportunities</p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-10 mt-14">
+        <!-- Info -->
+        <div class="reveal" style="--delay:0.1s">
+          <p class="text-gray-400 mb-8 leading-relaxed">Whether you have a project idea, an opportunity, or just want to say hi — my inbox is always open. I'll do my best to get back to you!</p>
+          <div class="space-y-4">
+            <a href="mailto:tolman2002@gmail.com" class="contact-info-item">
+              <span class="contact-icon"><i class="fas fa-envelope"></i></span>
+              <span>tolman2002@gmail.com</span>
+            </a>
+            <a href="tel:+905338346699" class="contact-info-item">
+              <span class="contact-icon"><i class="fas fa-phone"></i></span>
+              <span>+90 533 834 6699</span>
+            </a>
+            <div class="contact-info-item">
+              <span class="contact-icon"><i class="fas fa-map-marker-alt"></i></span>
+              <span>Cyprus / Turkey</span>
+            </div>
+          </div>
+          <!-- Social Links -->
+          <div class="flex gap-4 mt-8">
+            <a href="https://github.com/tolgaosman" target="_blank" class="social-btn" aria-label="GitHub"><i class="fab fa-github text-xl"></i></a>
+            <a href="https://www.instagram.com/toigaosman/" target="_blank" class="social-btn" aria-label="Instagram"><i class="fab fa-instagram text-xl"></i></a>
+            <a href="#" class="social-btn" aria-label="LinkedIn" id="linkedinLink"><i class="fab fa-linkedin-in text-xl"></i></a>
+          </div>
+        </div>
+
+        <!-- Glass Form -->
+        <div class="glass-form reveal" style="--delay:0.2s">
+          <form id="contactForm" onsubmit="handleSubmit(event)" class="space-y-4">
+            <div>
+              <label class="form-label" for="name">Name</label>
+              <input id="name" type="text" class="form-input" placeholder="John Doe" required />
+            </div>
+            <div>
+              <label class="form-label" for="email">Email</label>
+              <input id="email" type="email" class="form-input" placeholder="john@example.com" required />
+            </div>
+            <div>
+              <label class="form-label" for="message">Message</label>
+              <textarea id="message" rows="4" class="form-input resize-none" placeholder="Tell me about your project..." required></textarea>
+            </div>
+            <button type="submit" id="submitBtn" class="btn-primary w-full py-3 rounded-xl font-semibold flex items-center justify-center gap-2">
+              <i class="fas fa-paper-plane"></i> Send Message
+            </button>
+            <p id="formSuccess" class="hidden text-green-accent text-sm text-center pt-2">✅ Message sent! I'll be in touch soon.</p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── FOOTER ─── -->
+  <footer class="bg-dark-800 border-t border-dark-600 py-8">
+    <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4 text-gray-500 text-sm">
+      <p class="font-mono text-blue-accent">&lt;TOF /&gt;</p>
+      <p>© 2024 Tolga Osman Falay. Crafted with ❤️ &amp; Code.</p>
+      <div class="flex gap-5">
+        <a href="https://github.com/tolgaosman" target="_blank" class="hover:text-white transition-colors"><i class="fab fa-github"></i></a>
+        <a href="https://www.instagram.com/toigaosman/" target="_blank" class="hover:text-pink-400 transition-colors"><i class="fab fa-instagram"></i></a>
+        <a href="#" id="footerLinkedin" class="hover:text-blue-accent transition-colors"><i class="fab fa-linkedin-in"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>
