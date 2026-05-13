@@ -421,21 +421,21 @@
             <div>
               <label class="form-label" for="name" data-en="Name" data-tr="Ad Soyad">Name</label>
               <input id="name" name="from_name" type="text" class="form-input" placeholder="Your Name and Surname"
-                data-placeholder-en="Your Name and Surname" data-placeholder-tr="Adınız ve Soyadınız" required />
+                data-placeholder-en="Your Name and Surname" data-placeholder-tr="Adınız ve Soyadınız" minlength="5" required />
             </div>
             <div>
               <label class="form-label" for="email" data-en="Email" data-tr="E-posta">Email</label>
               <input id="email" name="reply_to" type="email" class="form-input" placeholder="Your Mail Address"
-                data-placeholder-en="Your Mail Address" data-placeholder-tr="Mail Adresiniz" required />
+                data-placeholder-en="Your Mail Address" data-placeholder-tr="Mail Adresiniz" minlength="5" required />
             </div>
             <div>
               <label class="form-label" for="message" data-en="Message" data-tr="Mesaj">Message</label>
               <textarea id="message" name="message" rows="4" class="form-input resize-none"
                 placeholder="Tell me anything..." data-placeholder-en="Tell me anything..."
-                data-placeholder-tr="Bana aklınızdakini söyleyin..." required></textarea>
+                data-placeholder-tr="Bana aklınızdakini söyleyin..." minlength="5" required></textarea>
             </div>
-            <button type="submit" id="submitBtn"
-              class="btn-primary w-full py-3 rounded-xl font-semibold flex items-center justify-center gap-2">
+            <button type="submit" id="submitBtn" disabled
+              class="btn-primary w-full py-3 rounded-xl font-semibold flex items-center justify-center gap-2 opacity-40 cursor-not-allowed">
               <i class="fas fa-paper-plane"></i> <span data-en="Send Message" data-tr="Gönder">Send Message</span>
             </button>
             <p id="formSuccess" class="hidden text-green-accent text-sm text-center pt-2"

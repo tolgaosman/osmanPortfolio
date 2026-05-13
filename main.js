@@ -122,6 +122,24 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: 0.1 });
 document.querySelectorAll('.reveal, .skill-card, .project-card, .timeline-item').forEach(el => observer.observe(el));
 
+/* ─── Form Button Validation ─── */
+function checkFormValidity() {
+  const name = document.getElementById('name').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const message = document.getElementById('message').value.trim();
+  const btn = document.getElementById('submitBtn');
+  const valid = name.length >= 5 && email.length >= 5 && message.length >= 5;
+  btn.disabled = !valid;
+  if (valid) {
+    btn.classList.remove('opacity-40', 'cursor-not-allowed');
+  } else {
+    btn.classList.add('opacity-40', 'cursor-not-allowed');
+  }
+}
+['name', 'email', 'message'].forEach(id => {
+  document.getElementById(id).addEventListener('input', checkFormValidity);
+});
+
 /* ─── Contact Form (EmailJS) ─── */
 function handleSubmit(e) {
   e.preventDefault();
@@ -134,13 +152,14 @@ function handleSubmit(e) {
   successEl.classList.add('hidden');
   errorEl.classList.add('hidden');
 
-  const userName = document.getElementById('name').value;
-  const userMessage = document.getElementById('message').value;
-  const formattedMessage = `Name/İsim: ${userName}\n\nMessage/Mesaj:\n${userMessage}`;
+  const userName = document.getElementById('name').value.trim();
+  const userMessage = document.getElementById('message').value.trim();
+  const userEmail = document.getElementById('email').value.trim();
+  const formattedMessage = `${userName}\n\n${userMessage}`;
 
   const templateParams = {
     from_name: userName,
-    reply_to: document.getElementById('email').value,
+    reply_to: userEmail,
     message: formattedMessage,
     to_email: 'tofbusiness2002@gmail.com'
   };
@@ -149,7 +168,9 @@ function handleSubmit(e) {
     .then(() => {
       btn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message';
       btn.disabled = false;
+      btn.classList.remove('opacity-40', 'cursor-not-allowed');
       document.getElementById('contactForm').reset();
+      checkFormValidity();
       successEl.classList.remove('hidden');
       setTimeout(() => successEl.classList.add('hidden'), 6000);
     })
