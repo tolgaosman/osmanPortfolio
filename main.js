@@ -1,6 +1,6 @@
 /* ─── EmailJS Init ─── */
 // IMPORTANT: Replace these with your real EmailJS credentials from emailjs.com
-// Service ID: create a service connected to tofbusiness2002@gmaill.com
+// Service ID: create a service connected to tofbusiness2002@gmail.com
 // Template ID: create a template with {{from_name}}, {{reply_to}}, {{message}} variables
 const EMAILJS_SERVICE_ID = 'YOUR_SERVICE_ID';
 const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';
@@ -97,7 +97,7 @@ function handleSubmit(e) {
     from_name: document.getElementById('name').value,
     reply_to: document.getElementById('email').value,
     message: document.getElementById('message').value,
-    to_email: 'tofbusiness2002@gmaill.com'
+    to_email: 'tofbusiness2002@gmail.com'
   };
 
   emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
