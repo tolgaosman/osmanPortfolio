@@ -49,16 +49,16 @@
   <nav id="navbar" class="fixed top-0 w-full z-50 transition-all duration-300 py-4">
     <div class="max-w-7xl mx-auto px-6 flex items-center justify-between">
       <a href="#hero" class="font-mono text-green-accent text-xl font-semibold tracking-wider">&lt;TOF /&gt;</a>
-      <div class="hidden md:flex items-center gap-8 text-sm font-medium text-gray-400">
-        <a href="#about" class="nav-link" data-en="About" data-tr="Hakkımda">About</a>
-        <a href="#stack" class="nav-link" data-en="Stack" data-tr="Teknoloji">Stack</a>
-        <a href="#projects" class="nav-link" data-en="Projects" data-tr="Projeler">Projects</a>
-        <a href="#experience" class="nav-link" data-en="Experience" data-tr="Deneyim">Experience</a>
-        <a href="#contact" class="nav-link" data-en="Contact" data-tr="İletişim">Contact</a>
-        <a href="osman cv .pdf" download class="btn-primary text-sm px-4 py-2 rounded-lg" data-en="Resume ↓"
-          data-tr="CV ↓">Resume ↓</a>
-      </div>
-      <div class="flex items-center gap-4">
+      <div class="flex items-center gap-4 md:gap-8">
+        <div class="hidden md:flex items-center gap-8 text-sm font-medium text-gray-400">
+          <a href="#about" class="nav-link" data-en="About" data-tr="Hakkımda">About</a>
+          <a href="#stack" class="nav-link" data-en="Stack" data-tr="Teknoloji">Stack</a>
+          <a href="#projects" class="nav-link" data-en="Projects" data-tr="Projeler">Projects</a>
+          <a href="#experience" class="nav-link" data-en="Experience" data-tr="Deneyim">Experience</a>
+          <a href="#contact" class="nav-link" data-en="Contact" data-tr="İletişim">Contact</a>
+          <a href="cv.png" download class="btn-primary text-sm px-4 py-2 rounded-lg" data-en="Resume ↓"
+            data-tr="CV ↓">Resume ↓</a>
+        </div>
         <div class="lang-dropdown" id="langDropdown">
           <button class="lang-btn" id="langBtn" onclick="toggleLangMenu(event)">
             <span id="langCurrent">EN</span>
@@ -83,7 +83,7 @@
       <a href="#projects" class="nav-link" data-en="Projects" data-tr="Projeler">Projects</a>
       <a href="#experience" class="nav-link" data-en="Experience" data-tr="Deneyim">Experience</a>
       <a href="#contact" class="nav-link" data-en="Contact" data-tr="İletişim">Contact</a>
-      <a href="osman cv .pdf" download class="btn-primary text-center px-4 py-2 rounded-lg" data-en="Resume ↓"
+      <a href="cv.png" download class="btn-primary text-center px-4 py-2 rounded-lg" data-en="Resume ↓"
         data-tr="CV ↓">Resume ↓</a>
     </div>
   </nav>
@@ -111,7 +111,7 @@
         experiences. Strong communicator with real-world customer-facing experience.
       </p>
       <div class="flex flex-col sm:flex-row gap-4 justify-center">
-        <a href="osman cv .pdf" download id="resumeBtn"
+        <a href="cv.png" download id="resumeBtn"
           class="btn-primary px-8 py-3 rounded-xl text-base font-semibold flex items-center gap-2 justify-center">
           <i class="fas fa-file-arrow-down"></i> <span data-en="Download Resume" data-tr="CV İndir">Download
             Resume</span>
@@ -420,19 +420,19 @@
           <form id="contactForm" onsubmit="handleSubmit(event)" class="space-y-4">
             <div>
               <label class="form-label" for="name" data-en="Name" data-tr="Ad Soyad">Name</label>
-              <input id="name" name="from_name" type="text" class="form-input" placeholder="John Doe"
-                data-placeholder-en="John Doe" data-placeholder-tr="Adınız Soyadınız" required />
+              <input id="name" name="from_name" type="text" class="form-input" placeholder="Your Name and Surname"
+                data-placeholder-en="Your Name and Surname" data-placeholder-tr="Adınız ve Soyadınız" required />
             </div>
             <div>
               <label class="form-label" for="email" data-en="Email" data-tr="E-posta">Email</label>
-              <input id="email" name="reply_to" type="email" class="form-input" placeholder="john@example.com"
-                data-placeholder-en="john@example.com" data-placeholder-tr="ornek@eposta.com" required />
+              <input id="email" name="reply_to" type="email" class="form-input" placeholder="Your Mail Address"
+                data-placeholder-en="Your Mail Address" data-placeholder-tr="Mail Adresiniz" required />
             </div>
             <div>
               <label class="form-label" for="message" data-en="Message" data-tr="Mesaj">Message</label>
               <textarea id="message" name="message" rows="4" class="form-input resize-none"
-                placeholder="Tell me about your project..." data-placeholder-en="Tell me about your project..."
-                data-placeholder-tr="Bana projenizden bahsedin..." required></textarea>
+                placeholder="Tell me anything..." data-placeholder-en="Tell me anything..."
+                data-placeholder-tr="Bana aklınızdakini söyleyin..." required></textarea>
             </div>
             <button type="submit" id="submitBtn"
               class="btn-primary w-full py-3 rounded-xl font-semibold flex items-center justify-center gap-2">

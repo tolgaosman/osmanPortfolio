@@ -679,7 +679,8 @@ body {
   }
 
   .about-photo-wrap {
-    width: 100%;
+    width: 260px;
     height: 280px;
+    margin: 0 auto;
   }
 }

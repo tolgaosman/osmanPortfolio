@@ -134,10 +134,14 @@ function handleSubmit(e) {
   successEl.classList.add('hidden');
   errorEl.classList.add('hidden');
 
+  const userName = document.getElementById('name').value;
+  const userMessage = document.getElementById('message').value;
+  const formattedMessage = `Name/İsim: ${userName}\n\nMessage/Mesaj:\n${userMessage}`;
+
   const templateParams = {
-    from_name: document.getElementById('name').value,
+    from_name: userName,
     reply_to: document.getElementById('email').value,
-    message: document.getElementById('message').value,
+    message: formattedMessage,
     to_email: 'tofbusiness2002@gmail.com'
   };
 
