@@ -28,7 +28,7 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #3b82f6;
+  background: #eab308;
   border-radius: 3px;
 }
 
@@ -36,7 +36,7 @@ body {
 #navbar.scrolled {
   background: rgba(17, 17, 24, 0.95);
   backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(59, 130, 246, 0.15);
+  border-bottom: 1px solid rgba(234, 179, 8, 0.15);
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
 }
 
@@ -46,7 +46,7 @@ body {
 }
 
 .nav-link:hover {
-  color: #60a5fa;
+  color: #facc15;
 }
 
 .nav-link::after {
@@ -56,7 +56,7 @@ body {
   left: 0;
   width: 0;
   height: 2px;
-  background: #3b82f6;
+  background: #eab308;
   border-radius: 2px;
   transition: width 0.3s;
 }
@@ -67,27 +67,27 @@ body {
 
 /* ── Buttons ── */
 .btn-primary {
-  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  background: linear-gradient(135deg, #eab308, #ca8a04);
   color: #fff;
   border: none;
   cursor: pointer;
   transition: all 0.3s;
-  box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+  box-shadow: 0 0 20px rgba(234, 179, 8, 0.3);
   text-decoration: none;
   display: inline-flex;
   align-items: center;
 }
 
 .btn-primary:hover {
-  background: linear-gradient(135deg, #60a5fa, #3b82f6);
-  box-shadow: 0 0 35px rgba(59, 130, 246, 0.55);
+  background: linear-gradient(135deg, #facc15, #eab308);
+  box-shadow: 0 0 35px rgba(234, 179, 8, 0.55);
   transform: translateY(-2px);
 }
 
 .btn-ghost {
   background: transparent;
-  border: 1px solid rgba(59, 130, 246, 0.4);
-  color: #60a5fa;
+  border: 1px solid rgba(234, 179, 8, 0.4);
+  color: #facc15;
   cursor: pointer;
   transition: all 0.3s;
   text-decoration: none;
@@ -96,8 +96,8 @@ body {
 }
 
 .btn-ghost:hover {
-  background: rgba(59, 130, 246, 0.1);
-  border-color: #3b82f6;
+  background: rgba(234, 179, 8, 0.1);
+  border-color: #eab308;
   transform: translateY(-2px);
 }
 
@@ -114,7 +114,7 @@ body {
 .blob1 {
   width: 500px;
   height: 500px;
-  background: #3b82f6;
+  background: #eab308;
   top: -100px;
   left: -150px;
 }
@@ -131,14 +131,14 @@ body {
 .grid-overlay {
   position: absolute;
   inset: 0;
-  background-image: linear-gradient(rgba(59, 130, 246, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(59, 130, 246, 0.03) 1px, transparent 1px);
+  background-image: linear-gradient(rgba(234, 179, 8, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(234, 179, 8, 0.03) 1px, transparent 1px);
   background-size: 50px 50px;
   pointer-events: none;
 }
 
 /* ── Gradient text ── */
 .gradient-text {
-  background: linear-gradient(135deg, #3b82f6, #10b981);
+  background: linear-gradient(135deg, #eab308, #10b981);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -152,7 +152,7 @@ body {
 .section-tag {
   font-size: 0.75rem;
   font-family: 'Fira Code', monospace;
-  color: #3b82f6;
+  color: #eab308;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   display: block;
@@ -196,17 +196,17 @@ body {
 }
 
 .skill-card:hover {
-  border-color: #3b82f6;
+  border-color: #eab308;
   background: #1a1a24;
   color: #fff;
   transform: translateY(-6px);
-  box-shadow: 0 8px 30px rgba(59, 130, 246, 0.2);
+  box-shadow: 0 8px 30px rgba(234, 179, 8, 0.2);
 }
 
 /* ── Soft badges ── */
 .soft-badge {
-  background: rgba(59, 130, 246, 0.08);
-  border: 1px solid rgba(59, 130, 246, 0.2);
+  background: rgba(234, 179, 8, 0.08);
+  border: 1px solid rgba(234, 179, 8, 0.2);
   color: #93c5fd;
   border-radius: 9999px;
   padding: 0.4rem 1rem;
@@ -215,8 +215,8 @@ body {
 }
 
 .soft-badge:hover {
-  background: rgba(59, 130, 246, 0.18);
-  border-color: #3b82f6;
+  background: rgba(234, 179, 8, 0.18);
+  border-color: #eab308;
   transform: scale(1.05);
 }
 
@@ -241,9 +241,9 @@ body {
 }
 
 .project-card:hover {
-  border-color: rgba(59, 130, 246, 0.5);
+  border-color: rgba(234, 179, 8, 0.5);
   transform: translateY(-8px);
-  box-shadow: 0 20px 60px rgba(59, 130, 246, 0.15);
+  box-shadow: 0 20px 60px rgba(234, 179, 8, 0.15);
 }
 
 .project-glow {
@@ -252,7 +252,7 @@ body {
   right: -80px;
   width: 200px;
   height: 200px;
-  background: radial-gradient(circle, rgba(59, 130, 246, 0.15), transparent 70%);
+  background: radial-gradient(circle, rgba(234, 179, 8, 0.15), transparent 70%);
   pointer-events: none;
 }
 
@@ -260,7 +260,7 @@ body {
   font-family: 'Fira Code', monospace;
   font-size: 3rem;
   font-weight: 700;
-  color: rgba(59, 130, 246, 0.08);
+  color: rgba(234, 179, 8, 0.08);
   line-height: 1;
   margin-bottom: 0.5rem;
 }
@@ -312,7 +312,7 @@ body {
   top: 0;
   bottom: 0;
   width: 2px;
-  background: linear-gradient(to bottom, #3b82f6, #10b981, transparent);
+  background: linear-gradient(to bottom, #eab308, #10b981, transparent);
 }
 
 .timeline-item {
@@ -338,9 +338,9 @@ body {
 }
 
 .edu-dot {
-  background: #3b82f6;
-  border-color: #60a5fa;
-  box-shadow: 0 0 12px rgba(59, 130, 246, 0.6);
+  background: #eab308;
+  border-color: #facc15;
+  box-shadow: 0 0 12px rgba(234, 179, 8, 0.6);
 }
 
 .work-dot {
@@ -358,7 +358,7 @@ body {
 }
 
 .timeline-card:hover {
-  border-color: rgba(59, 130, 246, 0.3);
+  border-color: rgba(234, 179, 8, 0.3);
 }
 
 .timeline-badge {
@@ -371,8 +371,8 @@ body {
 }
 
 .edu-badge {
-  background: rgba(59, 130, 246, 0.15);
-  color: #60a5fa;
+  background: rgba(234, 179, 8, 0.15);
+  color: #facc15;
 }
 
 .work-badge {
@@ -385,7 +385,7 @@ body {
   background: rgba(17, 17, 24, 0.6);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(59, 130, 246, 0.2);
+  border: 1px solid rgba(234, 179, 8, 0.2);
   border-radius: 20px;
   padding: 2rem;
   box-shadow: 0 8px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
@@ -413,9 +413,9 @@ body {
 }
 
 .form-input:focus {
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
-  background: rgba(59, 130, 246, 0.04);
+  border-color: #eab308;
+  box-shadow: 0 0 0 3px rgba(234, 179, 8, 0.15);
+  background: rgba(234, 179, 8, 0.04);
 }
 
 .form-input::placeholder {
@@ -443,13 +443,13 @@ body {
 .contact-icon {
   width: 36px;
   height: 36px;
-  background: rgba(59, 130, 246, 0.12);
-  border: 1px solid rgba(59, 130, 246, 0.25);
+  background: rgba(234, 179, 8, 0.12);
+  border: 1px solid rgba(234, 179, 8, 0.25);
   border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #60a5fa;
+  color: #facc15;
   font-size: 0.9rem;
 }
 
@@ -470,10 +470,10 @@ body {
 
 .social-btn:hover {
   color: #fff;
-  border-color: #3b82f6;
-  background: rgba(59, 130, 246, 0.12);
+  border-color: #eab308;
+  background: rgba(234, 179, 8, 0.12);
   transform: translateY(-3px);
-  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.25);
+  box-shadow: 0 6px 20px rgba(234, 179, 8, 0.25);
 }
 
 /* ── Scroll reveal ── */
@@ -537,8 +537,8 @@ body {
   width: 260px;
   border-radius: 16px;
   overflow: hidden;
-  border: 2px solid rgba(59, 130, 246, 0.25);
-  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(59, 130, 246, 0.08);
+  border: 2px solid rgba(234, 179, 8, 0.25);
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(234, 179, 8, 0.08);
 }
 
 .about-photo {
@@ -567,8 +567,8 @@ body {
   line-height: 1.85;
   padding: 1.5rem 2rem;
   background: rgba(17, 17, 24, 0.6);
-  border: 1px solid rgba(59, 130, 246, 0.12);
-  border-left: 3px solid #3b82f6;
+  border: 1px solid rgba(234, 179, 8, 0.12);
+  border-left: 3px solid #eab308;
   border-radius: 12px;
   transition: border-color 0.3s, color 0.3s;
 }
@@ -587,9 +587,9 @@ body {
   display: flex;
   align-items: center;
   gap: 0.35rem;
-  background: rgba(59, 130, 246, 0.12);
-  border: 1px solid rgba(59, 130, 246, 0.35);
-  color: #60a5fa;
+  background: rgba(234, 179, 8, 0.12);
+  border: 1px solid rgba(234, 179, 8, 0.35);
+  color: #facc15;
   border-radius: 8px;
   padding: 0.3rem 0.65rem;
   font-size: 0.75rem;
@@ -601,8 +601,8 @@ body {
 }
 
 .lang-btn:hover {
-  background: rgba(59, 130, 246, 0.25);
-  border-color: #3b82f6;
+  background: rgba(234, 179, 8, 0.25);
+  border-color: #eab308;
 }
 
 .lang-chevron {
@@ -619,7 +619,7 @@ body {
   top: calc(100% + 8px);
   right: 0;
   background: #111118;
-  border: 1px solid rgba(59, 130, 246, 0.25);
+  border: 1px solid rgba(234, 179, 8, 0.25);
   border-radius: 10px;
   padding: 0.4rem;
   min-width: 130px;
@@ -654,13 +654,13 @@ body {
 }
 
 .lang-option:hover {
-  background: rgba(59, 130, 246, 0.12);
+  background: rgba(234, 179, 8, 0.12);
   color: #e5e7eb;
 }
 
 .lang-option.active {
-  color: #60a5fa;
-  background: rgba(59, 130, 246, 0.1);
+  color: #facc15;
+  background: rgba(234, 179, 8, 0.1);
   font-weight: 600;
 }
 
