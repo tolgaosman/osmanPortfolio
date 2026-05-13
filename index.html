@@ -1,40 +1,48 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Tolga Osman Falay | Software Engineer</title>
-  <meta name="description" content="Portfolio of Tolga Osman Falay – Software Engineering Student skilled in HTML, CSS, JavaScript and more." />
+  <meta name="description"
+    content="Portfolio of Tolga Osman Falay – Software Engineering Student skilled in HTML, CSS, JavaScript and more." />
+  <link rel="icon" type="image/svg+xml"
+    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%230a0a0f'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='monospace' font-weight='700' font-size='28' fill='%233b82f6'%3E%26lt%3BTOF%2F%26gt%3B%3C/text%3E%3C/svg%3E" />
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Fira+Code:wght@400;500&display=swap"
+    rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <link rel="stylesheet" href="style.css" />
   <script>
     tailwind.config = {
       theme: {
         extend: {
-          fontFamily: { inter: ['Inter','sans-serif'], mono: ['Fira Code','monospace'] },
+          fontFamily: { inter: ['Inter', 'sans-serif'], mono: ['Fira Code', 'monospace'] },
           colors: {
-            dark:  { 900:'#0a0a0f', 800:'#111118', 700:'#1a1a24', 600:'#22222f', 500:'#2a2a3a' },
-            blue:  { accent:'#3b82f6', glow:'#60a5fa', dim:'#1d4ed8' },
-            green: { accent:'#10b981', glow:'#34d399', dim:'#065f46' }
+            dark: { 900: '#0a0a0f', 800: '#111118', 700: '#1a1a24', 600: '#22222f', 500: '#2a2a3a' },
+            blue: { accent: '#3b82f6', glow: '#60a5fa', dim: '#1d4ed8' },
+            green: { accent: '#10b981', glow: '#34d399', dim: '#065f46' }
           },
           animation: {
-            'fade-up':'fadeUp 0.6s ease forwards',
-            'blink':'blink 1s step-end infinite',
-            'float':'float 6s ease-in-out infinite',
-            'pulse-slow':'pulse 4s cubic-bezier(0.4,0,0.6,1) infinite',
+            'fade-up': 'fadeUp 0.6s ease forwards',
+            'blink': 'blink 1s step-end infinite',
+            'float': 'float 6s ease-in-out infinite',
+            'pulse-slow': 'pulse 4s cubic-bezier(0.4,0,0.6,1) infinite',
           },
           keyframes: {
-            fadeUp:{ '0%':{ opacity:'0', transform:'translateY(30px)' }, '100%':{ opacity:'1', transform:'translateY(0)' } },
-            blink:{ '0%,100%':{ opacity:'1' }, '50%':{ opacity:'0' } },
-            float:{ '0%,100%':{ transform:'translateY(0px)' }, '50%':{ transform:'translateY(-20px)' } }
+            fadeUp: { '0%': { opacity: '0', transform: 'translateY(30px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
+            blink: { '0%,100%': { opacity: '1' }, '50%': { opacity: '0' } },
+            float: { '0%,100%': { transform: 'translateY(0px)' }, '50%': { transform: 'translateY(-20px)' } }
           }
         }
       }
     }
   </script>
 </head>
+
 <body class="bg-dark-900 text-gray-100 font-inter antialiased">
 
   <!-- ─── NAV ─── -->
@@ -42,20 +50,26 @@
     <div class="max-w-7xl mx-auto px-6 flex items-center justify-between">
       <a href="#hero" class="font-mono text-blue-accent text-xl font-semibold tracking-wider">&lt;TOF /&gt;</a>
       <div class="hidden md:flex items-center gap-8 text-sm font-medium text-gray-400">
-        <a href="#stack"      class="nav-link">Stack</a>
-        <a href="#projects"   class="nav-link">Projects</a>
-        <a href="#experience" class="nav-link">Experience</a>
-        <a href="#contact"    class="nav-link">Contact</a>
-        <a href="resume.pdf" download class="btn-primary text-sm px-4 py-2 rounded-lg">Resume ↓</a>
+        <a href="#about" class="nav-link" data-en="About" data-tr="Hakkımda">About</a>
+        <a href="#stack" class="nav-link" data-en="Stack" data-tr="Teknoloji">Stack</a>
+        <a href="#projects" class="nav-link" data-en="Projects" data-tr="Projeler">Projects</a>
+        <a href="#experience" class="nav-link" data-en="Experience" data-tr="Deneyim">Experience</a>
+        <a href="#contact" class="nav-link" data-en="Contact" data-tr="İletişim">Contact</a>
+        <a href="osman cv .pdf" download class="btn-primary text-sm px-4 py-2 rounded-lg" data-en="Resume ↓"
+          data-tr="CV ↓">Resume ↓</a>
+        <button id="langBtn" class="lang-btn" onclick="toggleLang()">TR</button>
       </div>
       <button id="menuBtn" class="md:hidden text-gray-300 text-2xl"><i class="fas fa-bars"></i></button>
     </div>
-    <div id="mobileMenu" class="hidden md:hidden bg-dark-800 border-t border-dark-600 px-6 py-4 flex flex-col gap-4 text-sm text-gray-300">
-      <a href="#stack"      class="nav-link">Stack</a>
-      <a href="#projects"   class="nav-link">Projects</a>
-      <a href="#experience" class="nav-link">Experience</a>
-      <a href="#contact"    class="nav-link">Contact</a>
-      <a href="resume.pdf" download class="btn-primary text-center px-4 py-2 rounded-lg">Resume ↓</a>
+    <div id="mobileMenu"
+      class="hidden md:hidden bg-dark-800 border-t border-dark-600 px-6 py-4 flex flex-col gap-4 text-sm text-gray-300">
+      <a href="#about" class="nav-link" data-en="About" data-tr="Hakkımda">About</a>
+      <a href="#stack" class="nav-link" data-en="Stack" data-tr="Teknoloji">Stack</a>
+      <a href="#projects" class="nav-link" data-en="Projects" data-tr="Projeler">Projects</a>
+      <a href="#experience" class="nav-link" data-en="Experience" data-tr="Deneyim">Experience</a>
+      <a href="#contact" class="nav-link" data-en="Contact" data-tr="İletişim">Contact</a>
+      <a href="osman cv .pdf" download class="btn-primary text-center px-4 py-2 rounded-lg" data-en="Resume ↓"
+        data-tr="CV ↓">Resume ↓</a>
     </div>
   </nav>
 
@@ -67,7 +81,7 @@
     <div class="max-w-4xl mx-auto px-6 text-center relative z-10 reveal">
       <p class="font-mono text-blue-accent text-sm mb-4 tracking-widest uppercase">Hello World, I'm</p>
       <h1 class="text-5xl md:text-7xl font-black mb-4 leading-tight">
-        <span class="text-white">Tolga Osman</span><br/>
+        <span class="text-white">Tolga Osman</span><br />
         <span class="gradient-text">Falay</span>
       </h1>
       <div class="flex items-center justify-center gap-2 text-xl md:text-2xl text-gray-300 font-light mb-6 h-9">
@@ -75,13 +89,17 @@
         <span class="animate-blink text-blue-accent">|</span>
       </div>
       <p class="text-gray-400 max-w-xl mx-auto mb-10 text-base leading-relaxed">
-        Software Engineering student at Eastern Mediterranean University with a passion for building clean, scalable web experiences. Strong communicator with real-world customer-facing experience.
+        Software Engineering student at Eastern Mediterranean University with a passion for building clean, scalable web
+        experiences. Strong communicator with real-world customer-facing experience.
       </p>
       <div class="flex flex-col sm:flex-row gap-4 justify-center">
-        <a href="resume.pdf" download id="resumeBtn" class="btn-primary px-8 py-3 rounded-xl text-base font-semibold flex items-center gap-2 justify-center">
-          <i class="fas fa-file-arrow-down"></i> Download Resume
+        <a href="osman cv .pdf" download id="resumeBtn"
+          class="btn-primary px-8 py-3 rounded-xl text-base font-semibold flex items-center gap-2 justify-center">
+          <i class="fas fa-file-arrow-down"></i> <span data-en="Download Resume" data-tr="CV İndir">Download
+            Resume</span>
         </a>
-        <a href="#projects" class="btn-ghost px-8 py-3 rounded-xl text-base font-semibold">View Projects →</a>
+        <a href="#projects" class="btn-ghost px-8 py-3 rounded-xl text-base font-semibold" data-en="View Projects →"
+          data-tr="Projeleri Gör →">View Projects →</a>
       </div>
     </div>
     <div class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce text-gray-600">
@@ -89,27 +107,61 @@
     </div>
   </section>
 
+  <!-- ─── ABOUT ME ─── -->
+  <section id="about" class="py-24 bg-dark-900">
+    <div class="max-w-4xl mx-auto px-6">
+      <div class="section-header reveal">
+        <p class="section-tag" data-en="Who I Am" data-tr="Ben Kimim">Who I Am</p>
+        <h2 class="section-title" data-en="About <span class='gradient-text'>Me</span>"
+          data-tr="Hakkımda <span class='gradient-text'>Ben</span>">About <span class="gradient-text">Me</span></h2>
+      </div>
+      <div class="about-content reveal mt-12">
+        <p class="about-para"
+          data-en="Born in Nicosia and a graduate of Eastern Mediterranean University, I am a dedicated software developer driven by a passion for creating impactful digital experiences. My technical foundation is built on HTML, CSS, JavaScript, and Python, allowing me to build seamless, functional, and user-centric applications."
+          data-tr="Lefkoşa doğumlu ve Doğu Akdeniz Üniversitesi mezunu olarak, etkili dijital deneyimler yaratma tutkusuyla hareket eden kararlı bir yazılım geliştiricisiyim. HTML, CSS, JavaScript ve Python üzerine kurulu teknik altyapım, kesintisiz, işlevsel ve kullanıcı odaklı uygulamalar geliştirmemi sağlıyor.">
+          Born in Nicosia and a graduate of Eastern Mediterranean University, I am a dedicated software developer driven
+          by a passion for creating impactful digital experiences. My technical foundation is built on HTML, CSS,
+          JavaScript, and Python, allowing me to build seamless, functional, and user-centric applications.</p>
+        <p class="about-para"
+          data-en="Beyond the code, I pride myself on my strong communication skills and my ability to adapt quickly to new challenges and evolving technologies. I don't just build software; I find genuine joy in delivering high-quality service and solving complex problems that make a difference for my clients."
+          data-tr="Kodun ötesinde, güçlü iletişim becerilerimle ve yeni zorluklara ile gelişen teknolojilere hızla uyum sağlama yeteneğimle öğünüyorum. Sadece yazılım geliştirmiyorum; müşterilerimin farkını yaratan karmaşık sorunları çözerken ve yüksek kaliteli hizmet sunarken gerçek bir mutluluk buluyorum.">
+          Beyond the code, I pride myself on my strong communication skills and my ability to adapt quickly to new
+          challenges and evolving technologies. I don't just build software; I find genuine joy in delivering
+          high-quality service and solving complex problems that make a difference for my clients.</p>
+        <p class="about-para"
+          data-en="Whether it's crafting a sleek front-end interface or developing robust back-end logic, I approach every project with enthusiasm and a commitment to excellence. I am always ready to learn, grow, and contribute to innovative projects."
+          data-tr="İster şık bir ön yüz arayüzü oluşturmak ister sağlam bir arka uç mantığı geliştirmek olsun, her projeye coşkuyla ve mükemmeliyete bağlılıkla yaklaşıyorum. Her zaman öğrenmeye, büyümeye ve yenilikçi projelere katkıda bulunmaya hazırım.">
+          Whether it's crafting a sleek front-end interface or developing robust back-end logic, I approach every
+          project with enthusiasm and a commitment to excellence. I am always ready to learn, grow, and contribute to
+          innovative projects.</p>
+      </div>
+    </div>
+  </section>
+
   <!-- ─── TECH STACK ─── -->
   <section id="stack" class="py-24 bg-dark-800">
     <div class="max-w-6xl mx-auto px-6">
       <div class="section-header reveal">
-        <p class="section-tag">My Arsenal</p>
+        <p class="section-tag" data-en="My Arsenal" data-tr="Araç Setim">My Arsenal</p>
         <h2 class="section-title">Tech <span class="gradient-text">Stack</span></h2>
-        <p class="section-sub">Technologies and tools I work with</p>
+        <p class="section-sub" data-en="Technologies and tools I work with"
+          data-tr="Çalıştığım teknolojiler ve araçlar">Technologies and tools I work with</p>
       </div>
       <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 mt-12">
-        <!-- Languages -->
-        <div class="skill-card reveal" style="--delay:0.05s"><i class="fab fa-html5 text-orange-400 text-3xl mb-3"></i><span>HTML5</span></div>
-        <div class="skill-card reveal" style="--delay:0.10s"><i class="fab fa-css3-alt text-blue-400 text-3xl mb-3"></i><span>CSS3</span></div>
-        <div class="skill-card reveal" style="--delay:0.15s"><i class="fab fa-js text-yellow-400 text-3xl mb-3"></i><span>JavaScript</span></div>
-        <div class="skill-card reveal" style="--delay:0.20s"><i class="fab fa-python text-sky-400 text-3xl mb-3"></i><span>Python</span></div>
-        <div class="skill-card reveal" style="--delay:0.25s"><i class="fab fa-git-alt text-orange-500 text-3xl mb-3"></i><span>Git</span></div>
-        <!-- Tools -->
-        <div class="skill-card reveal" style="--delay:0.30s"><i class="fab fa-github text-gray-200 text-3xl mb-3"></i><span>GitHub</span></div>
-        <div class="skill-card reveal" style="--delay:0.35s"><i class="fab fa-react text-cyan-400 text-3xl mb-3"></i><span>React</span></div>
-        <div class="skill-card reveal" style="--delay:0.40s"><i class="fab fa-node-js text-green-400 text-3xl mb-3"></i><span>Node.js</span></div>
-        <div class="skill-card reveal" style="--delay:0.45s"><i class="fas fa-database text-indigo-400 text-3xl mb-3"></i><span>SQL</span></div>
-        <div class="skill-card reveal" style="--delay:0.50s"><i class="fas fa-terminal text-green-accent text-3xl mb-3"></i><span>Linux CLI</span></div>
+        <div class="skill-card reveal" style="--delay:0.05s"><i
+            class="fab fa-html5 text-orange-400 text-3xl mb-3"></i><span>HTML5</span></div>
+        <div class="skill-card reveal" style="--delay:0.10s"><i
+            class="fab fa-css3-alt text-blue-400 text-3xl mb-3"></i><span>CSS3</span></div>
+        <div class="skill-card reveal" style="--delay:0.15s"><i
+            class="fab fa-js text-yellow-400 text-3xl mb-3"></i><span>JavaScript</span></div>
+        <div class="skill-card reveal" style="--delay:0.20s"><i
+            class="fab fa-python text-sky-400 text-3xl mb-3"></i><span>Python</span></div>
+        <div class="skill-card reveal" style="--delay:0.25s"><i
+            class="fab fa-github text-gray-200 text-3xl mb-3"></i><span>GitHub</span></div>
+        <div class="skill-card reveal" style="--delay:0.30s"><i
+            class="fas fa-robot text-purple-400 text-3xl mb-3"></i><span>Google Antigravity</span></div>
+        <div class="skill-card reveal" style="--delay:0.35s"><i
+            class="fas fa-terminal text-green-400 text-3xl mb-3"></i><span>Claude Code</span></div>
       </div>
 
       <!-- Soft Skills -->
@@ -142,12 +194,15 @@
           <div class="project-glow"></div>
           <div class="project-number">01</div>
           <h3 class="text-xl font-bold text-white mb-2">Personal Portfolio Site</h3>
-          <p class="text-gray-400 text-sm mb-4 leading-relaxed">A responsive, dark-themed developer portfolio showcasing projects and skills, built with modern web standards and smooth animations.</p>
+          <p class="text-gray-400 text-sm mb-4 leading-relaxed">A responsive, dark-themed developer portfolio showcasing
+            projects and skills, built with modern web standards and smooth animations.</p>
           <div class="flex flex-wrap gap-2 mb-6">
-            <span class="tech-tag">HTML</span><span class="tech-tag">CSS</span><span class="tech-tag">JavaScript</span><span class="tech-tag">Tailwind</span>
+            <span class="tech-tag">HTML</span><span class="tech-tag">CSS</span><span
+              class="tech-tag">JavaScript</span><span class="tech-tag">Tailwind</span>
           </div>
           <div class="flex gap-3 mt-auto">
-            <a href="https://github.com/tolgaosman" target="_blank" class="project-link"><i class="fab fa-github"></i> Code</a>
+            <a href="https://github.com/tolgaosman" target="_blank" class="project-link"><i class="fab fa-github"></i>
+              Code</a>
             <a href="#" class="project-link project-link-live"><i class="fas fa-external-link-alt"></i> Live</a>
           </div>
         </article>
@@ -157,12 +212,15 @@
           <div class="project-glow"></div>
           <div class="project-number">02</div>
           <h3 class="text-xl font-bold text-white mb-2">JavaScript To-Do App</h3>
-          <p class="text-gray-400 text-sm mb-4 leading-relaxed">A fully client-side task management application with localStorage persistence, drag-and-drop reordering, and priority flags.</p>
+          <p class="text-gray-400 text-sm mb-4 leading-relaxed">A fully client-side task management application with
+            localStorage persistence, drag-and-drop reordering, and priority flags.</p>
           <div class="flex flex-wrap gap-2 mb-6">
-            <span class="tech-tag">JavaScript</span><span class="tech-tag">HTML</span><span class="tech-tag">CSS</span><span class="tech-tag">LocalStorage</span>
+            <span class="tech-tag">JavaScript</span><span class="tech-tag">HTML</span><span
+              class="tech-tag">CSS</span><span class="tech-tag">LocalStorage</span>
           </div>
           <div class="flex gap-3 mt-auto">
-            <a href="https://github.com/tolgaosman" target="_blank" class="project-link"><i class="fab fa-github"></i> Code</a>
+            <a href="https://github.com/tolgaosman" target="_blank" class="project-link"><i class="fab fa-github"></i>
+              Code</a>
             <a href="#" class="project-link project-link-live"><i class="fas fa-external-link-alt"></i> Live</a>
           </div>
         </article>
@@ -172,19 +230,23 @@
           <div class="project-glow"></div>
           <div class="project-number">03</div>
           <h3 class="text-xl font-bold text-white mb-2">Responsive Landing Page</h3>
-          <p class="text-gray-400 text-sm mb-4 leading-relaxed">Pixel-perfect responsive landing page for a fictional SaaS product featuring hero animations, feature grid, and a contact form.</p>
+          <p class="text-gray-400 text-sm mb-4 leading-relaxed">Pixel-perfect responsive landing page for a fictional
+            SaaS product featuring hero animations, feature grid, and a contact form.</p>
           <div class="flex flex-wrap gap-2 mb-6">
-            <span class="tech-tag">HTML</span><span class="tech-tag">CSS</span><span class="tech-tag">Flexbox</span><span class="tech-tag">Grid</span>
+            <span class="tech-tag">HTML</span><span class="tech-tag">CSS</span><span
+              class="tech-tag">Flexbox</span><span class="tech-tag">Grid</span>
           </div>
           <div class="flex gap-3 mt-auto">
-            <a href="https://github.com/tolgaosman" target="_blank" class="project-link"><i class="fab fa-github"></i> Code</a>
+            <a href="https://github.com/tolgaosman" target="_blank" class="project-link"><i class="fab fa-github"></i>
+              Code</a>
             <a href="#" class="project-link project-link-live"><i class="fas fa-external-link-alt"></i> Live</a>
           </div>
         </article>
 
       </div>
       <div class="text-center mt-10 reveal">
-        <a href="https://github.com/tolgaosman" target="_blank" class="btn-ghost px-6 py-3 rounded-xl inline-flex items-center gap-2">
+        <a href="https://github.com/tolgaosman" target="_blank"
+          class="btn-ghost px-6 py-3 rounded-xl inline-flex items-center gap-2">
           <i class="fab fa-github"></i> See All on GitHub
         </a>
       </div>
@@ -208,7 +270,8 @@
             <h3 class="text-lg font-bold text-white mt-2">Eastern Mediterranean University</h3>
             <p class="text-blue-accent font-medium text-sm">BSc Software Engineering</p>
             <p class="text-gray-500 text-xs mt-1 mb-3">2021 – Present · Senior Year (Ongoing)</p>
-            <p class="text-gray-400 text-sm">Studying core CS fundamentals including data structures, algorithms, software design patterns, and web development. Active participant in student engineering projects.</p>
+            <p class="text-gray-400 text-sm">Studying core CS fundamentals including data structures, algorithms,
+              software design patterns, and web development. Active participant in student engineering projects.</p>
           </div>
         </div>
 
@@ -220,7 +283,8 @@
             <h3 class="text-lg font-bold text-white mt-2">Timeless</h3>
             <p class="text-green-accent font-medium text-sm">Barista</p>
             <p class="text-gray-500 text-xs mt-1 mb-3">Feb 2023 – Jan 2024</p>
-            <p class="text-gray-400 text-sm">Delivered premium coffee experiences in a fast-paced environment. Sharpened communication, multitasking, and team-coordination skills under high-volume service conditions.</p>
+            <p class="text-gray-400 text-sm">Delivered premium coffee experiences in a fast-paced environment. Sharpened
+              communication, multitasking, and team-coordination skills under high-volume service conditions.</p>
           </div>
         </div>
 
@@ -232,7 +296,8 @@
             <h3 class="text-lg font-bold text-white mt-2">The Walls Inn</h3>
             <p class="text-green-accent font-medium text-sm">Bartender</p>
             <p class="text-gray-500 text-xs mt-1 mb-3">June 2022 – Sep 2023</p>
-            <p class="text-gray-400 text-sm">Managed bar operations and provided top-tier hospitality in a high-pressure environment. Developed strong interpersonal, adaptability, and customer service skills.</p>
+            <p class="text-gray-400 text-sm">Managed bar operations and provided top-tier hospitality in a high-pressure
+              environment. Developed strong interpersonal, adaptability, and customer service skills.</p>
           </div>
         </div>
 
@@ -252,11 +317,12 @@
       <div class="grid md:grid-cols-2 gap-10 mt-14">
         <!-- Info -->
         <div class="reveal" style="--delay:0.1s">
-          <p class="text-gray-400 mb-8 leading-relaxed">Whether you have a project idea, an opportunity, or just want to say hi — my inbox is always open. I'll do my best to get back to you!</p>
+          <p class="text-gray-400 mb-8 leading-relaxed">Whether you have a project idea, an opportunity, or just want to
+            say hi — my inbox is always open. I'll do my best to get back to you!</p>
           <div class="space-y-4">
-            <a href="mailto:tolman2002@gmail.com" class="contact-info-item">
+            <a href="mailto:tofbusiness2002@gmaill.com" class="contact-info-item">
               <span class="contact-icon"><i class="fas fa-envelope"></i></span>
-              <span>tolman2002@gmail.com</span>
+              <span>tofbusiness2002@gmaill.com</span>
             </a>
             <a href="tel:+905338346699" class="contact-info-item">
               <span class="contact-icon"><i class="fas fa-phone"></i></span>
@@ -264,14 +330,17 @@
             </a>
             <div class="contact-info-item">
               <span class="contact-icon"><i class="fas fa-map-marker-alt"></i></span>
-              <span>Cyprus / Turkey</span>
+              <span data-en="Nicosia, North Cyprus" data-tr="Lefkoşa, Kuzey Kıbrıs">Nicosia, North Cyprus</span>
             </div>
           </div>
           <!-- Social Links -->
           <div class="flex gap-4 mt-8">
-            <a href="https://github.com/tolgaosman" target="_blank" class="social-btn" aria-label="GitHub"><i class="fab fa-github text-xl"></i></a>
-            <a href="https://www.instagram.com/toigaosman/" target="_blank" class="social-btn" aria-label="Instagram"><i class="fab fa-instagram text-xl"></i></a>
-            <a href="#" class="social-btn" aria-label="LinkedIn" id="linkedinLink"><i class="fab fa-linkedin-in text-xl"></i></a>
+            <a href="https://github.com/tolgaosman" target="_blank" class="social-btn" aria-label="GitHub"><i
+                class="fab fa-github text-xl"></i></a>
+            <a href="https://www.instagram.com/toigaosman/" target="_blank" class="social-btn" aria-label="Instagram"><i
+                class="fab fa-instagram text-xl"></i></a>
+            <a href="#" class="social-btn" aria-label="LinkedIn" id="linkedinLink"><i
+                class="fab fa-linkedin-in text-xl"></i></a>
           </div>
         </div>
 
@@ -279,21 +348,31 @@
         <div class="glass-form reveal" style="--delay:0.2s">
           <form id="contactForm" onsubmit="handleSubmit(event)" class="space-y-4">
             <div>
-              <label class="form-label" for="name">Name</label>
-              <input id="name" type="text" class="form-input" placeholder="John Doe" required />
+              <label class="form-label" for="name" data-en="Name" data-tr="Ad Soyad">Name</label>
+              <input id="name" name="from_name" type="text" class="form-input" placeholder="John Doe" required />
             </div>
             <div>
-              <label class="form-label" for="email">Email</label>
-              <input id="email" type="email" class="form-input" placeholder="john@example.com" required />
+              <label class="form-label" for="email" data-en="Email" data-tr="E-posta">Email</label>
+              <input id="email" name="reply_to" type="email" class="form-input" placeholder="john@example.com"
+                required />
             </div>
             <div>
-              <label class="form-label" for="message">Message</label>
-              <textarea id="message" rows="4" class="form-input resize-none" placeholder="Tell me about your project..." required></textarea>
+              <label class="form-label" for="message" data-en="Message" data-tr="Mesaj">Message</label>
+              <textarea id="message" name="message" rows="4" class="form-input resize-none"
+                placeholder="Tell me about your project..." required></textarea>
             </div>
-            <button type="submit" id="submitBtn" class="btn-primary w-full py-3 rounded-xl font-semibold flex items-center justify-center gap-2">
-              <i class="fas fa-paper-plane"></i> Send Message
+            <button type="submit" id="submitBtn"
+              class="btn-primary w-full py-3 rounded-xl font-semibold flex items-center justify-center gap-2">
+              <i class="fas fa-paper-plane"></i> <span data-en="Send Message" data-tr="Gönder">Send Message</span>
             </button>
-            <p id="formSuccess" class="hidden text-green-accent text-sm text-center pt-2">✅ Message sent! I'll be in touch soon.</p>
+            <p id="formSuccess" class="hidden text-green-accent text-sm text-center pt-2"
+              data-en="✅ Message sent! I'll be in touch soon."
+              data-tr="✅ Mesajınız gönderildi! En kısa sürede dönüş yapacağım.">✅ Message sent! I'll be in touch soon.
+            </p>
+            <p id="formError" class="hidden text-red-400 text-sm text-center pt-2">❌ <span
+                data-en="Something went wrong. Please email me directly."
+                data-tr="Bir hata oluştu. Lütfen doğrudan e-posta gönderin.">Something went wrong. Please email me
+                directly.</span></p>
           </form>
         </div>
       </div>
@@ -302,17 +381,22 @@
 
   <!-- ─── FOOTER ─── -->
   <footer class="bg-dark-800 border-t border-dark-600 py-8">
-    <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4 text-gray-500 text-sm">
+    <div
+      class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4 text-gray-500 text-sm">
       <p class="font-mono text-blue-accent">&lt;TOF /&gt;</p>
       <p>© 2024 Tolga Osman Falay. Crafted with ❤️ &amp; Code.</p>
       <div class="flex gap-5">
-        <a href="https://github.com/tolgaosman" target="_blank" class="hover:text-white transition-colors"><i class="fab fa-github"></i></a>
-        <a href="https://www.instagram.com/toigaosman/" target="_blank" class="hover:text-pink-400 transition-colors"><i class="fab fa-instagram"></i></a>
-        <a href="#" id="footerLinkedin" class="hover:text-blue-accent transition-colors"><i class="fab fa-linkedin-in"></i></a>
+        <a href="https://github.com/tolgaosman" target="_blank" class="hover:text-white transition-colors"><i
+            class="fab fa-github"></i></a>
+        <a href="https://www.instagram.com/toigaosman/" target="_blank" class="hover:text-pink-400 transition-colors"><i
+            class="fab fa-instagram"></i></a>
+        <a href="#" id="footerLinkedin" class="hover:text-blue-accent transition-colors"><i
+            class="fab fa-linkedin-in"></i></a>
       </div>
     </div>
   </footer>
 
   <script src="main.js"></script>
 </body>
+
 </html>
