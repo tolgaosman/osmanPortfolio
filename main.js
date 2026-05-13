@@ -159,7 +159,7 @@ window.addEventListener('scroll', () => {
   let current = '';
   sections.forEach(s => { if (window.scrollY >= s.offsetTop - 120) current = s.id; });
   navLinks.forEach(l => {
-    l.classList.remove('text-yellow-400');
-    if (l.getAttribute('href') === '#' + current) l.classList.add('text-yellow-400');
+    l.classList.remove('text-green-400');
+    if (l.getAttribute('href') === '#' + current) l.classList.add('text-green-400');
   });
 });
