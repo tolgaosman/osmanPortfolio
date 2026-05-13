@@ -75,6 +75,14 @@ function setLang(lang) {
       el.textContent = text;
     }
   });
+
+  // Translate placeholders
+  document.querySelectorAll('[data-placeholder-en][data-placeholder-tr]').forEach(el => {
+    const text = el.getAttribute('data-placeholder-' + lang);
+    if (text) {
+      el.placeholder = text;
+    }
+  });
 }
 
 // Close dropdown when clicking outside
