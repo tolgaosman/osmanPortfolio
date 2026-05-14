@@ -76,6 +76,8 @@ body {
   text-decoration: none;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
 .btn-primary:hover {
@@ -93,6 +95,8 @@ body {
   text-decoration: none;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
 .btn-ghost:hover {
