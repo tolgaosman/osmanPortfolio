@@ -578,6 +578,84 @@ body {
   color: #e5e7eb;
 }
 
+/* ── Why Hire Me ── */
+.hire-card {
+  background: rgba(17, 17, 24, 0.4);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(16, 185, 129, 0.15);
+  border-radius: 20px;
+  padding: 2rem;
+  transition: border-color 0.4s, background 0.4s, transform 0.4s, box-shadow 0.4s;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.hire-card.visible {
+  animation: fadeUp 0.6s ease forwards;
+  animation-delay: var(--delay, 0s);
+}
+
+.hire-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 0;
+  background: #10b981;
+  transition: height 0.4s ease;
+}
+
+.hire-card:hover::before {
+  height: 100%;
+}
+
+.hire-card:hover {
+  background: rgba(26, 26, 36, 0.6);
+  border-color: rgba(16, 185, 129, 0.4);
+  transform: translateY(-6px);
+  box-shadow: 0 12px 40px rgba(16, 185, 129, 0.12);
+}
+
+.hire-icon-wrap {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #34d399;
+  font-size: 1.3rem;
+  transition: all 0.4s ease;
+}
+
+.hire-card:hover .hire-icon-wrap {
+  background: #10b981;
+  color: #fff;
+  transform: scale(1.1) rotate(5deg);
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
+}
+
+.hire-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.hire-text {
+  color: #9ca3af;
+  font-size: 0.92rem;
+  line-height: 1.7;
+}
+
 /* ── Language dropdown ── */
 .lang-dropdown {
   position: relative;
