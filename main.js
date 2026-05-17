@@ -7,13 +7,13 @@ const phrasesEN = [
 ];
 const phrasesTR = [
   'Yazılım Mühendisi.',
-  'Front-End Geliştiricisi.',
+  'Web Geliştiricisi.',
   'Problem Çözücü.',
   'Fırsatlara Açık.'
 ];
 let pi = 0, ci = 0, deleting = false;
 const el = document.getElementById('typed');
-let currentLang = 'en';
+let currentLang = localStorage.getItem('preferredLang') || 'en';
 
 function getPhrases() { return currentLang === 'en' ? phrasesEN : phrasesTR; }
 
@@ -41,48 +41,16 @@ function toggleLangMenu(e) {
 }
 
 function setLang(lang) {
-  currentLang = lang;
-  langMenuOpen = false;
-  document.getElementById('langMenu').classList.remove('open');
-  document.getElementById('langChevron').classList.remove('rotated');
-
-  // Update button label
-  const flags = {
-    en: '<img src="https://flagcdn.com/w20/gb.png" class="w-5 inline mr-1.5 align-middle" alt="EN"> EN',
-    tr: '<img src="https://flagcdn.com/w20/tr.png" class="w-5 inline mr-1.5 align-middle" alt="TR"> TR'
-  };
-  document.getElementById('langCurrent').innerHTML = flags[lang] || lang.toUpperCase();
-
-  // Highlight active option
-  document.getElementById('langOptEN').classList.toggle('active', lang === 'en');
-  document.getElementById('langOptTR').classList.toggle('active', lang === 'tr');
-
-  // Save to localStorage
   localStorage.setItem('preferredLang', lang);
-
-  // Translate custom bypassed elements
-  document.querySelectorAll('.custom-translate').forEach(el => {
-    const text = el.getAttribute('data-' + lang);
-    if (text) el.textContent = text;
-  });
-
-  // Reset typing effect
-  pi = 0; ci = 0; deleting = false;
-
-  // Trigger Google Translate
-  const triggerGoogleTranslate = () => {
-    const select = document.querySelector('.goog-te-combo');
-    if (select) {
-      select.value = lang;
-      select.dispatchEvent(new Event('change'));
-    }
-  };
-
-  triggerGoogleTranslate();
-  // Fallback retry in case Google Translate element is not fully loaded yet
-  setTimeout(triggerGoogleTranslate, 200);
-  setTimeout(triggerGoogleTranslate, 500);
-  setTimeout(triggerGoogleTranslate, 1000);
+  
+  // Set Google Translate cookie to trigger native translation on page load
+  const domain = window.location.hostname;
+  document.cookie = `googtrans=/en/${lang}; path=/;`;
+  document.cookie = `googtrans=/en/${lang}; path=/; domain=${domain};`;
+  document.cookie = `googtrans=/en/${lang}; path=/; domain=.${domain};`;
+  
+  // Reload page to apply translation natively and cleanly
+  window.location.reload();
 }
 
 function getCookie(name) {
@@ -91,7 +59,7 @@ function getCookie(name) {
   if (parts.length === 2) return parts.pop().split(';').shift();
 }
 
-// On page load, read from localStorage or googtrans cookie to set correct initial language UI
+// On page load, apply custom bypassed translations, placeholders and flag dropdown state
 document.addEventListener('DOMContentLoaded', () => {
   let savedLang = localStorage.getItem('preferredLang');
   if (!savedLang) {
@@ -102,8 +70,50 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
   if (savedLang && (savedLang === 'en' || savedLang === 'tr')) {
-    setLang(savedLang);
+    currentLang = savedLang;
   }
+
+  // Update custom bypassed elements
+  document.querySelectorAll('.custom-translate').forEach(el => {
+    const text = el.getAttribute('data-' + currentLang);
+    if (text) el.textContent = text;
+  });
+
+  // Translate form placeholders
+  const placeholders = {
+    en: {
+      name: 'Your Name and Surname',
+      email: 'Your Mail Address',
+      message: 'Tell me anything...'
+    },
+    tr: {
+      name: 'Adınız ve Soyadınız',
+      email: 'E-posta Adresiniz',
+      message: 'Bana aklınızdakini söyleyin...'
+    }
+  };
+  const nameInput = document.getElementById('name');
+  if (nameInput) nameInput.placeholder = placeholders[currentLang].name;
+  const emailInput = document.getElementById('email');
+  if (emailInput) emailInput.placeholder = placeholders[currentLang].email;
+  const messageInput = document.getElementById('message');
+  if (messageInput) messageInput.placeholder = placeholders[currentLang].message;
+
+  // Set the flag UI state
+  const flags = {
+    en: '<img src="https://flagcdn.com/w20/gb.png" class="w-5 inline mr-1.5 align-middle" alt="EN"> EN',
+    tr: '<img src="https://flagcdn.com/w20/tr.png" class="w-5 inline mr-1.5 align-middle" alt="TR"> TR'
+  };
+  const langCurrentEl = document.getElementById('langCurrent');
+  if (langCurrentEl) {
+    langCurrentEl.innerHTML = flags[currentLang] || currentLang.toUpperCase();
+  }
+  
+  // Highlight active options
+  const optEN = document.getElementById('langOptEN');
+  const optTR = document.getElementById('langOptTR');
+  if (optEN) optEN.classList.toggle('active', currentLang === 'en');
+  if (optTR) optTR.classList.toggle('active', currentLang === 'tr');
 });
 
 // Close dropdown when clicking outside

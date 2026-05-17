@@ -56,7 +56,7 @@
           <a href="#projects" class="nav-link">Projects</a>
           <a href="#experience" class="nav-link">Experience</a>
           <a href="#contact" class="nav-link custom-translate notranslate" data-en="Contact" data-tr="Bana Ulaşın">Contact</a>
-          <a href="osman cv.pdf" download class="btn-primary text-sm px-4 py-2 rounded-lg">Resume ↓</a>
+          <a href="osman cv.pdf" download class="btn-primary text-sm px-4 py-2 rounded-lg custom-translate notranslate" data-en="Resume ↓" data-tr="Özgeçmiş ↓">Resume ↓</a>
         </div>
         <div class="lang-dropdown notranslate" id="langDropdown">
           <button class="lang-btn" id="langBtn" onclick="toggleLangMenu(event)">
@@ -83,7 +83,7 @@
       <a href="#projects" class="nav-link">Projects</a>
       <a href="#experience" class="nav-link">Experience</a>
       <a href="#contact" class="nav-link custom-translate notranslate" data-en="Contact" data-tr="Bana Ulaşın">Contact</a>
-      <a href="osman cv.pdf" download class="btn-primary text-center px-4 py-2 rounded-lg">Resume ↓</a>
+      <a href="osman cv.pdf" download class="btn-primary text-center px-4 py-2 rounded-lg custom-translate notranslate" data-en="Resume ↓" data-tr="Özgeçmiş ↓">Resume ↓</a>
     </div>
   </nav>
 
@@ -99,7 +99,7 @@
         <span class="gradient-text">Falay</span>
       </h1>
       <div class="flex items-center justify-center gap-2 text-xl md:text-2xl text-gray-300 font-light mb-6 h-9">
-        <span id="typed" class="text-green-glow font-semibold"></span>
+        <span id="typed" class="text-green-glow font-semibold notranslate"></span>
         <span class="animate-blink text-green-accent">|</span>
       </div>
       <p class="text-gray-400 max-w-xl mx-auto mb-10 text-base leading-relaxed">
@@ -109,7 +109,7 @@
       <div class="flex flex-col sm:flex-row gap-4 justify-center">
         <a href="osman cv.pdf" target="_blank" id="resumeBtn"
           class="btn-primary px-8 py-3 rounded-xl text-base font-semibold flex items-center gap-2 justify-center">
-          <i class="far fa-file-pdf"></i> <span>Resume</span>
+          <i class="far fa-file-pdf"></i> <span class="custom-translate notranslate" data-en="Resume" data-tr="Özgeçmiş">Resume</span>
         </a>
         <a href="#projects" class="btn-ghost px-8 py-3 rounded-xl text-base font-semibold flex items-center justify-center text-center">View Projects →</a>
       </div>
@@ -221,7 +221,7 @@
         </h2>
         <p class="section-sub">Technologies and tools I work with</p>
       </div>
-      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 mt-12">
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 mt-12 notranslate">
         <div class="skill-card reveal" style="--delay:0.05s"><i
             class="fab fa-html5 text-orange-400 text-3xl mb-3"></i><span>HTML5</span></div>
         <div class="skill-card reveal" style="--delay:0.10s"><i
@@ -272,7 +272,7 @@
           <h3 class="text-xl font-bold text-white mb-2">Dr. Çiğdem Dürüst Website</h3>
           <p class="text-gray-400 text-sm mb-4 leading-relaxed">
             A professional counseling website and appointment booking system featuring a dynamic anamnesis questionnaire, custom validation, and WhatsApp integration.</p>
-          <div class="flex flex-wrap gap-2 mb-6">
+          <div class="flex flex-wrap gap-2 mb-6 notranslate">
             <span class="tech-tag">HTML</span><span class="tech-tag">CSS</span><span
               class="tech-tag">JavaScript</span><span class="tech-tag">Tailwind</span>
           </div>
@@ -290,7 +290,7 @@
           <h3 class="text-xl font-bold text-white mb-2">Dr. Cahit Cenksoy IVF Website <span class='text-[10px] px-2 py-0.5 bg-amber-500/10 text-amber-400 border border-amber-500/20 rounded-full font-mono uppercase tracking-wider ml-2 align-middle'>Coming Soon</span></h3>
           <p class="text-gray-400 text-sm mb-4 leading-relaxed">
             A high-performance medical platform for a prominent IVF clinic in Cyprus, featuring a robust multi-language translation system (7 languages), RTL layout support, dark/light theme integration, and custom treatment selection tools.</p>
-          <div class="flex flex-wrap gap-2 mb-6">
+          <div class="flex flex-wrap gap-2 mb-6 notranslate">
             <span class="tech-tag">HTML</span><span class="tech-tag">CSS</span><span
               class="tech-tag">JavaScript</span><span class="tech-tag">Tailwind</span><span class="tech-tag">i18n</span>
           </div>
@@ -418,22 +418,22 @@
           <form id="contactForm" onsubmit="handleSubmit(event)" class="space-y-4">
             <div>
               <label class="form-label" for="name">Name</label>
-              <input id="name" name="from_name" type="text" class="form-input" placeholder="Your Name and Surname" minlength="5" required />
+              <input id="name" name="from_name" type="text" class="form-input notranslate" placeholder="Your Name and Surname" minlength="5" required />
             </div>
             <div>
               <label class="form-label" for="email">Email</label>
-              <input id="email" name="reply_to" type="email" class="form-input" placeholder="Your Mail Address" minlength="5" required />
+              <input id="email" name="reply_to" type="email" class="form-input notranslate" placeholder="Your Mail Address" minlength="5" required />
             </div>
             <div>
               <label class="form-label" for="message">Message</label>
-              <textarea id="message" rows="4" class="form-input resize-none"
+              <textarea id="message" rows="4" class="form-input resize-none notranslate"
                 placeholder="Tell me anything..."
                 minlength="5" required></textarea>
             </div>
             <button type="submit" id="submitBtn" disabled
               class="w-full py-3 rounded-xl font-semibold flex items-center justify-center gap-2 opacity-40 cursor-not-allowed transition-all duration-200" style="background:#25d366;color:#fff">
               <i class="fab fa-whatsapp text-xl"></i>
-              <span>Connect on WhatsApp</span>
+              <span class="custom-translate notranslate" data-en="Connect on WhatsApp" data-tr="WhatsApp'tan Yaz">Connect on WhatsApp</span>
             </button>
           </form>
         </div>
@@ -468,7 +468,17 @@
       }, 'google_translate_element');
     }
   </script>
-  <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+  <script type="text/javascript">
+    (function() {
+      const preferredLang = localStorage.getItem('preferredLang') || 'en';
+      if (preferredLang === 'tr') {
+        const script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+        document.body.appendChild(script);
+      }
+    })();
+  </script>
 
   <script src="main.js"></script>
 </body>
