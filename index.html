@@ -50,26 +50,25 @@
       <a href="#hero" class="font-mono text-green-accent text-xl font-semibold tracking-wider">&lt;TOF /&gt;</a>
       <div class="flex items-center gap-4 md:gap-8">
         <div class="hidden md:flex items-center gap-8 text-sm font-medium text-gray-400">
-          <a href="#about" class="nav-link" data-en="About" data-tr="Hakkımda">About</a>
-          <a href="#hire" class="nav-link" data-en="Why Me" data-tr="Neden Ben">Why Me</a>
-          <a href="#stack" class="nav-link" data-en="Stack" data-tr="Teknoloji">Stack</a>
-          <a href="#projects" class="nav-link" data-en="Projects" data-tr="Projeler">Projects</a>
-          <a href="#experience" class="nav-link" data-en="Experience" data-tr="Deneyim">Experience</a>
-          <a href="#contact" class="nav-link" data-en="Contact" data-tr="İletişim">Contact</a>
-          <a href="osman cv.pdf" download class="btn-primary text-sm px-4 py-2 rounded-lg" data-en="Resume ↓"
-            data-tr="CV ↓">Resume ↓</a>
+          <a href="#about" class="nav-link">About</a>
+          <a href="#hire" class="nav-link">Why Me</a>
+          <a href="#stack" class="nav-link">Stack</a>
+          <a href="#projects" class="nav-link">Projects</a>
+          <a href="#experience" class="nav-link">Experience</a>
+          <a href="#contact" class="nav-link custom-translate notranslate" data-en="Contact" data-tr="Bana Ulaşın">Contact</a>
+          <a href="osman cv.pdf" download class="btn-primary text-sm px-4 py-2 rounded-lg">Resume ↓</a>
         </div>
-        <div class="lang-dropdown" id="langDropdown">
+        <div class="lang-dropdown notranslate" id="langDropdown">
           <button class="lang-btn" id="langBtn" onclick="toggleLangMenu(event)">
-            <span id="langCurrent">EN</span>
+            <span id="langCurrent" class="flex items-center gap-1.5"><img src="https://flagcdn.com/w20/gb.png" class="w-5 inline mr-1.5 align-middle" alt="EN"> EN</span>
             <i class="fas fa-chevron-down lang-chevron" id="langChevron"></i>
           </button>
           <div class="lang-menu" id="langMenu">
             <button class="lang-option" id="langOptEN" onclick="setLang('en')">
-              🇬🇧 English
+              <img src="https://flagcdn.com/w20/gb.png" class="w-4 inline mr-1.5 align-middle" alt="EN"> English
             </button>
             <button class="lang-option" id="langOptTR" onclick="setLang('tr')">
-              🇹🇷 Türkçe
+              <img src="https://flagcdn.com/w20/tr.png" class="w-4 inline mr-1.5 align-middle" alt="TR"> Türkçe
             </button>
           </div>
         </div>
@@ -78,14 +77,13 @@
     </div>
     <div id="mobileMenu"
       class="hidden md:hidden bg-dark-800 border-t border-dark-600 px-6 py-4 flex-col gap-4 text-sm text-gray-300">
-      <a href="#about" class="nav-link" data-en="About" data-tr="Hakkımda">About</a>
-      <a href="#hire" class="nav-link" data-en="Why Me" data-tr="Neden Ben">Why Me</a>
-      <a href="#stack" class="nav-link" data-en="Stack" data-tr="Teknoloji">Stack</a>
-      <a href="#projects" class="nav-link" data-en="Projects" data-tr="Projeler">Projects</a>
-      <a href="#experience" class="nav-link" data-en="Experience" data-tr="Deneyim">Experience</a>
-      <a href="#contact" class="nav-link" data-en="Contact" data-tr="İletişim">Contact</a>
-      <a href="osman cv.pdf" download class="btn-primary text-center px-4 py-2 rounded-lg" data-en="Resume ↓"
-        data-tr="CV ↓">Resume ↓</a>
+      <a href="#about" class="nav-link">About</a>
+      <a href="#hire" class="nav-link">Why Me</a>
+      <a href="#stack" class="nav-link">Stack</a>
+      <a href="#projects" class="nav-link">Projects</a>
+      <a href="#experience" class="nav-link">Experience</a>
+      <a href="#contact" class="nav-link custom-translate notranslate" data-en="Contact" data-tr="Bana Ulaşın">Contact</a>
+      <a href="osman cv.pdf" download class="btn-primary text-center px-4 py-2 rounded-lg">Resume ↓</a>
     </div>
   </nav>
 
@@ -95,8 +93,7 @@
     <div class="hero-bg-blob blob2"></div>
     <div class="grid-overlay"></div>
     <div class="max-w-4xl mx-auto px-6 text-center relative z-10 reveal">
-      <p class="font-mono text-green-accent text-sm mb-4 tracking-widest uppercase" data-en="Hello World, I'm"
-        data-tr="HELLO WORLD, Ben">HELLO WORLD, I'm</p>
+      <p class="font-mono text-green-accent text-sm mb-4 tracking-widest uppercase">HELLO WORLD, I'm</p>
       <h1 class="text-4xl sm:text-5xl md:text-7xl font-black mb-4 leading-tight">
         <span class="text-white">Tolga Osman</span><br />
         <span class="gradient-text">Falay</span>
@@ -105,19 +102,16 @@
         <span id="typed" class="text-green-glow font-semibold"></span>
         <span class="animate-blink text-green-accent">|</span>
       </div>
-      <p class="text-gray-400 max-w-xl mx-auto mb-10 text-base leading-relaxed"
-        data-en="Software Engineering student at Eastern Mediterranean University with a passion for building clean, scalable web experiences. Strong communicator with real-world customer-facing experience."
-        data-tr="Doğu Akdeniz Üniversitesi'nde temiz, ölçeklenebilir web deneyimleri oluşturma tutkusuna sahip Yazılım Mühendisliği öğrencisi. Gerçek dünya müşteri deneyimi olan güçlü bir iletişimci.">
+      <p class="text-gray-400 max-w-xl mx-auto mb-10 text-base leading-relaxed">
         Software Engineering student at Eastern Mediterranean University with a passion for building clean, scalable web
         experiences. Strong communicator with real-world customer-facing experience.
       </p>
       <div class="flex flex-col sm:flex-row gap-4 justify-center">
         <a href="osman cv.pdf" target="_blank" id="resumeBtn"
           class="btn-primary px-8 py-3 rounded-xl text-base font-semibold flex items-center gap-2 justify-center">
-          <i class="far fa-file-pdf"></i> <span data-en="Resume" data-tr="CV">Resume</span>
+          <i class="far fa-file-pdf"></i> <span>Resume</span>
         </a>
-        <a href="#projects" class="btn-ghost px-8 py-3 rounded-xl text-base font-semibold flex items-center justify-center text-center" data-en="View Projects →"
-          data-tr="Projeleri Gör →">View Projects →</a>
+        <a href="#projects" class="btn-ghost px-8 py-3 rounded-xl text-base font-semibold flex items-center justify-center text-center">View Projects →</a>
       </div>
     </div>
     <div class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce text-gray-600">
@@ -129,33 +123,26 @@
   <section id="about" class="py-24 bg-dark-900">
     <div class="max-w-4xl mx-auto px-6">
       <div class="section-header reveal">
-        <p class="section-tag" data-en="Who I Am" data-tr="Ben Kimim">Who Am I</p>
-        <h2 class="section-title" data-en="About <span class='gradient-text'>Me</span>"
-          data-tr="Benim <span class='gradient-text'>Hakkımda</span>">About <span class="gradient-text">Me</span></h2>
+        <p class="section-tag">Who Am I</p>
+        <h2 class="section-title">About <span class="gradient-text">Me</span></h2>
       </div>
       <div class="about-layout reveal mt-12">
         <!-- Photo -->
         <div class="about-photo-wrap">
-          <img src="osman foto.jpeg" alt="Tolga Osman Falay" class="about-photo" />
+          <img src="osman_foto.jpeg" alt="Tolga Osman Falay" class="about-photo" />
         </div>
         <!-- Paragraphs -->
         <div class="about-content">
-          <p class="about-para"
-            data-en="Born in Nicosia and a graduate of Eastern Mediterranean University, I am a dedicated software developer driven by a passion for creating impactful digital experiences. My technical foundation is built on HTML, CSS, JavaScript, and Python, allowing me to build seamless, functional, and user-centric applications."
-            data-tr="Lefkoşa doğumlu ve Doğu Akdeniz Üniversitesi öğrencisi olarak, etkili dijital deneyimler yaratma tutkusuyla hareket eden kararlı bir yazılım geliştiricisiyim. HTML, CSS, JavaScript ve Python üzerine kurulu teknik altyapım, kesintisiz, işlevsel ve kullanıcı odaklı uygulamalar geliştirmemi sağlıyor.">
+          <p class="about-para">
             Born in Nicosia and a student of Eastern Mediterranean University, I am a dedicated software developer
             driven
             by a passion for creating impactful digital experiences. My technical foundation is built on HTML, CSS,
             JavaScript, and Python, allowing me to build seamless, functional, and user-centric applications.</p>
-          <p class="about-para"
-            data-en="Beyond the code, I pride myself on my strong communication skills and my ability to adapt quickly to new challenges and evolving technologies. I don't just build software; I find genuine joy in delivering high-quality service and solving complex problems that make a difference for my clients."
-            data-tr="Kodun ötesinde, güçlü iletişim becerilerimle ve yeni zorluklara ile gelişen teknolojilere hızla uyum sağlama yeteneğimle öğünüyorum. Sadece yazılım geliştirmiyorum; müşterilerimin farkını yaratan karmaşık sorunları çözerken ve yüksek kaliteli hizmet sunarken gerçek bir mutluluk buluyorum.">
+          <p class="about-para">
             Beyond the code, I pride myself on my strong communication skills and my ability to adapt quickly to new
             challenges and evolving technologies. I don't just build software; I find genuine joy in delivering
             high-quality service and solving complex problems that make a difference for my clients.</p>
-          <p class="about-para"
-            data-en="Whether it's crafting a sleek front-end interface or developing robust back-end logic, I approach every project with enthusiasm and a commitment to excellence. I am always ready to learn, grow, and contribute to innovative projects."
-            data-tr="İster şık bir ön yüz arayüzü oluşturmak ister sağlam bir arka uç mantığı geliştirmek olsun, her projeye coşkuyla ve mükemmeliyete bağlılıkla yaklaşıyorum. Her zaman öğrenmeye, büyümeye ve yenilikçi projelere katkıda bulunmaya hazırım.">
+          <p class="about-para">
             Whether it's crafting a sleek front-end interface or developing robust back-end logic, I approach every
             project with enthusiasm and a commitment to excellence. I am always ready to learn, grow, and contribute to
             innovative projects.</p>
@@ -168,11 +155,9 @@
   <section id="hire" class="py-24 bg-dark-900 border-t border-dark-600/20">
     <div class="max-w-6xl mx-auto px-6">
       <div class="section-header reveal">
-        <p class="section-tag" data-en="Value Proposition" data-tr="Değer Önerisi">Value Proposition</p>
-        <h2 class="section-title" data-en="Why <span class='gradient-text'>Hire Me</span>"
-          data-tr="Neden <span class='gradient-text'>Ben?</span>">Why <span class="gradient-text">Hire Me</span></h2>
-        <p class="section-sub" data-en="What sets me apart as a software engineering candidate"
-          data-tr="Bir yazılım mühendisliği adayı olarak beni öne çıkaran yeteneklerim">What sets me apart as a software engineering candidate</p>
+        <p class="section-tag">Value Proposition</p>
+        <h2 class="section-title">Why <span class="gradient-text">Hire Me</span></h2>
+        <p class="section-sub">What sets me apart as a software engineering candidate</p>
       </div>
       <div class="grid md:grid-cols-2 gap-6 mt-12">
         <!-- Card 1 -->
@@ -181,11 +166,9 @@
             <div class="hire-icon-wrap">
               <i class="fas fa-code"></i>
             </div>
-            <h3 class="hire-title" data-en="Solid Engineering Foundation" data-tr="Güçlü Mühendislik Temeli">Solid Engineering Foundation</h3>
+            <h3 class="hire-title">Solid Engineering Foundation</h3>
           </div>
-          <p class="hire-text"
-            data-en="As a senior Software Engineering student at EMU, I bring rigorous training in data structures, algorithms, and software design patterns—ensuring clean, scalable, and maintainable code."
-            data-tr="DAÜ'de son sınıf Yazılım Mühendisliği öğrencisi olarak, veri yapıları, algoritmalar ve yazılım tasarım kalıpları konusunda teorik ve pratik altyapıya sahibim; bu sayede temiz ve ölçeklenebilir kodlar yazıyorum.">
+          <p class="hire-text">
             As a senior Software Engineering student at EMU, I bring rigorous training in data structures, algorithms, and software design patterns—ensuring clean, scalable, and maintainable code.
           </p>
         </div>
@@ -195,11 +178,9 @@
             <div class="hire-icon-wrap">
               <i class="fas fa-users"></i>
             </div>
-            <h3 class="hire-title" data-en="Exceptional Client Empathy" data-tr="Yüksek Müşteri Empatisi">Exceptional Client Empathy</h3>
+            <h3 class="hire-title">Exceptional Client Empathy</h3>
           </div>
-          <p class="hire-text"
-            data-en="My real-world experience in demanding hospitality roles has sharpened my active listening and communication skills, allowing me to truly understand user needs and bridge technical solutions with business goals."
-            data-tr="Hizmet sektöründeki yoğun gerçek dünya deneyimim, aktif dinleme ve iletişim becerilerimi keskinleştirdi. Kullanıcı ihtiyaçlarını doğru analiz edip teknik çözümleri iş hedefleriyle buluşturabiliyorum.">
+          <p class="hire-text">
             My real-world experience in demanding hospitality roles has sharpened my active listening and communication skills, allowing me to truly understand user needs and bridge technical solutions with business goals.
           </p>
         </div>
@@ -209,11 +190,9 @@
             <div class="hire-icon-wrap">
               <i class="fas fa-bolt"></i>
             </div>
-            <h3 class="hire-title" data-en="Agile &amp; Adaptive Learner" data-tr="Çevik ve Hızlı Öğrenen">Agile &amp; Adaptive Learner</h3>
+            <h3 class="hire-title">Agile &amp; Adaptive Learner</h3>
           </div>
-          <p class="hire-text"
-            data-en="Thriving in fast-paced environments, I quickly absorb new technologies, adapt to evolving project requirements, and solve critical roadblocks under tight deadlines with a positive, collaborative mindset."
-            data-tr="Hızlı tempolu ortamlara alışkın biri olarak yeni teknolojileri hızla benimsiyor, değişen proje gereksinimlerine kolayca uyum sağlıyor ve kısıtlı sürelerde bile pozitif bir yaklaşımla çözüm üretiyorum.">
+          <p class="hire-text">
             Thriving in fast-paced environments, I quickly absorb new technologies, adapt to evolving project requirements, and solve critical roadblocks under tight deadlines with a positive, collaborative mindset.
           </p>
         </div>
@@ -223,11 +202,9 @@
             <div class="hire-icon-wrap">
               <i class="fas fa-globe"></i>
             </div>
-            <h3 class="hire-title" data-en="Global Communication" data-tr="Küresel İletişim Gücü">Global Communication</h3>
+            <h3 class="hire-title">Global Communication</h3>
           </div>
-          <p class="hire-text"
-            data-en="Fluency in Turkish and English, combined with proficiency in German, empowers me to operate effectively within international cross-functional teams and collaborate smoothly with global stakeholders."
-            data-tr="Türkçe ve İngilizce akıcılığımın yanı sıra Almanca bilgim sayesinde uluslararası ekiplerde verimli bir şekilde çalışabiliyor ve küresel paydaşlarla sorunsuz iletişim kurabiliyorum.">
+          <p class="hire-text">
             Fluency in Turkish and English, combined with proficiency in German, empowers me to operate effectively within international cross-functional teams and collaborate smoothly with global stakeholders.
           </p>
         </div>
@@ -239,12 +216,10 @@
   <section id="stack" class="py-24 bg-dark-800">
     <div class="max-w-6xl mx-auto px-6">
       <div class="section-header reveal">
-        <p class="section-tag" data-en="My Arsenal" data-tr="Araç Setim">My Arsenal</p>
-        <h2 class="section-title" data-en="Tech <span class='gradient-text'>Stack</span>"
-          data-tr="Teknoloji <span class='gradient-text'>Yığını</span>">Tech <span class="gradient-text">Stack</span>
+        <p class="section-tag">My Arsenal</p>
+        <h2 class="section-title">Tech <span class="gradient-text">Stack</span>
         </h2>
-        <p class="section-sub" data-en="Technologies and tools I work with"
-          data-tr="Çalıştığım teknolojiler ve araçlar">Technologies and tools I work with</p>
+        <p class="section-sub">Technologies and tools I work with</p>
       </div>
       <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 mt-12">
         <div class="skill-card reveal" style="--delay:0.05s"><i
@@ -265,16 +240,15 @@
 
       <!-- Soft Skills -->
       <div class="mt-16 reveal">
-        <p class="text-center text-gray-500 text-sm uppercase tracking-widest mb-6" data-en="Also bring to the table"
-          data-tr="Ayrıca sunabileceklerim">Also bring to the table</p>
+        <p class="text-center text-gray-500 text-sm uppercase tracking-widest mb-6">Also bring to the table</p>
         <div class="flex flex-wrap justify-center gap-3">
-          <span class="soft-badge" data-en="🗣 Communication" data-tr="🗣 İletişim">🗣 Communication</span>
-          <span class="soft-badge" data-en="🤝 Teamwork" data-tr="🤝 Takım Çalışması">🤝 Teamwork</span>
-          <span class="soft-badge" data-en="⚡ Quick Learning" data-tr="⚡ Hızlı Öğrenme">⚡ Quick Learning</span>
-          <span class="soft-badge" data-en="🔧 Problem Solving" data-tr="🔧 Problem Çözme">🔧 Problem Solving</span>
-          <span class="soft-badge" data-en="🌐 Multilingual (TR/EN/DE)" data-tr="🌐 Çok Dilli (TR/EN/DE)">🌐
+          <span class="soft-badge">🗣 Communication</span>
+          <span class="soft-badge">🤝 Teamwork</span>
+          <span class="soft-badge">⚡ Quick Learning</span>
+          <span class="soft-badge">🔧 Problem Solving</span>
+          <span class="soft-badge">🌐
             Multilingual (TR/EN/DE)</span>
-          <span class="soft-badge" data-en="🎯 Adaptability" data-tr="🎯 Uyarlanabilirlik">🎯 Adaptability</span>
+          <span class="soft-badge">🎯 Adaptability</span>
         </div>
       </div>
     </div>
@@ -284,12 +258,10 @@
   <section id="projects" class="py-24 bg-dark-900">
     <div class="max-w-6xl mx-auto px-6">
       <div class="section-header reveal">
-        <p class="section-tag" data-en="What I've Built" data-tr="Neler Geliştirdim">What I've Built</p>
-        <h2 class="section-title" data-en="Featured <span class='gradient-text'>Projects</span>"
-          data-tr="Öne Çıkan <span class='gradient-text'>Projeler</span>">Featured <span
+        <p class="section-tag">What I've Built</p>
+        <h2 class="section-title">Featured <span
             class="gradient-text">Projects</span></h2>
-        <p class="section-sub" data-en="A selection of projects I'm proud of"
-          data-tr="Gurur duyduğum projelerden bir seçki">A selection of projects I'm proud of</p>
+        <p class="section-sub">A selection of projects I'm proud of</p>
       </div>
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
 
@@ -297,11 +269,8 @@
         <article class="project-card reveal" style="--delay:0.1s">
           <div class="project-glow"></div>
           <div class="project-number">01</div>
-          <h3 class="text-xl font-bold text-white mb-2" data-en="Dr. Çiğdem Dürüst Website"
-            data-tr="Dr. Çiğdem Dürüst Web Sitesi">Dr. Çiğdem Dürüst Website</h3>
-          <p class="text-gray-400 text-sm mb-4 leading-relaxed"
-            data-en="A professional counseling website and appointment booking system featuring a dynamic anamnesis questionnaire, custom validation, and WhatsApp integration."
-            data-tr="Dinamik anamnez anketi, özel doğrulama ve WhatsApp entegrasyonu içeren profesyonel bir psikolojik danışmanlık web sitesi ve randevu sistemi.">
+          <h3 class="text-xl font-bold text-white mb-2">Dr. Çiğdem Dürüst Website</h3>
+          <p class="text-gray-400 text-sm mb-4 leading-relaxed">
             A professional counseling website and appointment booking system featuring a dynamic anamnesis questionnaire, custom validation, and WhatsApp integration.</p>
           <div class="flex flex-wrap gap-2 mb-6">
             <span class="tech-tag">HTML</span><span class="tech-tag">CSS</span><span
@@ -309,9 +278,8 @@
           </div>
           <div class="flex gap-3 mt-auto">
             <a href="https://github.com/tolgaosman/cigdemWebsite" target="_blank" class="project-link"><i class="fab fa-github"></i>
-              <span data-en="Code" data-tr="Kod">Code</span></a>
-            <a href="https://tolgaosman.github.io/cigdemWebsite/" target="_blank" class="project-link project-link-live"><i class="fas fa-external-link-alt"></i> <span
-                data-en="Visit Site" data-tr="Siteye Git">Visit Site</span></a>
+              <span>Code</span></a>
+            <a href="https://tolgaosman.github.io/cigdemWebsite/" target="_blank" class="project-link project-link-live"><i class="fas fa-external-link-alt"></i> <span>Visit Site</span></a>
           </div>
         </article>
 
@@ -319,11 +287,8 @@
         <article class="project-card reveal" style="--delay:0.2s">
           <div class="project-glow"></div>
           <div class="project-number">02</div>
-          <h3 class="text-xl font-bold text-white mb-2" data-en="Dr. Cahit Cenksoy IVF Website <span class='text-[10px] px-2 py-0.5 bg-amber-500/10 text-amber-400 border border-amber-500/20 rounded-full font-mono uppercase tracking-wider ml-2 align-middle'>Coming Soon</span>"
-            data-tr="Dr. Cahit Cenksoy Tüp Bebek Web Sitesi <span class='text-[10px] px-2 py-0.5 bg-amber-500/10 text-amber-400 border border-amber-500/20 rounded-full font-mono uppercase tracking-wider ml-2 align-middle'>Yakında</span>">Dr. Cahit Cenksoy IVF Website <span class='text-[10px] px-2 py-0.5 bg-amber-500/10 text-amber-400 border border-amber-500/20 rounded-full font-mono uppercase tracking-wider ml-2 align-middle'>Coming Soon</span></h3>
-          <p class="text-gray-400 text-sm mb-4 leading-relaxed"
-            data-en="A high-performance medical platform for a prominent IVF clinic in Cyprus, featuring a robust multi-language translation system (7 languages), RTL layout support, dark/light theme integration, and custom treatment selection tools."
-            data-tr="Kıbrıs'ın önde gelen tüp bebek klinikleri için geliştirilmiş; 7 dilli gelişmiş çeviri sistemi, RTL düzen desteği, karanlık/aydınlık tema entegrasyonu ve özel tedavi seçici araçlar barındıran yüksek performanslı tıbbi platform.">
+          <h3 class="text-xl font-bold text-white mb-2">Dr. Cahit Cenksoy IVF Website <span class='text-[10px] px-2 py-0.5 bg-amber-500/10 text-amber-400 border border-amber-500/20 rounded-full font-mono uppercase tracking-wider ml-2 align-middle'>Coming Soon</span></h3>
+          <p class="text-gray-400 text-sm mb-4 leading-relaxed">
             A high-performance medical platform for a prominent IVF clinic in Cyprus, featuring a robust multi-language translation system (7 languages), RTL layout support, dark/light theme integration, and custom treatment selection tools.</p>
           <div class="flex flex-wrap gap-2 mb-6">
             <span class="tech-tag">HTML</span><span class="tech-tag">CSS</span><span
@@ -331,9 +296,8 @@
           </div>
           <div class="flex gap-3 mt-auto">
             <a href="https://github.com/tolgaosman/cahitCenksoyIVF" target="_blank" class="project-link"><i class="fab fa-github"></i>
-              <span data-en="Code" data-tr="Kod">Code</span></a>
-            <a href="https://tolgaosman.github.io/cahitCenksoyIVF/" target="_blank" class="project-link project-link-live"><i class="fas fa-external-link-alt"></i> <span
-                data-en="Visit Site" data-tr="Siteye Git">Visit Site</span></a>
+              <span>Code</span></a>
+            <a href="https://tolgaosman.github.io/cahitCenksoyIVF/" target="_blank" class="project-link project-link-live"><i class="fas fa-external-link-alt"></i> <span>Visit Site</span></a>
           </div>
         </article>
 
@@ -342,7 +306,7 @@
       <div class="text-center mt-10 reveal">
         <a href="https://github.com/tolgaosman" target="_blank"
           class="btn-ghost px-6 py-3 rounded-xl inline-flex items-center gap-2">
-          <i class="fab fa-github"></i> <span data-en="See All on GitHub" data-tr="GitHub'da Tümünü Gör">See All on
+          <i class="fab fa-github"></i> <span>See All on
             GitHub</span>
         </a>
       </div>
@@ -353,9 +317,8 @@
   <section id="experience" class="py-24 bg-dark-800">
     <div class="max-w-4xl mx-auto px-6">
       <div class="section-header reveal">
-        <p class="section-tag" data-en="My Journey" data-tr="Yolculuğum">My Journey</p>
-        <h2 class="section-title" data-en="Experience &amp; <span class='gradient-text'>Education</span>"
-          data-tr="Deneyim &amp; <span class='gradient-text'>Eğitim</span>">Experience &amp; <span
+        <p class="section-tag">My Journey</p>
+        <h2 class="section-title">Experience &amp; <span
             class="gradient-text">Education</span></h2>
       </div>
       <div class="timeline mt-14">
@@ -364,16 +327,11 @@
         <div class="timeline-item reveal" style="--delay:0.1s">
           <div class="timeline-dot edu-dot"></div>
           <div class="timeline-card">
-            <span class="timeline-badge edu-badge" data-en="Education" data-tr="Eğitim">Education</span>
-            <h3 class="text-lg font-bold text-white mt-2" data-en="Eastern Mediterranean University"
-              data-tr="Doğu Akdeniz Üniversitesi">Eastern Mediterranean University</h3>
-            <p class="text-green-accent font-medium text-sm" data-en="BSc Software Engineering"
-              data-tr="Lisans Yazılım Mühendisliği">BSc Software Engineering</p>
-            <p class="text-gray-500 text-xs mt-1 mb-3" data-en="2021 – Present · Senior Year (Ongoing)"
-              data-tr="2021 – Günümüz · Son Sınıf (Devam Ediyor)">2021 – Present · Senior Year (Ongoing)</p>
-            <p class="text-gray-400 text-sm"
-              data-en="Studying core CS fundamentals including data structures, algorithms, software design patterns, and web development. Active participant in student engineering projects."
-              data-tr="Veri yapıları, algoritmalar, yazılım tasarım desenleri ve web geliştirme dahil olmak üzere temel bilgisayar bilimleri temellerini okuyorum. Öğrenci mühendisliği projelerinde aktif katılımcı.">
+            <span class="timeline-badge edu-badge">Education</span>
+            <h3 class="text-lg font-bold text-white mt-2">Eastern Mediterranean University</h3>
+            <p class="text-green-accent font-medium text-sm">BSc Software Engineering</p>
+            <p class="text-gray-500 text-xs mt-1 mb-3">2021 – Present · Senior Year (Ongoing)</p>
+            <p class="text-gray-400 text-sm">
               Studying core CS fundamentals including data structures, algorithms,
               software design patterns, and web development. Active participant in student engineering projects.</p>
           </div>
@@ -383,14 +341,12 @@
         <div class="timeline-item reveal" style="--delay:0.2s">
           <div class="timeline-dot work-dot"></div>
           <div class="timeline-card">
-            <span class="timeline-badge work-badge" data-en="Work" data-tr="İş">Work</span>
+            <span class="timeline-badge work-badge">Work</span>
             <h3 class="text-lg font-bold text-white mt-2">Timeless</h3>
-            <p class="text-green-accent font-medium text-sm" data-en="Barista" data-tr="Barista">Barista</p>
-            <p class="text-gray-500 text-xs mt-1 mb-3" data-en="Feb 2023 – Jan 2024" data-tr="Şub 2023 – Oca 2024">Feb
+            <p class="text-green-accent font-medium text-sm">Barista</p>
+            <p class="text-gray-500 text-xs mt-1 mb-3">Feb
               2023 – Jan 2024</p>
-            <p class="text-gray-400 text-sm"
-              data-en="Delivered premium coffee experiences in a fast-paced environment. Sharpened communication, multitasking, and team-coordination skills under high-volume service conditions."
-              data-tr="Hızlı tempolu bir ortamda birinci sınıf kahve deneyimleri sundum. Yüksek hacimli hizmet koşullarında iletişim, çoklu görev ve takım koordinasyonu becerilerimi geliştirdim.">
+            <p class="text-gray-400 text-sm">
               Delivered premium coffee experiences in a fast-paced environment. Sharpened
               communication, multitasking, and team-coordination skills under high-volume service conditions.</p>
           </div>
@@ -400,14 +356,12 @@
         <div class="timeline-item reveal" style="--delay:0.3s">
           <div class="timeline-dot work-dot"></div>
           <div class="timeline-card">
-            <span class="timeline-badge work-badge" data-en="Work" data-tr="İş">Work</span>
+            <span class="timeline-badge work-badge">Work</span>
             <h3 class="text-lg font-bold text-white mt-2">The Walls Inn</h3>
-            <p class="text-green-accent font-medium text-sm" data-en="Bartender" data-tr="Barmen">Bartender</p>
-            <p class="text-gray-500 text-xs mt-1 mb-3" data-en="June 2022 – Sep 2023" data-tr="Haz 2022 – Eyl 2023">June
+            <p class="text-green-accent font-medium text-sm">Bartender</p>
+            <p class="text-gray-500 text-xs mt-1 mb-3">June
               2022 – Sep 2023</p>
-            <p class="text-gray-400 text-sm"
-              data-en="Managed bar operations and provided top-tier hospitality in a high-pressure environment. Developed strong interpersonal, adaptability, and customer service skills."
-              data-tr="Yüksek baskılı bir ortamda bar operasyonlarını yönettim ve üst düzey misafirperverlik sağladım. Güçlü kişilerarası, uyum sağlama ve müşteri hizmetleri becerileri geliştirdim.">
+            <p class="text-gray-400 text-sm">
               Managed bar operations and provided top-tier hospitality in a high-pressure
               environment. Developed strong interpersonal, adaptability, and customer service skills.</p>
           </div>
@@ -421,21 +375,17 @@
   <section id="contact" class="py-24 bg-dark-900">
     <div class="max-w-5xl mx-auto px-6">
       <div class="section-header reveal">
-        <p class="section-tag" data-en="Get In Touch" data-tr="İletişime Geçin">Get In Touch</p>
-        <h2 class="section-title" data-en="Let's <span class='gradient-text'>Connect</span>"
-          data-tr="Hadi <span class='gradient-text'>Bağlanalım</span>">Let's <span class="gradient-text">Connect</span>
+        <p class="section-tag">Get In Touch</p>
+        <h2 class="section-title">Let's <span class="gradient-text">Connect</span>
         </h2>
-        <p class="section-sub" data-en="Open to internships, collaborations, and full-time opportunities"
-          data-tr="Stajlara, işbirliklerine ve tam zamanlı fırsatlara açık">Open to internships, collaborations, and
+        <p class="section-sub">Open to internships, collaborations, and
           full-time opportunities</p>
       </div>
 
       <div class="grid md:grid-cols-2 gap-10 mt-14">
         <!-- Info -->
         <div class="reveal" style="--delay:0.1s">
-          <p class="text-gray-400 mb-8 leading-relaxed"
-            data-en="Whether you have a project idea, an opportunity, or just want to say hi — my inbox is always open. I'll do my best to get back to you!"
-            data-tr="Bir proje fikriniz, bir fırsatınız olsun veya sadece merhaba demek isteyin — gelen kutum her zaman açık. Size geri dönmek için elimden geleni yapacağım!">
+          <p class="text-gray-400 mb-8 leading-relaxed">
             Whether you have a project idea, an opportunity, or just want to
             say hi — my inbox is always open. I'll do my best to get back to you!</p>
           <div class="space-y-4">
@@ -449,7 +399,7 @@
             </a>
             <div class="contact-info-item">
               <span class="contact-icon"><i class="fas fa-map-marker-alt"></i></span>
-              <span data-en="Nicosia, North Cyprus" data-tr="Lefkoşa, Kuzey Kıbrıs">Nicosia, North Cyprus</span>
+              <span>Nicosia, North Cyprus</span>
             </div>
           </div>
           <!-- Social Links -->
@@ -467,27 +417,23 @@
         <div class="glass-form reveal" style="--delay:0.2s">
           <form id="contactForm" onsubmit="handleSubmit(event)" class="space-y-4">
             <div>
-              <label class="form-label" for="name" data-en="Name" data-tr="Ad Soyad">Name</label>
-              <input id="name" name="from_name" type="text" class="form-input" placeholder="Your Name and Surname"
-                data-placeholder-en="Your Name and Surname" data-placeholder-tr="Adınız ve Soyadınız" minlength="5" required />
+              <label class="form-label" for="name">Name</label>
+              <input id="name" name="from_name" type="text" class="form-input" placeholder="Your Name and Surname" minlength="5" required />
             </div>
             <div>
-              <label class="form-label" for="email" data-en="Email" data-tr="E-posta">Email</label>
-              <input id="email" name="reply_to" type="email" class="form-input" placeholder="Your Mail Address"
-                data-placeholder-en="Your Mail Address" data-placeholder-tr="Mail Adresiniz" minlength="5" required />
+              <label class="form-label" for="email">Email</label>
+              <input id="email" name="reply_to" type="email" class="form-input" placeholder="Your Mail Address" minlength="5" required />
             </div>
             <div>
-              <label class="form-label" for="message" data-en="Message" data-tr="Mesaj">Message</label>
+              <label class="form-label" for="message">Message</label>
               <textarea id="message" rows="4" class="form-input resize-none"
                 placeholder="Tell me anything..."
-                data-placeholder-en="Tell me anything..."
-                data-placeholder-tr="Bana aklınızdakini söyleyin..."
                 minlength="5" required></textarea>
             </div>
             <button type="submit" id="submitBtn" disabled
               class="w-full py-3 rounded-xl font-semibold flex items-center justify-center gap-2 opacity-40 cursor-not-allowed transition-all duration-200" style="background:#25d366;color:#fff">
               <i class="fab fa-whatsapp text-xl"></i>
-              <span data-en="Connect on WhatsApp" data-tr="WhatsApp'tan Yaz">Connect on WhatsApp</span>
+              <span>Connect on WhatsApp</span>
             </button>
           </form>
         </div>
@@ -511,6 +457,18 @@
       </div>
     </div>
   </footer>
+
+  <div id="google_translate_element" style="display:none !important"></div>
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({
+        pageLanguage: 'en',
+        includedLanguages: 'en,tr',
+        autoDisplay: false
+      }, 'google_translate_element');
+    }
+  </script>
+  <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
   <script src="main.js"></script>
 </body>
