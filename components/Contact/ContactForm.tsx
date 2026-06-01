@@ -4,6 +4,7 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { WhatsAppIcon } from "@/components/Icons";
 import { useLang } from "@/lib/i18n";
+import { LIMITS, validateContact } from "@/lib/validation";
 
 const inputClass =
   "w-full border-2 border-border bg-bg px-4 py-3 font-mono text-sm text-text placeholder:text-muted/60 transition-colors focus:border-accent focus:outline-none";
@@ -24,18 +25,14 @@ export default function ContactForm() {
     if (error) setError(false);
   };
 
-  const isValid = () =>
-    form.name.trim() && form.message.trim();
-
-  const buildBody = () =>
-    `Name: ${form.name}\n\n${form.message}`;
-
   const sendWhatsApp = () => {
-    if (!isValid()) {
+    const { ok, values } = validateContact(form);
+    if (!ok) {
       setError(true);
       return;
     }
-    const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(buildBody())}`;
+    const body = `Name: ${values.name}\n\n${values.message}`;
+    const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(body)}`;
     window.open(url, "_blank", "noopener,noreferrer");
   };
 
@@ -56,6 +53,8 @@ export default function ContactForm() {
             value={form.name}
             onChange={handleChange}
             placeholder={c.namePlaceholder}
+            maxLength={LIMITS.name}
+            autoComplete="name"
             className={inputClass}
           />
         </div>
@@ -74,6 +73,7 @@ export default function ContactForm() {
             value={form.message}
             onChange={handleChange}
             placeholder={c.messagePlaceholder}
+            maxLength={LIMITS.message}
             className={`${inputClass} resize-none`}
           />
         </div>

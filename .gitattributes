@@ -1,0 +1,22 @@
+# Normalize line endings: stored as LF in the repo, checked out native.
+* text=auto eol=lf
+
+# Binary assets — never diffed or EOL-converted.
+*.png   binary
+*.jpg   binary
+*.jpeg  binary
+*.gif   binary
+*.ico   binary
+*.webp  binary
+*.woff  binary
+*.woff2 binary
+*.pdf   binary
+
+# Keep secrets and local/dev cruft out of `git archive` / source tarballs.
+# (This does NOT affect normal commits — .gitignore already prevents env files
+#  from being tracked. This is defense-in-depth for export/release artifacts.)
+.env*           export-ignore
+.gitattributes  export-ignore
+.gitignore      export-ignore
+.github/        export-ignore
+SECURITY.md     export-ignore
