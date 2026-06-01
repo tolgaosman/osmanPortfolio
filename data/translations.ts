@@ -7,7 +7,7 @@ export const en = {
     work: "_work",
     skills: "_skills",
     contact: "_contact",
-    hireMe: "hire_me()",
+    hireMe: "contact",
   },
   hero: {
     badge: "available for new projects",
@@ -116,7 +116,7 @@ export const tr: Dict = {
     work: "_projeler",
     skills: "_yetenekler",
     contact: "_iletisim",
-    hireMe: "benimle_çalış()",
+    hireMe: "iletişim",
   },
   hero: {
     badge: "yeni projelere açığım",

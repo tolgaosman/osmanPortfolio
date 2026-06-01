@@ -6,7 +6,7 @@ import { cn, smoothScrollTo } from "@/lib/utils";
 import { useLang } from "@/lib/i18n";
 import LanguageToggle from "@/components/LanguageToggle";
 
-const LINK_IDS = ["home", "about", "projects", "skills"] as const;
+const LINK_IDS = ["home", "about", "projects", "skills", "contact"] as const;
 
 export default function NavBar() {
   const { t } = useLang();
