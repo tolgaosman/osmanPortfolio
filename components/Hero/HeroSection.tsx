@@ -5,6 +5,7 @@ import StatusDashboard from "./StatusDashboard";
 import TypewriterText from "./TypewriterText";
 import { ArrowUpRightIcon } from "@/components/Icons";
 import { useLang } from "@/lib/i18n";
+import { smoothScrollTo } from "@/lib/utils";
 
 const container = {
   hidden: {},
@@ -26,8 +27,7 @@ export default function HeroSection() {
   const { t } = useLang();
   const h = t.hero;
 
-  const scrollTo = (id: string) =>
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+  const scrollTo = (id: string) => smoothScrollTo(id);
 
   return (
     <section

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { cn } from "@/lib/utils";
+import { cn, smoothScrollTo } from "@/lib/utils";
 import { useLang } from "@/lib/i18n";
 import LanguageToggle from "@/components/LanguageToggle";
 
@@ -46,7 +46,7 @@ export default function NavBar() {
 
   const go = (id: string) => {
     setMenuOpen(false);
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    smoothScrollTo(id);
   };
 
   return (

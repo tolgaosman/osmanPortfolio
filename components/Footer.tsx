@@ -34,8 +34,6 @@ export default function Footer() {
             );
           })}
         </div>
-
-        <p className="font-mono text-xs text-muted">{t.footer.built}</p>
       </div>
     </footer>
   );
