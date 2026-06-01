@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import SectionHeading from "@/components/SectionHeading";
 import ContactForm from "./ContactForm";
 import { socialLinks } from "@/data/skills";
@@ -10,6 +11,24 @@ import { useLang } from "@/lib/i18n";
 export default function ContactSection() {
   const { t } = useLang();
   const c = t.contact;
+
+  const [copied, setCopied] = useState<string | null>(null);
+
+  // On desktop, mailto:/tel: silently do nothing when no mail/phone handler is
+  // configured. Copy the value to the clipboard as a reliable fallback while
+  // still letting the native link fire on devices that support it.
+  const copy = (value: string) => {
+    navigator.clipboard?.writeText(value).then(
+      () => {
+        setCopied(value);
+        setTimeout(() => setCopied((v) => (v === value ? null : v)), 2000);
+      },
+      () => {},
+    );
+  };
+
+  const EMAIL = "tofbusiness2002@gmail.com";
+  const PHONE = "+90 533 834 6699";
 
   return (
     <section id="contact" className="relative py-24 sm:py-32">
@@ -81,7 +100,9 @@ export default function ContactSection() {
 
             <div className="space-y-3">
               <a
-                href="mailto:tofbusiness2002@gmail.com"
+                href="https://mail.google.com/mail/?view=cm&fs=1&to=tofbusiness2002@gmail.com"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="group flex items-center justify-between border-2 border-accent bg-accent/10 p-4 transition-colors hover:bg-accent/20"
               >
                 <span className="break-all font-mono text-sm text-accent">
