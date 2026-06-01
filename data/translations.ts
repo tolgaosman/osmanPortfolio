@@ -80,7 +80,7 @@ export const en = {
     highlights: [
       { value: "3", label: "client projects" },
       { value: "10+", label: "GitHub repos" },
-      { value: "2", label: "languages spoken" },
+      { value: "2", label: "languages i am fluent in" },
       { value: "∞", label: "cups of coffee" },
     ],
   },
@@ -189,7 +189,7 @@ export const tr: Dict = {
     highlights: [
       { value: "3", label: "müşteri projesi" },
       { value: "10+", label: "GitHub deposu" },
-      { value: "2", label: "konuşulan dil" },
+      { value: "2", label: "akıcı konuştuğum diller" },
       { value: "∞", label: "fincan kahve" },
     ],
   },

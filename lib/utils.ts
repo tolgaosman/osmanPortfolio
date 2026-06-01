@@ -14,15 +14,30 @@ export const asset = (path: string) =>
 export function smoothScrollTo(id: string, offset = 80) {
   if (typeof window === "undefined") return;
   const element = document.getElementById(id);
-  if (element) {
-    const bodyRect = document.body.getBoundingClientRect().top;
-    const elementRect = element.getBoundingClientRect().top;
-    const elementPosition = elementRect - bodyRect;
-    const offsetPosition = elementPosition - offset;
+  if (!element) return;
 
-    window.scrollTo({
-      top: offsetPosition,
-      behavior: "smooth",
-    });
+  const targetPosition = element.getBoundingClientRect().top + window.scrollY - offset;
+  const startPosition = window.scrollY;
+  const distance = targetPosition - startPosition;
+  const duration = 600; // milliseconds
+  let start: number | null = null;
+
+  function animation(currentTime: number) {
+    if (start === null) start = currentTime;
+    const timeElapsed = currentTime - start;
+    const progress = Math.min(timeElapsed / duration, 1);
+
+    // easeInOutQuad easing function for a smooth slide
+    const ease = progress < 0.5
+      ? 2 * progress * progress
+      : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+
+    window.scrollTo(0, startPosition + distance * ease);
+
+    if (timeElapsed < duration) {
+      requestAnimationFrame(animation);
+    }
   }
+
+  requestAnimationFrame(animation);
 }

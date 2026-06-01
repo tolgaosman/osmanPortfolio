@@ -30,9 +30,6 @@ export const metadata: Metadata = {
     "Tolga Osman",
   ],
   authors: [{ name: "Tolga Osman" }],
-  icons: {
-    icon: "/browserLogo.png",
-  },
   openGraph: {
     title: "Tolga Osman — Software Engineering Student & Web/Mobile Developer",
     description:
