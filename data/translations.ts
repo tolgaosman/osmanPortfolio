@@ -1,0 +1,217 @@
+export type Lang = "en" | "tr";
+
+export const en = {
+  nav: {
+    home: "_home",
+    about: "_about",
+    work: "_work",
+    skills: "_skills",
+    contact: "_contact",
+    hireMe: "hire_me()",
+  },
+  hero: {
+    badge: "available for new projects",
+    role: "Software Engineering Student & Web / Mobile App Developer",
+    buildPrefix: "I build",
+    typewriter: ["websites.", "mobile apps.", "fast and scalable."],
+    description:
+      "Software Engineering student at Eastern Mediterranean University, building clean, scalable web and mobile experiences end-to-end — from interface to deployment.",
+    viewWork: "view_work",
+    contactMe: "contact_me",
+    tagWeb: "Web · HTML / CSS / JS",
+    tagMobile: "Mobile · Flutter",
+    tagTools: "Tools · Git / AI",
+    scroll: "scroll",
+  },
+  dashboard: {
+    file: "system_status.sh",
+    uptime: "UPTIME",
+    stack: "STACK",
+    ready: "READY",
+    projects: "PROJECTS",
+    languages: "LANGUAGES",
+    status: "STATUS",
+    available: "AVAILABLE",
+    prompt: "ready",
+  },
+  about: {
+    index: "01 // about",
+    title: "Who Am I",
+    subtitle: "A bit about the person behind the code.",
+    p1: "Born in Nicosia and a student at Eastern Mediterranean University, I am a dedicated software developer driven by a passion for creating impactful digital experiences. My technical foundation is built on HTML, CSS, JavaScript, TypeScript, and Python, allowing me to build seamless, functional, and user-centric applications.",
+    p2: "Beyond the code, I pride myself on strong communication skills and the ability to adapt quickly to new challenges and evolving technologies. I don't just build software; I find genuine joy in delivering high-quality service and solving complex problems that make a difference for my clients.",
+    p3: "Whether it's crafting a sleek front-end interface or developing robust back-end logic, I approach every project with enthusiasm and a commitment to excellence. I am always ready to learn, grow, and contribute to innovative projects.",
+    factLocationLabel: "Location",
+    factLocation: "Nicosia, North Cyprus",
+    factEducationLabel: "Education",
+    factEducation: "Eastern Mediterranean University (Senior)",
+    factLanguagesLabel: "Languages",
+    factLanguages: "Turkish · English",
+    downloadCv: "download_cv",
+  },
+  projects: {
+    index: "02 // work",
+    title: "Selected Projects",
+    subtitle:
+      "Real client work I've designed, built, and shipped. Hover a card to peek the stack.",
+    all: "all",
+    web: "web",
+    source: "source",
+    live: "live",
+    privateRepo: "private repo",
+    status: {
+      live: "LIVE",
+      soon: "SOON",
+      wip: "WIP",
+      prod: "PROD",
+    },
+  },
+  skills: {
+    index: "03 // stack",
+    title: "Skills & Ecosystem",
+    subtitle:
+      "Capabilities across the product lifecycle — from interface to tooling.",
+    categories: {
+      web: "Web Development",
+      languages: "Languages & Mobile",
+      tools: "Tools & AI",
+    },
+    highlights: [
+      { value: "3", label: "client projects" },
+      { value: "10+", label: "GitHub repos" },
+      { value: "2", label: "languages spoken" },
+      { value: "∞", label: "cups of coffee" },
+    ],
+  },
+  contact: {
+    index: "04 // contact",
+    title: "Let's Build Together",
+    subtitle:
+      "Open to internships, freelance work, and interesting collaborations. Drop a line.",
+    available: "currently available",
+    availableNote:
+      "Based in Cyprus · responding within 24h · happy to work across timezones.",
+    nameLabel: "name",
+    emailLabel: "email",
+    messageLabel: "message",
+    namePlaceholder: "Jane Doe",
+    emailPlaceholder: "jane@company.com",
+    messagePlaceholder: "Let's build something together...",
+    whatsappLabel: "send_via_whatsapp()",
+    emailLabelBtn: "send_via_email()",
+    validationNote: "// Please fill in all fields.",
+  },
+  footer: {
+    built: "built with Next.js + Framer Motion",
+  },
+};
+
+export type Dict = typeof en;
+
+export const tr: Dict = {
+  nav: {
+    home: "_anasayfa",
+    about: "_hakkimda",
+    work: "_projeler",
+    skills: "_yetenekler",
+    contact: "_iletisim",
+    hireMe: "benimle_çalış()",
+  },
+  hero: {
+    badge: "yeni projelere açığım",
+    role: "Yazılım Mühendisliği Öğrencisi & Web / Mobil Uygulama Geliştirici",
+    buildPrefix: "",
+    typewriter: ["web siteleri.", "mobil uygulamalar.", "hızlı ve ölçeklenebilir."],
+    description:
+      "Doğu Akdeniz Üniversitesi Yazılım Mühendisliği öğrencisiyim; arayüzden dağıtıma kadar uçtan uca temiz ve ölçeklenebilir web ve mobil deneyimler geliştiriyorum.",
+    viewWork: "projeleri_gör",
+    contactMe: "iletişime_geç",
+    tagWeb: "Web · HTML / CSS / JS",
+    tagMobile: "Mobil · Flutter",
+    tagTools: "Araçlar · Git / AI",
+    scroll: "kaydır",
+  },
+  dashboard: {
+    file: "system_status.sh",
+    uptime: "ÇALIŞMA",
+    stack: "YIĞIN",
+    ready: "HAZIR",
+    projects: "PROJELER",
+    languages: "DİLLER",
+    status: "DURUM",
+    available: "MÜSAİT",
+    prompt: "hazır",
+  },
+  about: {
+    index: "01 // hakkımda",
+    title: "Ben Kimim",
+    subtitle: "Kodun arkasındaki kişi hakkında birkaç söz.",
+    p1: "Lefkoşa doğumlu ve Doğu Akdeniz Üniversitesi öğrencisi olarak, etkili dijital deneyimler yaratma tutkusuyla çalışan kendini adamış bir yazılım geliştiricisiyim. Teknik temelim HTML, CSS, JavaScript, TypeScript ve Python üzerine kurulu; bu sayede akıcı, işlevsel ve kullanıcı odaklı uygulamalar geliştirebiliyorum.",
+    p2: "Kodun ötesinde, güçlü iletişim becerilerim ve yeni zorluklara ve gelişen teknolojilere hızla uyum sağlama yeteneğimle gurur duyuyorum. Sadece yazılım geliştirmiyorum; yüksek kaliteli hizmet sunmaktan ve müşterilerim için fark yaratan karmaşık sorunları çözmekten gerçek bir keyif alıyorum.",
+    p3: "İster şık bir ön yüz arayüzü tasarlamak ister sağlam bir arka uç mantığı geliştirmek olsun, her projeye coşkuyla ve mükemmellik taahhüdüyle yaklaşıyorum. Her zaman öğrenmeye, gelişmeye ve yenilikçi projelere katkıda bulunmaya hazırım.",
+    factLocationLabel: "Konum",
+    factLocation: "Lefkoşa, Kuzey Kıbrıs",
+    factEducationLabel: "Eğitim",
+    factEducation: "Doğu Akdeniz Üniversitesi (Son sınıf)",
+    factLanguagesLabel: "Diller",
+    factLanguages: "Türkçe · İngilizce",
+    downloadCv: "özgeçmiş_indir",
+  },
+  projects: {
+    index: "02 // projeler",
+    title: "Seçilmiş Projeler",
+    subtitle:
+      "Tasarladığım, geliştirdiğim ve yayına aldığım gerçek müşteri çalışmaları. Yığını görmek için karta gel.",
+    all: "tümü",
+    web: "web",
+    source: "kaynak",
+    live: "canlı",
+    privateRepo: "özel depo",
+    status: {
+      live: "CANLI",
+      soon: "YAKINDA",
+      wip: "DEVAM",
+      prod: "YAYINDA",
+    },
+  },
+  skills: {
+    index: "03 // yığın",
+    title: "Yetenekler & Ekosistem",
+    subtitle:
+      "Ürün yaşam döngüsü boyunca yetkinlikler — arayüzden araçlara kadar.",
+    categories: {
+      web: "Web Geliştirme",
+      languages: "Diller & Mobil",
+      tools: "Araçlar & AI",
+    },
+    highlights: [
+      { value: "3", label: "müşteri projesi" },
+      { value: "10+", label: "GitHub deposu" },
+      { value: "2", label: "konuşulan dil" },
+      { value: "∞", label: "fincan kahve" },
+    ],
+  },
+  contact: {
+    index: "04 // iletişim",
+    title: "Birlikte İnşa Edelim",
+    subtitle:
+      "Staj, serbest çalışma ve ilginç iş birliklerine açığım. Bir mesaj bırak.",
+    available: "şu anda müsait",
+    availableNote:
+      "Kıbrıs merkezli · 24 saat içinde yanıt · farklı zaman dilimlerinde çalışmaya hazır.",
+    nameLabel: "isim",
+    emailLabel: "e-posta",
+    messageLabel: "mesaj",
+    namePlaceholder: "Ayşe Yılmaz",
+    emailPlaceholder: "ayse@sirket.com",
+    messagePlaceholder: "Hadi birlikte bir şeyler geliştirelim...",
+    whatsappLabel: "whatsapptan_gönder()",
+    emailLabelBtn: "mail_ile_gönder()",
+    validationNote: "// Lütfen tüm alanları doldurun.",
+  },
+  footer: {
+    built: "Next.js + Framer Motion ile geliştirildi",
+  },
+};
+
+export const dict: Record<Lang, Dict> = { en, tr };
