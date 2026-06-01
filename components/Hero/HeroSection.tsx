@@ -95,7 +95,7 @@ export default function HeroSection() {
 
           <motion.div
             variants={item}
-            className="mt-10 flex items-center gap-6 font-mono text-xs text-muted"
+            className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-2 font-mono text-xs text-muted"
           >
             <span>
               <span className="text-text">Web</span> · HTML / CSS / JS

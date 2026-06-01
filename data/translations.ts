@@ -47,6 +47,7 @@ export const en = {
     factEducation: "Eastern Mediterranean University (Senior)",
     factLanguagesLabel: "Languages",
     factLanguages: "Turkish · English",
+    viewCv: "view_cv",
     downloadCv: "download_cv",
   },
   projects: {
@@ -155,6 +156,7 @@ export const tr: Dict = {
     factEducation: "Doğu Akdeniz Üniversitesi (Son sınıf)",
     factLanguagesLabel: "Diller",
     factLanguages: "Türkçe · İngilizce",
+    viewCv: "özgeçmiş",
     downloadCv: "özgeçmiş_indir",
   },
   projects: {

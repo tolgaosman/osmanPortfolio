@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { asset } from "@/lib/utils";
 import { useLang } from "@/lib/i18n";
 
 const item = {
@@ -55,7 +56,7 @@ export default function AboutSection() {
           >
             <div className="border-2 border-accent shadow-neo shadow-glow">
               <Image
-                src="/osman_foto.jpeg"
+                src={asset("/osman_foto.jpeg")}
                 alt="Tolga Osman"
                 width={288}
                 height={360}
@@ -103,12 +104,32 @@ export default function AboutSection() {
               ))}
             </motion.div>
 
-            {/* CV download */}
-            <motion.div variants={item}>
+            {/* CV Actions */}
+            <motion.div variants={item} className="mt-4 flex flex-wrap gap-4">
               <a
-                href="/osman cv.pdf"
+                href={asset("/osman cv.pdf")}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group inline-flex items-center gap-2 border-2 border-border px-5 py-2.5 font-mono text-sm font-bold text-text transition-colors hover:border-accent hover:text-accent"
+              >
+                {a.viewCv}
+                <svg
+                  className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden
+                >
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14 21 3" />
+                </svg>
+              </a>
+              <a
+                href={asset("/osman cv.pdf")}
                 download
-                className="group mt-4 inline-flex items-center gap-2 border-2 border-border px-5 py-2.5 font-mono text-sm font-bold text-text transition-colors hover:border-accent hover:text-accent"
+                className="group inline-flex items-center gap-2 border-2 border-border px-5 py-2.5 font-mono text-sm font-bold text-text transition-colors hover:border-accent hover:text-accent"
               >
                 {a.downloadCv}
                 <svg
