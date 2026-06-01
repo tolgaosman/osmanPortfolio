@@ -99,15 +99,15 @@ export default function NavBar() {
               </li>
             ))}
           </ul>
-          <div className="ml-3">
-            <LanguageToggle />
-          </div>
           <button
             onClick={() => go("contact")}
             className="ml-3 border-2 border-accent bg-accent px-4 py-1.5 font-mono text-sm font-bold text-bg shadow-neo-sm transition-transform hover:-translate-x-0.5 hover:-translate-y-0.5 active:translate-x-0 active:translate-y-0"
           >
             {t.nav.hireMe}
           </button>
+          <div className="ml-3">
+            <LanguageToggle />
+          </div>
         </div>
 
         {/* Mobile toggle */}
