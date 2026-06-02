@@ -47,8 +47,8 @@ export default function ContactForm() {
     } else {
       const subject = `Portfolio contact — ${values.name}`;
       const body = `Name: ${values.name}\nPhone: ${values.contact}\n\n${values.message}`;
-      const url = `mailto:${EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-      window.location.href = url;
+      const url = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(EMAIL)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      window.open(url, "_blank", "noopener,noreferrer");
     }
   };
 
