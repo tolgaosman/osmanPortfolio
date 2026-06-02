@@ -50,6 +50,16 @@ export const projects: Project[] = [
         tr: "Tasarım + Ön yüz geliştirme",
       },
       year: "2024",
+      images: [
+        "/screenshots/alara-soysan/alara1.png",
+        "/screenshots/alara-soysan/alara2.png",
+        "/screenshots/alara-soysan/alara3.png",
+        "/screenshots/alara-soysan/alara4.png",
+        "/screenshots/alara-soysan/alara5.png",
+        "/screenshots/alara-soysan/alara6.png",
+        "/screenshots/alara-soysan/alara7.png",
+        "/screenshots/alara-soysan/alara8.png",
+      ],
     },
   },
   {
