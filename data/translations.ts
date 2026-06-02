@@ -97,6 +97,9 @@ export const en = {
       "Teamwork",
       "Adaptability",
       "Quick Learning",
+      "Problem Solving",
+      "Critical Thinking",
+      "Time Management",
     ],
     highlights: [
       { value: "3", label: "client projects" },
@@ -231,6 +234,9 @@ export const tr: Dict = {
       "Takım Çalışması",
       "Uyumluluk",
       "Hızlı Öğrenme",
+      "Problem Çözme",
+      "Analitik Düşünme",
+      "Zaman Yönetimi",
     ],
     highlights: [
       { value: "3", label: "müşteri projesi" },

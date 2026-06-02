@@ -6,6 +6,25 @@ import SectionHeading from "@/components/SectionHeading";
 import SkillColumn from "./SkillColumn";
 import { skillCategories } from "@/data/skills";
 import { useLang } from "@/lib/i18n";
+import {
+  MessageSquare,
+  Users,
+  Shuffle,
+  Zap,
+  Search,
+  Lightbulb,
+  Clock,
+} from "lucide-react";
+
+const softSkillIcons = [
+  MessageSquare,
+  Users,
+  Shuffle,
+  Zap,
+  Search,
+  Lightbulb,
+  Clock,
+];
 
 export default function SkillsSection() {
   const { t } = useLang();
@@ -36,19 +55,22 @@ export default function SkillsSection() {
             </h3>
             <span className="font-mono text-xs text-accent">~/soft</span>
           </div>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-4">
-            {s.softSkills.map((skill: string, i: number) => (
-              <motion.div
-                key={skill}
-                initial={{ opacity: 0, y: 16 }}
-                animate={inView ? { opacity: 1, y: 0 } : {}}
-                transition={{ delay: 0.3 + i * 0.1, duration: 0.4 }}
-                className="flex items-center gap-3 border border-accent/40 bg-accent/10 px-4 py-3"
-              >
-                <div className="h-2 w-2 rounded-full bg-accent shadow-glow-sm" />
-                <span className="font-mono text-sm font-semibold text-accent">{skill}</span>
-              </motion.div>
-            ))}
+          <div className="flex flex-wrap gap-2">
+            {s.softSkills.map((skill: string, i: number) => {
+              const Icon = softSkillIcons[i] || Zap;
+              return (
+                <motion.div
+                  key={skill}
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={inView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ delay: 0.3 + i * 0.1, duration: 0.4 }}
+                  className="flex items-center gap-2 border border-accent/40 bg-accent/10 px-3 py-1.5 transition-colors hover:bg-accent/20"
+                >
+                  <Icon className="h-4 w-4 text-accent" />
+                  <span className="font-mono text-xs text-accent">{skill}</span>
+                </motion.div>
+              );
+            })}
           </div>
         </div>
 
