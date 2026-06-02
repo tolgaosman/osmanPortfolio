@@ -12,7 +12,13 @@ const statusColor: Record<ProjectStatus, string> = {
   prod: "text-[#28c840] border-[#28c840]/40",
 };
 
-export default function ProjectCard({ project }: { project: Project }) {
+export default function ProjectCard({
+  project,
+  onSelect,
+}: {
+  project: Project;
+  onSelect: (project: Project) => void;
+}) {
   const { lang, t } = useLang();
   const p = t.projects;
 
@@ -24,7 +30,17 @@ export default function ProjectCard({ project }: { project: Project }) {
       exit={{ opacity: 0, scale: 0.95 }}
       transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
       whileHover={{ y: -6, x: -6 }}
-      className="group flex h-full flex-col border-2 border-border bg-surface transition-shadow duration-200 hover:shadow-neo"
+      role="button"
+      tabIndex={0}
+      aria-label={project.title[lang]}
+      onClick={() => onSelect(project)}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          onSelect(project);
+        }
+      }}
+      className="group flex h-full cursor-pointer flex-col border-2 border-border bg-surface transition-shadow duration-200 hover:shadow-neo focus:outline-none focus-visible:shadow-neo"
     >
       {/* Window title bar */}
       <div className="flex items-center justify-between border-b-2 border-border bg-surface-2 px-3 py-2">
@@ -70,34 +86,41 @@ export default function ProjectCard({ project }: { project: Project }) {
           </div>
 
           {/* Links */}
-          <div className="flex items-center gap-3 border-t border-border pt-4">
-            {project.github && (
-              <a
-                href={project.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 font-mono text-xs text-muted transition-colors hover:text-text"
-              >
-                <GitHubIcon className="h-4 w-4" />
-                {p.source}
-              </a>
-            )}
-            {project.live && (
-              <a
-                href={project.live}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 font-mono text-xs text-accent transition-colors hover:text-text"
-              >
-                <ArrowUpRightIcon className="h-4 w-4" />
-                {p.live}
-              </a>
-            )}
-            {!project.github && !project.live && (
-              <span className="font-mono text-xs text-muted/60">
-                {p.privateRepo}
-              </span>
-            )}
+          <div className="flex items-center justify-between gap-3 border-t border-border pt-4">
+            <div className="flex items-center gap-3">
+              {project.github && (
+                <a
+                  href={project.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={(e) => e.stopPropagation()}
+                  className="inline-flex items-center gap-1.5 font-mono text-xs text-muted transition-colors hover:text-text"
+                >
+                  <GitHubIcon className="h-4 w-4" />
+                  {p.source}
+                </a>
+              )}
+              {project.live && (
+                <a
+                  href={project.live}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={(e) => e.stopPropagation()}
+                  className="inline-flex items-center gap-1.5 font-mono text-xs text-accent transition-colors hover:text-text"
+                >
+                  <ArrowUpRightIcon className="h-4 w-4" />
+                  {p.live}
+                </a>
+              )}
+              {!project.github && !project.live && (
+                <span className="font-mono text-xs text-muted/60">
+                  {p.privateRepo}
+                </span>
+              )}
+            </div>
+            <span className="font-mono text-xs text-muted/50 transition-colors group-hover:text-accent">
+              {p.viewDetails} →
+            </span>
           </div>
         </div>
       </div>

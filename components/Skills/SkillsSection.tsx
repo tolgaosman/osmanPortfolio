@@ -28,6 +28,30 @@ export default function SkillsSection() {
           ))}
         </div>
 
+        {/* Soft Skills */}
+        <div className="mt-6 border-2 border-border bg-surface p-6 transition-shadow hover:shadow-neo-border sm:p-8">
+          <div className="mb-6 flex items-center justify-between border-b-2 border-border pb-4">
+            <h3 className="font-mono text-lg font-bold text-text">
+              {s.softSkillsTitle}
+            </h3>
+            <span className="font-mono text-xs text-accent">~/soft</span>
+          </div>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-4">
+            {s.softSkills.map((skill: string, i: number) => (
+              <motion.div
+                key={skill}
+                initial={{ opacity: 0, y: 16 }}
+                animate={inView ? { opacity: 1, y: 0 } : {}}
+                transition={{ delay: 0.3 + i * 0.1, duration: 0.4 }}
+                className="flex items-center gap-3 border border-accent/40 bg-accent/10 px-4 py-3"
+              >
+                <div className="h-2 w-2 rounded-full bg-accent shadow-glow-sm" />
+                <span className="font-mono text-sm font-semibold text-accent">{skill}</span>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+
         {/* Highlight strip */}
         <div
           ref={ref}

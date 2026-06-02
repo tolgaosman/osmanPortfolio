@@ -4,8 +4,9 @@ import { useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import SectionHeading from "@/components/SectionHeading";
 import ProjectCard from "./ProjectCard";
+import ProjectModal from "./ProjectModal";
 import { PROJECT_CATEGORIES, projects } from "@/data/projects";
-import type { ProjectCategory } from "@/types";
+import type { Project, ProjectCategory } from "@/types";
 import { cn } from "@/lib/utils";
 import { useLang } from "@/lib/i18n";
 
@@ -15,6 +16,7 @@ export default function ProjectsSection() {
   const { t } = useLang();
   const p = t.projects;
   const [filter, setFilter] = useState<Filter>("All");
+  const [selected, setSelected] = useState<Project | null>(null);
 
   const filterLabel = (cat: Filter) => {
     if (cat === "All") return p.all;
@@ -80,11 +82,24 @@ export default function ProjectsSection() {
         >
           <AnimatePresence mode="popLayout">
             {visible.map((project) => (
-              <ProjectCard key={project.id} project={project} />
+              <ProjectCard
+                key={project.id}
+                project={project}
+                onSelect={setSelected}
+              />
             ))}
           </AnimatePresence>
         </motion.div>
       </div>
+
+      <AnimatePresence>
+        {selected && (
+          <ProjectModal
+            project={selected}
+            onClose={() => setSelected(null)}
+          />
+        )}
+      </AnimatePresence>
     </section>
   );
 }
