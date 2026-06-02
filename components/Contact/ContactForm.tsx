@@ -48,7 +48,7 @@ export default function ContactForm() {
       const subject = `Portfolio contact — ${values.name}`;
       const body = `Name: ${values.name}\nPhone: ${values.contact}\n\n${values.message}`;
       const url = `mailto:${EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-      window.open(url, "_blank", "noopener,noreferrer");
+      window.location.href = url;
     }
   };
 
@@ -153,25 +153,18 @@ export default function ContactForm() {
 
         {/* Send button — swaps by channel */}
         <div>
-          {isMail ? (
-            <button
-              type="button"
-              onClick={send}
-              className="group flex w-full items-center justify-center gap-2 border-2 border-accent bg-accent/10 px-6 py-3.5 font-mono text-sm font-bold text-accent shadow-neo-sm transition-all hover:-translate-x-0.5 hover:-translate-y-0.5 hover:bg-accent hover:text-bg active:translate-x-0 active:translate-y-0"
-            >
+          <button
+            type="button"
+            onClick={send}
+            className="group flex w-full items-center justify-center gap-2 border-2 border-accent bg-accent px-6 py-3.5 font-mono text-sm font-bold text-bg shadow-neo-sm transition-transform hover:-translate-x-0.5 hover:-translate-y-0.5 active:translate-x-0 active:translate-y-0"
+          >
+            {isMail ? (
               <ExternalLinkIcon className="h-4 w-4" />
-              {c.emailLabelBtn}
-            </button>
-          ) : (
-            <button
-              type="button"
-              onClick={send}
-              className="group flex w-full items-center justify-center gap-2 border-2 border-accent bg-accent px-6 py-3.5 font-mono text-sm font-bold text-bg shadow-neo-sm transition-transform hover:-translate-x-0.5 hover:-translate-y-0.5 active:translate-x-0 active:translate-y-0"
-            >
+            ) : (
               <WhatsAppIcon className="h-4 w-4" />
-              {c.whatsappLabel}
-            </button>
-          )}
+            )}
+            {isMail ? c.emailLabelBtn : c.whatsappLabel}
+          </button>
         </div>
 
         <AnimatePresence>

@@ -107,7 +107,7 @@ export default function AboutSection() {
             {/* CV Actions */}
             <motion.div variants={item} className="mt-4 flex flex-wrap gap-4">
               <a
-                href={asset("/osman cv.pdf")}
+                href={asset("/cv")}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group inline-flex items-center gap-2 border-2 border-border px-5 py-2.5 font-mono text-sm font-bold text-text transition-colors hover:border-accent hover:text-accent"
