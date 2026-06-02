@@ -50,5 +50,5 @@ export interface SocialLink {
   label: string;
   handle: string;
   href: string;
-  icon: "github" | "linkedin" | "whatsapp" | "instagram";
+  icon: "github" | "linkedin" | "whatsapp" | "instagram" | "fiverr";
 }

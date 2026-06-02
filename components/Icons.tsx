@@ -1,5 +1,6 @@
 import type { SVGProps } from "react";
 import type { SocialLink } from "@/types";
+import { SiFiverr } from "@icons-pack/react-simple-icons";
 
 type IconProps = SVGProps<SVGSVGElement>;
 
@@ -128,4 +129,5 @@ export const SOCIAL_ICONS: Record<
   linkedin: LinkedInIcon,
   whatsapp: WhatsAppIcon,
   instagram: InstagramIcon,
+  fiverr: SiFiverr as any,
 };

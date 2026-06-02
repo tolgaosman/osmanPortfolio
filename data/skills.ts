@@ -51,4 +51,10 @@ export const socialLinks: SocialLink[] = [
     href: "https://www.instagram.com/toigaosman/",
     icon: "instagram",
   },
+  {
+    label: "Fiverr",
+    handle: "tolgaosmanf",
+    href: "https://www.fiverr.com/tolgaosmanf",
+    icon: "fiverr",
+  },
 ];
