@@ -25,6 +25,7 @@ Next.js 16 (App Router) · React 19 · TypeScript · **Tailwind CSS v4** · Fram
 - **Content is data-driven.** Edit [data/projects.ts](data/projects.ts) and [data/skills.ts](data/skills.ts) to change projects, skills, and social links — components map over these. Types are centralized in [types/index.ts](types/index.ts).
 - **Icons** are inline SVGs in [components/Icons.tsx](components/Icons.tsx) (no icon library); social icons are keyed via the `SOCIAL_ICONS` map.
 - **Contact form** ([components/Contact/ContactForm.tsx](components/Contact/ContactForm.tsx)) has no backend. Its two buttons open pre-filled links built from the form state: a green **WhatsApp** button (`wa.me/905338346699?text=...`) and a pastel-red **email** button (`mailto:tofbusiness2002@gmail.com?...`). Empty fields trigger an inline validation note.
+- **Project carousels.** Optional image carousels display project screenshots. Add an `images` array to `ProjectDetails` in [data/projects.ts](data/projects.ts) with paths like `/screenshots/project-id/image1.png`. Images are stored in `public/screenshots/` and rendered via the ProjectDetails modal. Currently used in Alara Soysan (8 images) and Dr. Çiğdem Dürüst (9 images) projects.
 
 ## Conventions
 
