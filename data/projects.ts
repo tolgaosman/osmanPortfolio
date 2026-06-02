@@ -109,6 +109,17 @@ export const projects: Project[] = [
         tr: "Tasarım + Tam yığın geliştirme",
       },
       year: "2024",
+      images: [
+        "/screenshots/cigdem-durut/cigdem1.png",
+        "/screenshots/cigdem-durut/cigdem2.png",
+        "/screenshots/cigdem-durut/cigdem3.png",
+        "/screenshots/cigdem-durut/cigdem4.png",
+        "/screenshots/cigdem-durut/cigdem5.png",
+        "/screenshots/cigdem-durut/cigdem6.png",
+        "/screenshots/cigdem-durut/cigdem7.png",
+        "/screenshots/cigdem-durut/cigdem8.png",
+        "/screenshots/cigdem-durut/cigdem9.png",
+      ],
     },
   },
   {
