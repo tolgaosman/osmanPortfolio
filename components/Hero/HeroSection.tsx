@@ -51,10 +51,10 @@ export default function HeroSection() {
 
           <motion.h1
             variants={item}
-            className="font-mono text-4xl font-bold leading-[1.05] tracking-tight sm:text-5xl lg:text-6xl xl:text-7xl"
+            className="font-mono text-3xl font-bold leading-[1.05] tracking-tight sm:text-4xl lg:text-5xl xl:text-6xl"
           >
-            <span className="block text-text">Tolga Osman Falay</span>
-            <span className="mt-2 block text-2xl text-muted sm:text-3xl lg:text-4xl">
+            <span className="block text-text whitespace-nowrap">Tolga Osman Falay</span>
+            <span className="mt-2 block text-xl text-muted sm:text-2xl lg:text-3xl whitespace-normal">
               <span className="text-accent">&gt;</span>{h.buildPrefix ? ` ${h.buildPrefix} ` : " "}
               <TypewriterText
                 words={h.typewriter}
