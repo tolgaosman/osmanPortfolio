@@ -53,7 +53,7 @@ export default function HeroSection() {
             variants={item}
             className="font-mono text-4xl font-bold leading-[1.05] tracking-tight sm:text-5xl lg:text-6xl xl:text-7xl"
           >
-            <span className="block text-text">Tolga Osman</span>
+            <span className="block text-text">Tolga Osman Falay</span>
             <span className="mt-2 block text-2xl text-muted sm:text-3xl lg:text-4xl">
               <span className="text-accent">&gt;</span>{h.buildPrefix ? ` ${h.buildPrefix} ` : " "}
               <TypewriterText
