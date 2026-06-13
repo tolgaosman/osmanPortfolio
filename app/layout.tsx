@@ -41,7 +41,7 @@ const CSP = [
 ].join("; ");
 
 export const metadata: Metadata = {
-  title: "Tolga Osman Falay — Software Engineering Student & Web/Mobile Developer",
+  title: "Tolga Osman — Software Engineering Student & Web/Mobile Developer",
   description:
     "Software Engineering student building clean, scalable web and mobile experiences — from interface to deployment.",
   keywords: [
