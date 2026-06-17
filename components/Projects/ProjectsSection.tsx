@@ -20,6 +20,7 @@ export default function ProjectsSection() {
 
   const filterLabel = (cat: Filter) => {
     if (cat === "All") return p.all;
+    if (cat === "Mobile") return p.mobile;
     return p.web;
   };
 

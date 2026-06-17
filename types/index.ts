@@ -1,4 +1,4 @@
-export type ProjectCategory = "Web";
+export type ProjectCategory = "Web" | "Mobile";
 
 export type ProjectStatus = "live" | "soon" | "wip" | "prod";
 

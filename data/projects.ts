@@ -1,8 +1,65 @@
 import type { Project, ProjectCategory } from "@/types";
 
-export const PROJECT_CATEGORIES: ("All" | ProjectCategory)[] = ["All", "Web"];
+export const PROJECT_CATEGORIES: ("All" | ProjectCategory)[] = ["All", "Web", "Mobile"];
 
 export const projects: Project[] = [
+  {
+    id: "habits-plus",
+    title: {
+      en: "Habits+",
+      tr: "Habits+",
+    },
+    description: {
+      en: "Flutter habit-tracking app with streak tracking, daily side quests, calendar history, and per-habit insights.",
+      tr: "Seri takibi, günlük yan görevler, takvim geçmişi ve alışkanlık bazlı içgörüler sunan Flutter alışkanlık takip uygulaması.",
+    },
+    category: "Mobile",
+    stack: ["Flutter", "Dart"],
+    github: null,
+    live: null,
+    status: "prod",
+    details: {
+      overview: {
+        en: "Habits+ is a mobile habit-tracking app built with Flutter, designed to turn daily routines into lasting behaviours. The home screen greets the user by name, shows a real-time completion ring, and lists today's habits with one-tap check-off. Habits are colour-coded by category — nutrition, hydration, fitness, productivity, learning — and each one tracks its own streak. A calendar-based History view logs completion rates day by day, while the Insights screen renders a GitHub-style activity heatmap per habit. Side Quests adds a gamified twist: three randomly generated challenges each day, rated Easy / Medium / Hard, with a countdown timer and a searchable archive of past quest sets.",
+        tr: "Habits+, Flutter ile geliştirilmiş ve günlük rutinleri kalıcı davranışlara dönüştürmek için tasarlanmış bir mobil alışkanlık takip uygulamasıdır. Ana ekran kullanıcıyı adıyla karşılar, gerçek zamanlı bir tamamlama halkası gösterir ve bugünkü alışkanlıkları tek dokunuşla işaretlenebilir şekilde listeler. Alışkanlıklar kategoriye göre renk kodlanır — beslenme, hidrasyon, fitness, üretkenlik, eğitim — ve her biri kendi serisini takip eder. Takvim tabanlı Geçmiş görünümü tamamlanma oranlarını gün gün kaydederken, İçgörüler ekranı her alışkanlık için GitHub tarzı bir aktivite ısı haritası oluşturur. Yan Görevler ise oyunlaştırılmış bir boyut katar: her gün rastgele üretilen üç görev, Kolay / Orta / Zor olarak derecelendirilir, geri sayım sayacı ve geçmiş görev setlerinin aranabilir arşiviyle birlikte sunulur.",
+      },
+      features: [
+        {
+          en: "Real-time completion ring and percentage counter on the home screen",
+          tr: "Ana ekranda gerçek zamanlı tamamlama halkası ve yüzde sayacı",
+        },
+        {
+          en: "Per-habit streak counter with flame indicator",
+          tr: "Alev göstergeli alışkanlık bazlı seri sayacı",
+        },
+        {
+          en: "Five habit categories with distinct colour coding (nutrition, hydration, fitness, productivity, learning)",
+          tr: "Farklı renk kodlarıyla beş alışkanlık kategorisi (beslenme, hidrasyon, fitness, üretkenlik, eğitim)",
+        },
+        {
+          en: "Calendar history view with daily completion rates and per-habit log",
+          tr: "Günlük tamamlanma oranları ve alışkanlık bazlı kayıt içeren takvim geçmişi",
+        },
+        {
+          en: "GitHub-style activity heatmap per habit in the Insights screen",
+          tr: "İçgörüler ekranında alışkanlık başına GitHub tarzı aktivite ısı haritası",
+        },
+        {
+          en: "Side Quests: daily Easy / Medium / Hard challenges with countdown timer and past-quest archive",
+          tr: "Yan Görevler: geri sayım sayacı ve geçmiş görev arşiviyle günlük Kolay / Orta / Zor görevler",
+        },
+        {
+          en: "New habit creation with category picker, repeat-day selector, and notification/alarm reminder",
+          tr: "Kategori seçici, tekrar günü ayarı ve bildirim/alarm hatırlatıcı ile yeni alışkanlık oluşturma",
+        },
+      ],
+      role: {
+        en: "Design + Mobile build",
+        tr: "Tasarım + Mobil geliştirme",
+      },
+      year: "2026",
+    },
+  },
   {
     id: "alara-soysan",
     title: {

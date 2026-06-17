@@ -1,16 +1,10 @@
 "use client";
 
 import { motion } from "framer-motion";
-import type { Project, ProjectStatus } from "@/types";
+import type { Project } from "@/types";
 import { ArrowUpRightIcon, GitHubIcon } from "@/components/Icons";
 import { useLang } from "@/lib/i18n";
 
-const statusColor: Record<ProjectStatus, string> = {
-  live: "text-[#28c840] border-[#28c840]/40",
-  soon: "text-[#febc2e] border-[#febc2e]/40",
-  wip: "text-accent border-accent/40",
-  prod: "text-[#28c840] border-[#28c840]/40",
-};
 
 export default function ProjectCard({
   project,
@@ -50,11 +44,6 @@ export default function ProjectCard({
           <span className="h-2.5 w-2.5 rounded-full bg-[#28c840]" />
         </div>
         <span className="font-mono text-xs text-muted">{project.id}.app</span>
-        <span
-          className={`border px-1.5 py-0.5 font-mono text-[10px] ${statusColor[project.status]}`}
-        >
-          {p.status[project.status]}
-        </span>
       </div>
 
       {/* Body */}
