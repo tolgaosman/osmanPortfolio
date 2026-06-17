@@ -15,7 +15,7 @@ export const projects: Project[] = [
     },
     category: "Mobile",
     stack: ["Flutter", "Dart"],
-    github: null,
+    github: "https://github.com/tolgaosman/mobil_habit_tracker",
     live: null,
     status: "prod",
     details: {
@@ -58,6 +58,15 @@ export const projects: Project[] = [
         tr: "Tasarım + Mobil geliştirme",
       },
       year: "2026",
+      images: [
+        "/screenshots/habits-plus/habits1.png",
+        "/screenshots/habits-plus/habits2.png",
+        "/screenshots/habits-plus/habits3.png",
+        "/screenshots/habits-plus/habits4.png",
+        "/screenshots/habits-plus/habits5.png",
+        "/screenshots/habits-plus/habits6.png",
+        "/screenshots/habits-plus/habits7.png",
+      ],
     },
   },
   {

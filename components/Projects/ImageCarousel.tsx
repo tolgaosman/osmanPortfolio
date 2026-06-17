@@ -11,6 +11,8 @@ interface ImageCarouselProps {
   placeholderCount?: number;
   title: string;
   altLabel: string;
+  /** "portrait" fits phone screenshots without cropping (object-contain). */
+  orientation?: "landscape" | "portrait";
 }
 
 export default function ImageCarousel({
@@ -18,7 +20,9 @@ export default function ImageCarousel({
   placeholderCount = 2,
   title,
   altLabel,
+  orientation = "landscape",
 }: ImageCarouselProps) {
+  const portrait = orientation === "portrait";
   const hasImages = Boolean(images?.length);
   const count = hasImages ? images!.length : placeholderCount;
 
@@ -39,7 +43,10 @@ export default function ImageCarousel({
   return (
     <div className="border-b-2 border-border bg-bg">
       <div
-        className="relative aspect-video w-full overflow-hidden"
+        className={cn(
+          "relative w-full overflow-hidden",
+          portrait ? "h-[70vh] max-h-[640px] bg-grid bg-surface-2" : "aspect-video",
+        )}
         role="group"
         aria-roledescription="carousel"
         aria-label={title}
@@ -64,9 +71,9 @@ export default function ImageCarousel({
                 src={asset(images![index])}
                 alt={`${title} — ${altLabel} ${index + 1}`}
                 fill
-                className="object-cover"
+                className={portrait ? "object-contain" : "object-cover"}
                 unoptimized
-                sizes="(max-width: 768px) 100vw, 768px"
+                sizes={portrait ? "(max-width: 768px) 100vw, 400px" : "(max-width: 768px) 100vw, 768px"}
               />
             ) : (
               <div className="bg-grid flex h-full w-full flex-col items-center justify-center gap-2 bg-surface-2">

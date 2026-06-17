@@ -88,6 +88,7 @@ export default function ProjectModal({
             images={d?.images}
             title={project.title[lang]}
             altLabel={m.imageAlt}
+            orientation={project.category === "Mobile" ? "portrait" : "landscape"}
           />
 
           <div className="p-5 sm:p-7">
