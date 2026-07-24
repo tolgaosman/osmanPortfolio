@@ -100,11 +100,11 @@ export default function HeroSection() {
             <span>
               <span className="text-text">Web</span> · HTML / CSS / JS
             </span>
-            <span className="hidden sm:inline">
-              <span className="text-text">Mobile</span> · Flutter
+            <span>
+              <span className="text-text">Backend</span> · PHP / Laravel / SQL
             </span>
             <span>
-              <span className="text-text">Tools</span> · Git / AI
+              <span className="text-text">Mobile</span> · Flutter
             </span>
           </motion.div>
         </motion.div>

@@ -9,7 +9,7 @@ export default function CVPage() {
   return (
     <div className="fixed inset-0 z-[100] h-screen w-screen bg-bg">
       <iframe
-        src={asset("/osman cv.pdf")}
+        src={asset("/osmanCV.pdf")}
         className="h-full w-full border-none"
         title="Tolga Osman CV"
       />

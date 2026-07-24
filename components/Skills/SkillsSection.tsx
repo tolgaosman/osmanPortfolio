@@ -41,7 +41,7 @@ export default function SkillsSection() {
           subtitle={s.subtitle}
         />
 
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           {skillCategories.map((category, i) => (
             <SkillColumn key={category.name} category={category} colIndex={i} />
           ))}

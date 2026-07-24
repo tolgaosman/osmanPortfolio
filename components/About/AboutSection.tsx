@@ -52,15 +52,15 @@ export default function AboutSection() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            className="relative mx-auto w-64 shrink-0 sm:w-72 lg:mx-0"
+            className="relative mx-auto aspect-[5/6] w-72 shrink-0 sm:w-80 lg:mx-0"
           >
-            <div className="border-2 border-accent shadow-neo shadow-glow">
+            <div className="aspect-[5/6] w-full border-2 border-accent shadow-neo shadow-glow overflow-hidden">
               <Image
-                src={asset("/osman_foto.jpeg")}
+                src={asset("/osman_cv_pp.jpeg")}
                 alt="Tolga Osman"
-                width={288}
-                height={360}
-                className="block h-auto w-full object-cover grayscale-[20%]"
+                width={360}
+                height={432}
+                className="block h-full w-full object-cover grayscale-[20%]"
                 unoptimized
                 priority
               />
@@ -107,7 +107,7 @@ export default function AboutSection() {
             {/* CV Actions */}
             <motion.div variants={item} className="mt-4 flex flex-wrap gap-4">
               <a
-                href={asset("/cv")}
+                href={asset("/osmanCV.pdf")}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group inline-flex items-center gap-2 border-2 border-border px-5 py-2.5 font-mono text-sm font-bold text-text transition-colors hover:border-accent hover:text-accent"
@@ -127,8 +127,8 @@ export default function AboutSection() {
                 </svg>
               </a>
               <a
-                href={asset("/osman cv.pdf")}
-                download
+                href={asset("/osmanCV.pdf")}
+                download="osmanCV.pdf"
                 className="group inline-flex items-center gap-2 border-2 border-border px-5 py-2.5 font-mono text-sm font-bold text-text transition-colors hover:border-accent hover:text-accent"
               >
                 {a.downloadCv}

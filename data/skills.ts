@@ -16,13 +16,8 @@ export const skillCategories: SkillCategory[] = [
   },
   {
     name: "languages",
-    tag: "~/lang",
-    skills: ["Python", "Dart / Flutter"],
-  },
-  {
-    name: "tools",
-    tag: "~/tools",
-    skills: ["Git / GitHub", "Claude Code", "Google Antigravity"],
+    tag: "~/backend",
+    skills: ["PHP", "Laravel", "SQL", "Dart / Flutter"],
   },
 ];
 

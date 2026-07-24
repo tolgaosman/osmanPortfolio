@@ -25,6 +25,8 @@ const jetbrainsMono = JetBrains_Mono({
 // (anti-clickjacking); `object-src 'none'` + `base-uri 'self'` close common
 // injection vectors. See SECURITY.md for the rationale and the header set you
 // should add when fronting this site with a real server/CDN.
+const isDev = process.env.NODE_ENV !== "production";
+
 const CSP = [
   "default-src 'self'",
   "base-uri 'self'",
@@ -34,7 +36,9 @@ const CSP = [
   "img-src 'self' data: blob:",
   "font-src 'self' data:",
   "style-src 'self' 'unsafe-inline'",
-  "script-src 'self' 'unsafe-inline'",
+  isDev
+    ? "script-src 'self' 'unsafe-inline' 'unsafe-eval'"
+    : "script-src 'self' 'unsafe-inline'",
   "connect-src 'self' https://api.emailjs.com",
   "manifest-src 'self'",
   "upgrade-insecure-requests",
@@ -70,8 +74,9 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${inter.variable} ${jetbrainsMono.variable} h-full`}
+      suppressHydrationWarning
     >
-      <body className="min-h-full bg-bg text-text antialiased">
+      <body className="min-h-full bg-bg text-text antialiased" suppressHydrationWarning>
         {/* Security headers — hoisted into <head> by React 19. */}
         <meta httpEquiv="Content-Security-Policy" content={CSP} />
         <meta name="referrer" content="strict-origin-when-cross-origin" />
