@@ -129,7 +129,7 @@ export const projects: Project[] = [
     },
   },
   {
-    id: "cigdem-durut",
+    id: "cigdem-durust",
     title: {
       en: "Dr. Çiğdem Dürüst Website",
       tr: "Dr. Çiğdem Dürüst Web Sitesi",
