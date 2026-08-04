@@ -237,4 +237,63 @@ export const projects: Project[] = [
       year: "2024",
     },
   },
+  {
+    id: "staff-leave-tracker",
+    title: {
+      en: "Staff Leave Tracker",
+      tr: "Personel İzin Takip Sistemi",
+    },
+    description: {
+      en: "A full-stack staff leave management system built with Next.js and Laravel.",
+      tr: "Next.js ve Laravel ile geliştirilmiş tam yığın personel izin yönetim platformu.",
+    },
+    category: "Web",
+    stack: ["Next.js", "React", "Tailwind CSS", "Laravel", "PHP", "MySQL"],
+    github: "https://github.com/tolgaosman/staff-leave-tracker-frontend",
+    live: null,
+    status: "wip",
+    details: {
+      overview: {
+        en: "Staff Leave Tracker is a comprehensive human resources tool designed to streamline the process of requesting and managing employee leave. Built with a modern Next.js frontend and a robust Laravel backend, it allows staff to easily submit leave requests, while administrators can review, approve, or deny them through a dedicated dashboard. The system features dynamic calendar views, automated email notifications, and detailed reporting to ensure clear communication and efficient workforce planning.",
+        tr: "Personel İzin Takip Sistemi, çalışan izinlerini talep etme ve yönetme sürecini kolaylaştırmak için tasarlanmış kapsamlı bir insan kaynakları aracıdır. Modern Next.js ön yüzü ve güçlü Laravel arka planı ile geliştirilmiş olup, personelin kolayca izin talebinde bulunmasına olanak tanırken, yöneticilerin özel bir panel üzerinden bu talepleri incelemesini, onaylamasını veya reddetmesini sağlar. Sistem, net iletişim ve verimli işgücü planlaması sağlamak için dinamik takvim görünümleri, otomatik e-posta bildirimleri ve ayrıntılı raporlama özellikleri sunar.",
+      },
+      features: [
+        {
+          en: "User-friendly dashboard for submitting and tracking leave requests",
+          tr: "İzin taleplerini göndermek ve takip etmek için kullanıcı dostu panel",
+        },
+        {
+          en: "Admin interface for reviewing, approving, or denying employee leave",
+          tr: "Çalışan izinlerini incelemek, onaylamak veya reddetmek için yönetici arayüzü",
+        },
+        {
+          en: "Dynamic calendar integration for visualizing team availability",
+          tr: "Ekip uygunluğunu görselleştirmek için dinamik takvim entegrasyonu",
+        },
+        {
+          en: "Secure authentication and role-based access control",
+          tr: "Güvenli kimlik doğrulama ve rol tabanlı erişim kontrolü",
+        },
+      ],
+      role: {
+        en: "Full-stack Developer",
+        tr: "Tam Yığın (Full-stack) Geliştirici",
+      },
+      year: "2024",
+      images: [
+        "/screenshots/staff-leave-tracker/1.jpg",
+        "/screenshots/staff-leave-tracker/2.jpg",
+        "/screenshots/staff-leave-tracker/3.jpg",
+        "/screenshots/staff-leave-tracker/4.jpg",
+        "/screenshots/staff-leave-tracker/5.jpg",
+        "/screenshots/staff-leave-tracker/6.jpg",
+        "/screenshots/staff-leave-tracker/7.jpg",
+        "/screenshots/staff-leave-tracker/8.jpg",
+        "/screenshots/staff-leave-tracker/9.jpg",
+        "/screenshots/staff-leave-tracker/10.jpg",
+        "/screenshots/staff-leave-tracker/11.jpg",
+        "/screenshots/staff-leave-tracker/12.jpg"
+      ],
+    },
+  },
 ];
