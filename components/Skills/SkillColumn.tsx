@@ -15,13 +15,12 @@ import {
   SiPhp,
   SiLaravel,
   SiMysql,
-  SiPython,
   SiFlutter,
-  SiGithub,
-  SiAnthropic,
-  SiGoogle,
 } from "@icons-pack/react-simple-icons";
 
+// Only covers skills actually listed in data/skills.ts — previously included
+// four icons (Python, Git/GitHub, Claude Code, Google Antigravity) for skill
+// names that appear in no category and so could never render.
 const skillIconMap: Record<string, React.ElementType> = {
   "HTML5": SiHtml5,
   "CSS3": SiCss,
@@ -33,11 +32,7 @@ const skillIconMap: Record<string, React.ElementType> = {
   "PHP": SiPhp,
   "Laravel": SiLaravel,
   "SQL": SiMysql,
-  "Python": SiPython,
   "Dart / Flutter": SiFlutter,
-  "Git / GitHub": SiGithub,
-  "Claude Code": SiAnthropic,
-  "Google Antigravity": SiGoogle,
 };
 
 export default function SkillColumn({

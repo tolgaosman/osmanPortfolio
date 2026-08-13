@@ -2,10 +2,8 @@
 
 import { socialLinks } from "@/data/skills";
 import { SOCIAL_ICONS } from "@/components/Icons";
-import { useLang } from "@/lib/i18n";
 
 export default function Footer() {
-  const { t } = useLang();
   const year = new Date().getFullYear();
 
   return (

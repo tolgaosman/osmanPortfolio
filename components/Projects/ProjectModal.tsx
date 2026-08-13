@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import type { Project, ProjectStatus } from "@/types";
 import {
@@ -30,10 +30,44 @@ export default function ProjectModal({
   const m = p.modal;
   const d = project.details;
 
-  // Close on Escape + lock body scroll while open.
+  const panelRef = useRef<HTMLDivElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const triggerRef = useRef<HTMLElement | null>(null);
+
+  // Move focus into the dialog on open and restore it to whatever triggered
+  // the modal (the project card's "view_details" button) on close — without
+  // this a keyboard/screen-reader user's focus is silently dropped to <body>.
+  useEffect(() => {
+    triggerRef.current = document.activeElement as HTMLElement | null;
+    closeButtonRef.current?.focus();
+    return () => {
+      triggerRef.current?.focus();
+    };
+  }, []);
+
+  // Close on Escape, trap Tab inside the dialog, lock body scroll while open.
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
+      if (e.key === "Escape") {
+        onClose();
+        return;
+      }
+      if (e.key !== "Tab" || !panelRef.current) return;
+
+      const focusable = panelRef.current.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])',
+      );
+      if (focusable.length === 0) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
     };
     document.addEventListener("keydown", onKey);
     const prevOverflow = document.body.style.overflow;
@@ -52,16 +86,17 @@ export default function ProjectModal({
       transition={{ duration: 0.2 }}
       onClick={onClose}
       className="fixed inset-0 z-50 flex items-center justify-center bg-bg/85 p-4 backdrop-blur-sm sm:p-6"
-      role="dialog"
-      aria-modal="true"
-      aria-label={project.title[lang]}
     >
       <motion.div
+        ref={panelRef}
         initial={{ opacity: 0, scale: 0.95, y: 12 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 12 }}
         transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
         onClick={(e) => e.stopPropagation()}
+        role="dialog"
+        aria-modal="true"
+        aria-label={project.title[lang]}
         className="flex max-h-[90vh] w-full max-w-3xl flex-col overflow-hidden border-2 border-border bg-surface shadow-neo"
       >
         {/* Window title bar */}
@@ -73,6 +108,7 @@ export default function ProjectModal({
           </div>
           <span className="font-mono text-xs text-muted">{project.id}.app</span>
           <button
+            ref={closeButtonRef}
             type="button"
             onClick={onClose}
             aria-label={m.close}
@@ -85,6 +121,11 @@ export default function ProjectModal({
         {/* Scrollable content */}
         <div className="flex-1 overflow-y-auto">
           <ImageCarousel
+            // Keying by project id makes React remount (and so fully reset
+            // internal slide-index state) whenever the images array changes,
+            // instead of an image array from one project silently being
+            // paginated with an index left over from a previous one.
+            key={project.id}
             images={d?.images}
             title={project.title[lang]}
             altLabel={m.imageAlt}
@@ -160,22 +201,22 @@ export default function ProjectModal({
               </h3>
               <dl className="grid grid-cols-2 gap-x-4 gap-y-3 font-mono text-xs sm:grid-cols-4">
                 <div>
-                  <dt className="text-muted/60">{m.category}</dt>
+                  <dt className="text-muted/75">{m.category}</dt>
                   <dd className="mt-0.5 text-text">{project.category}</dd>
                 </div>
                 <div>
-                  <dt className="text-muted/60">{m.statusLabel}</dt>
+                  <dt className="text-muted/75">{m.statusLabel}</dt>
                   <dd className="mt-0.5 text-text">{p.status[project.status]}</dd>
                 </div>
                 {d?.role && (
                   <div>
-                    <dt className="text-muted/60">{m.role}</dt>
+                    <dt className="text-muted/75">{m.role}</dt>
                     <dd className="mt-0.5 text-text">{d.role[lang]}</dd>
                   </div>
                 )}
                 {d?.year && (
                   <div>
-                    <dt className="text-muted/60">{m.year}</dt>
+                    <dt className="text-muted/75">{m.year}</dt>
                     <dd className="mt-0.5 text-text">{d.year}</dd>
                   </div>
                 )}
@@ -211,7 +252,7 @@ export default function ProjectModal({
                   </a>
                 )}
                 {!project.github && !project.live && (
-                  <span className="font-mono text-xs text-muted/60">
+                  <span className="font-mono text-xs text-muted/75">
                     {p.privateRepo}
                   </span>
                 )}

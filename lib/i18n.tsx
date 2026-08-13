@@ -19,14 +19,24 @@ const LanguageContext = createContext<LanguageContextValue | null>(null);
 
 const STORAGE_KEY = "lang";
 
-export function LanguageProvider({ children }: { children: ReactNode }) {
-  // English is the default; a saved choice is restored after mount.
-  const [lang, setLangState] = useState<Lang>("en");
+// Reads localStorage synchronously in the useState initializer (runs during
+// the client's first render, before paint) rather than in a useEffect (which
+// would run after the first paint and cause a visible English→Turkish jump
+// for returning Turkish visitors). The prerendered static HTML is always
+// English — that one is unavoidable without per-request SSR — but this
+// closes the *second*, larger flash that used to happen on every hydration.
+function getInitialLang(): Lang {
+  if (typeof window === "undefined") return "en";
+  try {
+    const saved = window.localStorage.getItem(STORAGE_KEY);
+    return saved === "en" || saved === "tr" ? saved : "en";
+  } catch {
+    return "en";
+  }
+}
 
-  useEffect(() => {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved === "en" || saved === "tr") setLangState(saved);
-  }, []);
+export function LanguageProvider({ children }: { children: ReactNode }) {
+  const [lang, setLangState] = useState<Lang>(getInitialLang);
 
   useEffect(() => {
     document.documentElement.lang = lang;

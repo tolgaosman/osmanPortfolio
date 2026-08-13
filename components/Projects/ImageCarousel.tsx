@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import { ChevronLeftIcon, ChevronRightIcon } from "@/components/Icons";
 import { asset, cn } from "@/lib/utils";
+import { useLang } from "@/lib/i18n";
 
 interface ImageCarouselProps {
   images?: string[];
@@ -22,14 +23,18 @@ export default function ImageCarousel({
   altLabel,
   orientation = "landscape",
 }: ImageCarouselProps) {
+  const { t } = useLang();
+  const m = t.projects.modal;
   const portrait = orientation === "portrait";
   const hasImages = Boolean(images?.length);
   const count = hasImages ? images!.length : placeholderCount;
 
   const [[index, dir], setState] = useState<[number, number]>([0, 0]);
+  const [loaded, setLoaded] = useState(false);
 
   const paginate = useCallback(
     (step: number) => {
+      setLoaded(false);
       setState(([current]) => {
         const next = (current + step + count) % count;
         return [next, step];
@@ -56,6 +61,12 @@ export default function ImageCarousel({
         }}
         tabIndex={0}
       >
+        {/* Loading skeleton — reuses the existing grid/surface-2 texture
+            instead of leaving a blank box while the screenshot downloads. */}
+        {hasImages && !loaded && (
+          <div className="bg-grid absolute inset-0 animate-pulse bg-surface-2" />
+        )}
+
         <AnimatePresence initial={false} custom={dir} mode="popLayout">
           <motion.div
             key={index}
@@ -73,6 +84,7 @@ export default function ImageCarousel({
                 fill
                 className={portrait ? "object-contain" : "object-cover"}
                 unoptimized
+                onLoad={() => setLoaded(true)}
                 sizes={portrait ? "(max-width: 768px) 100vw, 400px" : "(max-width: 768px) 100vw, 768px"}
               />
             ) : (
@@ -80,7 +92,7 @@ export default function ImageCarousel({
                 <span className="border-2 border-accent/40 bg-accent/10 px-3 py-1 font-mono text-xs text-accent">
                   image {index + 1}
                 </span>
-                <span className="font-mono text-[11px] text-muted/60">
+                <span className="font-mono text-[11px] text-muted/75">
                   {title}
                 </span>
               </div>
@@ -93,7 +105,7 @@ export default function ImageCarousel({
             <button
               type="button"
               onClick={() => paginate(-1)}
-              aria-label="Previous image"
+              aria-label={m.prevImage}
               className="absolute left-3 top-1/2 -translate-y-1/2 border-2 border-border bg-surface/90 p-2 text-text transition-colors hover:border-accent hover:text-accent"
             >
               <ChevronLeftIcon className="h-4 w-4" />
@@ -101,13 +113,16 @@ export default function ImageCarousel({
             <button
               type="button"
               onClick={() => paginate(1)}
-              aria-label="Next image"
+              aria-label={m.nextImage}
               className="absolute right-3 top-1/2 -translate-y-1/2 border-2 border-border bg-surface/90 p-2 text-text transition-colors hover:border-accent hover:text-accent"
             >
               <ChevronRightIcon className="h-4 w-4" />
             </button>
 
-            <span className="absolute bottom-3 right-3 border border-border bg-surface/90 px-2 py-0.5 font-mono text-[11px] text-muted">
+            <span
+              aria-live="polite"
+              className="absolute bottom-3 right-3 border border-border bg-surface/90 px-2 py-0.5 font-mono text-[11px] text-muted"
+            >
               {index + 1} / {count}
             </span>
           </>
@@ -120,8 +135,13 @@ export default function ImageCarousel({
             <button
               key={i}
               type="button"
-              aria-label={`Go to image ${i + 1}`}
-              onClick={() => setState([i, i > index ? 1 : -1])}
+              aria-label={`${m.goToImage} ${i + 1}`}
+              aria-current={i === index ? "true" : undefined}
+              onClick={() => {
+                if (i === index) return;
+                setLoaded(false);
+                setState([i, i > index ? 1 : -1]);
+              }}
               className={cn(
                 "h-1.5 w-6 border border-border transition-colors",
                 i === index ? "bg-accent" : "bg-transparent hover:bg-accent/30",

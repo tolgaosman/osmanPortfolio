@@ -4,14 +4,17 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ExternalLinkIcon, WhatsAppIcon } from "@/components/Icons";
 import { useLang } from "@/lib/i18n";
-import { LIMITS, validateContact, type Channel } from "@/lib/validation";
+import { LIMITS, validateContact, type Channel, type ContactFieldErrors } from "@/lib/validation";
 import { cn } from "@/lib/utils";
 
 const inputClass =
-  "w-full border-2 border-border bg-bg px-4 py-3 font-mono text-sm text-text placeholder:text-muted/60 transition-colors focus:border-accent focus:outline-none";
+  "w-full border-2 border-border bg-bg px-4 py-3 font-mono text-sm text-text placeholder:text-muted/75 transition-colors focus:border-accent";
+const inputErrorClass = "border-[#fca5a5]";
 
 const WHATSAPP_NUMBER = "905338346699";
 const EMAIL = "tofbusiness2002@gmail.com";
+
+const NO_ERRORS: ContactFieldErrors = { name: false, contact: false, message: false };
 
 export default function ContactForm() {
   const { t } = useLang();
@@ -19,43 +22,76 @@ export default function ContactForm() {
 
   const [channel, setChannel] = useState<Channel>("whatsapp");
   const [form, setForm] = useState({ name: "", contact: "", message: "" });
-  const [error, setError] = useState(false);
+  const [fieldErrors, setFieldErrors] = useState<ContactFieldErrors>(NO_ERRORS);
+  const [popupBlocked, setPopupBlocked] = useState(false);
+
+  const isMail = channel === "mail";
+  const hasErrors = fieldErrors.name || fieldErrors.contact || fieldErrors.message;
+
+  const errorMessage = () => {
+    const count = [fieldErrors.name, fieldErrors.contact, fieldErrors.message].filter(
+      Boolean,
+    ).length;
+    if (count > 1) return c.errorMultiple;
+    if (fieldErrors.name) return c.errorName;
+    if (fieldErrors.contact) return isMail ? c.errorPhone : c.errorEmail;
+    if (fieldErrors.message) return c.errorMessage;
+    return "";
+  };
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
-    if (error) setError(false);
+    setFieldErrors(NO_ERRORS);
+    setPopupBlocked(false);
   };
 
   const pickChannel = (next: Channel) => {
     if (next === channel) return;
     setChannel(next);
-    if (error) setError(false);
+    setFieldErrors(NO_ERRORS);
+    setPopupBlocked(false);
   };
 
-  const send = () => {
-    const { ok, values } = validateContact({ ...form, channel });
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setPopupBlocked(false);
+
+    const { ok, values, errors } = validateContact({ ...form, channel });
     if (!ok) {
-      setError(true);
+      setFieldErrors(errors);
       return;
     }
+    setFieldErrors(NO_ERRORS);
+
+    let win: Window | null;
     if (channel === "whatsapp") {
       const body = `Name: ${values.name}\nEmail: ${values.contact}\n\n${values.message}`;
       const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(body)}`;
-      window.open(url, "_blank", "noopener,noreferrer");
+      win = window.open(url, "_blank");
     } else {
       const subject = `Portfolio contact — ${values.name}`;
       const body = `Name: ${values.name}\nPhone: ${values.contact}\n\n${values.message}`;
       const url = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(EMAIL)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-      window.open(url, "_blank", "noopener,noreferrer");
+      win = window.open(url, "_blank");
+    }
+
+    // window.open returns null (or a closed/inaccessible window) when the
+    // popup was blocked — previously that return value was discarded, so a
+    // user whose message silently failed to send had no idea anything went
+    // wrong.
+    if (!win || win.closed) {
+      setPopupBlocked(true);
     }
   };
 
-  const isMail = channel === "mail";
-
   return (
-    <div className="border-2 border-border bg-surface p-6 sm:p-8">
+    <form
+      onSubmit={handleSubmit}
+      noValidate
+      className="border-2 border-border bg-surface p-6 sm:p-8"
+    >
       <div className="space-y-5">
         {/* Name */}
         <div>
@@ -63,7 +99,8 @@ export default function ContactForm() {
             htmlFor="name"
             className="mb-2 block font-mono text-xs text-muted"
           >
-            <span className="text-accent">const</span> {c.nameLabel} =
+            <span aria-hidden className="text-accent">const</span> {c.nameLabel}{" "}
+            <span aria-hidden>=</span>
           </label>
           <input
             id="name"
@@ -74,7 +111,9 @@ export default function ContactForm() {
             placeholder={c.namePlaceholder}
             maxLength={LIMITS.name}
             autoComplete="name"
-            className={inputClass}
+            aria-invalid={fieldErrors.name || undefined}
+            aria-describedby={hasErrors ? "contact-form-error" : undefined}
+            className={cn(inputClass, fieldErrors.name && inputErrorClass)}
           />
         </div>
 
@@ -114,8 +153,8 @@ export default function ContactForm() {
               htmlFor="contact"
               className="mb-2 block font-mono text-xs text-muted"
             >
-              <span className="text-accent">const</span>{" "}
-              {isMail ? c.phoneLabel : c.emailLabel} =
+              <span aria-hidden className="text-accent">const</span>{" "}
+              {isMail ? c.phoneLabel : c.emailLabel} <span aria-hidden>=</span>
             </label>
             <input
               id="contact"
@@ -126,7 +165,9 @@ export default function ContactForm() {
               placeholder={isMail ? c.phonePlaceholder : c.emailPlaceholder}
               maxLength={isMail ? LIMITS.phone : LIMITS.email}
               autoComplete={isMail ? "tel" : "email"}
-              className={inputClass}
+              aria-invalid={fieldErrors.contact || undefined}
+              aria-describedby={hasErrors ? "contact-form-error" : undefined}
+              className={cn(inputClass, fieldErrors.contact && inputErrorClass)}
             />
           </motion.div>
         </AnimatePresence>
@@ -137,7 +178,8 @@ export default function ContactForm() {
             htmlFor="message"
             className="mb-2 block font-mono text-xs text-muted"
           >
-            <span className="text-accent">const</span> {c.messageLabel} =
+            <span aria-hidden className="text-accent">const</span> {c.messageLabel}{" "}
+            <span aria-hidden>=</span>
           </label>
           <textarea
             id="message"
@@ -147,15 +189,16 @@ export default function ContactForm() {
             onChange={handleChange}
             placeholder={c.messagePlaceholder}
             maxLength={LIMITS.message}
-            className={`${inputClass} resize-none`}
+            aria-invalid={fieldErrors.message || undefined}
+            aria-describedby={hasErrors ? "contact-form-error" : undefined}
+            className={cn(inputClass, "resize-none", fieldErrors.message && inputErrorClass)}
           />
         </div>
 
         {/* Send button — swaps by channel */}
         <div>
           <button
-            type="button"
-            onClick={send}
+            type="submit"
             className="group flex w-full items-center justify-center gap-2 border-2 border-accent bg-accent px-6 py-3.5 font-mono text-sm font-bold text-bg shadow-neo-sm transition-transform hover:-translate-x-0.5 hover:-translate-y-0.5 active:translate-x-0 active:translate-y-0"
           >
             {isMail ? (
@@ -168,18 +211,31 @@ export default function ContactForm() {
         </div>
 
         <AnimatePresence>
-          {error && (
+          {hasErrors && (
             <motion.p
+              id="contact-form-error"
+              role="alert"
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
               className="font-mono text-xs text-[#fca5a5]"
             >
-              {c.validationNote}
+              {errorMessage()}
+            </motion.p>
+          )}
+          {!hasErrors && popupBlocked && (
+            <motion.p
+              role="alert"
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              className="font-mono text-xs text-[#fca5a5]"
+            >
+              {c.popupBlocked}
             </motion.p>
           )}
         </AnimatePresence>
       </div>
-    </div>
+    </form>
   );
 }

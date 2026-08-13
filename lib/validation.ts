@@ -43,15 +43,24 @@ export type ContactInput = {
   contact: string;
 };
 
+export type ContactFieldErrors = {
+  name: boolean;
+  contact: boolean;
+  message: boolean;
+};
+
 /**
  * Sanitize + cap each field, then report whether every field is present and
  * the conditional contact value matches its channel (email for whatsapp,
  * phone for mail). Returns the cleaned values so callers send exactly what was
- * validated.
+ * validated, plus per-field validity so the UI can point at exactly what's
+ * wrong instead of a single "fill in all fields" message that's misleading
+ * when e.g. only the email format is invalid.
  */
 export function validateContact(input: ContactInput): {
   ok: boolean;
   values: ContactInput;
+  errors: ContactFieldErrors;
 } {
   const limit = input.channel === "mail" ? LIMITS.phone : LIMITS.email;
   const values: ContactInput = {
@@ -62,8 +71,14 @@ export function validateContact(input: ContactInput): {
   };
   const contactValid =
     input.channel === "mail" ? isPhone(values.contact) : isEmail(values.contact);
+  const errors: ContactFieldErrors = {
+    name: !values.name,
+    contact: !contactValid,
+    message: !values.message,
+  };
   return {
-    ok: Boolean(values.name && values.message && contactValid),
+    ok: !errors.name && !errors.contact && !errors.message,
     values,
+    errors,
   };
 }

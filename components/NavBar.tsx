@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useMemo, useState, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { cn, smoothScrollTo } from "@/lib/utils";
 import { useLang } from "@/lib/i18n";
 import LanguageToggle from "@/components/LanguageToggle";
 
 const LINK_IDS = ["home", "about", "projects", "skills", "contact"] as const;
+const MOBILE_MENU_ID = "mobile-nav-menu";
 
 export default function NavBar() {
   const { t } = useLang();
@@ -15,51 +16,103 @@ export default function NavBar() {
   const [active, setActive] = useState("home");
   const [menuOpen, setMenuOpen] = useState(false);
   const lastScrollY = useRef(0);
+  // Suppressed while a programmatic (smoothScrollTo) scroll is in flight, so
+  // clicking a nav link doesn't trip the hide-on-scroll-down logic and make
+  // the bar slide away mid-navigation.
+  const suppressHideRef = useRef(false);
+  const rafRef = useRef<number | null>(null);
 
-  const LINKS = [
-    { id: "home", label: t.nav.home },
-    { id: "about", label: t.nav.about },
-    { id: "projects", label: t.nav.work },
-    { id: "skills", label: t.nav.skills },
-  ];
+  const LINKS = useMemo(
+    () => [
+      { id: "home", label: t.nav.home },
+      { id: "about", label: t.nav.about },
+      { id: "projects", label: t.nav.work },
+      { id: "skills", label: t.nav.skills },
+    ],
+    [t],
+  );
 
   useEffect(() => {
     const onScroll = () => {
-      const currentScrollY = window.scrollY;
-      setScrolled(currentScrollY > 16);
-      
-      if (currentScrollY > lastScrollY.current && currentScrollY > 80) {
-        setHidden(true);
-      } else {
-        setHidden(false);
-      }
-      
-      lastScrollY.current = currentScrollY;
+      if (rafRef.current !== null) return; // already scheduled this frame
+      rafRef.current = requestAnimationFrame(() => {
+        rafRef.current = null;
+        const currentScrollY = window.scrollY;
+        setScrolled(currentScrollY > 16);
+
+        if (!suppressHideRef.current) {
+          if (currentScrollY > lastScrollY.current && currentScrollY > 80) {
+            setHidden(true);
+          } else {
+            setHidden(false);
+          }
+        }
+
+        lastScrollY.current = currentScrollY;
+      });
     };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
+    };
   }, []);
 
   useEffect(() => {
     const sections = LINK_IDS.map((id) => document.getElementById(id)).filter(
       (el): el is HTMLElement => Boolean(el),
     );
+    // Track the entry with the greatest intersection ratio rather than the
+    // last one to fire — when two sections intersect the tracking band at
+    // once, "last in the callback's array order" was picking the wrong tab.
+    const ratios = new Map<string, number>();
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) setActive(entry.target.id);
+          ratios.set(entry.target.id, entry.isIntersecting ? entry.intersectionRatio : 0);
         });
+        let bestId: string | null = null;
+        let bestRatio = 0;
+        ratios.forEach((ratio, id) => {
+          if (ratio > bestRatio) {
+            bestRatio = ratio;
+            bestId = id;
+          }
+        });
+        if (bestId) setActive(bestId);
       },
-      { rootMargin: "-45% 0px -50% 0px", threshold: 0 },
+      { rootMargin: "-45% 0px -50% 0px", threshold: [0, 0.25, 0.5, 0.75, 1] },
     );
     sections.forEach((s) => observer.observe(s));
     return () => observer.disconnect();
   }, []);
 
+  // Lock body scroll and allow Escape to close the mobile menu.
+  useEffect(() => {
+    if (!menuOpen) return;
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setMenuOpen(false);
+    };
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = prevOverflow;
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [menuOpen]);
+
   const go = (id: string) => {
     setMenuOpen(false);
+    suppressHideRef.current = true;
     smoothScrollTo(id);
+    setHidden(false);
+    // Matches the scroll animation duration in lib/utils.ts, plus a small
+    // margin so the suppression outlives the last scroll event it triggers.
+    window.setTimeout(() => {
+      suppressHideRef.current = false;
+    }, 700);
   };
 
   return (
@@ -74,14 +127,20 @@ export default function NavBar() {
           : "border-b border-transparent",
       )}
     >
-      <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 sm:px-8">
+      <nav
+        aria-label="Primary"
+        className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 sm:px-8"
+      >
         <button
           onClick={() => go("home")}
           className="group font-mono text-base font-bold tracking-tight"
         >
           <span className="text-text">tolga</span>
           <span className="text-accent">osman</span>
-          <span className="ml-0.5 inline-block w-2 animate-blink text-accent">
+          <span
+            aria-hidden
+            className="ml-0.5 inline-block w-2 animate-blink text-accent"
+          >
             _
           </span>
         </button>
@@ -93,6 +152,7 @@ export default function NavBar() {
               <li key={link.id}>
                 <button
                   onClick={() => go(link.id)}
+                  aria-current={active === link.id ? "true" : undefined}
                   className={cn(
                     "relative px-3 py-2 font-mono text-sm transition-colors",
                     active === link.id
@@ -127,8 +187,9 @@ export default function NavBar() {
         <button
           onClick={() => setMenuOpen((o) => !o)}
           className="flex h-10 w-10 items-center justify-center border border-border md:hidden"
-          aria-label="Toggle menu"
+          aria-label={menuOpen ? t.nav.closeMenu : t.nav.openMenu}
           aria-expanded={menuOpen}
+          aria-controls={MOBILE_MENU_ID}
         >
           <div className="flex flex-col gap-1.5">
             <span
@@ -157,6 +218,7 @@ export default function NavBar() {
       <AnimatePresence>
         {menuOpen && (
           <motion.div
+            id={MOBILE_MENU_ID}
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
@@ -168,6 +230,7 @@ export default function NavBar() {
                 <li key={link.id}>
                   <button
                     onClick={() => go(link.id)}
+                    aria-current={active === link.id ? "true" : undefined}
                     className={cn(
                       "w-full px-2 py-3 text-left font-mono text-sm",
                       active === link.id ? "text-accent" : "text-muted",

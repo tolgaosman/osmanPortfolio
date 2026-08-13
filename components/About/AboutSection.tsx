@@ -57,12 +57,12 @@ export default function AboutSection() {
             <div className="aspect-[5/6] w-full border-2 border-accent shadow-neo shadow-glow overflow-hidden">
               <Image
                 src={asset("/osman_cv_pp.jpeg")}
-                alt="Tolga Osman"
+                alt={a.photoAlt}
                 width={360}
                 height={432}
                 className="block h-full w-full object-cover grayscale-[20%]"
                 unoptimized
-                priority
+                loading="lazy"
               />
             </div>
             {/* decorative offset box */}

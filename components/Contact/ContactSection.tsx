@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import SectionHeading from "@/components/SectionHeading";
 import ContactForm from "./ContactForm";
 import { socialLinks } from "@/data/skills";
@@ -99,26 +99,45 @@ export default function ContactSection() {
             </div>
 
             <div className="space-y-3">
-              <a
-                href="https://mail.google.com/mail/?view=cm&fs=1&to=tofbusiness2002@gmail.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group flex items-center justify-between border-2 border-accent bg-accent/10 p-4 transition-colors hover:bg-accent/20"
-              >
-                <span className="break-all font-mono text-sm text-accent">
-                  tofbusiness2002@gmail.com
-                </span>
-                <ArrowUpRightIcon className="h-4 w-4 text-accent transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-              </a>
-              <a
-                href="tel:+905338346699"
-                className="group flex items-center justify-between border-2 border-accent bg-accent/10 p-4 transition-colors hover:bg-accent/20"
-              >
-                <span className="font-mono text-sm text-accent">
-                  +90 533 834 6699
-                </span>
-                <ArrowUpRightIcon className="h-4 w-4 text-accent transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-              </a>
+              <div className="group flex items-center justify-between gap-3 border-2 border-accent bg-accent/10 p-4 transition-colors hover:bg-accent/20">
+                <a
+                  href="https://mail.google.com/mail/?view=cm&fs=1&to=tofbusiness2002@gmail.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex min-w-0 flex-1 items-center gap-2"
+                >
+                  <span className="break-all font-mono text-sm text-accent">
+                    {EMAIL}
+                  </span>
+                  <ArrowUpRightIcon className="h-4 w-4 shrink-0 text-accent transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                </a>
+                {/* mailto:/tel: silently do nothing on many desktop setups
+                    with no default handler configured — copy is a reliable
+                    fallback that always works. */}
+                <button
+                  type="button"
+                  onClick={() => copy(EMAIL)}
+                  className="shrink-0 font-mono text-xs text-muted transition-colors hover:text-accent"
+                >
+                  {copied === EMAIL ? c.copied : c.copy}
+                </button>
+              </div>
+              <div className="group flex items-center justify-between gap-3 border-2 border-accent bg-accent/10 p-4 transition-colors hover:bg-accent/20">
+                <a
+                  href="tel:+905338346699"
+                  className="flex min-w-0 flex-1 items-center gap-2"
+                >
+                  <span className="font-mono text-sm text-accent">{PHONE}</span>
+                  <ArrowUpRightIcon className="h-4 w-4 shrink-0 text-accent transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                </a>
+                <button
+                  type="button"
+                  onClick={() => copy(PHONE)}
+                  className="shrink-0 font-mono text-xs text-muted transition-colors hover:text-accent"
+                >
+                  {copied === PHONE ? c.copied : c.copy}
+                </button>
+              </div>
             </div>
           </motion.div>
         </div>

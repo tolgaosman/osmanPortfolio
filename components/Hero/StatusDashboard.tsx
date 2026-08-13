@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, useReducedMotion } from "framer-motion";
+import { useLang } from "@/lib/i18n";
+import { projects } from "@/data/projects";
 
 interface CounterProps {
   to: number;
@@ -11,10 +13,11 @@ interface CounterProps {
 
 /** Counts up from 0 to `to` once `start` flips true. */
 function Counter({ to, suffix = "", start }: CounterProps) {
-  const [value, setValue] = useState(0);
+  const reduceMotion = useReducedMotion();
+  const [value, setValue] = useState(reduceMotion ? to : 0);
 
   useEffect(() => {
-    if (!start) return;
+    if (!start || reduceMotion) return;
     let raf = 0;
     const duration = 900;
     const t0 = performance.now();
@@ -27,7 +30,7 @@ function Counter({ to, suffix = "", start }: CounterProps) {
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, [start, to]);
+  }, [start, to, reduceMotion]);
 
   return (
     <span>
@@ -61,16 +64,20 @@ function MiniBar({ level, start, delay }: BarProps) {
   );
 }
 
-const ROWS = [
-  { label: "UPTIME", type: "bar", level: 99, render: () => "99.9%" },
-  { label: "STACK", type: "text", value: "READY" },
-  { label: "PROJECTS", type: "counter", to: 3 },
-  { label: "LANGUAGES", type: "text", value: "TR/EN" },
-] as const;
-
 export default function StatusDashboard() {
+  const { t } = useLang();
+  const d = t.dashboard;
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-60px" });
+
+  // Derived from the actual project list so this can't drift out of sync
+  // the way a hardcoded "3" previously did (there are 5 projects).
+  const ROWS = [
+    { label: d.uptime, type: "bar" as const, level: 99, render: () => "99.9%" },
+    { label: d.stack, type: "text" as const, value: d.ready },
+    { label: d.projects, type: "counter" as const, to: projects.length },
+    { label: d.languages, type: "text" as const, value: "TR/EN" },
+  ];
 
   return (
     <motion.div
@@ -87,7 +94,7 @@ export default function StatusDashboard() {
           <span className="h-3 w-3 rounded-full bg-[#febc2e]" />
           <span className="h-3 w-3 rounded-full bg-[#28c840]" />
         </div>
-        <span className="font-mono text-xs text-muted">system_status.sh</span>
+        <span className="font-mono text-xs text-muted">{d.file}</span>
         <span className="w-10" />
       </div>
 
@@ -130,10 +137,10 @@ export default function StatusDashboard() {
           transition={{ delay: 0.2 + ROWS.length * 0.12, duration: 0.4 }}
           className="mt-2 flex items-center justify-between border-t border-border pt-3"
         >
-          <span className="text-muted">STATUS</span>
+          <span className="text-muted">{d.status}</span>
           <span className="flex items-center gap-2 text-accent">
             <span className="h-2.5 w-2.5 animate-pulse-dot rounded-full bg-accent" />
-            AVAILABLE
+            {d.available}
           </span>
         </motion.div>
 
@@ -145,8 +152,8 @@ export default function StatusDashboard() {
           className="flex items-center gap-1 pt-1 text-muted"
         >
           <span className="text-accent">$</span>
-          <span>ready</span>
-          <span className="inline-block w-2 animate-blink bg-accent">&nbsp;</span>
+          <span>{d.prompt}</span>
+          <span aria-hidden className="inline-block w-2 animate-blink bg-accent">&nbsp;</span>
         </motion.div>
       </div>
     </motion.div>

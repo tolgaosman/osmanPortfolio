@@ -38,7 +38,7 @@ export interface Project {
   details?: ProjectDetails;
 }
 
-export type SkillCategoryName = "web" | "languages" | "tools";
+export type SkillCategoryName = "web" | "languages";
 
 export interface SkillCategory {
   name: SkillCategoryName;

@@ -8,6 +8,8 @@ export const en = {
     skills: "_skills",
     contact: "_contact",
     hireMe: "contact",
+    openMenu: "Open menu",
+    closeMenu: "Close menu",
   },
   hero: {
     badge: "available for new projects",
@@ -18,9 +20,6 @@ export const en = {
       "Software Engineering student at Eastern Mediterranean University, building clean, scalable web and mobile experiences end-to-end — from interface to deployment.",
     viewWork: "view_work",
     contactMe: "contact_me",
-    tagWeb: "Web · HTML / CSS / JS",
-    tagMobile: "Mobile · Flutter",
-    tagTools: "Tools · Git / AI",
     scroll: "scroll",
   },
   dashboard: {
@@ -47,6 +46,7 @@ export const en = {
     factEducation: "Eastern Mediterranean University (Senior)",
     factLanguagesLabel: "Languages",
     factLanguages: "Turkish · English",
+    photoAlt: "Portrait photo of Tolga Osman",
     viewCv: "view_cv",
     downloadCv: "download_cv",
   },
@@ -80,6 +80,9 @@ export const en = {
       statusLabel: "status",
       close: "close",
       imageAlt: "screenshot",
+      prevImage: "Previous image",
+      nextImage: "Next image",
+      goToImage: "Go to image",
     },
   },
   skills: {
@@ -90,7 +93,6 @@ export const en = {
     categories: {
       web: "Web Development",
       languages: "Backend & Mobile",
-      tools: "Tools & AI",
     },
     softSkillsTitle: "Soft Skills",
     softSkills: [
@@ -130,9 +132,15 @@ export const en = {
     whatsappLabel: "send_via_whatsapp()",
     emailLabelBtn: "send_via_email()",
     validationNote: "// Please fill in all fields.",
-  },
-  footer: {
-    built: "built with Next.js + Framer Motion",
+    errorName: "// Please enter your name.",
+    errorEmail: "// Please enter a valid email address.",
+    errorPhone: "// Please enter a valid phone number.",
+    errorMessage: "// Please enter a message.",
+    errorMultiple: "// Please check the highlighted fields.",
+    popupBlocked:
+      "// Your browser blocked the popup. Please allow popups for this site and try again.",
+    copy: "copy",
+    copied: "copied!",
   },
 };
 
@@ -146,6 +154,8 @@ export const tr: Dict = {
     skills: "_yetenekler",
     contact: "_iletisim",
     hireMe: "iletişim",
+    openMenu: "Menüyü aç",
+    closeMenu: "Menüyü kapat",
   },
   hero: {
     badge: "yeni projelere açığım",
@@ -156,9 +166,6 @@ export const tr: Dict = {
       "Doğu Akdeniz Üniversitesi Yazılım Mühendisliği öğrencisiyim; arayüzden dağıtıma kadar uçtan uca temiz ve ölçeklenebilir web ve mobil deneyimler geliştiriyorum.",
     viewWork: "projeleri_gör",
     contactMe: "iletişime_geç",
-    tagWeb: "Web · HTML / CSS / JS",
-    tagMobile: "Mobil · Flutter",
-    tagTools: "Araçlar · Git / AI",
     scroll: "kaydır",
   },
   dashboard: {
@@ -185,6 +192,7 @@ export const tr: Dict = {
     factEducation: "Doğu Akdeniz Üniversitesi (Son sınıf)",
     factLanguagesLabel: "Diller",
     factLanguages: "Türkçe · İngilizce",
+    photoAlt: "Tolga Osman'ın portre fotoğrafı",
     viewCv: "özgeçmiş",
     downloadCv: "özgeçmiş_indir",
   },
@@ -218,6 +226,9 @@ export const tr: Dict = {
       statusLabel: "durum",
       close: "kapat",
       imageAlt: "ekran görüntüsü",
+      prevImage: "Önceki görsel",
+      nextImage: "Sonraki görsel",
+      goToImage: "Görsele git",
     },
   },
   skills: {
@@ -228,7 +239,6 @@ export const tr: Dict = {
     categories: {
       web: "Web Geliştirme",
       languages: "Backend & Mobil",
-      tools: "Araçlar & AI",
     },
     softSkillsTitle: "Kişisel Beceriler",
     softSkills: [
@@ -268,9 +278,15 @@ export const tr: Dict = {
     whatsappLabel: "whatsapptan_gönder()",
     emailLabelBtn: "mail_ile_gönder()",
     validationNote: "// Lütfen tüm alanları doldurun.",
-  },
-  footer: {
-    built: "Next.js + Framer Motion ile geliştirildi",
+    errorName: "// Lütfen isminizi girin.",
+    errorEmail: "// Lütfen geçerli bir e-posta adresi girin.",
+    errorPhone: "// Lütfen geçerli bir telefon numarası girin.",
+    errorMessage: "// Lütfen bir mesaj girin.",
+    errorMultiple: "// Lütfen işaretli alanları kontrol edin.",
+    popupBlocked:
+      "// Tarayıcınız açılır pencereyi engelledi. Lütfen bu site için açılır pencerelere izin verip tekrar deneyin.",
+    copy: "kopyala",
+    copied: "kopyalandı!",
   },
 };
 

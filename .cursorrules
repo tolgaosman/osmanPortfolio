@@ -1,0 +1,15 @@
+# Cursor rules — Osman Portfolio
+
+See CLAUDE.md for the full architectural ground truth. This file is the condensed version for inline Cursor completions.
+
+## Design law
+- **Taste**: Vercel × Anthropic aesthetic, minimalist, monochrome/muted-pastel, high-contrast typography. No default browser colors, no raw unstyled grids.
+- **Emil Kowalski**: Every frontend state transition and micro-interaction gets a smooth, organic animation (`cubic-bezier` easing, not linear). Target 60 fps.
+- **Impeccable**: Pixel-perfection. Handle every edge case explicitly: loading, error + rollback, empty states.
+- **Vercel & Anthropic UI/UX**: Monochrome design language, user-focused simplicity, no visual noise.
+
+## Code law
+- Next.js 16 (App Router), React 19, TypeScript, Tailwind CSS v4.
+- TypeScript, component-driven, one clear state shape per feature.
+- Content is data-driven (edit `data/projects.ts` and `data/skills.ts`).
+- Before moving to the next task: code must run, `npm run lint` must pass.
