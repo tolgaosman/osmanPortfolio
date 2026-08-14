@@ -82,7 +82,7 @@ export default function ImageCarousel({
                 src={asset(images![index])}
                 alt={`${title} — ${altLabel} ${index + 1}`}
                 fill
-                className={portrait ? "object-contain" : "object-cover"}
+                className="object-contain"
                 unoptimized
                 onLoad={() => setLoaded(true)}
                 sizes={portrait ? "(max-width: 768px) 100vw, 400px" : "(max-width: 768px) 100vw, 768px"}
