@@ -29,6 +29,8 @@ export default function ProjectModal({
   const p = t.projects;
   const m = p.modal;
   const d = project.details;
+  const categoryLabel = project.category === "Mobile" ? p.mobile : p.web;
+  const hasImages = Boolean(d?.images?.length);
 
   const panelRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
@@ -120,17 +122,19 @@ export default function ProjectModal({
 
         {/* Scrollable content */}
         <div className="flex-1 overflow-y-auto">
-          <ImageCarousel
-            // Keying by project id makes React remount (and so fully reset
-            // internal slide-index state) whenever the images array changes,
-            // instead of an image array from one project silently being
-            // paginated with an index left over from a previous one.
-            key={project.id}
-            images={d?.images}
-            title={project.title[lang]}
-            altLabel={m.imageAlt}
-            orientation={project.category === "Mobile" ? "portrait" : "landscape"}
-          />
+          {hasImages && (
+            <ImageCarousel
+              // Keying by project id makes React remount (and so fully reset
+              // internal slide-index state) whenever the images array changes,
+              // instead of an image array from one project silently being
+              // paginated with an index left over from a previous one.
+              key={project.id}
+              images={d!.images!}
+              title={project.title[lang]}
+              altLabel={m.imageAlt}
+              orientation={project.category === "Mobile" ? "portrait" : "landscape"}
+            />
+          )}
 
           <div className="p-5 sm:p-7">
             {/* Heading */}
@@ -199,10 +203,10 @@ export default function ProjectModal({
               <h3 className="mb-3 font-mono text-xs uppercase tracking-wider text-accent">
                 {m.info}
               </h3>
-              <dl className="grid grid-cols-2 gap-x-4 gap-y-3 font-mono text-xs sm:grid-cols-4">
+              <dl className="grid grid-cols-1 gap-x-4 gap-y-3 font-mono text-xs sm:grid-cols-2 md:grid-cols-4">
                 <div>
                   <dt className="text-muted/75">{m.category}</dt>
-                  <dd className="mt-0.5 text-text">{project.category}</dd>
+                  <dd className="mt-0.5 text-text">{categoryLabel}</dd>
                 </div>
                 <div>
                   <dt className="text-muted/75">{m.statusLabel}</dt>

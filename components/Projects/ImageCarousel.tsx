@@ -8,8 +8,12 @@ import { asset, cn } from "@/lib/utils";
 import { useLang } from "@/lib/i18n";
 
 interface ImageCarouselProps {
-  images?: string[];
-  placeholderCount?: number;
+  /**
+   * Real screenshot paths. The caller (ProjectModal) only mounts this
+   * component when a project has at least one, so this list is never empty —
+   * there's no placeholder-slide fallback to keep in sync with that check.
+   */
+  images: string[];
   title: string;
   altLabel: string;
   /** "portrait" fits phone screenshots without cropping (object-contain). */
@@ -18,7 +22,6 @@ interface ImageCarouselProps {
 
 export default function ImageCarousel({
   images,
-  placeholderCount = 2,
   title,
   altLabel,
   orientation = "landscape",
@@ -26,8 +29,7 @@ export default function ImageCarousel({
   const { t } = useLang();
   const m = t.projects.modal;
   const portrait = orientation === "portrait";
-  const hasImages = Boolean(images?.length);
-  const count = hasImages ? images!.length : placeholderCount;
+  const count = images.length;
 
   const [[index, dir], setState] = useState<[number, number]>([0, 0]);
   const [loaded, setLoaded] = useState(false);
@@ -50,7 +52,9 @@ export default function ImageCarousel({
       <div
         className={cn(
           "relative w-full overflow-hidden",
-          portrait ? "h-[70vh] max-h-[640px] bg-grid bg-surface-2" : "aspect-video",
+          portrait
+            ? "h-[55vh] max-h-[480px] bg-grid bg-surface-2 sm:h-[70vh] sm:max-h-[640px]"
+            : "aspect-video",
         )}
         role="group"
         aria-roledescription="carousel"
@@ -63,7 +67,7 @@ export default function ImageCarousel({
       >
         {/* Loading skeleton — reuses the existing grid/surface-2 texture
             instead of leaving a blank box while the screenshot downloads. */}
-        {hasImages && !loaded && (
+        {!loaded && (
           <div className="bg-grid absolute inset-0 animate-pulse bg-surface-2" />
         )}
 
@@ -77,26 +81,15 @@ export default function ImageCarousel({
             transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
             className="absolute inset-0"
           >
-            {hasImages ? (
-              <Image
-                src={asset(images![index])}
-                alt={`${title} — ${altLabel} ${index + 1}`}
-                fill
-                className="object-contain"
-                unoptimized
-                onLoad={() => setLoaded(true)}
-                sizes={portrait ? "(max-width: 768px) 100vw, 400px" : "(max-width: 768px) 100vw, 768px"}
-              />
-            ) : (
-              <div className="bg-grid flex h-full w-full flex-col items-center justify-center gap-2 bg-surface-2">
-                <span className="border-2 border-accent/40 bg-accent/10 px-3 py-1 font-mono text-xs text-accent">
-                  image {index + 1}
-                </span>
-                <span className="font-mono text-[11px] text-muted/75">
-                  {title}
-                </span>
-              </div>
-            )}
+            <Image
+              src={asset(images[index])}
+              alt={`${title} — ${altLabel} ${index + 1}`}
+              fill
+              className="object-contain"
+              unoptimized
+              onLoad={() => setLoaded(true)}
+              sizes={portrait ? "(max-width: 768px) 100vw, 400px" : "(max-width: 768px) 100vw, 768px"}
+            />
           </motion.div>
         </AnimatePresence>
 

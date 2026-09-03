@@ -1,4 +1,5 @@
 import type { SkillCategory, SocialLink } from "@/types";
+import { siteConfig, whatsappHref } from "./site";
 
 export const skillCategories: SkillCategory[] = [
   {
@@ -21,6 +22,9 @@ export const skillCategories: SkillCategory[] = [
   },
 ];
 
+/** Tag shown next to the soft-skills card, matching the `~/web` / `~/backend` style above. */
+export const SOFT_SKILLS_TAG = "~/soft";
+
 export const socialLinks: SocialLink[] = [
   {
     label: "GitHub",
@@ -36,8 +40,8 @@ export const socialLinks: SocialLink[] = [
   },
   {
     label: "WhatsApp",
-    handle: "+90 533 834 6699",
-    href: "https://wa.me/905338346699",
+    handle: siteConfig.phoneDisplay,
+    href: whatsappHref,
     icon: "whatsapp",
   },
   {
@@ -45,11 +49,5 @@ export const socialLinks: SocialLink[] = [
     handle: "@toigaosman",
     href: "https://www.instagram.com/toigaosman/",
     icon: "instagram",
-  },
-  {
-    label: "Fiverr",
-    handle: "tolgaosmanf",
-    href: "https://www.fiverr.com/tolgaosmanf",
-    icon: "fiverr",
   },
 ];

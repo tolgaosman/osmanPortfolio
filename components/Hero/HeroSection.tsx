@@ -1,11 +1,12 @@
 "use client";
 
 import { motion } from "framer-motion";
-import StatusDashboard from "./StatusDashboard";
-import TypewriterText from "./TypewriterText";
+import HeroPortrait from "./HeroPortrait";
+import ServiceCards from "./ServiceCards";
 import { ArrowUpRightIcon } from "@/components/Icons";
 import { useLang } from "@/lib/i18n";
 import { smoothScrollTo } from "@/lib/utils";
+import { siteConfig } from "@/data/site";
 
 const container = {
   hidden: {},
@@ -35,15 +36,23 @@ export default function HeroSection() {
       className="relative flex min-h-screen items-center overflow-hidden bg-grid pt-16"
     >
       {/* Accent glow */}
-      <div className="pointer-events-none absolute -top-40 right-0 h-[500px] w-[500px] rounded-full bg-accent/10 blur-[120px]" />
-      <div className="pointer-events-none absolute bottom-0 left-0 h-[400px] w-[400px] rounded-full bg-accent/5 blur-[120px]" />
+      <div className="pointer-events-none absolute -top-40 left-1/2 h-[500px] w-[500px] -translate-x-1/2 rounded-full bg-accent/10 blur-[120px]" />
+      <div className="pointer-events-none absolute bottom-0 right-0 h-[400px] w-[400px] rounded-full bg-accent/5 blur-[120px]" />
 
-      <div className="mx-auto grid w-full max-w-7xl grid-cols-1 items-center gap-12 px-5 py-20 sm:px-8 lg:grid-cols-[1.1fr_0.9fr]">
-        {/* Left: copy */}
-        <motion.div variants={container} initial="hidden" animate="show">
+      <motion.div
+        variants={container}
+        initial="hidden"
+        animate="show"
+        className="mx-auto flex w-full max-w-4xl flex-col items-center gap-10 px-5 py-24 text-center sm:px-8 sm:py-28"
+      >
+        <motion.div variants={item}>
+          <HeroPortrait />
+        </motion.div>
+
+        <div>
           <motion.div
             variants={item}
-            className="mb-6 inline-flex items-center gap-2 border border-border bg-surface px-3 py-1.5 font-mono text-xs text-muted"
+            className="mx-auto mb-6 inline-flex items-center gap-2 border border-border bg-surface px-3 py-1.5 font-mono text-xs text-muted"
           >
             <span className="h-2 w-2 animate-pulse-dot rounded-full bg-accent" />
             {h.badge}
@@ -51,33 +60,32 @@ export default function HeroSection() {
 
           <motion.h1
             variants={item}
-            className="font-mono text-3xl font-bold leading-[1.05] tracking-tight sm:text-4xl lg:text-5xl xl:text-6xl"
+            className="font-mono text-3xl font-bold leading-[1.1] tracking-tight text-balance sm:text-5xl lg:text-6xl"
           >
-            <span className="block text-text whitespace-nowrap">Tolga Osman Falay</span>
-            <span className="mt-2 block text-xl text-muted sm:text-2xl lg:text-3xl whitespace-normal">
-              <span className="text-accent">&gt;</span>{h.buildPrefix ? ` ${h.buildPrefix} ` : " "}
-              <TypewriterText
-                words={h.typewriter}
-                className="text-accent text-glow"
-              />
+            <span className="block text-text">
+              {h.greeting} {siteConfig.shortName}.
             </span>
+            <span className="mt-1 block text-muted">{h.roleTitle}</span>
           </motion.h1>
 
           <motion.p
             variants={item}
-            className="mt-4 font-mono text-sm text-muted sm:text-base"
+            className="mx-auto mt-6 max-w-2xl text-glow font-mono text-xl font-bold text-accent sm:text-2xl lg:text-3xl"
           >
-            {h.role}
+            &ldquo;{h.slogan}&rdquo;
           </motion.p>
 
           <motion.p
             variants={item}
-            className="mt-4 max-w-lg text-base leading-relaxed text-muted sm:text-lg"
+            className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-muted sm:text-lg"
           >
             {h.description}
           </motion.p>
 
-          <motion.div variants={item} className="mt-9 flex flex-wrap gap-4">
+          <motion.div
+            variants={item}
+            className="mt-9 flex flex-wrap items-center justify-center gap-4"
+          >
             <button
               onClick={() => scrollTo("projects")}
               className="group inline-flex items-center gap-2 border-2 border-accent bg-accent px-6 py-3 font-mono text-sm font-bold text-bg shadow-neo transition-transform hover:-translate-x-1 hover:-translate-y-1 active:translate-x-0 active:translate-y-0"
@@ -92,34 +100,18 @@ export default function HeroSection() {
               {h.contactMe}
             </button>
           </motion.div>
-
-          <motion.div
-            variants={item}
-            className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-2 font-mono text-xs text-muted"
-          >
-            <span>
-              <span className="text-text">Web</span> · HTML / CSS / JS
-            </span>
-            <span>
-              <span className="text-text">Backend</span> · PHP / Laravel / SQL
-            </span>
-            <span>
-              <span className="text-text">Mobile</span> · Flutter
-            </span>
-          </motion.div>
-        </motion.div>
-
-        {/* Right: dashboard */}
-        <div className="flex justify-center lg:justify-end">
-          <StatusDashboard />
         </div>
-      </div>
+
+        <motion.div variants={item} className="w-full pt-4">
+          <ServiceCards />
+        </motion.div>
+      </motion.div>
 
       {/* Scroll hint */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1.4 }}
+        transition={{ delay: 1.6 }}
         className="absolute bottom-6 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 font-mono text-xs text-muted md:flex"
       >
         <span>{h.scroll}</span>

@@ -5,13 +5,14 @@ import { useLang } from "@/lib/i18n";
 import type { Lang } from "@/data/translations";
 import { cn } from "@/lib/utils";
 
+
 const OPTIONS: { value: Lang; label: string }[] = [
   { value: "en", label: "EN" },
   { value: "tr", label: "TR" },
 ];
 
 export default function LanguageToggle() {
-  const { lang, setLang } = useLang();
+  const { lang, t, setLang } = useLang();
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -93,7 +94,7 @@ export default function LanguageToggle() {
 
       {/* Mobile Inline Selector View */}
       <div className="flex w-full items-center justify-between border border-border bg-surface-2/40 px-3 py-2.5 md:hidden">
-        <span className="font-mono text-xs font-bold text-muted">LANGUAGE / DİL</span>
+        <span className="font-mono text-xs font-bold text-muted">{t.nav.language}</span>
         <div className="flex gap-1">
           {OPTIONS.map((opt) => (
             <button

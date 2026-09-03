@@ -14,9 +14,12 @@ interface CounterProps {
 /** Counts up from 0 to `to` once `start` flips true. */
 function Counter({ to, suffix = "", start }: CounterProps) {
   const reduceMotion = useReducedMotion();
-  const [value, setValue] = useState(reduceMotion ? to : 0);
+  const [value, setValue] = useState(0);
 
   useEffect(() => {
+    // Reduced-motion users skip the rAF loop entirely and get the final
+    // number straight from render below — no setState call needed here, so
+    // there's no cascading-render synchronously inside the effect body.
     if (!start || reduceMotion) return;
     let raf = 0;
     const duration = 900;
@@ -32,9 +35,15 @@ function Counter({ to, suffix = "", start }: CounterProps) {
     return () => cancelAnimationFrame(raf);
   }, [start, to, reduceMotion]);
 
+  // `reduceMotion` is null during SSR/first paint (matches the `value`
+  // state's initial 0 either way), so this can't introduce a hydration
+  // mismatch — it only diverges once the client resolves the real
+  // prefers-reduced-motion value, which is a normal post-hydration update.
+  const display = reduceMotion ? to : value;
+
   return (
     <span>
-      {value}
+      {display}
       {suffix}
     </span>
   );
@@ -85,7 +94,7 @@ export default function StatusDashboard() {
       initial={{ opacity: 0, y: 24, rotate: -1 }}
       animate={inView ? { opacity: 1, y: 0, rotate: 0 } : {}}
       transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-      className="w-full max-w-md border-2 border-border bg-surface shadow-neo"
+      className="w-full border-2 border-border bg-surface shadow-neo"
     >
       {/* Title bar */}
       <div className="flex items-center justify-between border-b-2 border-border bg-surface-2 px-3 py-2">

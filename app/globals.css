@@ -105,6 +105,21 @@
     -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
     mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
   }
+
+  /* Hero portrait duotone: an emerald tint layered over the (grayscaled)
+     photo via mix-blend-mode, so a daylight photo reads as part of the dark
+     palette instead of a jarring color patch. */
+  .duotone-tint {
+    background-image: linear-gradient(165deg, var(--color-accent) 0%, transparent 75%);
+    mix-blend-mode: color;
+    opacity: 0.55;
+  }
+
+  /* Fades the portrait's lower edge into the page background so the frame
+     doesn't read as a hard-edged cutout floating on the grid. */
+  .duotone-fade {
+    background-image: linear-gradient(to top, var(--color-bg) 0%, transparent 55%);
+  }
 }
 
 @keyframes blink {

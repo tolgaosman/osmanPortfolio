@@ -17,8 +17,8 @@ export interface ProjectDetails {
   /** Delivery year, e.g. "2024" */
   year?: string;
   /**
-   * Real screenshot paths (wrapped with asset() at render).
-   * When empty/undefined the carousel renders styled placeholder slides.
+   * Real screenshot paths (wrapped with asset() at render). When absent, the
+   * modal skips the carousel entirely rather than showing placeholder slides.
    */
   images?: string[];
 }
@@ -50,5 +50,12 @@ export interface SocialLink {
   label: string;
   handle: string;
   href: string;
-  icon: "github" | "linkedin" | "whatsapp" | "instagram" | "fiverr";
+  icon: "github" | "linkedin" | "whatsapp" | "instagram";
+}
+
+export type ServiceId = "web" | "mobile" | "backend";
+
+export interface HeroService {
+  id: ServiceId;
+  stack: string[];
 }

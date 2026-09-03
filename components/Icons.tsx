@@ -1,6 +1,5 @@
 import type { SVGProps } from "react";
 import type { SocialLink } from "@/types";
-import { SiFiverr } from "@icons-pack/react-simple-icons";
 
 type IconProps = SVGProps<SVGSVGElement>;
 
@@ -121,9 +120,6 @@ export function ChevronRightIcon(props: IconProps) {
   );
 }
 
-// react-simple-icons components accept the same DOM SVG props as our
-// hand-rolled icons but are typed with their own (structurally compatible)
-// props interface — widen to React.ComponentType so both fit without `any`.
 export const SOCIAL_ICONS: Record<
   SocialLink["icon"],
   React.ComponentType<IconProps>
@@ -132,5 +128,4 @@ export const SOCIAL_ICONS: Record<
   linkedin: LinkedInIcon,
   whatsapp: WhatsAppIcon,
   instagram: InstagramIcon,
-  fiverr: SiFiverr,
 };

@@ -6,13 +6,11 @@ import { ExternalLinkIcon, WhatsAppIcon } from "@/components/Icons";
 import { useLang } from "@/lib/i18n";
 import { LIMITS, validateContact, type Channel, type ContactFieldErrors } from "@/lib/validation";
 import { cn } from "@/lib/utils";
+import { siteConfig } from "@/data/site";
 
 const inputClass =
   "w-full border-2 border-border bg-bg px-4 py-3 font-mono text-sm text-text placeholder:text-muted/75 transition-colors focus:border-accent";
 const inputErrorClass = "border-[#fca5a5]";
-
-const WHATSAPP_NUMBER = "905338346699";
-const EMAIL = "tofbusiness2002@gmail.com";
 
 const NO_ERRORS: ContactFieldErrors = { name: false, contact: false, message: false };
 
@@ -67,13 +65,13 @@ export default function ContactForm() {
 
     let win: Window | null;
     if (channel === "whatsapp") {
-      const body = `Name: ${values.name}\nEmail: ${values.contact}\n\n${values.message}`;
-      const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(body)}`;
+      const body = `${c.msgName}: ${values.name}\n${c.msgEmail}: ${values.contact}\n\n${values.message}`;
+      const url = `https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent(body)}`;
       win = window.open(url, "_blank");
     } else {
-      const subject = `Portfolio contact — ${values.name}`;
-      const body = `Name: ${values.name}\nPhone: ${values.contact}\n\n${values.message}`;
-      const url = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(EMAIL)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      const subject = `${c.msgSubject} ${values.name}`;
+      const body = `${c.msgName}: ${values.name}\n${c.msgPhone}: ${values.contact}\n\n${values.message}`;
+      const url = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(siteConfig.email)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
       win = window.open(url, "_blank");
     }
 

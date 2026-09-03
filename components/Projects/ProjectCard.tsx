@@ -14,6 +14,7 @@ export default function ProjectCard({
 }) {
   const { lang, t } = useLang();
   const p = t.projects;
+  const categoryLabel = project.category === "Mobile" ? p.mobile : p.web;
 
   return (
     <motion.article
@@ -52,7 +53,7 @@ export default function ProjectCard({
             </button>
           </h3>
           <span className="shrink-0 border border-border px-2 py-0.5 font-mono text-[10px] uppercase text-muted">
-            {project.category}
+            {categoryLabel}
           </span>
         </div>
 
@@ -61,8 +62,10 @@ export default function ProjectCard({
         </p>
 
         <div className="mt-auto pt-5">
-          {/* Tech stack: always visible on mobile, hover-reveal on md+ */}
-          <div className="mb-4 flex flex-wrap gap-2 md:max-h-0 md:overflow-hidden md:opacity-0 md:transition-all md:duration-300 md:group-hover:max-h-40 md:group-hover:opacity-100">
+          {/* Tech stack: always visible up to lg (covers touch tablets, which
+              can't trigger the hover reveal below); hover-collapsed only on
+              lg+ where a mouse is the primary input. */}
+          <div className="mb-4 flex flex-wrap gap-2 lg:max-h-0 lg:overflow-hidden lg:opacity-0 lg:transition-all lg:duration-300 lg:group-hover:max-h-52 lg:group-hover:opacity-100">
             {project.stack.map((tech) => (
               <span
                 key={tech}

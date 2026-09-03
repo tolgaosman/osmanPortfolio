@@ -6,7 +6,7 @@ import { cn, smoothScrollTo } from "@/lib/utils";
 import { useLang } from "@/lib/i18n";
 import LanguageToggle from "@/components/LanguageToggle";
 
-const LINK_IDS = ["home", "about", "projects", "skills", "contact"] as const;
+const LINK_IDS = ["home", "about", "projects", "process", "skills", "contact"] as const;
 const MOBILE_MENU_ID = "mobile-nav-menu";
 
 export default function NavBar() {
@@ -27,6 +27,7 @@ export default function NavBar() {
       { id: "home", label: t.nav.home },
       { id: "about", label: t.nav.about },
       { id: "projects", label: t.nav.work },
+      { id: "process", label: t.nav.process },
       { id: "skills", label: t.nav.skills },
     ],
     [t],
@@ -128,7 +129,7 @@ export default function NavBar() {
       )}
     >
       <nav
-        aria-label="Primary"
+        aria-label={t.nav.primaryNav}
         className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 sm:px-8"
       >
         <button

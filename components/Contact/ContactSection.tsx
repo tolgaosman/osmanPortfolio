@@ -4,7 +4,9 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import SectionHeading from "@/components/SectionHeading";
 import ContactForm from "./ContactForm";
+import StatusDashboard from "./StatusDashboard";
 import { socialLinks } from "@/data/skills";
+import { siteConfig } from "@/data/site";
 import { ArrowUpRightIcon, SOCIAL_ICONS } from "@/components/Icons";
 import { useLang } from "@/lib/i18n";
 
@@ -27,11 +29,11 @@ export default function ContactSection() {
     );
   };
 
-  const EMAIL = "tofbusiness2002@gmail.com";
-  const PHONE = "+90 533 834 6699";
+  const EMAIL = siteConfig.email;
+  const PHONE = siteConfig.phoneDisplay;
 
   return (
-    <section id="contact" className="relative py-24 sm:py-32">
+    <section id="contact" className="relative overflow-hidden py-24 sm:py-32">
       <div className="pointer-events-none absolute right-1/4 top-20 h-[400px] w-[400px] rounded-full bg-accent/5 blur-[120px]" />
 
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
@@ -60,15 +62,10 @@ export default function ContactSection() {
             transition={{ duration: 0.5, delay: 0.12 }}
             className="flex flex-col gap-4"
           >
-            <div className="border-2 border-border bg-surface p-6">
-              <div className="flex items-center gap-2 font-mono text-sm">
-                <span className="h-2.5 w-2.5 animate-pulse-dot rounded-full bg-accent" />
-                <span className="text-accent">{c.available}</span>
-              </div>
-              <p className="mt-3 text-sm leading-relaxed text-muted">
-                {c.availableNote}
-              </p>
-            </div>
+            <StatusDashboard />
+            <p className="px-1 text-sm leading-relaxed text-muted">
+              {c.availableNote}
+            </p>
 
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               {socialLinks.map((link) => {
@@ -101,7 +98,7 @@ export default function ContactSection() {
             <div className="space-y-3">
               <div className="group flex items-center justify-between gap-3 border-2 border-accent bg-accent/10 p-4 transition-colors hover:bg-accent/20">
                 <a
-                  href="https://mail.google.com/mail/?view=cm&fs=1&to=tofbusiness2002@gmail.com"
+                  href={`https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(EMAIL)}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex min-w-0 flex-1 items-center gap-2"
@@ -124,7 +121,7 @@ export default function ContactSection() {
               </div>
               <div className="group flex items-center justify-between gap-3 border-2 border-accent bg-accent/10 p-4 transition-colors hover:bg-accent/20">
                 <a
-                  href="tel:+905338346699"
+                  href={`tel:${siteConfig.phoneE164}`}
                   className="flex min-w-0 flex-1 items-center gap-2"
                 >
                   <span className="font-mono text-sm text-accent">{PHONE}</span>

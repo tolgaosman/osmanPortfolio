@@ -1,4 +1,5 @@
 import { ImageResponse } from "next/og";
+import { siteConfig } from "@/data/site";
 
 export const dynamic = "force-static";
 export const alt = "Tolga Osman — Software Engineering Student & Web/Mobile Developer";
@@ -57,7 +58,7 @@ export default function OpengraphImage() {
             letterSpacing: "-0.02em",
           }}
         >
-          Tolga Osman Falay
+          {siteConfig.name}
         </div>
 
         <div

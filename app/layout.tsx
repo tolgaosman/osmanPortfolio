@@ -1,9 +1,9 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import { MotionConfig } from "framer-motion";
-import Script from "next/script";
 import { LanguageProvider } from "@/lib/i18n";
 import { socialLinks, skillCategories } from "@/data/skills";
+import { siteConfig } from "@/data/site";
 import "./globals.css";
 
 const inter = Inter({
@@ -47,7 +47,7 @@ const CSP = [
   "upgrade-insecure-requests",
 ].join("; ");
 
-const SITE_URL = "https://tolgaosman.github.io/osmanPortfolio/";
+const SITE_URL = siteConfig.url;
 const SITE_TITLE = "Tolga Osman — Software Engineering Student & Web/Mobile Developer";
 const SITE_DESCRIPTION =
   "Software Engineering student building clean, scalable web and mobile experiences — from interface to deployment.";
@@ -64,7 +64,7 @@ export const metadata: Metadata = {
     "Flutter",
     "Tolga Osman",
   ],
-  authors: [{ name: "Tolga Osman", url: SITE_URL }],
+  authors: [{ name: siteConfig.shortName, url: SITE_URL }],
   alternates: {
     canonical: SITE_URL,
   },
@@ -76,7 +76,7 @@ export const metadata: Metadata = {
     title: SITE_TITLE,
     description: SITE_DESCRIPTION,
     url: SITE_URL,
-    siteName: "Tolga Osman",
+    siteName: siteConfig.shortName,
     type: "website",
     locale: "en_US",
     images: [
@@ -106,7 +106,7 @@ function personJsonLd() {
   const json = {
     "@context": "https://schema.org",
     "@type": "Person",
-    name: "Tolga Osman Falay",
+    name: siteConfig.name,
     url: SITE_URL,
     jobTitle: "Software Engineering Student & Web/Mobile Developer",
     alumniOf: {
@@ -143,9 +143,10 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <head>
-        <Script id="lang-flash-prevent" strategy="beforeInteractive">
-          {NO_FLASH_LANG_SCRIPT}
-        </Script>
+        <script
+          id="lang-flash-prevent"
+          dangerouslySetInnerHTML={{ __html: NO_FLASH_LANG_SCRIPT }}
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: personJsonLd() }}

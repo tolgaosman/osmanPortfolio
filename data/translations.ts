@@ -5,22 +5,30 @@ export const en = {
     home: "_home",
     about: "_about",
     work: "_work",
+    process: "_process",
     skills: "_skills",
     contact: "_contact",
     hireMe: "contact",
     openMenu: "Open menu",
     closeMenu: "Close menu",
+    language: "LANGUAGE / DİL",
+    primaryNav: "Primary",
   },
   hero: {
     badge: "available for new projects",
-    role: "Software Engineering Student & Web / Mobile App Developer",
-    buildPrefix: "I build",
-    typewriter: ["websites.", "mobile apps.", "fast and scalable."],
+    greeting: "Hey, I'm",
+    roleTitle: "Full-Stack Developer",
+    slogan: "If you can say it, I can ship it.",
     description:
-      "Software Engineering student at Eastern Mediterranean University, building clean, scalable web and mobile experiences end-to-end — from interface to deployment.",
+      "Custom websites and mobile apps, built end-to-end — from the first sentence to the live URL.",
     viewWork: "view_work",
     contactMe: "contact_me",
     scroll: "scroll",
+    services: {
+      web: "Web Development",
+      mobile: "Mobile Apps",
+      backend: "Backend & API",
+    },
   },
   dashboard: {
     file: "system_status.sh",
@@ -85,8 +93,31 @@ export const en = {
       goToImage: "Go to image",
     },
   },
+  process: {
+    index: "03 // process",
+    title: "How I Work",
+    subtitle: "A straightforward process from the first message to launch day.",
+    steps: [
+      {
+        title: "Talk it through",
+        desc: "Tell me what you need, in plain language. We scope it together.",
+      },
+      {
+        title: "Design & scope",
+        desc: "I turn the conversation into a clear plan, timeline, and price.",
+      },
+      {
+        title: "Build & iterate",
+        desc: "You see progress early and often — feedback shapes every step.",
+      },
+      {
+        title: "Ship & support",
+        desc: "Launch day, then real support after — not radio silence.",
+      },
+    ],
+  },
   skills: {
-    index: "03 // stack",
+    index: "04 // stack",
     title: "Skills & Ecosystem",
     subtitle:
       "Capabilities across the product lifecycle — from interface to tooling.",
@@ -105,14 +136,14 @@ export const en = {
       "Time Management",
     ],
     highlights: [
-      { value: "3", label: "client projects" },
+      { value: "4", label: "client projects" },
       { value: "10+", label: "GitHub repos" },
       { value: "2", label: "languages spoken" },
       { value: "∞", label: "cups of coffee" },
     ],
   },
   contact: {
-    index: "04 // contact",
+    index: "05 // contact",
     title: "Let's Build Together",
     subtitle:
       "Open to internships, freelance work, and interesting collaborations. Drop a line.",
@@ -131,7 +162,10 @@ export const en = {
     channelMail: "mail",
     whatsappLabel: "send_via_whatsapp()",
     emailLabelBtn: "send_via_email()",
-    validationNote: "// Please fill in all fields.",
+    msgName: "Name",
+    msgEmail: "Email",
+    msgPhone: "Phone",
+    msgSubject: "Portfolio contact —",
     errorName: "// Please enter your name.",
     errorEmail: "// Please enter a valid email address.",
     errorPhone: "// Please enter a valid phone number.",
@@ -151,22 +185,30 @@ export const tr: Dict = {
     home: "_anasayfa",
     about: "_hakkimda",
     work: "_projeler",
+    process: "_surec",
     skills: "_yetenekler",
     contact: "_iletisim",
     hireMe: "iletişim",
     openMenu: "Menüyü aç",
     closeMenu: "Menüyü kapat",
+    language: "LANGUAGE / DİL",
+    primaryNav: "Ana menü",
   },
   hero: {
     badge: "yeni projelere açığım",
-    role: "Yazılım Mühendisliği Öğrencisi & Web / Mobil Uygulama Geliştirici",
-    buildPrefix: "",
-    typewriter: ["web siteleri.", "mobil uygulamalar.", "hızlı ve ölçeklenebilir."],
+    greeting: "Hey, ben",
+    roleTitle: "Full-Stack Developer",
+    slogan: "Cümleye dökebiliyorsan, koda dökebilirim.",
     description:
-      "Doğu Akdeniz Üniversitesi Yazılım Mühendisliği öğrencisiyim; arayüzden dağıtıma kadar uçtan uca temiz ve ölçeklenebilir web ve mobil deneyimler geliştiriyorum.",
+      "Kişiye özel web siteleri ve mobil uygulamalar; ilk cümleden canlı adrese kadar uçtan uca.",
     viewWork: "projeleri_gör",
     contactMe: "iletişime_geç",
     scroll: "kaydır",
+    services: {
+      web: "Web Geliştirme",
+      mobile: "Mobil Uygulamalar",
+      backend: "Backend & API",
+    },
   },
   dashboard: {
     file: "system_status.sh",
@@ -231,8 +273,31 @@ export const tr: Dict = {
       goToImage: "Görsele git",
     },
   },
+  process: {
+    index: "03 // süreç",
+    title: "Nasıl Çalışıyorum",
+    subtitle: "İlk mesajdan yayın gününe kadar net ve basit bir süreç.",
+    steps: [
+      {
+        title: "Konuşalım",
+        desc: "İhtiyacını kendi cümlelerinle anlat — kapsamı birlikte netleştirelim.",
+      },
+      {
+        title: "Tasarım & kapsam",
+        desc: "Konuşmayı net bir plana, takvime ve fiyata dönüştürüyorum.",
+      },
+      {
+        title: "Geliştirme",
+        desc: "Süreci erken ve sık paylaşırım; geri bildirimin her adımı şekillendirir.",
+      },
+      {
+        title: "Yayın & destek",
+        desc: "Yayın günüyle iş bitmez, destek devam eder.",
+      },
+    ],
+  },
   skills: {
-    index: "03 // yığın",
+    index: "04 // yığın",
     title: "Yetenekler & Ekosistem",
     subtitle:
       "Ürün yaşam döngüsü boyunca yetkinlikler — arayüzden araçlara kadar.",
@@ -251,14 +316,14 @@ export const tr: Dict = {
       "Zaman Yönetimi",
     ],
     highlights: [
-      { value: "3", label: "müşteri projesi" },
+      { value: "4", label: "müşteri projesi" },
       { value: "10+", label: "GitHub deposu" },
       { value: "2", label: "konuşulan dil" },
       { value: "∞", label: "fincan kahve" },
     ],
   },
   contact: {
-    index: "04 // iletişim",
+    index: "05 // iletişim",
     title: "Birlikte İnşa Edelim",
     subtitle:
       "Staj, serbest çalışma ve ilginç iş birliklerine açığım. Bir mesaj bırak.",
@@ -277,7 +342,10 @@ export const tr: Dict = {
     channelMail: "mail",
     whatsappLabel: "whatsapptan_gönder()",
     emailLabelBtn: "mail_ile_gönder()",
-    validationNote: "// Lütfen tüm alanları doldurun.",
+    msgName: "İsim",
+    msgEmail: "E-posta",
+    msgPhone: "Telefon",
+    msgSubject: "Portfolyo iletişim —",
     errorName: "// Lütfen isminizi girin.",
     errorEmail: "// Lütfen geçerli bir e-posta adresi girin.",
     errorPhone: "// Lütfen geçerli bir telefon numarası girin.",
