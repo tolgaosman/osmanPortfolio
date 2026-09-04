@@ -1,15 +1,28 @@
 "use client";
 
-import SectionLabel from "@/components/SectionLabel";
-import Reveal, { RevealItem } from "@/components/Reveal";
+import { useRef } from "react";
 import Link from "next/link";
+import { motion, useScroll } from "framer-motion";
+import SectionLabel from "@/components/SectionLabel";
+import ScrambleText from "@/components/ScrambleText";
+import Reveal, { RevealItem } from "@/components/Reveal";
 import { ExternalLinkIcon } from "@/components/Icons";
 import { asset } from "@/lib/utils";
+import { btnQuiet, btnSecondary } from "@/lib/buttons";
 import { useLang } from "@/lib/i18n";
 
 export default function AboutSection() {
   const { t } = useLang();
   const a = t.about;
+  const proseRef = useRef<HTMLDivElement>(null);
+
+  // Reading progress through the prose column. `scrollYProgress` bound
+  // straight to `scaleY` is the one case Framer can hand to the compositor,
+  // because nothing derives from it in between.
+  const { scrollYProgress } = useScroll({
+    target: proseRef,
+    offset: ["start 75%", "end 65%"],
+  });
 
   const facts = [
     { label: a.factLocationLabel, value: a.factLocation },
@@ -18,61 +31,73 @@ export default function AboutSection() {
   ];
 
   return (
-    // A full-bleed slab on `surface`. The alternating background is what
-    // separates sections now, in place of six identical wells of whitespace.
-    <section id="about" className="plane-sheet relative z-10 border-b border-border-structural bg-surface">
+    // A full-bleed slab on `surface`, one step up from the hero's ground. The
+    // alternating plane is what separates sections here, in place of six
+    // identical wells of whitespace.
+    <section
+      id="about"
+      className="plane relative z-10 border-y border-border-structural bg-surface"
+    >
       <div className="mx-auto max-w-[92rem] px-5 py-20 sm:px-8 sm:py-28">
-        {/* Magazine folio. Used in two sections only — as wayfinding, not as
-            a badge stamped on every heading like the old `01 // about`. */}
-        {/* Large enough to sit genuinely behind the sidebar and prose rather
-            than just above the fold — occlusion is free depth, and a folio
-            numeral you can't quite read because the text is standing on it
-            reads as printed into the stock, not pasted on top of it. */}
+        {/* Folio. Large enough to sit genuinely behind the columns rather than
+            above them — a numeral you cannot quite read because the text is
+            standing on it reads as printed into the stock, not stamped on. */}
         <span
-          aria-hidden
-          className="pointer-events-none absolute -left-3 top-2 -z-10 select-none font-display text-[clamp(7rem,20vw,17rem)] leading-[0.7] text-accent-dim/25 sm:-left-8"
+          aria-hidden="true"
+          className="pointer-events-none absolute -left-3 top-2 -z-10 select-none font-display text-[clamp(7rem,20vw,17rem)] font-bold leading-[0.7] text-accent-dim/25 sm:-left-8"
         >
           01
         </span>
 
-        <div className="relative grid gap-14 lg:grid-cols-[18rem_1fr] lg:gap-16">
+        <div className="relative grid gap-14 lg:grid-cols-[19rem_1fr] lg:gap-16">
           <aside className="lg:sticky lg:top-28 lg:self-start">
-            <SectionLabel>{a.label}</SectionLabel>
+            <SectionLabel index="01">{a.label}</SectionLabel>
 
-            <Reveal stagger={0.07} className="mt-8">
-              <RevealItem as="h2" className="font-display text-sub text-text">
-                {a.title}
+            {/* The sidebar enters from the left against the prose's rise, so
+                the two columns arrive as two things rather than one block. */}
+            <Reveal stagger={0.07} variant="slideL" className="mt-8">
+              <RevealItem
+                as="h2"
+                variant="unmask"
+                className="font-display text-sub font-medium text-text"
+              >
+                <ScrambleText text={a.title} />
               </RevealItem>
 
-              {/* Hairline definition list — the same three facts the old
-                  3-up card grid held, minus the three boxes. */}
-              <RevealItem as="dl" className="mt-8 divide-y divide-border-faint border-y border-border">
+              {/* A readout, not three cards. These are the only content on the
+                  page that is a set of discrete equal-weight data points, and
+                  a key/value list with dotted leaders says that in less ink
+                  than three bordered boxes — which is also the difference
+                  between "printed" and "dashboard". */}
+              <RevealItem as="dl" className="mt-9 space-y-3.5">
                 {facts.map(({ label, value }) => (
-                  <div key={label} className="flex flex-wrap justify-between gap-x-6 gap-y-1 py-3.5">
-                    <dt className="font-sans text-label font-medium uppercase text-faint">
-                      {label}
-                    </dt>
-                    <dd className="font-sans text-sm text-text">{value}</dd>
+                  <div
+                    key={label}
+                    className="flex items-baseline gap-2 font-mono text-xs"
+                  >
+                    <dt className="shrink-0 uppercase text-faint">{label}</dt>
+                    <span
+                      aria-hidden="true"
+                      className="min-w-4 flex-1 translate-y-[-0.2em] border-b border-dotted border-border"
+                    />
+                    <dd className="shrink-0 text-right text-text">{value}</dd>
                   </div>
                 ))}
               </RevealItem>
 
-              <RevealItem className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
-                {/* Routes through the site's own /cv viewer (app/cv/page.tsx)
-                    rather than opening the raw file — that route existed and
-                    was in the sitemap already, but nothing on the page linked
-                    to it. */}
-                <Link
-                  href="/cv"
-                  className="group inline-flex items-center gap-2 font-sans text-sm text-text transition-colors hover:text-accent"
-                >
-                  <span className="link-underline">{a.viewCv}</span>
+              <RevealItem className="mt-9 flex flex-wrap items-center gap-x-4 gap-y-3">
+                {/* Routes through the site's own /cv viewer rather than the
+                    raw file — that route is in the sitemap and deserves a way
+                    in. Download stays quiet: same document, other route. */}
+                <Link href="/cv" data-cursor="link" className={`${btnSecondary} group`}>
+                  {a.viewCv}
                   <ExternalLinkIcon className="h-3.5 w-3.5 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
                 </Link>
                 <a
                   href={asset("/osmanCV.pdf")}
                   download="osmanCV.pdf"
-                  className="link-underline font-sans text-sm text-muted transition-colors hover:text-text"
+                  data-cursor="link"
+                  className={btnQuiet}
                 >
                   {a.downloadCv}
                 </a>
@@ -80,22 +105,41 @@ export default function AboutSection() {
             </Reveal>
           </aside>
 
-          {/* Prose is primary text at reading size. Body copy in `muted` is a
-              template habit — it makes the one thing people came to read the
-              least legible thing on the page. */}
-          <Reveal
-            stagger={0.09}
-            className="max-w-[46rem] space-y-6 font-sans text-lede text-text"
-          >
-            <RevealItem
-              as="p"
-              className="first-letter:float-left first-letter:mr-3 first-letter:mt-2 first-letter:font-display first-letter:text-[4.25rem] first-letter:leading-[0.72] first-letter:text-accent"
+          <div ref={proseRef} className="relative">
+            {/* Reading rail. Real progress through this column — not a
+                decorative gauge and not a number anyone has to trust. */}
+            <div
+              aria-hidden="true"
+              className="absolute inset-y-0 left-0 hidden w-px bg-border-faint lg:block"
             >
-              {a.p1}
-            </RevealItem>
-            <RevealItem as="p">{a.p2}</RevealItem>
-            <RevealItem as="p">{a.p3}</RevealItem>
-          </Reveal>
+              <motion.div
+                style={{ scaleY: scrollYProgress }}
+                className="h-full w-px origin-top bg-accent"
+              />
+            </div>
+
+            {/* Prose is PRIMARY text at reading size. Body copy in `muted` is
+                a template habit: it makes the one thing people came to read
+                the least legible thing on the page. */}
+            <Reveal
+              stagger={0.09}
+              className="max-w-[46rem] space-y-6 text-lede text-text lg:pl-10"
+            >
+              {/* No drop cap. It belonged to the serif this page used to be
+                  set in; Space Grotesk's capital I is a bare stem, so a 4rem
+                  first-letter on a paragraph starting "I'm" renders as a
+                  stray quotation mark rather than as an initial. */}
+              <RevealItem as="p" data-cursor="text">
+                {a.p1}
+              </RevealItem>
+              <RevealItem as="p" data-cursor="text">
+                {a.p2}
+              </RevealItem>
+              <RevealItem as="p" data-cursor="text">
+                {a.p3}
+              </RevealItem>
+            </Reveal>
+          </div>
         </div>
       </div>
     </section>

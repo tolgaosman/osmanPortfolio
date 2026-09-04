@@ -2,19 +2,21 @@
 
 @layer base {
   :root {
-    /* Shadow ink, and its opposite. Never rgb(0 0 0): on this warm ground a
-       black shadow desaturates as it deepens (at .55 alpha over bg it
-       computes to rgb(9 8 7), a red-blue spread of only 2 against the
-       ground's own spread of 5) and reads as a grey smudge rather than a
-       shadow. This ink is darker AND warmer than the ground, so the same
-       alpha computes to rgb(16 12 8), spread 8 — the shadow gains warmth as
-       it deepens, the way ink does in paper stock.
-       --hilite is --color-text's channels: at .05 alpha over surface it
-       computes to #272421, exactly one surface step brighter. That lit lip
-       is the light source; the shadow below it is the light's consequence —
-       neither reads as depth without the other. */
-    --ink: 10 6 2;
-    --hilite: 245 240 232;
+    /* Shadow ink, and its opposite. Never rgb(0 0 0): on this green-black
+       ground a neutral black shadow desaturates as it deepens and reads as a
+       grey smudge sitting ON the page rather than as the page own shadow.
+       This ink is darker AND greener than the ground, so it gains depth
+       without losing hue.
+       --hilite is --color-text channels, used for the lit top edge of an
+       elevated element. That lip is the light source; the shadow below it is
+       the light consequence — neither reads as depth without the other. */
+    --ink: 2 8 5;
+    --hilite: 233 242 236;
+
+    /* Accent channels, for the alpha compositing that glow and the grid need.
+       Kept in sync with --color-accent by hand: Tailwind v4 has no way to
+       decompose a hex token into channels. */
+    --accent-rgb: 46 232 143;
   }
 
   body {
@@ -22,13 +24,12 @@
     color: var(--color-text);
     font-family: var(--font-sans), system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
-    overflow-x: hidden;
-  }
-
-  /* Display type is set optically: tight leading, slightly negative tracking,
-     and old-style figures where the face offers them. */
-  .font-display {
-    font-feature-settings: "onum" 1, "liga" 1;
+    /* `clip`, not `hidden`. `overflow: hidden` makes this element a scroll
+       container, which silently kills every `position: sticky` descendant —
+       and the pinned projects track depends on one. `clip` suppresses the
+       horizontal overflow (the wall name and the marquee both bleed past the
+       viewport) without creating a scrollport. */
+    overflow-x: clip;
   }
 
   ::selection {
@@ -36,17 +37,28 @@
     color: var(--color-bg);
   }
 
+  /* Mono on this page always displays LITERAL characters — CLI flags, CSS
+     custom properties, file paths, project ids, source code. JetBrains Mono
+     ships contextual ligatures that merge `--` into an em dash and `->` into
+     an arrow, which is charming in an editor and wrong here: `./init
+     --portfolio` rendered as `./init —portfolio` is not the command, and
+     `"--rx"` rendered as `"—rx"` is not the property. Turning them off is a
+     correctness fix, not a style preference. */
+  .font-mono,
+  .term,
+  .lap__screen {
+    font-variant-ligatures: none;
+    font-feature-settings: "liga" 0, "calt" 0;
+  }
+
+
   /* Single source of truth for keyboard focus. :focus-visible only fires for
-     keyboard/programmatic focus, so mouse users never see it — this doesn't
-     change how the site looks, it makes the existing design reachable by
-     keyboard. Uses the existing accent token, no new color. */
+     keyboard/programmatic focus, so mouse users never see it. */
   :focus-visible {
     outline: 2px solid var(--color-accent);
     outline-offset: 2px;
   }
 
-  /* Custom scrollbar — kept quiet. The old accent-colored thumb read as a
-     decorative stripe down the page rather than a control. */
   ::-webkit-scrollbar {
     width: 10px;
   }
@@ -54,219 +66,633 @@
     background: var(--color-bg);
   }
   ::-webkit-scrollbar-thumb {
-    background: var(--color-border);
+    background: var(--color-border-structural);
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: var(--color-muted);
+    background: var(--color-accent-dim);
+  }
+
+  /* The boot overlay is in the static HTML on every load, so a first-time
+     visitor never sees hero-then-overlay. A returning visitor inline head
+     script sets html[data-booted] before first paint, and this hides it with
+     zero flash. Reduced motion skips it entirely (see the block at the end). */
+  html[data-booted] [data-boot] {
+    display: none;
   }
 }
 
 @theme {
-  /* Warm ink rather than neutral black — the whole palette is pulled toward
-     the amber end so the portrait and the project screenshots sit in it
-     instead of on top of it.
+  /* Green-black ground rather than neutral black — the whole palette is
+     pulled toward jade so the portrait cutout, the grid and the screenshots
+     sit IN the page instead of on top of it.
 
      Contrast, measured (WCAG 2.1) — every text token clears AA on every
      surface it is actually used on:
-       text  #f5f0e8  16.48:1 on bg   15.42 on surface   13.94 on surface-2
-       muted #a8a096   7.24:1 on bg    6.77 on surface    6.06 on surface-2
-       faint #928879   5.36:1 on bg    5.01 on surface    4.53 on surface-2
-       accent #c8873f  6.23:1 on bg    5.82 on surface
-     bg-on-accent (dark label on the filled CTA) is 6.23:1. */
-  --color-bg: #14120f;
-  --color-surface: #1c1917;
-  --color-surface-2: #252220;
+       text   #e9f2ec  16.90:1 on bg  15.55 on surface  14.06 on surface-2
+       muted  #94a89d   7.70:1 on bg   7.09 on surface   6.41 on surface-2
+       faint  #7b9186   5.75:1 on bg   5.29 on surface   4.90 on surface-2
+       accent #2ee88f  12.05:1 on bg  11.09 on surface  10.02 on surface-2
+     bg-on-accent (the dark label on the filled CTA) is 12.05:1.
+     border-strong #5a7266 is 3.72:1 on bg — interactive edges, SC 1.4.11. */
+  --color-bg: #0a0f0d;
+  --color-surface: #101815;
+  --color-surface-2: #16211c;
 
-  /* Four rule weights, one family — see the assignment table in the design
-     note this shipped with. Repetition costs weight: a lone divider holds
-     `border`, but three or more of the same divider in a row (a <dl>'s rows,
-     a 4-up band's dividers) drop to `border-faint` so they read as texture
-     rather than a ladder of equal-strength lines. `border-structural` marks
-     where one physical plane ends and another begins — reserved for slab
-     boundaries, never a box. `border-strong` is unchanged: form inputs and
-     other interactive edges, tuned to 3.12:1 on bg for SC 1.4.11. */
-  --color-border-faint: #2a2521;
-  --color-border: #332d28;
-  --color-border-structural: #453d36;
-  --color-border-strong: #6a6259;
+  /* Four rule weights, one family. Repetition costs weight: a lone divider
+     holds `border`, but three or more of the same divider in a row drop to
+     `border-faint` so they read as texture rather than a ladder of
+     equal-strength lines. `border-structural` marks where one physical plane
+     ends and another begins. `border-strong` is for anything you can type in
+     or press, tuned to clear the 3:1 of SC 1.4.11. */
+  --color-border-faint: #1a2721;
+  --color-border: #22332b;
+  --color-border-structural: #2e453a;
+  --color-border-strong: #5a7266;
 
-  --color-accent: #c8873f;
-  --color-accent-bright: #e0a860;
-  /* Non-text only — 2.75:1. Folio numerals, chip fills, shadow-adjacent use. */
-  --color-accent-dim: #7a5320;
+  --color-accent: #2ee88f;
+  --color-accent-bright: #5cffb0;
+  /* Non-text only — 4.4:1 is below AA for body copy. Folio numerals, chip
+     fills, grid hairlines, inactive terminal glyphs. */
+  --color-accent-dim: #1d6b47;
 
-  --color-text: #f5f0e8;
-  --color-muted: #a8a096;
-  /* Third text level. Replaces `text-muted/75`, which computed to 3.9:1 on
-     surface and quietly failed AA. Never use an /opacity modifier on text. */
-  --color-faint: #928879;
-  --color-danger: #e8a08c;
+  --color-text: #e9f2ec;
+  --color-muted: #94a89d;
+  /* Third text level. Never use an /opacity modifier on text to get here —
+     `text-muted/75` computes to a contrast this token is measured to clear. */
+  --color-faint: #7b9186;
+  --color-danger: #ff8a7a;
 
-  /* Fluid display scale. Headings previously stacked three breakpoint classes
-     each (text-3xl sm:text-4xl lg:text-5xl); these collapse that to one class
-     and let every heading size itself continuously. */
-  --text-display: clamp(2.75rem, 1.1rem + 6.8vw, 6.5rem);
-  --text-display--line-height: 0.94;
-  --text-display--letter-spacing: -0.035em;
+  /* Fluid scale, one class per heading.
 
-  --text-title: clamp(2rem, 1.15rem + 3.4vw, 3.5rem);
-  --text-title--line-height: 1;
+     Retuned for the new faces. The old --text-lede and --text-label were
+     calibrated to Montserrat; Inter sets with a noticeably larger x-height so
+     the lede steps DOWN, and the label is now JetBrains Mono, whose glyphs
+     are already monospaced-wide so it sheds tracking. Re-measure both if the
+     body or label face ever changes again. */
+
+  /* The hero and footer wall name. Sized in vw so it spans the viewport at
+     every width: TOLGA OSMAN is 11 characters, and Space Grotesk Bold at
+     -0.04em tracking averages about 0.58em per character, so 100vw divided by
+     (11 x 0.58) lands at roughly 15.6vw. The clamp floor keeps it from
+     collapsing on a watch; the ceiling keeps it from overflowing a 4K panel. */
+  --text-wall: clamp(3.25rem, 15.2vw, 17rem);
+  --text-wall--line-height: 0.82;
+  --text-wall--letter-spacing: -0.04em;
+
+  --text-display: clamp(2.5rem, 1rem + 6vw, 5.5rem);
+  --text-display--line-height: 0.95;
+  --text-display--letter-spacing: -0.03em;
+
+  --text-title: clamp(1.875rem, 1.1rem + 3vw, 3.25rem);
+  --text-title--line-height: 1.02;
   --text-title--letter-spacing: -0.022em;
 
-  --text-sub: clamp(1.375rem, 1.1rem + 1.1vw, 2rem);
-  --text-sub--line-height: 1.15;
+  --text-sub: clamp(1.25rem, 1rem + 1vw, 1.75rem);
+  --text-sub--line-height: 1.2;
   --text-sub--letter-spacing: -0.015em;
 
-  --text-lede: clamp(1.0625rem, 0.98rem + 0.45vw, 1.25rem);
-  --text-lede--line-height: 1.65;
+  --text-lede: clamp(1rem, 0.95rem + 0.35vw, 1.125rem);
+  --text-lede--line-height: 1.7;
 
   --text-label: 0.6875rem;
   --text-label--line-height: 1;
-  --text-label--letter-spacing: 0.16em;
+  --text-label--letter-spacing: 0.1em;
+
+  /* Laptop screens and terminal output. 11px is the floor: below it, mono
+     glyphs inside a 3D-transformed element go soft in WebKit. */
+  --text-screen: 0.6875rem;
+  --text-screen--line-height: 1.55;
 
   /* Elevation. Two layers each: a tight CONTACT shadow that carries the
-     occlusion at the object's own edge, and a wide AMBIENT shadow that
-     carries its mass. A single mid-blur shadow on a dark ground has no edge
-     to read and becomes a halo — that is how "glow" gets back in. Every
-     ambient layer runs a negative spread of at least -0.45x its blur, so it
-     can never extend past the object's own footprint.
+     occlusion at the object own edge, and a wide AMBIENT shadow that carries
+     its mass. A single mid-blur shadow on a dark ground has no edge to read
+     and becomes a halo — which is how glow gets in by accident. Glow on this
+     page is deliberate and has its own tokens below.
 
      Assignment is per ELEMENT, not per component type, and elevation is the
-     exception, not the rule — most of the page stays at level 0 (printed on
-     the page, no shadow at all):
-       shadow-lift   things you can press: the accent CTA, the hire-me
-                     button, the form submit, the contact form panel, the
-                     active filter chip
-       shadow-plate  the project screenshot plates only, and their mounts —
-                     the only non-type objects on the page
-       shadow-float  true overlays: the project modal, the mobile nav sheet
+     exception rather than the rule — most of the page renders at level 0:
+       shadow-lift   things you can press
+       shadow-plate  screenshot plates, project cards, laptop assemblies
+       shadow-float  true overlays: the modal, the mobile sheet, the boot screen
 
-     Numeric guard rails (mirrored in .agents/rules/taste.md): blur <= 64px;
-     offset-x = 0 and blur >= 2x|offset-y|; spread <= 0, and <= -0.45x blur
-     past 8px of blur; never the accent hue; the composited result must
-     always be darker than the surface it lands on. A shadow that fails any
-     of those is decoration, not material. */
-  --shadow-lift: 0 1px 2px -1px rgb(var(--ink) / 0.6), 0 6px 12px -6px rgb(var(--ink) / 0.55);
-  --shadow-plate: 0 2px 4px -2px rgb(var(--ink) / 0.65), 0 14px 28px -14px rgb(var(--ink) / 0.6);
-  --shadow-float: 0 2px 6px -2px rgb(var(--ink) / 0.7), 0 30px 60px -28px rgb(var(--ink) / 0.8);
+     Guard rails (mirrored in .agents/rules/taste.md): blur under 64px;
+     offset-x is 0 and blur is at least 2x the absolute offset-y; spread is
+     negative, and at most -0.45x blur past 8px of blur; the composited result
+     must be darker than the surface it lands on. A shadow that fails any of
+     those is decoration, not material. */
+  --shadow-lift: 0 1px 2px -1px rgb(var(--ink) / 0.65), 0 6px 12px -6px rgb(var(--ink) / 0.6);
+  --shadow-plate: 0 2px 4px -2px rgb(var(--ink) / 0.7), 0 16px 32px -16px rgb(var(--ink) / 0.65);
+  --shadow-float: 0 2px 6px -2px rgb(var(--ink) / 0.75), 0 30px 60px -28px rgb(var(--ink) / 0.85);
+  --shadow-rail: 0 1px 0 0 rgb(var(--ink) / 0.6), 0 10px 20px -14px rgb(var(--ink) / 0.85);
+  --shadow-plate-hover: 0 3px 6px -2px rgb(var(--ink) / 0.75), 0 26px 52px -22px rgb(var(--ink) / 0.7);
 
-  /* Inset edges pair with the shadows above. `lip` is the lit top edge every
-     elevated element gets — it is the light source the shadow below is the
-     consequence of. `edge` additionally darkens the inside, for mounting a
-     bright image without it bleeding into its own frame. `well` inverts
-     both, for a surface that is recessed rather than raised. */
-  --inset-shadow-lip: inset 0 1px 0 0 rgb(var(--hilite) / 0.05);
-  --inset-shadow-edge: inset 0 1px 0 0 rgb(var(--hilite) / 0.06), inset 0 0 0 1px rgb(var(--ink) / 0.35);
-  --inset-shadow-well: inset 0 1px 3px 0 rgb(var(--ink) / 0.55), inset 0 -1px 0 0 rgb(var(--hilite) / 0.035);
+  /* GLOW — the one place this palette breaks the shadows-are-always-darker
+     rule, and therefore the one place that needs a hard scope.
 
-  --font-display: var(--font-instrument);
-  --font-sans: var(--font-instrument-sans);
+     Legal on: the filled primary CTA, an active or focused interactive edge,
+     a lit terminal caret, an active timeline node. Nothing else.
+     Illegal on: body text, cards, panels, section backgrounds, images, and
+     anything at rest the user cannot interact with. A page where five things
+     glow has no primary action.
+
+     Both are accent-hued on purpose — that is what makes them read as
+     emission rather than as a broken shadow. Keep the blur under 40px so it
+     stays a rim and never becomes an orb. */
+  --shadow-glow-sm: 0 0 0 1px rgb(var(--accent-rgb) / 0.3), 0 2px 10px -2px rgb(var(--accent-rgb) / 0.35);
+  --shadow-glow: 0 2px 8px -2px rgb(var(--accent-rgb) / 0.45), 0 8px 32px -8px rgb(var(--accent-rgb) / 0.4);
+
+  --inset-shadow-lip: inset 0 1px 0 0 rgb(var(--hilite) / 0.06);
+  --inset-shadow-edge: inset 0 1px 0 0 rgb(var(--hilite) / 0.07), inset 0 0 0 1px rgb(var(--ink) / 0.4);
+  --inset-shadow-well: inset 0 1px 3px 0 rgb(var(--ink) / 0.6), inset 0 -1px 0 0 rgb(var(--hilite) / 0.04);
+
+  /* Corner radius. Tighter than the scale this replaced: the page reads as
+     instrument panels and terminal windows, and a 12px radius on a terminal
+     turns it into an app card.
+
+     Assignment is per ELEMENT:
+       xs    badges, status pills, tech chips, folio counters
+       sm    small controls you type in or press: inputs, chips, toggles
+       md    icon buttons, menu rows, laptop bezels, image plates
+       lg    containers: the modal, the terminal panel, the form panel
+       full  the filled accent CTA and nothing else
+
+     What never takes a radius: hairline rules, `divide-*` dividers, the wall
+     name, folio numerals, grid lines, and the small accent squares used as
+     list bullets. */
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+
+  /* Three families, and mono is load-bearing rather than decorative — the
+     reverse of the decision this replaced. JetBrains Mono carries every
+     label, folio numeral, meta strip, terminal line and laptop screen on the
+     page: the terminal-metadata reading that used to be a liability is now
+     the entire point.
+
+     NOTE the indirection: the next/font variables are --font-grotesk,
+     --font-jetbrains and --font-inter, NEVER --font-mono. Tailwind v4 @theme
+     already owns the --font-* namespace (--font-mono is the token that
+     generates the `font-mono` utility), so naming a next/font variable
+     --font-mono produces a self-referential var() that silently resolves to
+     nothing. */
+  --font-display: var(--font-grotesk);
+  --font-sans: var(--font-inter);
   --font-mono: var(--font-jetbrains);
 }
 
+/* Registered custom properties. `inherits: false` is the load-bearing part:
+   mutating an UNREGISTERED custom property on a container invalidates style
+   for every descendant that could inherit it, which on the hero would be the
+   whole section, sixty times a second. Registered and non-inheriting, the
+   invalidation stops at the element that actually reads it. */
+@property --rx {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+@property --ry {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+@property --sx {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 50vw;
+}
+@property --sy {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 40vh;
+}
+
 @layer utilities {
-  /* Fine paper grain, global. A large flat area of one dark color reads as
-     screen-flat; this barely-there noise layer gives it the tooth of printed
-     stock. Fixed attachment so it doesn't slide against content while
-     scrolling, and it stays above the photographs on purpose — grain over an
-     image is what makes the image sit IN the page rather than on top of it. */
-  .grain::after {
-    content: "";
-    position: fixed;
-    inset: 0;
-    z-index: 1;
-    pointer-events: none;
-    opacity: 0.034;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
-  }
+  /* ---------------------------------------------------------------------
+     PERSPECTIVE GRID FLOOR
+     Two repeating gradients on one plane, rotated back and travelling
+     toward the viewer.
 
-  /* A sheet of different stock laid on the page — for the surface-toned
-     sections (About, Process, Contact, Footer). All of its depth lives in
-     its top and bottom edges and in the shadow it throws upward onto the
-     page above it; it has no side edges because it runs full-bleed.
-     `isolation: isolate` keeps its own negative-z-index children (the
-     mottle, the light falloff) from escaping into the page's stacking
-     context — without it a `-z-10` child can end up behind sections that
-     come earlier in the DOM instead of just behind its own parent. */
-  .plane-sheet {
-    position: relative;
-    isolation: isolate;
-    box-shadow:
-      inset 0 1px 0 0 rgb(var(--hilite) / 0.05),
-      inset 0 -1px 0 0 rgb(var(--ink) / 0.55),
-      0 -14px 22px -18px rgb(var(--ink) / 0.7);
-  }
-  /* Top-lit falloff, capped low and forced to zero within 22rem — a gradient
-     that runs the whole slab is a wash, not light. */
-  .plane-sheet::after {
-    content: "";
+     The travel is `transform: translateY()`, NOT `background-position`.
+     background-position is a paint property: animating it repaints the
+     entire (huge, rotated) element every frame. A transform is composited.
+     The distance travelled is exactly one cell, so the loop is seamless.
+     --------------------------------------------------------------------- */
+  .floor {
     position: absolute;
-    inset: 0 0 auto 0;
-    height: 22rem;
-    z-index: -1;
+    inset: auto 0 0 0;
+    height: 58vh;
+    perspective: 260px;
+    perspective-origin: 50% 0%;
     pointer-events: none;
-    background-image: linear-gradient(180deg, rgb(var(--hilite) / 0.02), rgb(var(--hilite) / 0));
+    overflow: hidden;
+    /* Not the preserve-3d node — the plane inside it is. overflow:hidden here
+       is safe precisely because of that. */
   }
-  /* Coarse stock mottle — a second, coarser noise layer than `.grain`,
-     confined to plane-sheet surfaces so its presence is itself a material
-     cue (the plain-bg sections stay smooth). Painted behind in-flow content
-     via negative z-index rather than `.grain`'s fixed overlay, so it can't
-     veil text on the sheet above it. */
-  .plane-sheet::before {
-    content: "";
+
+  .floor__plane {
+    --cell: 56px;
+    position: absolute;
+    left: -50%;
+    width: 200%;
+    top: 0;
+    height: 320%;
+    transform-origin: 50% 0%;
+    transform: rotateX(76deg);
+    /* 1.25px, not 1px: a 1px line inside a 76-degree plane lands on sub-pixel
+       boundaries and shimmers on 2x DPR phones. The extra quarter-pixel with
+       reduced alpha reads as the same hairline and stops the crawl. */
+    background-image:
+      repeating-linear-gradient(
+        90deg,
+        rgb(var(--accent-rgb) / 0.14) 0 1.25px,
+        transparent 1.25px var(--cell)
+      ),
+      repeating-linear-gradient(
+        0deg,
+        rgb(var(--accent-rgb) / 0.14) 0 1.25px,
+        transparent 1.25px var(--cell)
+      );
+    animation: floor-travel 5.6s linear infinite;
+    will-change: transform;
+  }
+
+  /* Horizon falloff as a SIBLING overlay rather than a mask on the animated
+     layer — attaching a mask to a compositing layer makes WebKit
+     re-rasterize it far more aggressively. */
+  .floor__fade {
     position: absolute;
     inset: 0;
-    z-index: -1;
     pointer-events: none;
-    opacity: 0.055;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='320'%3E%3Cfilter id='c'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.16' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='320' height='320' filter='url(%23c)'/%3E%3C/svg%3E");
-  }
-
-  /* A well cut into a sheet: inverted light, for image mounts and the
-     carousel frame — never as a general card fill. */
-  .plane-well {
-    background-color: var(--color-surface-2);
-    box-shadow: var(--inset-shadow-well);
-  }
-
-  /* The portrait is a dusk garden shot: lawn across the bottom, foliage across
-     the top. Left at full saturation it fights the ochre accent harder than
-     the old emerald did. This grades it down rather than recolouring it —
-     skin tone is untouched, the greens just stop shouting. */
-  .photo-warm {
-    filter: saturate(0.88) contrast(1.05);
-  }
-
-  /* Blends the remaining background into the page so the frame doesn't read
-     as a hard-edged cutout. Replaces the old emerald duotone layers. */
-  .photo-vignette {
-    background-image: radial-gradient(
-      115% 85% at 50% 28%,
-      transparent 46%,
-      var(--color-bg) 100%
+    background-image: linear-gradient(
+      to top,
+      transparent 0%,
+      transparent 20%,
+      var(--color-bg) 84%
     );
   }
 
-  /* Underline that grows from the left on hover, for inline text links.
-     Uses background-size (compositing-friendly) instead of a border so the
-     text never reflows. */
-  .link-underline {
+  /* ---------------------------------------------------------------------
+     SPOTLIGHT
+     A fixed-size element holding a STATIC radial gradient, moved by
+     transform only. Moving the gradient centre instead would repaint a
+     viewport-sized layer every frame; there is no compositor fast path for
+     moving the centre of a gradient.
+     --------------------------------------------------------------------- */
+  .spot {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 46rem;
+    height: 46rem;
+    /* Centre with margins, not translate(-50%,-50%): the transform slot is
+       already occupied by the position, and two translates fight. */
+    margin: -23rem 0 0 -23rem;
+    pointer-events: none;
+    border-radius: 50%;
+    background: radial-gradient(
+      circle closest-side,
+      rgb(var(--accent-rgb) / 0.16),
+      rgb(var(--accent-rgb) / 0.05) 45%,
+      transparent 100%
+    );
+    mix-blend-mode: screen;
+    transform: translate3d(var(--sx), var(--sy), 0);
+    will-change: transform;
+  }
+
+  /* NOTE on what is deliberately NOT here: a counter-translating "flashlight"
+     lens that reveals a second, brighter copy of the wall name through a
+     static mask. It renders beautifully, but it requires the lit copy to stay
+     pixel-registered with the dim original, which means measuring the wall
+     and feeding its box back in through more custom properties — a
+     ResizeObserver and two more variables to keep a brightening effect that
+     `mix-blend-mode: screen` on .spot already produces for free, on top of
+     the grid and the name at once. If a future state needs the spotlight to
+     reveal a genuinely DIFFERENT treatment rather than a brighter one, that
+     is when the lens earns its complexity back. */
+
+  /* ---------------------------------------------------------------------
+     SCANLINES
+     A 3px repeating gradient, fixed to the viewport. Static on purpose — a
+     moving scanline is a headache generator and a WCAG 2.3 risk, and the CRT
+     reading survives perfectly well without the movement.
+     --------------------------------------------------------------------- */
+  .scanlines {
+    position: fixed;
+    inset: 0;
+    z-index: 80;
+    pointer-events: none;
+    background-image: repeating-linear-gradient(
+      to bottom,
+      rgb(var(--ink) / 0.22) 0 1px,
+      transparent 1px 3px
+    );
+    opacity: 0.55;
+  }
+
+  /* ---------------------------------------------------------------------
+     3D LAPTOP
+     THE RULE: `transform-style: preserve-3d` goes on assembly nodes;
+     `overflow: hidden` goes on leaf nodes. Never both on one element.
+
+     This is spec, not a browser bug. CSS Transforms Level 2 forces the used
+     value of transform-style to `flat` on any element with overflow other
+     than visible, opacity below 1, a filter, a mask, clip-path, a non-normal
+     mix-blend-mode, isolation: isolate, or contain: paint. The bezel needs
+     overflow:hidden to clip its screen; it is therefore a leaf, and its own
+     children are 2D. That is exactly what we want.
+
+     Ordering inside a 3D context is by computed Z, NOT z-index. Use
+     translateZ() to stack the deck under the lid — reaching for z-index here
+     produces the classic keyboard-draws-on-top-of-the-screen bug.
+     --------------------------------------------------------------------- */
+  .lap {
+    perspective: 1400px;
+    perspective-origin: 50% 42%;
+  }
+
+  .lap__rig {
+    transform-style: preserve-3d;
+    transform: rotateX(var(--rx)) rotateY(var(--ry));
+    will-change: transform;
+  }
+
+  .lap__lid {
+    transform-style: preserve-3d;
+    transform-origin: 50% 100%;
+    transform: rotateX(-8deg) translateZ(0.01px);
+  }
+
+  /* LEAF. transform-style is implicitly flat here, which is required. */
+  .lap__bezel {
+    overflow: hidden;
+    border-radius: var(--radius-md);
+    background-color: #05100a;
+    box-shadow: var(--inset-shadow-edge), var(--shadow-plate);
+    border: 1px solid var(--color-border-structural);
+  }
+
+  .lap__screen {
+    font-family: var(--font-mono), ui-monospace, monospace;
+    font-size: var(--text-screen);
+    line-height: 1.55;
+    /* Screen emission. Legal glow: this is a lit display, and the light stays
+       INSIDE the bezel rather than spilling onto the page. */
+    background-image: radial-gradient(
+      120% 100% at 50% 0%,
+      rgb(var(--accent-rgb) / 0.07),
+      transparent 70%
+    );
+  }
+
+  /* The deck lies almost flat, hinged from its TOP edge so it meets the lid.
+     No preserve-3d: nothing inside it is 3D. */
+  .lap__deck {
+    transform-origin: 50% 0%;
+    transform: rotateX(78deg);
+    background-image: linear-gradient(
+      to bottom,
+      var(--color-surface-2),
+      var(--color-surface)
+    );
+    border: 1px solid var(--color-border-structural);
+    border-top: none;
+    border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+  }
+
+  .lap__keys {
+    background-image:
+      repeating-linear-gradient(90deg, rgb(var(--ink) / 0.5) 0 1px, transparent 1px 7.5%),
+      repeating-linear-gradient(0deg, rgb(var(--ink) / 0.5) 0 1px, transparent 1px 25%);
+  }
+
+  /* ---------------------------------------------------------------------
+     TERMINAL SURFACE
+     Used by the boot overlay, the skills shell, the contact form and the
+     error pages, so those four read as one instrument rather than as four
+     unrelated panels.
+     --------------------------------------------------------------------- */
+  .term {
+    background-color: #060d0a;
+    box-shadow: var(--inset-shadow-well);
+    font-family: var(--font-mono), ui-monospace, monospace;
+  }
+
+  .caret::after {
+    content: "";
+    display: inline-block;
+    width: 0.5em;
+    height: 1em;
+    margin-left: 0.1em;
+    vertical-align: text-bottom;
+    background-color: var(--color-accent);
+    box-shadow: var(--shadow-glow-sm);
+    animation: caret-blink 1.05s steps(1) infinite;
+  }
+
+  /* ---------------------------------------------------------------------
+     LINK WIPE
+     The inline-link underline, grown from the left. Uses background-size
+     rather than a border so the text never reflows.
+     --------------------------------------------------------------------- */
+  .link-wipe {
     background-image: linear-gradient(var(--color-accent), var(--color-accent));
     background-repeat: no-repeat;
     background-position: 0 100%;
     background-size: 0% 1px;
     transition: background-size 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   }
-  .link-underline:hover,
-  .link-underline:focus-visible {
+  .link-wipe:hover,
+  .link-wipe:focus-visible {
     background-size: 100% 1px;
+  }
+
+  /* Grades the portrait toward the palette so the figure belongs to the page
+     rather than sitting on it. */
+  .photo-jade {
+    filter: saturate(0.55) contrast(1.12) brightness(0.92)
+      drop-shadow(0 24px 48px rgb(var(--ink) / 0.7));
+  }
+
+  /* FALLBACK PATH ONLY — used while the source is a rectangular photograph
+     rather than an alpha cutout. HeroPortrait switches on one constant.
+
+     Two linear masks intersected rather than one radial. A radial large
+     enough not to cut the shoulders off only fades within a few percent of
+     the corners, which reads as a hard-edged photo pasted onto the page; two
+     crossed linears fade all four edges evenly and independently, so the
+     figure can keep its full width while still dissolving into the ground.
+
+     `-webkit-mask-composite: source-in` is the legacy spelling of the same
+     operation and has to come FIRST — Safari versions that understand the
+     standard `mask-composite` ignore the prefixed one, and versions that do
+     not would otherwise get an unmasked photo. */
+  .photo-feather {
+    -webkit-mask-image:
+      linear-gradient(90deg, transparent 0%, #000 20%, #000 80%, transparent 100%),
+      linear-gradient(180deg, transparent 0%, #000 15%, #000 84%, transparent 100%);
+    mask-image:
+      linear-gradient(90deg, transparent 0%, #000 20%, #000 80%, transparent 100%),
+      linear-gradient(180deg, transparent 0%, #000 15%, #000 84%, transparent 100%);
+    -webkit-mask-composite: source-in;
+    mask-composite: intersect;
+  }
+
+  /* Pushes the remaining photograph toward the accent so foliage, sky and
+     lawn read as one graded surface instead of as a colour photo dropped
+     into a monochrome page. `color` blend keeps the luminance — and so the
+     face — intact while replacing the hue. */
+  .photo-duotone {
+    background-color: var(--color-accent-dim);
+    mix-blend-mode: color;
+    opacity: 0.72;
+  }
+
+  /* Full-bleed slab boundary. All of its depth lives in its top and bottom
+     edges; it has no side edges because it runs the width of the page. */
+  .plane {
+    position: relative;
+    isolation: isolate;
+    box-shadow:
+      inset 0 1px 0 0 rgb(var(--hilite) / 0.05),
+      inset 0 -1px 0 0 rgb(var(--ink) / 0.6);
+  }
+
+  /* ---------------------------------------------------------------------
+     PINNED HORIZONTAL TRACK
+     The section is taller than the viewport by exactly the distance the
+     track has to travel; a sticky child holds the viewport still while that
+     extra height scrolls past, and JS translates the track along X by the
+     same distance.
+
+     The geometry is defined HERE rather than in JS so the page height is
+     correct in the exported HTML and there is zero layout shift while the
+     measurement settles. The component then measures `scrollWidth` of the
+     real DOM — which this CSS produced — so the two can only agree.
+
+     `--cards` is set inline from projects.length. `100svh`, not `100vh`: on
+     iOS the large viewport unit overshoots by the URL bar's height and the
+     pin releases before the last card has finished arriving.
+     --------------------------------------------------------------------- */
+  .pin {
+    --card-w: 62vw;
+    --gap: 4vw;
+    --pad: 6vw;
+    --travel: calc(
+      2 * var(--pad) + var(--cards) * var(--card-w) + (var(--cards) - 1) *
+        var(--gap) - 100vw
+    );
+    height: calc(100svh + var(--travel));
+  }
+
+  .pin__sticky {
+    position: sticky;
+    top: 0;
+    display: flex;
+    height: 100svh;
+    align-items: center;
+    /* Safe: nothing in this subtree is a preserve-3d assembly root. The
+       cards own their own `.lap` perspective contexts, which are leaves as
+       far as this container is concerned. */
+    overflow: hidden;
+  }
+
+  .pin__track {
+    display: flex;
+    gap: var(--gap);
+    padding-inline: var(--pad);
+    will-change: transform;
+  }
+
+  .pin__track > * {
+    flex: 0 0 var(--card-w);
+  }
+
+  .marquee-track {
+    animation: marquee 38s linear infinite;
+  }
+  .marquee-mask {
+    -webkit-mask-image: linear-gradient(
+      90deg,
+      transparent,
+      #000 8%,
+      #000 92%,
+      transparent
+    );
+    mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
   }
 }
 
-/* Respect the OS motion preference. Framer Motion's side is handled by
-   <MotionConfig reducedMotion="user"> in app/layout.tsx; this covers the
-   CSS transitions (the link underline, hover colors) that Framer never sees.
-   Users who haven't opted in see zero difference. */
+@keyframes floor-travel {
+  from {
+    transform: rotateX(76deg) translateY(0);
+  }
+  to {
+    transform: rotateX(76deg) translateY(var(--cell));
+  }
+}
+
+@keyframes caret-blink {
+  0%,
+  50% {
+    opacity: 1;
+  }
+  50.01%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes code-fall {
+  from {
+    transform: translate3d(0, -110%, 0);
+  }
+  to {
+    transform: translate3d(0, 110vh, 0);
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    /* The track renders its content twice; travelling exactly half its width
+       returns it to a visually identical position. */
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes glitch-shift {
+  0%,
+  92%,
+  100% {
+    transform: translate3d(0, 0, 0);
+    opacity: 0;
+  }
+  93% {
+    transform: translate3d(-3px, 1px, 0);
+    opacity: 0.55;
+  }
+  95% {
+    transform: translate3d(2px, -1px, 0);
+    opacity: 0.4;
+  }
+  97% {
+    transform: translate3d(-1px, 0, 0);
+    opacity: 0.5;
+  }
+}
+
+/* Respect the OS motion preference. Framer Motion side is handled by
+   <MotionConfig reducedMotion="user"> in app/layout.tsx; this covers the CSS
+   animations Framer never sees. The blanket duration override below would
+   already freeze these at their end state (every loop here is seamless, so
+   that happens to look fine), but stating `animation: none` for the ambient
+   layers is honest rather than accidental — and the code rain and scanlines
+   are removed outright, because a frozen column of glyphs is worse than no
+   column at all. */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -275,5 +701,25 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+
+  .floor__plane,
+  .marquee-track,
+  .caret::after {
+    animation: none !important;
+  }
+
+  .code-rain,
+  .scanlines,
+  [data-boot] {
+    display: none !important;
+  }
+
+  .lap__rig {
+    transform: none !important;
+  }
+
+  .spot {
+    display: none !important;
   }
 }

@@ -1,0 +1,205 @@
+/* eslint-disable @next/next/no-img-element --
+   next/image cannot help on this site. `images.unoptimized` is set for the
+   static export, so it performs no resizing, no format negotiation and no
+   lazy-loading policy of its own; all it adds is an absolutely-positioned
+   wrapper that fights the transformed ancestors these images live inside.
+   The two things it would have given us — an explicit intrinsic size and a
+   fetch priority — are set by hand on the <img> below. */
+
+"use client";
+
+import type { Project } from "@/types";
+import { ArrowUpRightIcon, GitHubIcon } from "@/components/Icons";
+import { useProjectModal } from "./ProjectModalProvider";
+import { useLang } from "@/lib/i18n";
+import { asset, cn } from "@/lib/utils";
+import { useLocalTilt } from "@/lib/motion";
+import { btnCommand, btnQuiet } from "@/lib/buttons";
+
+/**
+ * One project. Used unchanged by both the pinned horizontal track and the
+ * stacked fallback, so the two layouts cannot drift apart in anything except
+ * how they are positioned.
+ *
+ * The plate tilts toward the pointer using `useLocalTilt` — element-relative,
+ * so only the card you are actually pointing at moves. The viewport-driven
+ * `useTilt` used by the hero laptops would lean all four identically, which
+ * reads as the page being crooked rather than as the card responding.
+ */
+export default function ProjectCard({
+  project,
+  index,
+  className,
+}: {
+  project: Project;
+  index: number;
+  className?: string;
+}) {
+  const { lang, t } = useLang();
+  const p = t.projects;
+  const { openProject } = useProjectModal();
+  const plate = useLocalTilt<HTMLDivElement>(5);
+
+  const cover = project.details?.images?.[0];
+  const isMobileApp = project.category === "Mobile";
+  const folio = String(index + 1).padStart(2, "0");
+
+  return (
+    <article className={cn("flex h-full flex-col", className)}>
+      {/* Plate. `lap`/`lap__rig` are reused deliberately: the same perspective
+          owner and the same preserve-3d assembly node as the hero laptops, so
+          the whole page tilts with one set of rules rather than two. */}
+      {/* Aspect-driven with a height cap rather than `flex-1`. A flex child
+          that has to shrink to fit was overflowing the pinned viewport, and a
+          card whose title is cut off by the fold is worse than a smaller
+          plate. Now the card is content-sized and always fits. */}
+      <div className="lap w-full">
+        <div ref={plate} className="lap__rig aspect-[16/10] max-h-[52svh]">
+          <button
+            type="button"
+            onClick={() => openProject(project.id)}
+            data-cursor="view"
+            aria-label={`${p.viewDetails}: ${project.title[lang]}`}
+            className="group relative block h-full w-full overflow-hidden rounded-md border border-border bg-surface shadow-plate transition-shadow duration-500 hover:shadow-plate-hover"
+          >
+            {/* A phone screenshot letterboxed into a landscape plate leaves
+                dead space on both sides. The grid gives it a reason to be
+                there — the same floor the hero stands on, read as a mount. */}
+            {isMobileApp && cover && (
+              <span
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,var(--color-border-faint)_1px,transparent_1px),linear-gradient(0deg,var(--color-border-faint)_1px,transparent_1px)] bg-[size:34px_34px]"
+              />
+            )}
+            {cover ? (
+              <img
+                src={asset(cover)}
+                alt=""
+                width={1600}
+                height={900}
+                loading="lazy"
+                decoding="async"
+                className={cn(
+                  "h-full w-full transition-transform duration-700 ease-out group-hover:scale-[1.03]",
+                  // A phone screenshot letterboxed into a 16:9 plate looks
+                  // like a mistake; contain it and let the plate frame it.
+                  isMobileApp
+                    ? "object-contain p-5 sm:p-8"
+                    : "object-cover object-top",
+                )}
+              />
+            ) : (
+              // Not a "coming soon" placeholder. This project genuinely has no
+              // screenshots yet, and a terminal mid-build is a truthful thing
+              // to show for something that is still being built.
+              <div className="term flex h-full w-full flex-col justify-center gap-1 px-6 text-screen">
+                <p className="text-text">{`$ cd ~/projects/${project.id}`}</p>
+                <p className="text-text">{"$ npm run dev"}</p>
+                <p className="text-faint">{"  starting development server"}</p>
+                <p className="text-accent">
+                  {"  building"}
+                  <span className="caret" aria-hidden="true" />
+                </p>
+              </div>
+            )}
+
+            <span className="pointer-events-none absolute inset-0 bg-gradient-to-t from-bg/70 via-transparent to-transparent" />
+
+            <span className="pointer-events-none absolute left-4 top-4 font-display text-4xl font-bold leading-none text-accent-dim">
+              {folio}
+            </span>
+          </button>
+        </div>
+      </div>
+
+      <div className="mt-6 grid gap-x-10 gap-y-4 lg:grid-cols-[1fr_auto] lg:items-end">
+        <div className="min-w-0">
+          {/* Meta strip: every fact here is verifiable from data/projects.ts.
+              No invented metrics, no stars, no "10k users". */}
+          <p className="flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-label uppercase text-faint">
+            <span className="text-accent">
+              {isMobileApp ? p.mobile : p.web}
+            </span>
+            {project.details?.year && (
+              <>
+                <span aria-hidden="true">/</span>
+                <span>{project.details.year}</span>
+              </>
+            )}
+            <span aria-hidden="true">/</span>
+            <span>{p.status[project.status]}</span>
+            {project.details?.role && (
+              <>
+                <span aria-hidden="true">/</span>
+                <span className="truncate">{project.details.role[lang]}</span>
+              </>
+            )}
+          </p>
+
+          <h3 className="mt-3 font-display text-title font-medium text-text">
+            <button
+              type="button"
+              onClick={() => openProject(project.id)}
+              data-cursor="view"
+              className="text-left transition-colors duration-300 hover:text-accent"
+            >
+              {project.title[lang]}
+            </button>
+          </h3>
+
+          <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted">
+            {project.description[lang]}
+          </p>
+
+          <p className="mt-4 flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-xs text-faint">
+            {project.stack.map((tech, i) => (
+              <span key={tech}>
+                {i > 0 && (
+                  <span aria-hidden="true" className="mr-2 text-accent-dim">
+                    ·
+                  </span>
+                )}
+                {tech}
+              </span>
+            ))}
+          </p>
+        </div>
+
+        <div className="flex flex-wrap items-center gap-3">
+          <button
+            type="button"
+            onClick={() => openProject(project.id)}
+            data-cursor="link"
+            className={btnCommand}
+          >
+            {p.viewDetails}
+          </button>
+          {project.github && (
+            <a
+              href={project.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-cursor="link"
+              className={cn(btnQuiet, "inline-flex items-center gap-1.5")}
+            >
+              <GitHubIcon className="h-3.5 w-3.5" />
+              {p.source}
+            </a>
+          )}
+          {project.live && (
+            <a
+              href={project.live}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-cursor="link"
+              className={cn(btnQuiet, "inline-flex items-center gap-1.5")}
+            >
+              {p.live}
+              <ArrowUpRightIcon className="h-3.5 w-3.5" />
+            </a>
+          )}
+        </div>
+      </div>
+    </article>
+  );
+}

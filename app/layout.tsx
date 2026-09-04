@@ -1,7 +1,9 @@
 import type { Metadata, Viewport } from "next";
-import { Instrument_Sans, Instrument_Serif, JetBrains_Mono } from "next/font/google";
+import { Space_Grotesk, JetBrains_Mono, Inter } from "next/font/google";
 import { MotionConfig } from "framer-motion";
 import { LanguageProvider } from "@/lib/i18n";
+import BootOverlay from "@/components/BootOverlay";
+import Cursor from "@/components/Cursor";
 import { socialLinks, skillCategories } from "@/data/skills";
 import { siteConfig } from "@/data/site";
 import "./globals.css";
@@ -9,44 +11,50 @@ import "./globals.css";
 // Every face here must carry "latin-ext". Turkish needs ı ş ğ İ Ğ Ş, which
 // live in Latin Extended-A — the "latin" subset alone drops them and the
 // browser substitutes a system font mid-word (184 such characters in
-// data/translations.ts). Verify latin-ext support before swapping any family.
-// next/font needs these spelled out literally — it parses the call statically,
-// so a shared constant or a spread is rejected at build time.
-// Body face. Instrument Sans is drawn as a companion to Instrument Serif,
-// so the two share proportions; Inter, which this replaces, is the default
-// sans of every generated portfolio and brought nothing the pair doesn't.
-const instrumentSans = Instrument_Sans({
-  variable: "--font-instrument-sans",
+// data/translations.ts). Verified for all three families before swapping.
+//
+// next/font parses these calls STATICALLY, so a shared constant for the
+// subsets array or a spread is rejected at build time. They must be spelled
+// out literally, once per family.
+//
+// No `weight` array anywhere below, on purpose: all three are real variable
+// fonts. Passing weights downloads one static instance per weight per subset
+// (3 families x 3 weights x 2 subsets is ~18 woff2 files and ~18 render-
+// blocking preload hints). Omitting it ships one variable file per family per
+// subset — six files — and every weight in the axis range comes free.
+//
+// Display face: the wall name, headings, project titles, the wordmark.
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-grotesk",
   subsets: ["latin", "latin-ext"],
-  weight: ["400", "500", "600"],
   display: "swap",
 });
 
-// Display face, headings only. High-contrast serif against the mono/sans
-// pair so headings read as typeset rather than as terminal output.
-const instrumentSerif = Instrument_Serif({
-  variable: "--font-instrument",
-  subsets: ["latin", "latin-ext"],
-  weight: ["400"],
-  style: ["normal", "italic"],
-  display: "swap",
-});
-
+// Mono is load-bearing here rather than decorative: every label, folio
+// numeral, meta strip, terminal line and laptop screen is set in it.
 const jetbrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains",
   subsets: ["latin", "latin-ext"],
-  weight: ["400", "500", "700"],
+  display: "swap",
+});
+
+// Body face — running prose only. Inter has a larger x-height than the
+// Montserrat it replaces, which is why --text-lede steps down in globals.css.
+const inter = Inter({
+  variable: "--font-inter",
+  subsets: ["latin", "latin-ext"],
   display: "swap",
 });
 
 // Content-Security-Policy delivered via <meta> because the site is a static
 // export on GitHub Pages, which cannot set real HTTP response headers and
 // cannot mint a per-request nonce. 'unsafe-inline' is required for Next's
-// hydration payload + Framer Motion inline-style attributes; everything else
-// is locked to same-origin. `frame-ancestors 'none'` is included for parity
-// with a server-delivered CSP, though per spec it (like the rest of this
-// policy) has no effect when delivered via <meta> — see SECURITY.md for the
-// header set to add when fronting this site with a real server/CDN.
+// hydration payload, Framer Motion's inline style attributes, and the two
+// synchronous head scripts below; everything else is locked to same-origin.
+// `frame-ancestors 'none'` is included for parity with a server-delivered
+// CSP, though per spec it (like the rest of this policy) has no effect when
+// delivered via <meta> — see SECURITY.md for the header set to add when
+// fronting this site with a real server/CDN.
 const isDev = process.env.NODE_ENV !== "production";
 
 const CSP = [
@@ -116,11 +124,17 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#14120f",
+  themeColor: "#0a0f0d",
 };
 
 // Person schema for search engines — invisible, no rendered UI. Derived from
-// the same data the page already renders (data/skills.ts) so it can't drift.
+// the same data the page renders (data/skills.ts) so it cannot drift.
+//
+// Emitted as a PLAIN <script> tag, not <Script strategy="beforeInteractive">.
+// That wrapper compiled this into Next's `self.__next_s` queue, which means
+// the tag was absent from the exported HTML entirely and the structured data
+// only materialised after the framework bundle booted — invisible to every
+// crawler that does not execute JavaScript. Verified against out/index.html.
 function personJsonLd() {
   const json = {
     "@context": "https://schema.org",
@@ -140,13 +154,22 @@ function personJsonLd() {
   return JSON.stringify(json);
 }
 
-// Reads the saved language preference and sets <html lang> before first
-// paint, so the static "en" markup never flashes for a returning Turkish
-// visitor. Runs before hydration; CSP above already allows inline scripts.
-const NO_FLASH_LANG_SCRIPT = `
+// Runs synchronously during HTML parsing, before the first paint. This has to
+// be a raw <script>, not next/script: `strategy="beforeInteractive"` in a
+// static export compiles to a `self.__next_s.push(...)` call that is only
+// drained once the framework bundle has loaded — far too late to prevent
+// either flash it is supposed to prevent.
+//
+// Two jobs:
+//   1. Apply the saved language to <html lang> before the static English
+//      markup is painted.
+//   2. Mark returning visitors so the boot overlay (which is in the static
+//      HTML on every load) is hidden by CSS before it can ever be seen.
+const HEAD_SCRIPT = `
 try {
   var l = localStorage.getItem("lang");
   if (l === "tr" || l === "en") document.documentElement.lang = l;
+  if (sessionStorage.getItem("booted") === "1") document.documentElement.dataset.booted = "1";
 } catch (e) {}
 `;
 
@@ -158,20 +181,17 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${instrumentSans.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable} h-full`}
+      className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} ${inter.variable} h-full`}
       suppressHydrationWarning
     >
       <head>
-        <script
-          id="lang-flash-prevent"
-          dangerouslySetInnerHTML={{ __html: NO_FLASH_LANG_SCRIPT }}
-        />
+        <script dangerouslySetInnerHTML={{ __html: HEAD_SCRIPT }} />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: personJsonLd() }}
         />
       </head>
-      <body className="grain min-h-full bg-bg text-text antialiased" suppressHydrationWarning>
+      <body className="min-h-full bg-bg text-text antialiased" suppressHydrationWarning>
         {/* Security headers — hoisted into <head> by React 19. */}
         <meta httpEquiv="Content-Security-Policy" content={CSP} />
         <meta name="referrer" content="strict-origin-when-cross-origin" />
@@ -182,7 +202,15 @@ export default function RootLayout({
           Skip to content
         </a>
         <MotionConfig reducedMotion="user">
-          <LanguageProvider>{children}</LanguageProvider>
+          <LanguageProvider>
+            {/* Both live outside <main> on purpose: `position: fixed` is
+                containing-block'd to the nearest transformed ancestor, and
+                the hero subtree is full of them. */}
+            <BootOverlay />
+            <Cursor />
+            {children}
+            <div className="scanlines" aria-hidden="true" />
+          </LanguageProvider>
         </MotionConfig>
       </body>
     </html>

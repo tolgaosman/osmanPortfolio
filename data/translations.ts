@@ -12,20 +12,30 @@ export const en = {
     closeMenu: "Close menu",
     language: "LANGUAGE / DİL",
     primaryNav: "Primary",
+    backToTop: "Back to top",
+  },
+  footer: {
+    colophon:
+      "Built with Next.js and Tailwind. Set in Space Grotesk, JetBrains Mono and Inter.",
+    elsewhere: "Elsewhere",
+  },
+  cv: {
+    back: "Back to the site",
+    download: "Download PDF",
+    fallback:
+      "Your browser can't display this PDF inline. Download it instead.",
   },
   hero: {
-    meta: "Nicosia, Cyprus · Open to work · 2026",
-    roleTitle: "Web & mobile developer",
-    slogan: "If you can say it, I can code it.",
+    // Location folded into the role line, replacing the mono meta strip.
+    roleTitle: "Web & mobile developer · Nicosia, Cyprus",
+    slogan: "Transforming complex requirements into elegant, high-performance software.",
+    // Not rendered in the hero any more — its first sentence duplicated
+    // about.p1 almost word for word. Kept because the second half ("from the
+    // first conversation to the live URL") exists nowhere else on the site.
     description:
       "I'm a final-year software engineering student in Nicosia. Most of what I do is client work: websites and mobile apps, taken from the first conversation to the live URL.",
     viewWork: "See the work",
     contactMe: "Get in touch",
-    focus:
-      "Right now I'm building Habits+, a Flutter habit tracker for myself.",
-    stackWeb: "Web",
-    stackMobile: "Mobile",
-    stackBackend: "Backend",
   },
   about: {
     label: "About",
@@ -47,12 +57,12 @@ export const en = {
     label: "Selected work",
     title: "Things I've built",
     subtitle:
-      "Five projects. Four of them for someone else. Open one for the full breakdown.",
+      "Four projects. Three of them for someone else. Open one for the full breakdown.",
     all: "all",
     web: "web",
     mobile: "mobile",
     source: "source",
-    live: "live",
+    live: "visit site",
     privateRepo: "private repo",
     status: {
       live: "live",
@@ -118,6 +128,26 @@ export const en = {
       "I hand over code someone else can read",
       "I say so early when something will take longer",
     ],
+    terminal: {
+      label: "skills",
+      inputLabel: "Terminal command",
+      placeholder: "type a command, or press a button below",
+      help: "Type help for a list of commands: skills, projects, about, whoami, contact, clear.",
+      unknown: "command not found: {0}",
+      usageOpen: "usage: open <project-id>  —  run projects to list the ids",
+      notFound: "no such project: {0}",
+      opening: "opening {0}",
+      commands: {
+        help: "list every command",
+        skills: "the stack, grouped",
+        projects: "every project, with its id",
+        about: "the short version",
+        whoami: "name and role",
+        contact: "jump to the contact form",
+        clear: "empty the log",
+        open: "open a project by id",
+      },
+    },
   },
   contact: {
     label: "Contact",
@@ -169,20 +199,26 @@ export const tr: Dict = {
     closeMenu: "Menüyü kapat",
     language: "LANGUAGE / DİL",
     primaryNav: "Ana menü",
+    backToTop: "Başa dön",
+  },
+  footer: {
+    colophon:
+      "Next.js ve Tailwind ile yapıldı. Space Grotesk, JetBrains Mono ve Inter ile dizildi.",
+    elsewhere: "Diğer",
+  },
+  cv: {
+    back: "Siteye dön",
+    download: "PDF indir",
+    fallback:
+      "Tarayıcınız bu PDF'i sayfa içinde gösteremiyor. Bunun yerine indirebilirsiniz.",
   },
   hero: {
-    meta: "Lefkoşa, Kıbrıs · İşe açığım · 2026",
-    roleTitle: "Web & mobil geliştirici",
-    slogan: "Cümleye dökebiliyorsan, koda dökebilirim.",
+    roleTitle: "Web & mobil geliştirici · Lefkoşa, Kıbrıs",
+    slogan: "Karmaşık gereksinimleri zarif ve yüksek performanslı yazılımlara dönüştürüyorum.",
     description:
-      "Lefkoşa'da yazılım mühendisliği son sınıf öğrencisiyim. Yaptığım işin çoğu müşteri işi: ilk konuşmadan canlı adrese kadar götürdüğüm web siteleri ve mobil uygulamalar.",
+      "Lefkoşa'da yazılım mühendisliği son sınıf öğrencisiyim. Fikir aşamasından yayına alınma sürecine kadar, müşterilerim için uçtan uca web siteleri ve mobil uygulamalar geliştiriyorum.",
     viewWork: "Projelere bak",
     contactMe: "İletişime geç",
-    focus:
-      "Şu an Habits+ üzerinde çalışıyorum — kendim için yazdığım bir Flutter alışkanlık takip uygulaması.",
-    stackWeb: "Web",
-    stackMobile: "Mobil",
-    stackBackend: "Backend",
   },
   about: {
     label: "Hakkımda",
@@ -204,12 +240,12 @@ export const tr: Dict = {
     label: "Seçilmiş işler",
     title: "Yaptığım işler",
     subtitle:
-      "Beş proje. Dördü bir başkası için. Detaylar için birine tıkla.",
+      "Dört proje. Üçü bir başkası için. Detaylar için birine tıkla.",
     all: "tümü",
     web: "web",
     mobile: "mobil",
     source: "kaynak",
-    live: "canlı",
+    live: "siteyi ziyaret et",
     privateRepo: "özel depo",
     status: {
       live: "canlı",
@@ -275,6 +311,26 @@ export const tr: Dict = {
       "Başkasının okuyabileceği kod teslim ederim",
       "Bir iş uzayacaksa bunu baştan söylerim",
     ],
+    terminal: {
+      label: "yetenekler",
+      inputLabel: "Terminal komutu",
+      placeholder: "bir komut yaz veya aşağıdaki düğmelere bas",
+      help: "Komut listesi için help yaz: skills, projects, about, whoami, contact, clear.",
+      unknown: "komut bulunamadı: {0}",
+      usageOpen: "kullanım: open <proje-id>  —  id listesi için projects yaz",
+      notFound: "böyle bir proje yok: {0}",
+      opening: "{0} açılıyor",
+      commands: {
+        help: "bütün komutları listeler",
+        skills: "yığın, gruplanmış hâlde",
+        projects: "her proje, id'siyle birlikte",
+        about: "kısa hâli",
+        whoami: "isim ve rol",
+        contact: "iletişim formuna atlar",
+        clear: "kaydı temizler",
+        open: "id ile bir proje açar",
+      },
+    },
   },
   contact: {
     label: "İletişim",

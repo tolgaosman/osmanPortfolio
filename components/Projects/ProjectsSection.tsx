@@ -1,110 +1,144 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
+import {
+  motion,
+  useReducedMotion,
+  useScroll,
+  useSpring,
+  useTransform,
+} from "framer-motion";
 import SectionLabel from "@/components/SectionLabel";
-import Reveal, { RevealItem } from "@/components/Reveal";
-import ProjectRow from "./ProjectRow";
-import ProjectModal from "./ProjectModal";
-import { PROJECT_CATEGORIES, projects } from "@/data/projects";
-import type { Project, ProjectCategory } from "@/types";
-import { cn } from "@/lib/utils";
+import ScrambleText from "@/components/ScrambleText";
+import ProjectCard from "./ProjectCard";
+import { projects } from "@/data/projects";
 import { useLang } from "@/lib/i18n";
-import { SPRING_SNAP } from "@/lib/motion";
+import { LG, useMediaQuery } from "@/lib/media";
+import { SPRING_SCROLL } from "@/lib/motion";
 
-type Filter = "All" | ProjectCategory;
-
+/**
+ * Projects, as a gallery that moves sideways while the page scrolls down.
+ *
+ * WHY THIS IS TWO SIBLING COMPONENTS AND NOT ONE WITH A FLAG:
+ * `useScroll` must not be called with a `target` ref pointing at a subtree
+ * that was never rendered — it logs a dev invariant ("Target ref is defined
+ * but not hydrated"), and hooks cannot be called conditionally anyway. So the
+ * decision is made once, here, and the branch mounts an entire component.
+ * `useMediaQuery` reports false on the server and on the first client render,
+ * which means the STACKED list is what ships in the exported HTML; the pinned
+ * track swaps in after hydration on a desktop. That ordering is deliberate —
+ * the cheap layout is the one crawlers and slow devices get.
+ *
+ * WHAT IS DELIBERATELY GONE: the All/Web/Mobile filter chips. Four projects
+ * split three-and-one, so the control mostly removed one card, and changing
+ * the card count mid-pin changes the section's height underneath the reader.
+ * The category is now on every card's meta strip, which is where someone
+ * scanning for "mobile" actually looks.
+ */
 export default function ProjectsSection() {
   const { t } = useLang();
   const p = t.projects;
-  const [filter, setFilter] = useState<Filter>("All");
-  const [selected, setSelected] = useState<Project | null>(null);
-
-  const filterLabel = (cat: Filter) => {
-    if (cat === "All") return p.all;
-    if (cat === "Mobile") return p.mobile;
-    return p.web;
-  };
-
-  const visible = useMemo(
-    () =>
-      filter === "All"
-        ? projects
-        : projects.filter((proj) => proj.category === filter),
-    [filter],
-  );
+  const isDesktop = useMediaQuery(LG);
+  const reduced = useReducedMotion();
 
   return (
-    // The tallest section on the page, on the base background — deliberately
-    // unlike the `surface` slabs on either side of it.
-    <section id="projects" className="relative py-24 sm:py-36">
+    <section id="projects" className="relative bg-bg py-20 sm:py-28">
       <div className="mx-auto max-w-[92rem] px-5 sm:px-8">
-        <SectionLabel>{p.label}</SectionLabel>
-
-        <Reveal stagger={0.08} className="mt-8 max-w-3xl">
-          <RevealItem as="h2" className="font-display text-title text-text">
-            {p.title}
-          </RevealItem>
-          <RevealItem as="p" className="mt-4 font-sans text-lede text-muted">
+        <SectionLabel index="02">{p.label}</SectionLabel>
+        <div className="mt-8 grid gap-6 lg:grid-cols-[1fr_auto] lg:items-end">
+          <h2 className="max-w-2xl font-display text-title font-medium text-text">
+            <ScrambleText text={p.title} />
+          </h2>
+          <p className="max-w-md text-sm leading-relaxed text-muted lg:text-right">
             {p.subtitle}
-          </RevealItem>
-        </Reveal>
-
-        {/* Filter pills. The `layoutId` shared-element highlight is one of the
-            best motion moments in the codebase, so it survives the redesign —
-            restyled from a 2px-bordered box to a quieter tinted pill. */}
-        <div className="mt-12 flex flex-wrap gap-2 border-b border-border pb-5">
-          {PROJECT_CATEGORIES.map((cat) => {
-            const active = filter === cat;
-            const count =
-              cat === "All"
-                ? projects.length
-                : projects.filter((proj) => proj.category === cat).length;
-            return (
-              <motion.button
-                key={cat}
-                onClick={() => setFilter(cat)}
-                whileTap={{ scale: 0.96 }}
-                aria-pressed={active}
-                className={cn(
-                  "relative px-3.5 py-1.5 font-sans text-label font-medium uppercase transition-colors",
-                  active ? "text-accent" : "text-faint hover:text-text",
-                )}
-              >
-                {active && (
-                  <motion.span
-                    layoutId="filter-bg"
-                    className="absolute inset-0 -z-10 bg-accent/12 inset-shadow-lip"
-                    transition={SPRING_SNAP}
-                  />
-                )}
-                {filterLabel(cat)}
-                <span className="ml-1.5 opacity-60">{count}</span>
-              </motion.button>
-            );
-          })}
+          </p>
         </div>
-
-        <motion.div layout className="mt-14 space-y-14 sm:space-y-20">
-          <AnimatePresence mode="popLayout">
-            {visible.map((project, i) => (
-              <ProjectRow
-                key={project.id}
-                project={project}
-                index={i + 1}
-                flipped={i % 2 === 1}
-                onSelect={setSelected}
-              />
-            ))}
-          </AnimatePresence>
-        </motion.div>
       </div>
 
-      <AnimatePresence>
-        {selected && (
-          <ProjectModal project={selected} onClose={() => setSelected(null)} />
-        )}
-      </AnimatePresence>
+      {isDesktop && !reduced ? <PinnedTrack /> : <StackedList />}
     </section>
+  );
+}
+
+function PinnedTrack() {
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [travel, setTravel] = useState(0);
+
+  // Measures the DOM that the .pin CSS produced, so the JS travel and the
+  // CSS-computed section height are two views of the same geometry.
+  useEffect(() => {
+    const track = trackRef.current;
+    if (!track) return;
+    const measure = () =>
+      setTravel(Math.max(0, track.scrollWidth - window.innerWidth));
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(track);
+    window.addEventListener("resize", measure);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", measure);
+    };
+  }, []);
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    // Progress hits 0 exactly as the sticky child engages and 1 exactly as it
+    // releases. Any other offset desynchronises the track from the pin.
+    offset: ["start start", "end end"],
+    // Re-measures when the screenshots finish decoding and the cards settle.
+    trackContentSize: true,
+  });
+
+  // Stiff, low-mass spring. A soft one keeps travelling after the scroll has
+  // stopped, and at the pin boundary that reads as the track snapping back.
+  const smooth = useSpring(scrollYProgress, SPRING_SCROLL);
+  const x = useTransform(smooth, [0, 1], [0, -travel]);
+
+  // Tabbing into an off-screen card would otherwise scroll the sticky
+  // container itself, which detaches the track from the pin and makes the
+  // card appear to jump. Move the PAGE instead, to the scroll position that
+  // brings that card into view.
+  const onFocusCapture = (e: React.FocusEvent<HTMLDivElement>) => {
+    const card = (e.target as HTMLElement).closest("[data-card-index]");
+    const section = sectionRef.current;
+    if (!card || !section || projects.length < 2) return;
+    const i = Number(card.getAttribute("data-card-index"));
+    const range = section.offsetHeight - window.innerHeight;
+    window.scrollTo({
+      top: section.offsetTop + range * (i / (projects.length - 1)),
+      behavior: "smooth",
+    });
+  };
+
+  return (
+    <div
+      ref={sectionRef}
+      className="pin mt-14"
+      style={{ "--cards": projects.length } as CSSProperties}
+    >
+      <div className="pin__sticky" onFocusCapture={onFocusCapture}>
+        <motion.div ref={trackRef} style={{ x }} className="pin__track">
+          {projects.map((project, i) => (
+            <div key={project.id} data-card-index={i} className="h-[68svh]">
+              <ProjectCard project={project} index={i} />
+            </div>
+          ))}
+        </motion.div>
+      </div>
+    </div>
+  );
+}
+
+function StackedList() {
+  return (
+    <div className="mx-auto mt-14 max-w-[92rem] space-y-20 px-5 sm:px-8">
+      {projects.map((project, i) => (
+        <div key={project.id} className="h-[62svh] min-h-[26rem]">
+          <ProjectCard project={project} index={i} />
+        </div>
+      ))}
+    </div>
   );
 }

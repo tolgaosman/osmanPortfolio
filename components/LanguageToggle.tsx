@@ -1,117 +1,60 @@
 "use client";
-import { useRef, useState, useEffect } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+
+import { motion } from "framer-motion";
 import { useLang } from "@/lib/i18n";
-import type { Lang } from "@/data/translations";
+import { SPRING_SNAP } from "@/lib/motion";
 import { cn } from "@/lib/utils";
+import type { Lang } from "@/data/translations";
 
+const OPTIONS: readonly Lang[] = ["en", "tr"];
 
-const OPTIONS: { value: Lang; label: string }[] = [
-  { value: "en", label: "EN" },
-  { value: "tr", label: "TR" },
-];
-
+/**
+ * A two-position switch rather than the dropdown this replaces.
+ *
+ * With exactly two languages, a listbox is three interactions (open, read,
+ * pick) to accomplish one, and it needs its own open state, outside-click
+ * handling and keyboard model. A segmented control shows both options at once
+ * and costs one click — and at this size it fits inside the nav rail instead
+ * of hanging a panel off it.
+ *
+ * `role="group"` with `aria-pressed` on each button, not a listbox: these are
+ * toggles that take effect immediately, not a value being selected from a
+ * list and committed later.
+ */
 export default function LanguageToggle() {
-  const { lang, t, setLang } = useLang();
-  const [open, setOpen] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-
-  // Close dropdown on click outside (desktop only)
-  useEffect(() => {
-    const clickOutside = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node)) {
-        setOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", clickOutside);
-    return () => document.removeEventListener("mousedown", clickOutside);
-  }, []);
-
-  const select = (l: Lang) => {
-    setLang(l);
-    setOpen(false);
-  };
+  const { lang, setLang, t } = useLang();
 
   return (
-    <>
-      {/* Desktop Dropdown View */}
-      <div ref={ref} className="relative hidden md:block">
-        <button
-          onClick={() => setOpen((o) => !o)}
-          aria-haspopup="listbox"
-          aria-expanded={open}
-          className={cn(
-            "flex items-center gap-1 border border-border px-2.5 py-1.5 font-mono text-xs font-bold transition-colors",
-            open ? "border-accent text-accent" : "text-muted hover:border-accent hover:text-accent",
-          )}
-        >
-          {lang.toUpperCase()}
-          <svg
-            className={cn("h-3 w-3 transition-transform", open && "rotate-180")}
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth={2.5}
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            aria-hidden
+    <div
+      role="group"
+      aria-label={t.nav.language}
+      className="flex items-center gap-0.5 rounded-full border border-border-faint bg-surface/60 p-0.5"
+    >
+      {OPTIONS.map((option) => {
+        const isActive = lang === option;
+        return (
+          <button
+            key={option}
+            type="button"
+            onClick={() => setLang(option)}
+            aria-pressed={isActive}
+            data-cursor="link"
+            className={cn(
+              "relative rounded-full px-2.5 py-1 font-mono text-label uppercase transition-colors duration-200",
+              isActive ? "text-bg" : "text-faint hover:text-text",
+            )}
           >
-            <path d="m6 9 6 6 6-6" />
-          </svg>
-        </button>
-
-        <AnimatePresence>
-          {open && (
-            <motion.ul
-              role="listbox"
-              initial={{ opacity: 0, y: -4 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -4 }}
-              transition={{ duration: 0.15 }}
-              className="absolute right-0 top-full z-50 mt-1 min-w-[70px] border border-border bg-surface shadow-[0_1px_2px_rgb(0_0_0/.4),0_8px_24px_-12px_rgb(0_0_0/.6)]"
-            >
-              {OPTIONS.map((opt) => (
-                <li key={opt.value}>
-                  <button
-                    role="option"
-                    aria-selected={lang === opt.value}
-                    onClick={() => select(opt.value)}
-                    className={cn(
-                      "w-full px-3 py-2 text-left font-mono text-xs font-bold transition-colors",
-                      lang === opt.value
-                        ? "bg-accent text-bg"
-                        : "text-muted hover:bg-surface-2 hover:text-text",
-                    )}
-                  >
-                    {opt.label}
-                  </button>
-                </li>
-              ))}
-            </motion.ul>
-          )}
-        </AnimatePresence>
-      </div>
-
-      {/* Mobile Inline Selector View */}
-      <div className="flex w-full items-center justify-between border border-border bg-surface-2/40 px-3 py-2.5 md:hidden">
-        <span className="font-mono text-xs font-bold text-muted">{t.nav.language}</span>
-        <div className="flex gap-1">
-          {OPTIONS.map((opt) => (
-            <button
-              key={opt.value}
-              onClick={() => select(opt.value)}
-              className={cn(
-                "border px-3 py-1 font-mono text-xs font-bold transition-all",
-                lang === opt.value
-                  ? "border-accent bg-accent text-bg"
-                  : "border-border text-muted hover:border-accent hover:text-text",
-              )}
-            >
-              {opt.label}
-            </button>
-          ))}
-        </div>
-      </div>
-    </>
+            {isActive && (
+              <motion.span
+                layoutId="lang-pill"
+                transition={SPRING_SNAP}
+                className="absolute inset-0 rounded-full bg-accent"
+              />
+            )}
+            <span className="relative">{option}</span>
+          </button>
+        );
+      })}
+    </div>
   );
 }

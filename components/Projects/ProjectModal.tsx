@@ -1,19 +1,18 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import type { Project, ProjectStatus } from "@/types";
-import {
-  ArrowUpRightIcon,
-  CloseIcon,
-  GitHubIcon,
-} from "@/components/Icons";
+import { ArrowUpRightIcon, CloseIcon, GitHubIcon } from "@/components/Icons";
 import { useLang } from "@/lib/i18n";
-import { EASE_OUT } from "@/lib/motion";
+import { EASE_IN_OUT, SPRING_SOFT } from "@/lib/motion";
+import { useScrollLock } from "@/lib/scroll-lock";
+import { btnSecondary } from "@/lib/buttons";
+import { cn } from "@/lib/utils";
 import ImageCarousel from "./ImageCarousel";
 
-// Reuses palette tokens rather than macOS traffic-light hexes, which were
-// borrowed for their familiarity and read as window chrome, not as status.
+// Palette tokens rather than macOS traffic-light hexes, which get borrowed
+// for their familiarity and end up reading as window chrome instead of state.
 const statusColor: Record<ProjectStatus, string> = {
   live: "text-accent-bright border-accent-bright/40",
   soon: "text-faint border-border",
@@ -21,7 +20,29 @@ const statusColor: Record<ProjectStatus, string> = {
   prod: "text-accent-bright border-accent-bright/40",
 };
 
+/**
+ * Outer shell: owns presence only. Every hook lives in the panel below, so
+ * the focus trap, the Escape listener and the scroll lock are created when
+ * the dialog actually exists and torn down when it does not — rather than
+ * running permanently against a `project === null` guard.
+ */
 export default function ProjectModal({
+  project,
+  onClose,
+}: {
+  project: Project | null;
+  onClose: () => void;
+}) {
+  return (
+    <AnimatePresence>
+      {project && (
+        <ModalPanel key={project.id} project={project} onClose={onClose} />
+      )}
+    </AnimatePresence>
+  );
+}
+
+function ModalPanel({
   project,
   onClose,
 }: {
@@ -39,9 +60,11 @@ export default function ProjectModal({
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const triggerRef = useRef<HTMLElement | null>(null);
 
-  // Move focus into the dialog on open and restore it to whatever triggered
-  // the modal (the project card's "view_details" button) on close — without
-  // this a keyboard/screen-reader user's focus is silently dropped to <body>.
+  useScrollLock(true);
+
+  // Move focus into the dialog on open and restore it to whatever opened the
+  // modal on close. Without this a keyboard or screen-reader user's focus is
+  // silently dropped to <body> and they restart from the top of the page.
   useEffect(() => {
     triggerRef.current = document.activeElement as HTMLElement | null;
     closeButtonRef.current?.focus();
@@ -50,7 +73,7 @@ export default function ProjectModal({
     };
   }, []);
 
-  // Close on Escape, trap Tab inside the dialog, lock body scroll while open.
+  // Escape closes; Tab is trapped inside the panel.
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
@@ -75,12 +98,7 @@ export default function ProjectModal({
       }
     };
     document.addEventListener("keydown", onKey);
-    const prevOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.removeEventListener("keydown", onKey);
-      document.body.style.overflow = prevOverflow;
-    };
+    return () => document.removeEventListener("keydown", onKey);
   }, [onClose]);
 
   return (
@@ -90,46 +108,56 @@ export default function ProjectModal({
       exit={{ opacity: 0 }}
       transition={{ duration: 0.2 }}
       onClick={onClose}
-      className="fixed inset-0 z-50 flex items-center justify-center bg-bg/85 p-4 backdrop-blur-sm sm:p-6"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-bg/88 p-4 backdrop-blur-sm sm:p-6"
     >
       <motion.div
         ref={panelRef}
-        initial={{ opacity: 0, scale: 0.95, y: 12 }}
+        initial={{ opacity: 0, scale: 0.96, y: 12 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
-        exit={{ opacity: 0, scale: 0.95, y: 12 }}
-        transition={{ duration: 0.25, ease: EASE_OUT }}
+        // Exits are faster than entrances. The spring gives the panel mass on
+        // the way in — it settles rather than decelerating to a stop — but
+        // letting that same spring run the exit kept the dialog on screen for
+        // the better part of a second after Escape, which reads as the key
+        // not having worked.
+        exit={{
+          opacity: 0,
+          scale: 0.97,
+          y: 8,
+          transition: { duration: 0.16, ease: EASE_IN_OUT },
+        }}
+        transition={SPRING_SOFT}
         onClick={(e) => e.stopPropagation()}
         role="dialog"
         aria-modal="true"
         aria-label={project.title[lang]}
-        className="flex max-h-[90vh] w-full max-w-3xl flex-col overflow-hidden border border-border bg-surface shadow-float"
+        className="flex max-h-[90svh] w-full max-w-3xl flex-col overflow-hidden rounded-lg border border-border-structural bg-surface shadow-float"
       >
-        {/* Title bar. The macOS traffic lights and the `{id}.app` filename
-            are gone — they appeared in three separate components and turned
-            every panel into the same fake window. */}
+        {/* Title bar, set as a path. No fake window chrome — the traffic
+            lights that used to live here appeared in three components and
+            turned every panel into the same imitation macOS window. */}
         <div className="flex shrink-0 items-center justify-between gap-4 border-b border-border bg-surface-2 px-4 py-3">
-          <span className="truncate font-sans text-label font-medium uppercase text-faint">
-            {project.title[lang]}
+          <span className="truncate font-mono text-label uppercase text-faint">
+            <span className="text-accent-dim">{"~/projects/"}</span>
+            {project.id}
           </span>
           <button
             ref={closeButtonRef}
             type="button"
             onClick={onClose}
             aria-label={m.close}
-            className="text-muted transition-colors hover:text-text"
+            data-cursor="link"
+            className="-mr-1 flex h-8 w-8 shrink-0 items-center justify-center rounded-md text-muted transition-colors hover:bg-surface hover:text-text"
           >
             <CloseIcon className="h-4 w-4" />
           </button>
         </div>
 
-        {/* Scrollable content */}
         <div className="flex-1 overflow-y-auto">
           {hasImages && (
             <ImageCarousel
-              // Keying by project id makes React remount (and so fully reset
-              // internal slide-index state) whenever the images array changes,
-              // instead of an image array from one project silently being
-              // paginated with an index left over from a previous one.
+              // Keyed by project id so React remounts and resets the slide
+              // index, rather than paginating one project's images with an
+              // index left over from another.
               key={project.id}
               images={d!.images!}
               title={project.title[lang]}
@@ -139,32 +167,34 @@ export default function ProjectModal({
           )}
 
           <div className="p-5 sm:p-7">
-            {/* Heading */}
             <div className="mb-6 flex items-start justify-between gap-3">
-              <h2 className="font-display text-3xl text-text">
+              <h2 className="font-display text-title font-medium text-text">
                 {project.title[lang]}
               </h2>
               <span
-                className={`shrink-0 border px-2 py-0.5 font-mono text-[10px] ${statusColor[project.status]}`}
+                className={cn(
+                  "shrink-0 rounded-xs border px-2 py-0.5 font-mono text-[10px] uppercase",
+                  statusColor[project.status],
+                )}
               >
                 {p.status[project.status]}
               </span>
             </div>
 
-            {/* Overview */}
-            <section className="mb-7">
-              <h3 className="mb-2 font-sans text-label font-medium uppercase text-accent">
-                {m.overview}
-              </h3>
-              <p className="text-sm leading-relaxed text-muted">
+            {/* Overview takes no heading: it is the first thing under the
+                title, so a label above it would only say "this is the
+                beginning". The headings below step DOWN in weight as the
+                content gets more incidental, rather than standing as five
+                identical accent peers. */}
+            <section className="mb-8">
+              <p className="text-lede text-text">
                 {d?.overview[lang] ?? project.description[lang]}
               </p>
             </section>
 
-            {/* Key features */}
             {d?.features?.length ? (
-              <section className="mb-7">
-                <h3 className="mb-3 font-sans text-label font-medium uppercase text-accent">
+              <section className="mb-8">
+                <h3 className="mb-3 font-mono text-label uppercase text-accent">
                   {m.features}
                 </h3>
                 <ul className="space-y-2">
@@ -173,9 +203,10 @@ export default function ProjectModal({
                       key={i}
                       className="flex gap-2.5 text-sm leading-relaxed text-muted"
                     >
-                      <span className="mt-0.5 shrink-0 font-mono text-accent">
-                        →
-                      </span>
+                      <span
+                        aria-hidden="true"
+                        className="mt-2 h-1 w-1 shrink-0 bg-accent"
+                      />
                       <span>{feature[lang]}</span>
                     </li>
                   ))}
@@ -183,16 +214,15 @@ export default function ProjectModal({
               </section>
             ) : null}
 
-            {/* Built with */}
             <section className="mb-7">
-              <h3 className="mb-3 font-sans text-label font-medium uppercase text-accent">
+              <h3 className="mb-3 font-mono text-label uppercase text-accent">
                 {m.builtWith}
               </h3>
               <div className="flex flex-wrap gap-2">
                 {project.stack.map((tech) => (
                   <span
                     key={tech}
-                    className="border border-accent/40 bg-accent/10 px-2 py-1 font-mono text-[11px] text-accent"
+                    className="rounded-xs border border-accent-dim bg-accent/10 px-2 py-1 font-mono text-[11px] text-accent"
                   >
                     {tech}
                   </span>
@@ -200,9 +230,8 @@ export default function ProjectModal({
               </div>
             </section>
 
-            {/* Info */}
-            <section className="mb-7">
-              <h3 className="mb-3 font-sans text-label font-medium uppercase text-accent">
+            <section className="mb-6 border-t border-border-faint pt-5">
+              <h3 className="mb-3 font-mono text-label uppercase text-faint">
                 {m.info}
               </h3>
               <dl className="grid grid-cols-1 gap-x-4 gap-y-3 font-mono text-xs sm:grid-cols-2 md:grid-cols-4">
@@ -229,9 +258,8 @@ export default function ProjectModal({
               </dl>
             </section>
 
-            {/* Links */}
             <section>
-              <h3 className="mb-3 font-sans text-label font-medium uppercase text-accent">
+              <h3 className="mb-3 font-mono text-label uppercase text-faint">
                 {m.links}
               </h3>
               <div className="flex flex-wrap items-center gap-3">
@@ -240,7 +268,8 @@ export default function ProjectModal({
                     href={project.github}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 border border-border-strong px-3 py-2 font-mono text-xs text-muted transition-colors hover:border-text hover:text-text"
+                    data-cursor="link"
+                    className={cn(btnSecondary, "px-4 py-2 text-muted")}
                   >
                     <GitHubIcon className="h-4 w-4" />
                     {p.source}
@@ -251,14 +280,18 @@ export default function ProjectModal({
                     href={project.live}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 border border-accent bg-accent/10 px-3 py-2 font-mono text-xs text-accent transition-colors hover:bg-accent hover:text-bg"
+                    data-cursor="link"
+                    className={cn(
+                      btnSecondary,
+                      "border-accent bg-accent/10 px-4 py-2 text-accent hover:bg-accent hover:text-bg",
+                    )}
                   >
                     <ArrowUpRightIcon className="h-4 w-4" />
                     {p.live}
                   </a>
                 )}
                 {!project.github && !project.live && (
-                  <span className="font-mono text-xs text-faint">
+                  <span className="font-mono text-sm text-faint">
                     {p.privateRepo}
                   </span>
                 )}

@@ -128,66 +128,7 @@ export const projects: Project[] = [
       ],
     },
   },
-  {
-    id: "cigdem-durust",
-    title: {
-      en: "Dr. Çiğdem Dürüst Website",
-      tr: "Dr. Çiğdem Dürüst Web Sitesi",
-    },
-    description: {
-      en: "Professional counseling & booking platform with dynamic forms and WhatsApp integration.",
-      tr: "Dinamik anamnez formu ve WhatsApp entegrasyonuna sahip danışmanlık platformu.",
-    },
-    category: "Web",
-    stack: ["HTML", "CSS", "JavaScript", "Tailwind"],
-    github: "https://github.com/tolgaosman/cigdemWebsite",
-    live: "https://tolgaosman.github.io/cigdemWebsite/",
-    status: "soon",
-    details: {
-      overview: {
-        en: "A professional web presence for psychological counselor Dr. Çiğdem Dürüst, built to turn visitors into booked appointments. The site pairs a calm, trustworthy visual identity with practical conversion tools: dynamic intake (anamnesis) forms that adapt to the visitor's answers, and one-tap WhatsApp booking that hands the conversation straight to the practitioner. Styled with Tailwind CSS for a consistent, maintainable design system.",
-        tr: "Psikolojik danışman Dr. Çiğdem Dürüst için, ziyaretçileri randevuya dönüştürmek üzere geliştirilmiş profesyonel bir web varlığı. Site; sakin ve güven veren görsel kimliği pratik dönüşüm araçlarıyla birleştiriyor: ziyaretçinin yanıtlarına göre uyarlanan dinamik anamnez formları ve görüşmeyi doğrudan uzmana aktaran tek dokunuşla WhatsApp randevusu. Tutarlı ve sürdürülebilir bir tasarım sistemi için Tailwind CSS ile şekillendirildi.",
-      },
-      features: [
-        {
-          en: "Dynamic anamnesis (intake) forms that adapt based on responses",
-          tr: "Yanıtlara göre uyarlanan dinamik anamnez (ön değerlendirme) formları",
-        },
-        {
-          en: "One-tap WhatsApp integration that pre-fills the booking message",
-          tr: "Randevu mesajını önceden dolduran tek dokunuşla WhatsApp entegrasyonu",
-        },
-        {
-          en: "Calm, trust-building visual identity tailored to counseling",
-          tr: "Danışmanlığa uygun, sakin ve güven veren görsel kimlik",
-        },
-        {
-          en: "Tailwind-powered design system for consistency and easy upkeep",
-          tr: "Tutarlılık ve kolay bakım için Tailwind tabanlı tasarım sistemi",
-        },
-        {
-          en: "Mobile-first, fully responsive across all devices",
-          tr: "Mobil öncelikli, tüm cihazlarda tamamen duyarlı",
-        },
-      ],
-      role: {
-        en: "Design + Full-stack build",
-        tr: "Tasarım + Tam yığın geliştirme",
-      },
-      year: "2024",
-      images: [
-        "/screenshots/cigdem-durut/cigdem1.webp",
-        "/screenshots/cigdem-durut/cigdem2.webp",
-        "/screenshots/cigdem-durut/cigdem3.webp",
-        "/screenshots/cigdem-durut/cigdem4.webp",
-        "/screenshots/cigdem-durut/cigdem5.webp",
-        "/screenshots/cigdem-durut/cigdem6.webp",
-        "/screenshots/cigdem-durut/cigdem7.webp",
-        "/screenshots/cigdem-durut/cigdem8.webp",
-        "/screenshots/cigdem-durut/cigdem9.webp",
-      ],
-    },
-  },
+
   {
     id: "staff-leave-tracker",
     title: {
@@ -201,7 +142,7 @@ export const projects: Project[] = [
     category: "Web",
     stack: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Laravel", "PHP", "MySQL"],
     github: "https://github.com/tolgaosman/staff-leave-tracker",
-    live: null,
+    live: "http://178.105.207.98:4003/login/",
     status: "wip",
     details: {
       overview: {

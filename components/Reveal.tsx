@@ -1,13 +1,22 @@
 "use client";
 
 import { motion, type HTMLMotionProps } from "framer-motion";
-import type { ElementType, ReactNode } from "react";
+import { createContext, useContext, type ElementType, type ReactNode } from "react";
 import {
   revealVariants,
   staggerParent,
   VIEWPORT,
   type RevealVariant,
 } from "@/lib/motion";
+
+/**
+ * A staggering parent can't animate itself (see below), so its own `variant`
+ * would otherwise be silently discarded — a section that asked for `slideL`
+ * and got the default `rise` with no error. This hands the parent's choice
+ * down to its items instead, so `variant` means the same thing on `Reveal`
+ * whether or not `stagger` is set.
+ */
+const RevealVariantContext = createContext<RevealVariant>("rise");
 
 interface RevealProps extends Omit<HTMLMotionProps<"div">, "variants" | "children"> {
   children: ReactNode;
@@ -56,7 +65,9 @@ export default function Reveal({
       transition={stagger === undefined ? { delay } : undefined}
       {...rest}
     >
-      {children}
+      <RevealVariantContext.Provider value={variant}>
+        {children}
+      </RevealVariantContext.Provider>
     </MotionTag>
   );
 }
@@ -68,17 +79,22 @@ interface RevealItemProps extends Omit<HTMLMotionProps<"div">, "variants" | "chi
   as?: ElementType;
 }
 
-/** A child of a staggering `Reveal`. Inherits the parent's timing. */
+/** A child of a staggering `Reveal`. Inherits the parent's timing, and its
+ * entrance unless this item names its own. */
 export function RevealItem({
   children,
-  variant = "rise",
+  variant,
   duration,
   as = "div",
   ...rest
 }: RevealItemProps) {
   const MotionTag = motion[as as "div"] ?? motion.div;
+  const inherited = useContext(RevealVariantContext);
   return (
-    <MotionTag variants={revealVariants(variant, duration)} {...rest}>
+    <MotionTag
+      variants={revealVariants(variant ?? inherited, duration)}
+      {...rest}
+    >
       {children}
     </MotionTag>
   );

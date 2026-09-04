@@ -6,7 +6,6 @@ import Image from "next/image";
 import { ChevronLeftIcon, ChevronRightIcon } from "@/components/Icons";
 import { asset, cn } from "@/lib/utils";
 import { useLang } from "@/lib/i18n";
-import { EASE_OUT } from "@/lib/motion";
 
 interface ImageCarouselProps {
   /**
@@ -49,7 +48,7 @@ export default function ImageCarousel({
   const single = count <= 1;
 
   return (
-    <div className="plane-well border-b border-border">
+    <div className="term border-b border-border">
       <div
         className={cn(
           "relative w-full overflow-hidden",
@@ -66,22 +65,23 @@ export default function ImageCarousel({
         }}
         tabIndex={0}
       >
-        {/* Loading skeleton — reuses the existing grid/surface-2 texture
-            instead of leaving a blank box while the screenshot downloads. */}
-        {!loaded && (
-          <div className="absolute inset-0 animate-pulse bg-surface-2" />
-        )}
-
         <AnimatePresence initial={false} custom={dir} mode="popLayout">
           <motion.div
             key={index}
             custom={dir}
-            initial={{ opacity: 0, x: dir >= 0 ? 40 : -40 }}
+            initial={{ opacity: 0, x: dir > 0 ? "100%" : "-100%" }}
             animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: dir >= 0 ? -40 : 40 }}
-            transition={{ duration: 0.3, ease: EASE_OUT }}
+            exit={{ opacity: 0, x: dir > 0 ? "-100%" : "100%" }}
+            transition={{ type: "spring", stiffness: 300, damping: 30 }}
             className="absolute inset-0"
           >
+            {/* Loading skeleton, inside the slide rather than behind it.
+                As a sibling at `inset-0` it also pulsed in the letterbox
+                bars an `object-contain` screenshot leaves — so the frame
+                breathed around a fully-loaded image. */}
+            {!loaded && (
+              <div className="absolute inset-0 animate-pulse bg-surface-2" />
+            )}
             <Image
               src={asset(images[index])}
               alt={`${title} — ${altLabel} ${index + 1}`}
@@ -100,7 +100,7 @@ export default function ImageCarousel({
               type="button"
               onClick={() => paginate(-1)}
               aria-label={m.prevImage}
-              className="absolute left-3 top-1/2 -translate-y-1/2 border border-border-strong bg-surface/90 p-2 text-text shadow-lift transition-colors hover:border-accent hover:text-accent"
+              className="absolute left-3 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-md border border-border-strong bg-surface/90 text-text shadow-plate backdrop-blur-sm transition-all duration-200 hover:border-accent hover:bg-surface hover:text-accent active:scale-95"
             >
               <ChevronLeftIcon className="h-4 w-4" />
             </button>
@@ -108,14 +108,14 @@ export default function ImageCarousel({
               type="button"
               onClick={() => paginate(1)}
               aria-label={m.nextImage}
-              className="absolute right-3 top-1/2 -translate-y-1/2 border border-border-strong bg-surface/90 p-2 text-text shadow-lift transition-colors hover:border-accent hover:text-accent"
+              className="absolute right-3 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-md border border-border-strong bg-surface/90 text-text shadow-plate backdrop-blur-sm transition-all duration-200 hover:border-accent hover:bg-surface hover:text-accent active:scale-95"
             >
               <ChevronRightIcon className="h-4 w-4" />
             </button>
 
             <span
               aria-live="polite"
-              className="absolute bottom-3 right-3 border border-border bg-surface/90 px-2 py-0.5 font-mono text-[11px] text-faint"
+              className="absolute bottom-3 right-3 rounded-xs border border-border bg-surface/90 px-2 py-0.5 text-[11px] text-faint backdrop-blur-sm"
             >
               {index + 1} / {count}
             </span>
@@ -124,7 +124,12 @@ export default function ImageCarousel({
       </div>
 
       {!single && (
-        <div className="flex items-center justify-center gap-2 border-t border-border bg-surface-2 py-2.5">
+        <div className="flex items-center justify-center gap-0.5 border-t border-border bg-surface-2 py-1.5">
+          {/* The bar is the indicator; the button around it is the target.
+              These used to BE the button at h-1.5 — a 6px-tall hit area,
+              well under any usable touch target and the crudest control on
+              the page. The padding does the reaching, the bar does the
+              showing. */}
           {Array.from({ length: count }).map((_, i) => (
             <button
               key={i}
@@ -136,11 +141,18 @@ export default function ImageCarousel({
                 setLoaded(false);
                 setState([i, i > index ? 1 : -1]);
               }}
-              className={cn(
-                "h-1.5 w-6 border border-border transition-colors",
-                i === index ? "bg-accent" : "bg-transparent hover:bg-accent/30",
-              )}
-            />
+              className="group flex h-7 items-center px-1"
+            >
+              <span
+                aria-hidden
+                className={cn(
+                  "block h-1 rounded-full transition-all duration-300",
+                  i === index
+                    ? "w-7 bg-accent"
+                    : "w-4 bg-border-strong group-hover:w-5 group-hover:bg-accent-bright",
+                )}
+              />
+            </button>
           ))}
         </div>
       )}

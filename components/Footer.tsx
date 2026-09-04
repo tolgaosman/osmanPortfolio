@@ -1,44 +1,48 @@
 "use client";
 
-import { socialLinks } from "@/data/skills";
-import { SOCIAL_ICONS } from "@/components/Icons";
+import WallName from "@/components/Hero/WallName";
+import { siteConfig } from "@/data/site";
+import { useLang } from "@/lib/i18n";
+import { smoothScrollTo } from "@/lib/utils";
+import { btnSecondarySm } from "@/lib/buttons";
 
+/**
+ * Closes the page with the same wall name it opened with, cropped by the
+ * bottom of the document so the type runs off the edge rather than sitting
+ * politely inside a container. The hero's version is occluded by the figure;
+ * this one is occluded by the end of the page — the bookend is the point.
+ */
 export default function Footer() {
+  const { t } = useLang();
   const year = new Date().getFullYear();
 
   return (
-    <footer className="plane-sheet border-t border-border-structural bg-surface">
-      <div className="mx-auto flex max-w-[92rem] flex-col items-center justify-between gap-4 px-5 py-8 sm:flex-row sm:px-8">
-        <div className="flex items-baseline gap-3">
-          <span className="font-display text-lg text-text">
-            Tolga Osman <span className="text-accent">Falay</span>
-          </span>
-          <span className="font-mono text-xs text-faint">{year}</span>
-        </div>
+    <footer className="relative overflow-hidden border-t border-border-structural bg-bg">
+      <div className="mx-auto max-w-[92rem] px-5 pt-14 sm:px-8">
+        <div className="flex flex-wrap items-end justify-between gap-6 border-b border-border-faint pb-10">
+          <div>
+            <p className="font-mono text-label uppercase text-faint">
+              {`// ${year}`}
+            </p>
+            <p className="mt-3 max-w-md text-sm leading-relaxed text-muted">
+              {t.footer.colophon}
+            </p>
+          </div>
 
-        {/* Labelled, not bare icons — four unlabelled 20px glyphs read as an
-            empty bar. The handles were already in data/skills.ts and went
-            unused; this is the cheapest way to put real content back in the
-            one section that had none. */}
-        <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
-          {socialLinks.map((link) => {
-            const Icon = SOCIAL_ICONS[link.icon];
-            return (
-              <a
-                key={link.label}
-                href={link.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group flex items-center gap-2 text-faint transition-colors hover:text-accent"
-              >
-                <Icon className="h-4 w-4" />
-                <span className="font-sans text-sm text-muted group-hover:text-text">
-                  {link.label}
-                </span>
-              </a>
-            );
-          })}
+          <button
+            onClick={() => smoothScrollTo("home")}
+            data-cursor="link"
+            className={btnSecondarySm}
+          >
+            {t.nav.backToTop}
+          </button>
         </div>
+      </div>
+
+      {/* Bleeds off the bottom edge. -mb pulls the descender line under the
+          document edge so the name is cut rather than centred in dead space. */}
+      <div className="pointer-events-none -mb-[3vw] mt-6 flex justify-center">
+        <WallName text={siteConfig.shortName.toUpperCase()} />
       </div>
     </footer>
   );

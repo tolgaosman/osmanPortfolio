@@ -1,68 +1,94 @@
+/* eslint-disable @next/next/no-img-element --
+   next/image cannot help on this site. `images.unoptimized` is set for the
+   static export, so it performs no resizing, no format negotiation and no
+   lazy-loading policy of its own; all it adds is an absolutely-positioned
+   wrapper that fights the transformed ancestors these images live inside.
+   The two things it would have given us — an explicit intrinsic size and a
+   fetch priority — are set by hand on the <img> below. */
+
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
-import { motion } from "framer-motion";
-import { asset, cn } from "@/lib/utils";
-import { siteConfig } from "@/data/site";
 import { useLang } from "@/lib/i18n";
-import { EASE_OUT } from "@/lib/motion";
+import { asset, cn } from "@/lib/utils";
 
-/** "Tolga Osman" -> "TO", for the load-failure fallback plate below. */
-function initialsOf(name: string) {
-  return name
-    .split(" ")
-    .map((word) => word[0])
-    .join("")
-    .toUpperCase();
-}
+/**
+ * The portrait, standing in front of the wall name.
+ *
+ * ONE SWITCH, TWO TREATMENTS. `HAS_CUTOUT` is the only thing that changes if
+ * the background-removed asset lands, or has to be reverted:
+ *
+ *   true  — an alpha cutout. The subject already ends where the subject ends,
+ *           so the image only takes the jade grade and its contact shadow.
+ *   false — the original rectangular photograph, a dusk garden shot. Its
+ *           edges are feathered into the ground on all four sides and its hue
+ *           is pushed toward the accent, so foliage, sky and lawn read as one
+ *           graded surface rather than as a colour photo dropped into a
+ *           monochrome page. The `color` blend preserves luminance, so the
+ *           face survives intact.
+ *
+ * When the cutout arrives it should be WebP with alpha, not PNG.
+ * `images.unoptimized` is set for the static export, so nothing downsizes it
+ * at build time, a full-height transparent PNG would be 1-3 MB, and this is
+ * the LCP element.
+ */
+const HAS_CUTOUT = false;
+const PORTRAIT_SRC = "/osman_cv_pp.jpeg";
 
-interface HeroPortraitProps {
-  className?: string;
-}
-
-export default function HeroPortrait({ className }: HeroPortraitProps) {
+export default function HeroPortrait({ className }: { className?: string }) {
   const { t } = useLang();
-  const [errored, setErrored] = useState(false);
+  const [failed, setFailed] = useState(false);
+
+  if (failed) {
+    // Explicit failure state rather than a broken-image icon: the hero still
+    // has to compose if the network drops this one file.
+    return (
+      <div
+        className={cn(
+          "flex h-full w-full items-end justify-center font-display text-wall font-bold text-border-structural",
+          className,
+        )}
+        aria-hidden="true"
+      >
+        TO
+      </div>
+    );
+  }
 
   return (
-    <motion.figure
-      initial={{ opacity: 0, scale: 1.04 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.9, ease: EASE_OUT }}
-      className={cn("relative aspect-[4/5] w-full max-w-[420px]", className)}
-    >
-      <div className="relative h-full w-full overflow-hidden border border-border shadow-plate inset-shadow-lip">
-        {errored ? (
-          // Same-size fallback plate — if the photo 404s the layout doesn't
-          // shift and the frame still reads as an intentional portrait.
-          <div className="flex h-full w-full items-center justify-center bg-surface-2 font-display text-6xl text-accent">
-            {initialsOf(siteConfig.shortName)}
-          </div>
-        ) : (
-          <>
-            {/* The source is a square dusk garden shot — lawn along the bottom,
-                foliage across the top. Cropping to 4:5 and biasing the origin
-                upward pushes the lawn out of frame and leaves the greenery as
-                a soft band behind the head. `.photo-warm` grades the remaining
-                green down so it stops competing with the ochre accent. */}
-            <Image
-              src={asset("/osman_cv_pp.jpeg")}
-              alt={t.about.photoAlt}
-              fill
-              sizes="(min-width: 1024px) 420px, (min-width: 640px) 60vw, 90vw"
-              unoptimized
-              priority
-              onError={() => setErrored(true)}
-              className="photo-warm scale-[1.18] object-cover object-[50%_22%]"
-            />
-            <div
-              aria-hidden
-              className="photo-vignette pointer-events-none absolute inset-0"
-            />
-          </>
+    <div className={cn("relative h-full w-full", className)}>
+      <img
+        src={asset(PORTRAIT_SRC)}
+        alt={t.about.photoAlt}
+        width={1024}
+        height={1024}
+        fetchPriority="high"
+        decoding="async"
+        onError={() => setFailed(true)}
+        className={cn(
+          "photo-jade h-full w-full object-cover",
+          // Pulled down off the sky in the original frame. On a 3:4 crop of a
+          // square source this is the difference between a portrait and a
+          // holiday photo.
+          HAS_CUTOUT ? "object-[50%_12%]" : "object-[50%_38%]",
+          !HAS_CUTOUT && "photo-feather",
         )}
-      </div>
-    </motion.figure>
+      />
+
+      {!HAS_CUTOUT && (
+        <>
+          <span
+            aria-hidden="true"
+            className="photo-duotone photo-feather pointer-events-none absolute inset-0"
+          />
+          {/* Deepens the same four edges the mask fades, so the figure sits in
+              the dark rather than in front of it. */}
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 bg-[radial-gradient(70%_60%_at_50%_38%,transparent_35%,var(--color-bg)_100%)]"
+          />
+        </>
+      )}
+    </div>
   );
 }

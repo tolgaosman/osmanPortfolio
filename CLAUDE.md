@@ -4,51 +4,65 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project
 
-Single-page portfolio website for **Tolga Osman, Software Engineering Student & Web/Mobile Developer**. Warm-dark editorial aesthetic: an ink background (`#14120f`), an ochre accent (`#c8873f`), Instrument Serif for display type over Instrument Sans body copy, with JetBrains Mono demoted to genuine metadata only. Framer Motion micro-interactions. Bilingual (EN/TR) via a client-side language switch.
+Single-page portfolio for **Tolga Osman, Software Engineering Student & Web/Mobile Developer**.
+
+**The identity is an emitting instrument, not a printed page.** A jade-on-black ground (`#0a0f0d` / `#2ee88f`), Space Grotesk for display type, JetBrains Mono carrying every label, folio numeral, meta strip, terminal line and screen, Inter for running prose. The hero is layered: a receding grid floor, deterministic code rain, the name at wall scale behind the figure, a screen-blended cursor spotlight, three CSS-3D laptops with live screens, and a marquee of the real stack. Bilingual (EN/TR) via a client-side switch.
+
+> **This replaced a warm-editorial identity** — ochre accent, ink ground, Instrument Serif, and a rules file that explicitly banned glow, grid backdrops and terminal metadata. All of that is gone on purpose. If a rule you remember contradicts what is written here, what is written here wins; do not "restore" the old one.
 
 ## Commands
 
-- `npm run dev` — start the dev server (Turbopack) at http://localhost:3000
+- `npm run dev` — dev server (Turbopack) at http://localhost:3000
 - `npm run build` — production build (runs TypeScript + lint as part of `next build`)
 - `npm start` — serve the production build
-- `npm run lint` — ESLint (flat config, `eslint-config-next`)
+- `npm run lint` — ESLint (flat config, `eslint-config-next`). Note: `next lint` no longer exists in Next 16; the script calls `eslint` directly.
 
 ## Stack
 
-Next.js 16 (App Router, static export) · React 19 · TypeScript · **Tailwind CSS v4** · Framer Motion. Deployed to GitHub Pages via `.github/workflows/deploy.yml`.
+Next.js 16 (App Router, static export) · React 19 · TypeScript · **Tailwind CSS v4** · Framer Motion. Deployed to GitHub Pages via `.github/workflows/deploy.yml`. The only icon dependency is `@icons-pack/react-simple-icons`; there is no 3D library — the laptops are CSS.
 
 ## Architecture Notes
 
-- **Tailwind v4 is CSS-first.** There is no `tailwind.config.ts`. All design tokens live in [app/globals.css](app/globals.css) under `@theme` and `@layer`: the colour ramp (`bg`/`surface`/`surface-2`/`border-faint`/`border`/`border-structural`/`border-strong`/`accent`/`text`/`muted`/`faint`/`danger`), a fluid type scale (`text-display`/`title`/`sub`/`lede`/`label`, each `clamp()`-based so headings need one class, not three breakpoint variants), the three font vars, the elevation tokens (`shadow-lift`/`plate`/`float` + `inset-shadow-lip`/`edge`/`well`), and a short list of utilities (`.grain`, `.plane-sheet`, `.plane-well`, `.photo-warm`, `.photo-vignette`, `.link-underline`). Add new tokens there, not in a JS config.
-  - Measured contrast is documented in a comment above the palette; `faint` on `surface-2` is the tightest text pair at 4.53:1. **Never apply an `/opacity` modifier to text** — use `text-faint` as the third level. Four border weights, not one: `border-faint` for a run of 3+ repeated dividers, `border` for a single rule, `border-structural` for a slab boundary (About/Process/Contact/Footer's top edge), `border-strong` (3.12:1) for form inputs and other interactive edges (SC 1.4.11).
-  - Elevation is the exception, not the rule — most of the page renders at level 0 (no shadow). See the assignment note above `--shadow-lift` in globals.css and the numeric guard rails in [.agents/rules/taste.md](.agents/rules/taste.md) before adding a new shadow.
-  - A global `:focus-visible` ring and a `prefers-reduced-motion` block also live here — don't remove them when touching this file.
-- **Single page composition.** [app/page.tsx](app/page.tsx) is a Server Component that stacks six sections (Hero → About → Projects → Process → Skills → Contact) plus NavBar and Footer. Each section has an `id` used for scroll-spy navigation.
-- **Component organization.** Sections live in `components/<Section>/`. Interactive pieces are Client Components (`"use client"`); presentational ones (Footer, Icons) stay server-side.
-- **Content is data-driven.** Edit [data/projects.ts](data/projects.ts) and [data/skills.ts](data/skills.ts) to change projects, skills, and social links — components map over these. All UI copy lives in [data/translations.ts](data/translations.ts) (EN + TR); `types/index.ts`'s `Dict = typeof en` pattern means a missing Turkish key fails the build. Types are centralized in [types/index.ts](types/index.ts).
-- **Icons** are inline SVGs in [components/Icons.tsx](components/Icons.tsx). The only icon dependency is `@icons-pack/react-simple-icons`, used for real brand marks in `SkillsSection` and keyed **by skill name, not array index**; social icons come from the `SOCIAL_ICONS` map. `lucide-react` was removed — it only ever supplied decorative icons standing in for abstract nouns.
-- **Contact form** ([components/Contact/ContactForm.tsx](components/Contact/ContactForm.tsx)) is a real `<form>` with no backend. Submitting opens a pre-filled link built from the form state: a **WhatsApp** button (`wa.me/905338346699?text=...`) or an **email** button (a Gmail compose URL, not a `mailto:` link). Validation is per-field (see `lib/validation.ts`'s `ContactFieldErrors`), and a blocked popup surfaces its own message.
-- **Project carousels.** Optional image carousels display project screenshots. Add an `images` array to `ProjectDetails` in [data/projects.ts](data/projects.ts) with paths like `/screenshots/project-id/image1.webp`. Images are stored as WebP in `public/screenshots/` and rendered via the ProjectDetails modal. All 4 current projects have them (7-16 each), and the first image of each doubles as the row preview in `ProjectRow` — so a project without `images` degrades to a plain id placeholder. A project without real screenshots should not be added to `data/projects.ts` until it has some; the row has no good fallback for one.
-- **SEO/sharing.** `app/opengraph-image.tsx`, `app/sitemap.ts`, and `app/robots.ts` are generated at build time (each needs `export const dynamic = "force-static"` to work with `output: "export"`). `themeColor` lives in a separate `viewport` export in `app/layout.tsx`, not in `metadata` (Next 16 requirement).
+- **Tailwind v4 is CSS-first.** There is no `tailwind.config.ts`. Every token lives in [app/globals.css](app/globals.css) under `@theme`, `@property` and `@layer`: the colour ramp, a fluid type scale (`text-wall`/`display`/`title`/`sub`/`lede`/`label`/`screen`), three font vars, elevation + glow tokens, the radius scale, and the utilities that make the page work (`.floor`, `.spot`, `.scanlines`, `.lap__*`, `.term`, `.caret`, `.link-wipe`, `.pin*`, `.plane`, `.marquee-*`, `.photo-jade`). Add tokens there, not in a JS config.
+  - Measured contrast is documented above the palette. **Never apply an `/opacity` modifier to text** — `text-faint` is the third level. Four border weights: `border-faint` for 3+ repeated dividers, `border` for a single rule, `border-structural` for a slab boundary, `border-strong` (3.72:1) for anything you type in or press.
+  - **Glow has a scope.** `shadow-glow`/`shadow-glow-sm` are for the primary CTA, active/focused interactive edges, the terminal caret and active timeline nodes. Nowhere else. The dark-shadow guard rails and the glow boundary are both spelled out in [.agents/rules/taste.md](.agents/rules/taste.md) and in the `@theme` comments.
+  - Radius is assigned per element; `rounded-full` is the primary CTA and nothing else. Hairlines, dividers, the wall name, folio numerals and grid lines never take one.
+  - A global `:focus-visible` ring and a real `prefers-reduced-motion` block live here. The reduced-motion block *removes* the ambient layers rather than speeding them up — don't reduce it to the blanket duration override.
+- **Font variables are indirected on purpose.** next/font declares `--font-grotesk`, `--font-jetbrains`, `--font-inter`; `@theme` maps them to `--font-display`, `--font-mono`, `--font-sans`. **Never name a next/font variable `--font-mono`** — Tailwind v4 already owns the `--font-*` namespace, and the result is a self-referential `var()` that silently resolves to nothing. All three are loaded as **variable** fonts with no `weight` array (6 files instead of ~18), and all three need `subsets: ["latin", "latin-ext"]` for Turkish.
+- **Two synchronous head scripts, and they must stay raw `<script>` tags.** `next/script strategy="beforeInteractive"` compiles to a `self.__next_s.push(...)` queue in a static export, which runs *after* the framework bundle — far too late to prevent a flash, and it kept the JSON-LD out of the exported HTML entirely. Both the language/boot script and the Person JSON-LD in [app/layout.tsx](app/layout.tsx) are plain tags now. Verify with `grep '<script type="application/ld+json">' out/index.html` after a build.
+- **Single page composition.** [app/page.tsx](app/page.tsx) stacks six sections (Hero → About → Projects → Process → Skills → Contact) inside `ProjectModalProvider`, plus NavBar and Footer. Its docblock records the intended measure/ground alternation.
+- **Section `id`s are a contract** with `NavBar`'s `LINK_IDS`, the scroll-spy observer and `smoothScrollTo`. Renaming one throws nothing — the active tab just stops working. `NAV_OFFSET` in NavBar is tuned to that header's height.
+- **Content is data-driven.** [data/projects.ts](data/projects.ts), [data/skills.ts](data/skills.ts), [data/site.ts](data/site.ts) and [data/translations.ts](data/translations.ts). `Dict = typeof en` means **a missing Turkish key fails the build** — writing the Turkish is not optional or deferrable. Types are centralized in [types/index.ts](types/index.ts).
+- **`asset()`** ([lib/utils.ts](lib/utils.ts)) prefixes the GitHub Pages basePath. Every `<img src>` and `fetch` pointing at `/public` must go through it, or it works locally and 404s in production. It does not help CSS `url()` — keep images out of CSS.
+- **Images are plain `<img>`, deliberately.** `images.unoptimized` is set for the static export, so `next/image` performs no optimization and only contributes an absolutely-positioned wrapper that fights the transformed ancestors these images live inside. Each such file carries a documented file-level eslint disable; explicit `width`/`height` and `fetchPriority` are set by hand.
+- **Icons** are inline SVGs in [components/Icons.tsx](components/Icons.tsx); real brand marks live in [components/BrandMarks.tsx](components/BrandMarks.tsx), **keyed by skill name, never array index**.
+- **Contact form** ([components/Contact/ContactForm.tsx](components/Contact/ContactForm.tsx)) is a real `<form>` with no backend: submitting opens a pre-filled `wa.me` link or a Gmail compose URL. Per-field validation lives in [lib/validation.ts](lib/validation.ts); a blocked popup surfaces its own message.
+- **Project screenshots** are WebP/PNG under `public/screenshots/`, listed in each project's `details.images`. `inventory-management` has none, and its card renders a terminal mid-build instead — that is the designed empty state, not a placeholder to fill. `public/screenshots/cigdem-durut/` holds assets for a project that is not in `data/projects.ts`; it is kept on disk on purpose.
+- **SEO/sharing.** `app/opengraph-image.tsx`, `app/sitemap.ts` and `app/robots.ts` each need `export const dynamic = "force-static"` to survive `output: "export"`. The OG card hardcodes the palette (Satori cannot read `@theme`) and fetches Space Grotesk as **TTF** at build time — Satori does not support WOFF2 — behind a try/catch that falls back to the system sans rather than failing the build.
 
-- **Section rhythm is deliberately uneven.** There is no shared section-heading component — `SectionHeading` was deleted precisely because five sections opening in an identical shape is what made the page read as generated. Each section writes its own `<h2>` and owns its own vertical measure, container width and background; [components/SectionLabel.tsx](components/SectionLabel.tsx) supplies only the small eyebrow + animated hairline. **When adding a section, give it a measure and a background that differ from its neighbours** rather than copying the one above it.
-- **Motion goes through one primitive.** [lib/motion.ts](lib/motion.ts) holds the easing/spring constants and the six reveal variants; [components/Reveal.tsx](components/Reveal.tsx) (with `RevealItem`) is the only scroll-reveal path. Don't reintroduce `useInView` with hand-computed `delay: i * 0.1`, and don't paste a raw cubic-bezier into a component.
+## Shared primitives
+
+- **Motion goes through one module.** [lib/motion.ts](lib/motion.ts) holds the easings, springs, the eight reveal variants, and the pointer hooks: `useTilt` (viewport-driven, for the hero laptops), `useLocalTilt` (element-driven, for project cards), `usePointerVars` (writes `--sx`/`--sy` onto `[data-spot]` consumers). [components/Reveal.tsx](components/Reveal.tsx) with `RevealItem` is the only scroll-reveal path. **Sections pass a `variant` on purpose** — don't let everything default to `rise`, and never paste a raw cubic-bezier into a component.
+- **Buttons are class strings** in [lib/buttons.ts](lib/buttons.ts), four tiers: `btnPrimary` (filled pill, one per screen, the only thing that glows at rest), `btnSecondary`, `btnCommand` (mono, square, for things that behave like shell input), `btnQuiet`.
+- **Scroll locking is one counter.** [lib/scroll-lock.ts](lib/scroll-lock.ts)'s `useScrollLock` is used by the boot overlay, the mobile nav and the modal. Do not write `document.body.style.overflow` directly again.
+- **Breakpoint/pointer checks** go through [lib/media.ts](lib/media.ts)'s `useMediaQuery` (`useSyncExternalStore`, server snapshot `false`), so the cheap layout is what ships in the exported HTML and there is no hydration mismatch.
+- **Custom cursor intent is markup.** Add `data-cursor="link" | "view" | "text"`; [components/Cursor.tsx](components/Cursor.tsx) reads it through one delegated `pointerover` listener and mutates a dataset attribute — zero React re-renders. `cursor: none` is never set globally.
 
 ## Conventions
 
-- Use the `cn()` helper in [lib/utils.ts](lib/utils.ts) for conditional/merged class names.
-- Animations must avoid layout shift — prefer `transform`/`opacity`, use `whileInView` with `viewport={{ once: true }}` for scroll reveals, and `layout` + `AnimatePresence` for the project filter reflow.
-- `//` literals in JSX text must be wrapped in braces (e.g. `{`// ${year}`}`) — bare `//` triggers `react/jsx-no-comment-textnodes`.
+- Use `cn()` from [lib/utils.ts](lib/utils.ts) for conditional/merged class names.
+- Animations must avoid layout shift — prefer `transform`/`opacity`, `whileInView` with `viewport={{ once: true }}`, and `AnimatePresence` for enter/exit.
+- **`//`, `$` and `~/` in JSX text must be wrapped in braces** (`{"// booting"}`) — a bare `//` trips `react/jsx-no-comment-textnodes`, and `next build` runs lint, so it is a build failure. This page is full of shell glyphs; expect to need it.
+- React 19's lint rules are strict about two things this codebase hits constantly: **no synchronous `setState` in an effect body** (derive the value instead — see `TypingCode`, `TerminalOut`, `ScrambleText`) and **no reassigning an enclosing-scope variable from inside a render closure** (precompute at module scope).
+- Anything conditional on viewport or pointer capability **mounts a different component**, it does not branch inside one. `useScroll` with a `target` ref that was never rendered logs a dev invariant, and hooks cannot be called conditionally — see `ProjectsSection`'s `PinnedTrack` / `StackedList` split.
 
 ## Design law
 
-1. **Taste** — warm editorial layout, elegant typography, uneven rhythm. See [.agents/rules/taste.md](.agents/rules/taste.md); note it deliberately rejects the Vercel/Linear dark-SaaS look this site used to have.
-2. **Emil Kowalski** — organic animations, micro-interactions, and state transitions on every frontend component, smooth `cubic-bezier` easing curves. Target 60 fps for all animations.
-3. **Impeccable** — pixel-perfection, explicit handling of loading states, error rollbacks, empty directories, and unsafe filenames.
-4. **User-focused simplicity** — no visual noise, nothing decorative that does not carry meaning.
-5. **Best practices** — modular, DRY, typed, clean code. Component-driven React with clean, minimal state.
-
-<!-- BEGIN:nextjs-agent-rules -->
+1. **Taste** — see [.agents/rules/taste.md](.agents/rules/taste.md). It carries the palette rationale, the glow scope, the anti-telemetry rule, and nine non-negotiable motion/3D mechanics (preserve-3d vs. overflow, translateZ vs. z-index, transform-only animation, registered custom properties, self-cancelling rAF, tilt limits, `100svh`, `overflow-x: clip`, real reduced-motion).
+2. **Emil Kowalski** — organic animation and state transitions on every interactive component; smooth curves from `lib/motion.ts`; 60 fps. Verify with DevTools paint flashing: the grid, spotlight and tilt must produce **no repaint**.
+3. **Impeccable** — pixel-perfection, and explicit loading, error, empty and failure states. The portrait has an `onError` fallback, the screenshot-less project has a designed empty state, the clipboard write and the popup-blocked path both fail visibly.
+4. **User-focused simplicity** — nothing decorative that does not carry meaning. Every hero layer must justify itself in a sentence.
+5. **Best practices** — modular, DRY, typed, clean. Minimal state; derive rather than synchronise.
 
 # This is NOT the Next.js you know
 

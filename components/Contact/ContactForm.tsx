@@ -6,10 +6,11 @@ import { ExternalLinkIcon, WhatsAppIcon } from "@/components/Icons";
 import { useLang } from "@/lib/i18n";
 import { LIMITS, validateContact, type Channel, type ContactFieldErrors } from "@/lib/validation";
 import { cn } from "@/lib/utils";
+import { btnPrimary } from "@/lib/buttons";
 import { siteConfig } from "@/data/site";
 
 const inputClass =
-  "w-full border border-border-strong bg-bg px-4 py-3 font-sans text-sm text-text placeholder:text-faint transition-colors focus:border-accent";
+  "w-full rounded-sm border border-border-strong bg-bg px-4 py-3 font-mono text-sm text-text placeholder:text-faint transition-colors hover:border-muted focus:border-accent";
 const inputErrorClass = "border-danger";
 
 const NO_ERRORS: ContactFieldErrors = { name: false, contact: false, message: false };
@@ -88,17 +89,32 @@ export default function ContactForm() {
     <form
       onSubmit={handleSubmit}
       noValidate
-      className="border border-border-structural bg-surface p-6 shadow-lift inset-shadow-lip sm:p-8"
+      className="overflow-hidden rounded-lg border border-border-structural shadow-lift"
     >
-      <div className="space-y-5">
+      {/* Header bar, matching the skills shell and the boot screen. The three
+          of them are one instrument, not three unrelated panels. */}
+      <div className="flex items-center justify-between gap-3 border-b border-border bg-surface-2 px-4 py-2.5">
+        <span className="font-mono text-label uppercase text-faint">
+          <span className="text-accent-dim">{"~/"}</span>
+          {c.label}
+        </span>
+        <span aria-hidden="true" className="font-mono text-label text-accent-dim">
+          {isMail ? "smtp" : "wa"}
+        </span>
+      </div>
+
+      <div className="space-y-5 bg-surface p-6 sm:p-8">
         {/* Name */}
         <div>
+          {/* Mono labels, but still plain words. The identity here IS a
+              terminal, so the face is consistent rather than costume — what
+              stays out is the fake syntax (`const name =`, `name:` in accent)
+              that spends the accent colour on a non-semantic token. */}
           <label
             htmlFor="name"
-            className="mb-2 block font-mono text-xs text-muted"
+            className="mb-2 block font-mono text-label uppercase text-faint"
           >
-            <span aria-hidden className="text-accent">const</span> {c.nameLabel}{" "}
-            <span aria-hidden>=</span>
+            {c.nameLabel}
           </label>
           <input
             id="name"
@@ -126,10 +142,13 @@ export default function ContactForm() {
                 onClick={() => pickChannel(ch)}
                 aria-pressed={active}
                 className={cn(
-                  "flex-1 border px-4 py-2.5 font-mono text-sm transition-colors",
+                  "flex-1 rounded-sm border px-4 py-2.5 font-mono text-sm transition-colors duration-300",
+                  // Tinted, not filled. This is a state indicator, and a
+                  // solid accent block here competes with the submit button
+                  // directly below it for "the loud green thing you press".
                   active
-                    ? "border-accent bg-accent text-bg"
-                    : "border-border-strong text-muted hover:border-accent/50 hover:text-text",
+                    ? "border-accent bg-accent/15 text-accent"
+                    : "border-border-strong text-muted hover:border-accent hover:text-text",
                 )}
               >
                 {ch === "whatsapp" ? c.channelWhatsApp : c.channelMail}
@@ -149,10 +168,9 @@ export default function ContactForm() {
           >
             <label
               htmlFor="contact"
-              className="mb-2 block font-mono text-xs text-muted"
+              className="mb-2 block font-mono text-label uppercase text-faint"
             >
-              <span aria-hidden className="text-accent">const</span>{" "}
-              {isMail ? c.phoneLabel : c.emailLabel} <span aria-hidden>=</span>
+              {isMail ? c.phoneLabel : c.emailLabel}
             </label>
             <input
               id="contact"
@@ -174,10 +192,9 @@ export default function ContactForm() {
         <div>
           <label
             htmlFor="message"
-            className="mb-2 block font-mono text-xs text-muted"
+            className="mb-2 block font-mono text-label uppercase text-faint"
           >
-            <span aria-hidden className="text-accent">const</span> {c.messageLabel}{" "}
-            <span aria-hidden>=</span>
+            {c.messageLabel}
           </label>
           <textarea
             id="message"
@@ -197,7 +214,7 @@ export default function ContactForm() {
         <div>
           <button
             type="submit"
-            className="group flex w-full items-center justify-center gap-2 border border-accent bg-accent px-6 py-3.5 font-sans text-sm font-medium text-bg shadow-lift inset-shadow-lip transition-colors hover:bg-accent-bright"
+            className={cn(btnPrimary, "w-full px-6")}
           >
             {isMail ? (
               <ExternalLinkIcon className="h-4 w-4" />
