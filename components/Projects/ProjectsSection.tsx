@@ -42,7 +42,7 @@ export default function ProjectsSection() {
   const reduced = useReducedMotion();
 
   return (
-    <section id="projects" className="relative bg-bg py-20 sm:py-28">
+    <section id="projects" className="crt relative bg-bg py-20 sm:py-28">
       <div className="mx-auto max-w-[92rem] px-5 sm:px-8">
         <SectionLabel index="02">{p.label}</SectionLabel>
         <div className="mt-8 grid gap-6 lg:grid-cols-[1fr_auto] lg:items-end">
@@ -131,13 +131,19 @@ function PinnedTrack() {
   );
 }
 
+/**
+ * No fixed row height. `h-[62svh] min-h-[26rem]` resolved to 416px on a 667px
+ * phone while a card renders 510-650px of plate, title, description, stack and
+ * actions — `ProjectCard` is `flex h-full flex-col` with no overflow, so every
+ * long card spilled out of its box and into the 80px gap below it, overlapping
+ * the next one. The pinned desktop track needs a measured height because it
+ * has to fit a viewport; a stacked list is exactly as tall as its content.
+ */
 function StackedList() {
   return (
     <div className="mx-auto mt-14 max-w-[92rem] space-y-20 px-5 sm:px-8">
       {projects.map((project, i) => (
-        <div key={project.id} className="h-[62svh] min-h-[26rem]">
-          <ProjectCard project={project} index={i} />
-        </div>
+        <ProjectCard key={project.id} project={project} index={i} />
       ))}
     </div>
   );

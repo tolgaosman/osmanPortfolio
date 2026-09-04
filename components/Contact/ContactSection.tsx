@@ -43,14 +43,17 @@ export default function ContactSection() {
       <div className="mx-auto max-w-[92rem] px-5 py-20 sm:px-8 sm:py-28">
         <span
           aria-hidden="true"
-          className="pointer-events-none absolute -left-3 top-4 -z-10 select-none font-display text-[clamp(6rem,17vw,14rem)] font-bold leading-[0.7] text-accent-dim/20 sm:-left-8"
+          className="pointer-events-none absolute -left-3 top-4 -z-10 select-none font-display text-[clamp(3rem,17vw,14rem)] font-bold leading-[0.7] text-accent-dim/20 sm:-left-8"
         >
           05
         </span>
 
         <SectionLabel index="05">{c.label}</SectionLabel>
 
-        <div className="mt-10 grid gap-14 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
+        {/* See the note in SkillsSection: grid items are `min-width: auto` by
+            default and the form's own min-content width was widening the
+            track past the viewport. */}
+        <div className="mt-10 grid gap-14 [&>*]:min-w-0 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
           <Reveal stagger={0.08} variant="slideL">
             <RevealItem
               as="h2"
@@ -95,7 +98,7 @@ export default function ContactSection() {
                       type="button"
                       onClick={() => copy(row.value)}
                       data-cursor="link"
-                      className="relative rounded-xs border border-border px-2 py-0.5 font-mono text-[0.625rem] uppercase text-faint transition-colors hover:border-accent-dim hover:text-accent"
+                      className="relative inline-flex min-h-9 items-center rounded-xs border border-border px-2.5 py-0.5 font-mono text-[0.625rem] uppercase text-faint transition-colors hover:border-accent-dim hover:text-accent sm:min-h-0 sm:px-2"
                     >
                       <AnimatePresence mode="wait" initial={false}>
                         <motion.span

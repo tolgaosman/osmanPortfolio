@@ -39,7 +39,7 @@ export default function ProcessSection() {
       <div className="mx-auto max-w-5xl px-5 py-20 sm:px-8 sm:py-24">
         <span
           aria-hidden="true"
-          className="pointer-events-none absolute right-2 top-6 -z-10 select-none font-display text-[clamp(6rem,16vw,13rem)] font-bold leading-[0.7] text-accent-dim/20 sm:right-8"
+          className="pointer-events-none absolute right-2 top-6 -z-10 select-none font-display text-[clamp(3rem,16vw,13rem)] font-bold leading-[0.7] text-accent-dim/20 sm:right-8"
         >
           03
         </span>
@@ -56,10 +56,16 @@ export default function ProcessSection() {
         </div>
 
         <ol ref={listRef} className="relative mt-16 space-y-12 pl-10 sm:pl-14">
-          {/* The trace. One hairline at rest, filled by scroll progress. */}
+          {/* The trace. One hairline at rest, filled by scroll progress.
+              The offsets are derived, not eyeballed: the <ol> pads by 2.5rem
+              (3.5rem at sm) and each node hangs back the full padding at
+              0.5rem square (0.625rem at sm), so a node's centre sits 0.25rem
+              (0.3125rem) from the list's left edge. The rail used to be
+              hard-coded at 0.4375rem / 0.6875rem and ran down the RIGHT EDGE
+              of every node instead of through it — off by 3px, then 6px. */}
           <div
             aria-hidden="true"
-            className="absolute inset-y-0 left-[0.4375rem] w-px bg-border-faint sm:left-[0.6875rem]"
+            className="absolute inset-y-0 left-[calc(0.25rem-0.5px)] w-px bg-border-faint sm:left-[calc(0.3125rem-0.5px)]"
           >
             <motion.div
               style={{ scaleY: scrollYProgress }}

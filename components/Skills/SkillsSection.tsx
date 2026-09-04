@@ -28,11 +28,15 @@ export default function SkillsSection() {
   const s = t.skills;
 
   return (
-    <section id="skills" className="relative bg-bg py-20 sm:py-28">
+    <section id="skills" className="crt relative bg-bg py-20 sm:py-28">
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <SectionLabel index="04">{s.label}</SectionLabel>
 
-        <div className="mt-10 grid gap-12 lg:grid-cols-[22rem_1fr] lg:gap-14">
+        {/* `[&>*]:min-w-0`: a grid item's default `min-width: auto` is its
+            MIN-CONTENT width, so the terminal panel's longest unbreakable mono
+            line was widening the whole track — 10px past a 320px viewport, and
+            since the page clips rather than scrolls, invisibly. */}
+        <div className="mt-10 grid gap-12 [&>*]:min-w-0 lg:grid-cols-[22rem_1fr] lg:gap-14">
           <Reveal stagger={0.08} variant="slideL">
             <RevealItem
               as="h2"

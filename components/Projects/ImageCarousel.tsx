@@ -7,6 +7,9 @@ import { ChevronLeftIcon, ChevronRightIcon } from "@/components/Icons";
 import { asset, cn } from "@/lib/utils";
 import { useLang } from "@/lib/i18n";
 
+/** Offset-plus-projected-velocity, in px, that counts as a swipe. */
+const SWIPE = 60;
+
 interface ImageCarouselProps {
   /**
    * Real screenshot paths. The caller (ProjectModal) only mounts this
@@ -53,7 +56,10 @@ export default function ImageCarousel({
         className={cn(
           "relative w-full overflow-hidden",
           portrait
-            ? "h-[55vh] max-h-[480px] bg-surface-2 sm:h-[70vh] sm:max-h-[640px]"
+            // svh: this sits inside a panel capped at `max-h-[90svh]`, and two
+            // viewport units that disagree as the iOS URL bar moves make the
+            // frame and its container fight over the same pixels.
+            ? "h-[55svh] max-h-[480px] bg-surface-2 sm:h-[70svh] sm:max-h-[640px]"
             : "aspect-video",
         )}
         role="group"
@@ -73,7 +79,21 @@ export default function ImageCarousel({
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: dir > 0 ? "-100%" : "100%" }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            className="absolute inset-0"
+            // Swipe. `dragConstraints` pinned to zero with elastic resistance
+            // means the slide never actually travels — the drag is a gesture
+            // reader, and the real movement is the same AnimatePresence
+            // transition the arrows and the arrow keys drive, so all three
+            // paths produce one animation instead of three.
+            drag={single ? false : "x"}
+            dragDirectionLock
+            dragConstraints={{ left: 0, right: 0 }}
+            dragElastic={0.18}
+            onDragEnd={(_, info) => {
+              const throw_ = info.offset.x + info.velocity.x * 0.2;
+              if (throw_ < -SWIPE) paginate(1);
+              else if (throw_ > SWIPE) paginate(-1);
+            }}
+            className="absolute inset-0 touch-pan-y"
           >
             {/* Loading skeleton, inside the slide rather than behind it.
                 As a sibling at `inset-0` it also pulsed in the letterbox
@@ -100,7 +120,7 @@ export default function ImageCarousel({
               type="button"
               onClick={() => paginate(-1)}
               aria-label={m.prevImage}
-              className="absolute left-3 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-md border border-border-strong bg-surface/90 text-text shadow-plate backdrop-blur-sm transition-all duration-200 hover:border-accent hover:bg-surface hover:text-accent active:scale-95"
+              className="absolute left-2 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-md border border-border-strong bg-surface/90 text-text shadow-plate backdrop-blur-sm transition-all duration-200 hover:border-accent hover:bg-surface hover:text-accent active:scale-95 sm:left-3 sm:h-9 sm:w-9"
             >
               <ChevronLeftIcon className="h-4 w-4" />
             </button>
@@ -108,7 +128,7 @@ export default function ImageCarousel({
               type="button"
               onClick={() => paginate(1)}
               aria-label={m.nextImage}
-              className="absolute right-3 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-md border border-border-strong bg-surface/90 text-text shadow-plate backdrop-blur-sm transition-all duration-200 hover:border-accent hover:bg-surface hover:text-accent active:scale-95"
+              className="absolute right-2 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-md border border-border-strong bg-surface/90 text-text shadow-plate backdrop-blur-sm transition-all duration-200 hover:border-accent hover:bg-surface hover:text-accent active:scale-95 sm:right-3 sm:h-9 sm:w-9"
             >
               <ChevronRightIcon className="h-4 w-4" />
             </button>
@@ -141,7 +161,7 @@ export default function ImageCarousel({
                 setLoaded(false);
                 setState([i, i > index ? 1 : -1]);
               }}
-              className="group flex h-7 items-center px-1"
+              className="group flex h-11 items-center px-1.5 sm:h-7 sm:px-1"
             >
               <span
                 aria-hidden

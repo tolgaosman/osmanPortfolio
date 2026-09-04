@@ -201,7 +201,9 @@ export default function TerminalPanel() {
         aria-label={term.label}
         tabIndex={0}
         onClick={() => inputRef.current?.focus()}
-        className="term max-h-[26rem] min-h-[20rem] space-y-2 overflow-y-auto p-4 text-screen"
+        // The 20rem floor is a third of a 667px phone before the header, the
+        // input row and the two wrapped rows of command chips are counted.
+        className="term max-h-[26rem] min-h-[14rem] space-y-2 overflow-y-auto p-4 text-screen sm:min-h-[20rem]"
       >
         {entries.map((entry) => (
           <Line key={entry.id} entry={entry} />
@@ -236,7 +238,11 @@ export default function TerminalPanel() {
           spellCheck={false}
           enterKeyHint="go"
           placeholder={term.placeholder}
-          className="min-w-0 flex-1 bg-transparent font-mono text-sm text-text outline-none placeholder:text-faint"
+          // `text-base` below `sm`, not `text-sm`. iOS Safari force-zooms the
+          // viewport when a focused field is under 16px, and since this page
+          // sets no `maximum-scale` (it must not — that breaks pinch-zoom for
+          // everyone) there is no way back out of that zoom.
+          className="min-w-0 flex-1 bg-transparent font-mono text-base text-text outline-none placeholder:text-faint sm:text-sm"
         />
         <p id="term-help" className="sr-only">
           {term.help}
@@ -296,13 +302,13 @@ function Line({ entry }: { entry: Entry }) {
       return (
         <dl className="space-y-1">
           {COMMANDS.map((cmd) => (
-            <div key={cmd} className="flex gap-3">
-              <dt className="w-20 shrink-0 text-accent">{cmd}</dt>
+            <div key={cmd} className="sm:flex sm:gap-3">
+              <dt className="text-accent sm:w-20 sm:shrink-0">{cmd}</dt>
               <dd className="text-muted">{term.commands[cmd]}</dd>
             </div>
           ))}
-          <div className="flex gap-3">
-            <dt className="w-20 shrink-0 text-accent">{"open <id>"}</dt>
+          <div className="sm:flex sm:gap-3">
+            <dt className="text-accent sm:w-20 sm:shrink-0">{"open <id>"}</dt>
             <dd className="text-muted">{term.commands.open}</dd>
           </div>
         </dl>
@@ -312,8 +318,13 @@ function Line({ entry }: { entry: Entry }) {
       return (
         <ul className="space-y-1">
           {projects.map((project) => (
-            <li key={project.id} className="flex flex-wrap gap-x-3">
-              <span className="w-48 shrink-0 text-accent">{project.id}</span>
+            // Two columns need width to be two columns. At 375px the log is
+            // ~300px wide and the id column alone was 192px, so every title
+            // wrapped underneath anyway — just raggedly. Stack it on purpose.
+            <li key={project.id} className="sm:flex sm:flex-wrap sm:gap-x-3">
+              <span className="block text-accent sm:w-48 sm:shrink-0">
+                {project.id}
+              </span>
               <span className="text-muted">{project.title[lang]}</span>
             </li>
           ))}

@@ -36,7 +36,7 @@ export const btnSecondary =
 
 /** Same tier, sized for sitting inside a list row rather than under a heading. */
 export const btnSecondarySm =
-  "inline-flex items-center justify-center gap-1.5 rounded-full border border-border-strong px-3 py-1 font-mono text-label uppercase text-faint transition-colors duration-300 hover:border-accent hover:text-accent";
+  "inline-flex min-h-11 items-center justify-center gap-1.5 rounded-full border border-border-strong px-4 py-1 font-mono text-label uppercase text-faint transition-colors duration-300 hover:border-accent hover:text-accent sm:min-h-0 sm:px-3";
 
 /**
  * The command control. Square corners and mono type on purpose: this tier
@@ -44,11 +44,18 @@ export const btnSecondarySm =
  * primary action's pill.
  */
 export const btnCommand =
-  "inline-flex items-center gap-2 rounded-sm border border-border px-3 py-1.5 font-mono text-xs text-muted transition-colors duration-200 hover:border-accent-dim hover:bg-surface hover:text-accent";
+  "inline-flex items-center gap-2 rounded-sm border border-border px-3 py-2.5 font-mono text-xs text-muted transition-colors duration-200 hover:border-accent-dim hover:bg-surface hover:text-accent sm:py-1.5";
 
-/** Icon-only square control: carousel arrows, the menu toggle, the modal close. */
+/**
+ * Icon-only square control: carousel arrows, the menu toggle, the modal close.
+ *
+ * 44px on touch, 36px from `sm` up. An icon button has no label to widen its
+ * target, so it is the one tier where the visual size and the tappable size
+ * have to be argued separately — 36px is a comfortable button under a mouse
+ * and a miss under a thumb.
+ */
 export const btnIcon =
-  "inline-flex h-9 w-9 items-center justify-center rounded-md border border-border text-muted transition-colors duration-200 hover:border-border-strong hover:bg-surface hover:text-text";
+  "inline-flex h-11 w-11 items-center justify-center rounded-md border border-border text-muted transition-colors duration-200 hover:border-border-strong hover:bg-surface hover:text-text sm:h-9 sm:w-9";
 
 /** An inline text link. Most actions on the page still are one. */
 export const btnQuiet =

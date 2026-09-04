@@ -209,7 +209,6 @@ export default function RootLayout({
             <BootOverlay />
             <Cursor />
             {children}
-            <div className="scanlines" aria-hidden="true" />
           </LanguageProvider>
         </MotionConfig>
       </body>

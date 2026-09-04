@@ -54,23 +54,36 @@ export default function ProjectCard({
           card whose title is cut off by the fold is worse than a smaller
           plate. Now the card is content-sized and always fits. */}
       <div className="lap w-full">
-        <div ref={plate} className="lap__rig aspect-[16/10] max-h-[52svh]">
+        <div
+          ref={plate}
+          className={cn(
+            "lap__rig max-h-[52svh]",
+            // A phone screenshot fitted into a 16:10 plate is ~78px wide on a
+            // 375px viewport — a sliver of the app it is meant to show. Below
+            // `lg` the plate takes the screenshot's own orientation instead;
+            // from `lg` up the row of cards has to share one silhouette, so
+            // the landscape plate comes back.
+            isMobileApp ? "aspect-[4/5] lg:aspect-[16/10]" : "aspect-[16/10]",
+          )}
+        >
           <button
             type="button"
             onClick={() => openProject(project.id)}
             data-cursor="view"
             aria-label={`${p.viewDetails}: ${project.title[lang]}`}
-            className="group relative block h-full w-full overflow-hidden rounded-md border border-border bg-surface shadow-plate transition-shadow duration-500 hover:shadow-plate-hover"
-          >
-            {/* A phone screenshot letterboxed into a landscape plate leaves
-                dead space on both sides. The grid gives it a reason to be
-                there — the same floor the hero stands on, read as a mount. */}
-            {isMobileApp && cover && (
-              <span
-                aria-hidden="true"
-                className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,var(--color-border-faint)_1px,transparent_1px),linear-gradient(0deg,var(--color-border-faint)_1px,transparent_1px)] bg-[size:34px_34px]"
-              />
+            className={cn(
+              "group relative block h-full w-full overflow-hidden rounded-md border border-border shadow-plate transition-shadow duration-500 hover:shadow-plate-hover",
+              // The letterbox behind a contained screenshot is the PLATE'S OWN
+              // background, not a sibling layer. It used to be a `<span>` at
+              // `absolute inset-0` carrying a 34px grid "mount" — ruled lines
+              // running up to, and reading as across, a photograph. Painting
+              // it opaque in place would have been worse: an absolutely
+              // positioned sibling paints in step 8 of the stacking order and
+              // the static <img> in step 7, so the mount would have covered
+              // the screenshot entirely.
+              isMobileApp ? "bg-surface-2" : "bg-surface",
             )}
+          >
             {cover ? (
               <img
                 src={asset(cover)}
@@ -84,7 +97,7 @@ export default function ProjectCard({
                   // A phone screenshot letterboxed into a 16:9 plate looks
                   // like a mistake; contain it and let the plate frame it.
                   isMobileApp
-                    ? "object-contain p-5 sm:p-8"
+                    ? "object-contain p-3 sm:p-5 lg:p-8"
                     : "object-cover object-top",
                 )}
               />
@@ -107,6 +120,19 @@ export default function ProjectCard({
 
             <span className="pointer-events-none absolute left-4 top-4 font-display text-4xl font-bold leading-none text-accent-dim">
               {folio}
+            </span>
+
+            {/* Touch only. The one thing that said "this plate opens
+                something" was `data-cursor="view"` — a cursor, which does not
+                exist on a phone, where this is also the largest and most
+                obviously tappable element on the card. Above `lg` the custom
+                cursor is doing that job and a second label beside the real
+                button below would just be the same word twice. */}
+            <span
+              aria-hidden="true"
+              className="pointer-events-none absolute bottom-3 right-3 rounded-xs border border-border-strong bg-bg/80 px-2 py-1 font-mono text-[10px] uppercase tracking-widest text-text backdrop-blur-sm lg:hidden"
+            >
+              {p.viewDetails}
             </span>
           </button>
         </div>

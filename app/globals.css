@@ -17,10 +17,36 @@
        Kept in sync with --color-accent by hand: Tailwind v4 has no way to
        decompose a hex token into channels. */
     --accent-rgb: 46 232 143;
+
+    /* CRT TEXTURE.
+       This used to be a viewport-fixed <div class="scanlines"> at z-index 80,
+       i.e. ON TOP of the entire page — which meant it also printed 3px lines
+       across every project screenshot, the modal carousel and the portrait.
+       Photographs are the one thing on this page that must arrive untouched.
+
+       So the texture moved from a top layer to a BACKGROUND layer: it is now
+       painted by the opaque surfaces themselves (body, .plane, .term,
+       .lap__screen), which puts it behind their children by construction. No
+       z-index can rescue the old approach — .plane and the hero both set
+       `isolation: isolate`, so nothing inside a section can ever climb above
+       a body-level sibling.
+
+       The two old numbers (0.22 alpha on a layer at opacity 0.55) are folded
+       into one alpha here, so the rendered density is unchanged.
+
+       `background-attachment` stays at its default `scroll`. `fixed` would
+       re-anchor the gradient to the viewport on every scroll frame, which is
+       a full-surface repaint on iOS and shimmers on high-DPR panels. */
+    --crt: repeating-linear-gradient(
+      to bottom,
+      rgb(var(--ink) / 0.12) 0 1px,
+      transparent 1px 3px
+    );
   }
 
   body {
     background-color: var(--color-bg);
+    background-image: var(--crt);
     color: var(--color-text);
     font-family: var(--font-sans), system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
@@ -133,9 +159,12 @@
   /* The hero and footer wall name. Sized in vw so it spans the viewport at
      every width: TOLGA OSMAN is 11 characters, and Space Grotesk Bold at
      -0.04em tracking averages about 0.58em per character, so 100vw divided by
-     (11 x 0.58) lands at roughly 15.6vw. The clamp floor keeps it from
-     collapsing on a watch; the ceiling keeps it from overflowing a 4K panel. */
-  --text-wall: clamp(3.25rem, 15.2vw, 17rem);
+     (11 x 0.58) lands at roughly 15.6vw. The ceiling keeps it from overflowing
+     a 4K panel. The FLOOR is set at 2.75rem rather than something more
+     comfortable because it is a floor on an overflow: the vw term is what
+     keeps the name inside the viewport, and any floor above ~2.9rem starts
+     winning below 360px and pushes the name back out past the edge. */
+  --text-wall: clamp(2.75rem, 15.2vw, 17rem);
   --text-wall--line-height: 0.82;
   --text-wall--letter-spacing: -0.04em;
 
@@ -281,7 +310,10 @@
   .floor {
     position: absolute;
     inset: auto 0 0 0;
-    height: 58vh;
+    /* svh, not vh — every other height on this page already uses it. On iOS
+       the large viewport unit sizes the floor to the URL-bar-collapsed
+       height, so the horizon jumps as the bar animates. */
+    height: 58svh;
     perspective: 260px;
     perspective-origin: 50% 0%;
     pointer-events: none;
@@ -361,6 +393,17 @@
     will-change: transform;
   }
 
+  /* Touch. `usePointerVars` bails without a fine pointer, so --sx/--sy stay
+     at their @property initial values and the spotlight becomes a static
+     736px screen-blended disc parked in the middle of the hero — bigger than
+     the phone it is on, and washing out the wall name behind it. A light with
+     nothing moving it is not a light. */
+  @media (hover: none) {
+    .spot {
+      display: none;
+    }
+  }
+
   /* NOTE on what is deliberately NOT here: a counter-translating "flashlight"
      lens that reveals a second, brighter copy of the wall name through a
      static mask. It renders beautifully, but it requires the lit copy to stay
@@ -371,25 +414,6 @@
      the grid and the name at once. If a future state needs the spotlight to
      reveal a genuinely DIFFERENT treatment rather than a brighter one, that
      is when the lens earns its complexity back. */
-
-  /* ---------------------------------------------------------------------
-     SCANLINES
-     A 3px repeating gradient, fixed to the viewport. Static on purpose — a
-     moving scanline is a headache generator and a WCAG 2.3 risk, and the CRT
-     reading survives perfectly well without the movement.
-     --------------------------------------------------------------------- */
-  .scanlines {
-    position: fixed;
-    inset: 0;
-    z-index: 80;
-    pointer-events: none;
-    background-image: repeating-linear-gradient(
-      to bottom,
-      rgb(var(--ink) / 0.22) 0 1px,
-      transparent 1px 3px
-    );
-    opacity: 0.55;
-  }
 
   /* ---------------------------------------------------------------------
      3D LAPTOP
@@ -404,12 +428,42 @@
      children are 2D. That is exactly what we want.
 
      Ordering inside a 3D context is by computed Z, NOT z-index. Use
-     translateZ() to stack the deck under the lid — reaching for z-index here
-     produces the classic keyboard-draws-on-top-of-the-screen bug.
+     translateZ() to stack parts — reaching for z-index here produces the
+     classic keyboard-draws-on-top-of-the-screen bug.
+
+     WHY THE ANGLES CHANGED. The old assembly read as "a rectangle with a
+     line under it", and the reason was geometric, not decorative: the deck
+     sat at rotateX(78deg), i.e. 12 degrees off edge-on to the camera, so
+     roughly a fifth of it survived projection — and the lid leaned FORWARD
+     at rotateX(-8deg), the one angle a laptop screen never sits at. The fold
+     had nothing to read.
+
+     The signs are worth stating once, because they are easy to get backwards.
+     CSS is x-right / y-down / z-toward-viewer, and rotateX follows the
+     right-hand rule about +x, so rotateX(positive) carries +y (down) toward
+     +z (the viewer). For the deck, hinged at its TOP edge, that means its
+     FRONT edge swings toward you — a keyboard receding away from a raised
+     lid, which is correct. For the lid, hinged at its BOTTOM edge, positive
+     carries its top AWAY from you — a lid leaning back, also correct.
+
+     Opening the deck to 60deg roughly doubles what survives projection
+     (cos 60 = 0.50 against cos 78 = 0.21), and leaning the lid back 8deg
+     costs the screen a 1% foreshortening for a fold that finally reads. The
+     camera is not moved further overhead than that on purpose: a steeper
+     angle shows more keyboard and less screen, and the screens are the whole
+     reason these exist.
      --------------------------------------------------------------------- */
   .lap {
     perspective: 1400px;
     perspective-origin: 50% 42%;
+  }
+
+  /* Laptops only. ProjectCard reuses `.lap`/`.lap__rig` for its screenshot
+     plate, where a strong perspective would bow the screenshot; a device that
+     has real depth needs the convergence, a flat plate does not. */
+  .lap--device {
+    perspective: 780px;
+    perspective-origin: 50% 34%;
   }
 
   .lap__rig {
@@ -421,16 +475,36 @@
   .lap__lid {
     transform-style: preserve-3d;
     transform-origin: 50% 100%;
-    transform: rotateX(-8deg) translateZ(0.01px);
+    transform: rotateX(8deg) translateZ(0.01px);
   }
 
-  /* LEAF. transform-style is implicitly flat here, which is required. */
+  /* LEAF. transform-style is implicitly flat here, which is required.
+     The radius is asymmetric — generous at the top corners, tight where the
+     lid meets the hinge — because that is the shape of a lid, and a uniform
+     radius is the shape of a card. */
   .lap__bezel {
+    position: relative;
     overflow: hidden;
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-lg) var(--radius-lg) 3px 3px;
     background-color: #05100a;
-    box-shadow: var(--inset-shadow-edge), var(--shadow-plate);
+    box-shadow:
+      var(--inset-shadow-edge),
+      inset 0 0 0 1px rgb(var(--ink) / 0.8),
+      var(--shadow-plate);
     border: 1px solid var(--color-border-structural);
+  }
+
+  /* The camera. Three pixels of nothing that do more to say "laptop" than
+     any amount of chassis rendering, because no other object has one. */
+  .lap__cam {
+    background-color: rgb(var(--hilite) / 0.22);
+    box-shadow: 0 0 0 1px rgb(var(--ink) / 0.9);
+  }
+
+  /* The chin's brand hairline. Deliberately anonymous — a real wordmark here
+     would be someone else's trademark on a page about this work. */
+  .lap__chin {
+    background-color: rgb(var(--hilite) / 0.1);
   }
 
   .lap__screen {
@@ -439,18 +513,37 @@
     line-height: 1.55;
     /* Screen emission. Legal glow: this is a lit display, and the light stays
        INSIDE the bezel rather than spilling onto the page. */
-    background-image: radial-gradient(
-      120% 100% at 50% 0%,
-      rgb(var(--accent-rgb) / 0.07),
-      transparent 70%
+    background-image:
+      var(--crt),
+      radial-gradient(
+        120% 100% at 50% 0%,
+        rgb(var(--accent-rgb) / 0.07),
+        transparent 70%
+      );
+  }
+
+  /* The hinge barrel. Lives on the rig rather than inside the lid so it stays
+     square to the camera while the lid leans, and is nudged 1px forward so it
+     wins the coincident-Z contest with the deck's rear edge instead of
+     z-fighting it. A lit top hairline and a dark body: that pairing is the
+     whole reason the fold reads as a fold. */
+  .lap__hinge {
+    transform: translateZ(1px);
+    border-radius: 0 0 3px 3px;
+    background-image: linear-gradient(
+      to bottom,
+      rgb(var(--hilite) / 0.18) 0 1px,
+      var(--color-surface-2) 1px,
+      #060d0a 100%
     );
   }
 
-  /* The deck lies almost flat, hinged from its TOP edge so it meets the lid.
-     No preserve-3d: nothing inside it is 3D. */
+  /* The deck. preserve-3d because its front lip counter-rotates back to face
+     the camera; nothing else inside it leaves the plane. */
   .lap__deck {
+    transform-style: preserve-3d;
     transform-origin: 50% 0%;
-    transform: rotateX(78deg);
+    transform: rotateX(60deg);
     background-image: linear-gradient(
       to bottom,
       var(--color-surface-2),
@@ -458,13 +551,50 @@
     );
     border: 1px solid var(--color-border-structural);
     border-top: none;
-    border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
   }
 
-  .lap__keys {
-    background-image:
-      repeating-linear-gradient(90deg, rgb(var(--ink) / 0.5) 0 1px, transparent 1px 7.5%),
-      repeating-linear-gradient(0deg, rgb(var(--ink) / 0.5) 0 1px, transparent 1px 25%);
+  /* Keycaps, not a ruled grid. The old two-axis repeating gradient drew the
+     GAPS between keys, which at this scale is a sheet of graph paper; caps
+     with a lit top edge read as objects you could press. */
+  .lap__key {
+    background-color: rgb(var(--ink) / 0.62);
+    border-radius: 1px;
+    box-shadow: inset 0 1px 0 0 rgb(var(--hilite) / 0.06);
+  }
+
+  .lap__pad {
+    border: 1px solid var(--color-border);
+    border-radius: 2px;
+    background-color: rgb(var(--ink) / 0.35);
+    box-shadow: var(--inset-shadow-well);
+  }
+
+  /* The chassis front, counter-rotated by exactly the deck's own angle so it
+     stands vertical to the camera. This is the element that carries the
+     machine's THICKNESS — without it the deck is a decal on the floor. */
+  .lap__front {
+    transform-origin: 50% 0%;
+    transform: rotateX(-60deg);
+    border-radius: 0 0 4px 4px;
+    background-image: linear-gradient(
+      to bottom,
+      var(--color-surface),
+      #08120d
+    );
+    box-shadow: inset 0 1px 0 0 rgb(var(--hilite) / 0.06);
+  }
+
+  /* Contact shadow. A sibling of the rig, OUTSIDE its 3D context, because a
+     flat child inside would sit on the lid plane rather than on the ground.
+     A radial gradient rather than a blurred box: `filter` on anything in this
+     subtree would collapse transform-style to flat. */
+  .lap__ground {
+    background-image: radial-gradient(
+      55% 50% at 50% 45%,
+      rgb(var(--ink) / 0.9),
+      transparent 72%
+    );
   }
 
   /* ---------------------------------------------------------------------
@@ -475,6 +605,7 @@
      --------------------------------------------------------------------- */
   .term {
     background-color: #060d0a;
+    background-image: var(--crt);
     box-shadow: var(--inset-shadow-well);
     font-family: var(--font-mono), ui-monospace, monospace;
   }
@@ -508,7 +639,7 @@
     background-size: 100% 1px;
   }
 
-  /* Two grades, because the two portrait sources need different amounts of
+  /* Three grades, because the portrait sources need different amounts of
      correction before they belong to the page.
 
      `.photo-jade` is for the CUTOUT: a clean alpha matte with no background
@@ -526,6 +657,16 @@
   .photo-jade-heavy {
     filter: saturate(0.55) contrast(1.12) brightness(0.92)
       drop-shadow(0 24px 48px rgb(var(--ink) / 0.7));
+  }
+  /* `.photo-jade-flat` is the same colour grade as `.photo-jade` with the
+     contact shadow removed: it is for a photograph inside a FRAME, where the
+     frame's own `shadow-plate` already carries the elevation and a
+     drop-shadow would only be clipped by the frame's overflow — an entire
+     filter pass rendering nothing. Used by the About portrait, which keeps
+     its background on purpose and must not be desaturated into a monochrome
+     plate the way the fallback hero treatment does. */
+  .photo-jade-flat {
+    filter: saturate(0.92) contrast(1.05) brightness(0.99);
   }
 
   /* FALLBACK PATH ONLY — used while the source is a rectangular photograph
@@ -562,11 +703,23 @@
     opacity: 0.72;
   }
 
+  /* Opaque surfaces that are NOT .plane slabs still have to carry the CRT
+     texture themselves, because their own background-color hides the body's.
+     Projects, Skills and the footer all paint `bg-bg` — the same colour as
+     the body — purely to sit opaquely above the hero's atmosphere. */
+  .crt {
+    background-image: var(--crt);
+  }
+
   /* Full-bleed slab boundary. All of its depth lives in its top and bottom
      edges; it has no side edges because it runs the width of the page. */
   .plane {
     position: relative;
     isolation: isolate;
+    /* Over the section's own background-color, behind every child — see the
+       --crt note in :root. Without this the slab sections would be the only
+       places on the page with no texture at all. */
+    background-image: var(--crt);
     box-shadow:
       inset 0 1px 0 0 rgb(var(--hilite) / 0.05),
       inset 0 -1px 0 0 rgb(var(--ink) / 0.6);
@@ -662,7 +815,7 @@
     transform: translate3d(0, -110%, 0);
   }
   to {
-    transform: translate3d(0, 110vh, 0);
+    transform: translate3d(0, 110svh, 0);
   }
 }
 
@@ -703,9 +856,9 @@
    animations Framer never sees. The blanket duration override below would
    already freeze these at their end state (every loop here is seamless, so
    that happens to look fine), but stating `animation: none` for the ambient
-   layers is honest rather than accidental — and the code rain and scanlines
-   are removed outright, because a frozen column of glyphs is worse than no
-   column at all. */
+   layers is honest rather than accidental — and the code rain is removed
+   outright, because a frozen column of glyphs is worse than no column at all.
+   The CRT texture goes with it by emptying --crt. */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -723,9 +876,14 @@
   }
 
   .code-rain,
-  .scanlines,
   [data-boot] {
     display: none !important;
+  }
+
+  /* The CRT texture is a background layer now, not an element, so it is
+     switched off by emptying its token rather than by hiding a node. */
+  :root {
+    --crt: none !important;
   }
 
   .lap__rig {

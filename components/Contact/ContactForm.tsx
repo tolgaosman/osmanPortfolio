@@ -9,8 +9,12 @@ import { cn } from "@/lib/utils";
 import { btnPrimary } from "@/lib/buttons";
 import { siteConfig } from "@/data/site";
 
+// `text-base` below `sm`, not `text-sm`. iOS Safari force-zooms the viewport
+// when a focused field is under 16px, and this page sets no `maximum-scale`
+// (it must not — that disables pinch-zoom for everyone), so nothing zooms the
+// page back out afterwards.
 const inputClass =
-  "w-full rounded-sm border border-border-strong bg-bg px-4 py-3 font-mono text-sm text-text placeholder:text-faint transition-colors hover:border-muted focus:border-accent";
+  "w-full rounded-sm border border-border-strong bg-bg px-4 py-3 font-mono text-base text-text placeholder:text-faint transition-colors hover:border-muted focus:border-accent sm:text-sm";
 const inputErrorClass = "border-danger";
 
 const NO_ERRORS: ContactFieldErrors = { name: false, contact: false, message: false };

@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { cn, smoothScrollTo } from "@/lib/utils";
 import { EASE_OUT, SPRING_SNAP } from "@/lib/motion";
 import { useScrollLock } from "@/lib/scroll-lock";
+import { LG } from "@/lib/media";
 import { btnSecondary } from "@/lib/buttons";
 import { useLang } from "@/lib/i18n";
 import { siteConfig } from "@/data/site";
@@ -22,9 +23,15 @@ const MOBILE_MENU_ID = "mobile-nav-menu";
 /**
  * Tuned to this header's height, not inherited. The scroll offset has to clear
  * the floating rail or every anchor lands with its heading tucked underneath;
- * if the rail's padding changes, this number changes with it.
+ * if the rail's padding changes, these numbers change with it.
+ *
+ * There are two, because the rail is two heights. Desktop: 16px top padding +
+ * 10px + a 36px control + 10px, plus breathing room. Mobile: the same padding
+ * around a 44px control, and a rail that never gets the `sm:` padding bump.
+ * A single desktop constant landed every mobile anchor ~16px low.
  */
 const NAV_OFFSET = 88;
+const NAV_OFFSET_SM = 96;
 
 export default function NavBar() {
   const { t } = useLang();
@@ -38,6 +45,8 @@ export default function NavBar() {
   // mid-navigation.
   const suppressHideRef = useRef(false);
   const rafRef = useRef<number | null>(null);
+  const headerRef = useRef<HTMLElement>(null);
+  const toggleRef = useRef<HTMLButtonElement>(null);
 
   useScrollLock(menuOpen);
 
@@ -105,19 +114,54 @@ export default function NavBar() {
     return () => observer.disconnect();
   }, []);
 
+  /**
+   * Dismissal. Escape was already handled; tapping the page was not, and on a
+   * phone that is the gesture people actually reach for — the sheet covers a
+   * sixth of the screen and the other five sixths did nothing. `pointerdown`
+   * rather than `click` so it beats the scroll the tap would otherwise start,
+   * and the header is excluded so the toggle's own click is not swallowed and
+   * immediately re-opened.
+   *
+   * `inert` on <main> while the sheet is open is the same treatment the boot
+   * overlay gives the page: without it, a screen reader and Tab both walk
+   * straight past the sheet into content that is visually behind it.
+   */
   useEffect(() => {
     if (!menuOpen) return;
+
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") setMenuOpen(false);
     };
+    const onPointerDown = (e: PointerEvent) => {
+      if (!headerRef.current?.contains(e.target as Node)) setMenuOpen(false);
+    };
+
+    const main = document.querySelector("main");
+    // Captured now: by cleanup time React may have swapped the node the ref
+    // points at, and the whole point is to return focus to the control this
+    // effect was opened from.
+    const toggle = toggleRef.current;
+    main?.setAttribute("inert", "");
+
     document.addEventListener("keydown", onKey);
-    return () => document.removeEventListener("keydown", onKey);
+    document.addEventListener("pointerdown", onPointerDown);
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.removeEventListener("pointerdown", onPointerDown);
+      main?.removeAttribute("inert");
+      // Back to the control that opened it — the sheet's own buttons are gone
+      // by now, and focus on <body> strands a keyboard user at the top.
+      toggle?.focus();
+    };
   }, [menuOpen]);
 
   const go = (id: string) => {
     setMenuOpen(false);
     suppressHideRef.current = true;
-    smoothScrollTo(id, NAV_OFFSET);
+    smoothScrollTo(
+      id,
+      window.matchMedia(LG).matches ? NAV_OFFSET : NAV_OFFSET_SM,
+    );
     setHidden(false);
     // Matches the scroll animation duration in lib/utils.ts, plus a margin so
     // the suppression outlives the last scroll event it triggers.
@@ -130,13 +174,20 @@ export default function NavBar() {
 
   return (
     <motion.header
+      ref={headerRef}
       animate={{ y: hidden && !menuOpen ? "-140%" : "0%" }}
       transition={{ duration: 0.35, ease: EASE_OUT }}
-      className="fixed inset-x-0 top-0 z-50 px-4 pt-4 sm:px-6"
+      className="fixed inset-x-0 top-0 z-50 px-3 pt-4 sm:px-6"
     >
       <div
         className={cn(
-          "mx-auto flex max-w-[92rem] items-center justify-between gap-4 rounded-full border px-4 py-2.5 transition-colors duration-300 sm:px-5",
+          // gap-2 / px-3 at the base size, not gap-4 / px-4: the wordmark, the
+          // language toggle and a 44px menu control together ran 3px past a
+          // 320px viewport, and the header is fixed — `body { overflow-x:
+          // clip }` propagates to the viewport but a fixed element's
+          // containing block IS the viewport, so it was the one thing on the
+          // page that could genuinely be cut off at the edge.
+          "mx-auto flex max-w-[92rem] items-center justify-between gap-2 rounded-full border px-3 py-2.5 transition-colors duration-300 sm:gap-4 sm:px-5",
           // At rest the rail is invisible chrome over the hero; once the page
           // has moved it becomes a real surface so the copy behind it cannot
           // read through the links.
@@ -148,7 +199,7 @@ export default function NavBar() {
         <button
           onClick={() => go("home")}
           data-cursor="link"
-          className="shrink-0 font-display text-base font-medium tracking-tight text-text"
+          className="min-w-0 shrink font-display text-sm font-medium tracking-tight text-text sm:shrink-0 sm:text-base"
         >
           {nameParts.slice(0, -1).join(" ")}{" "}
           <span className="text-accent">{nameParts[nameParts.length - 1]}</span>
@@ -202,13 +253,14 @@ export default function NavBar() {
           </button>
 
           <button
+            ref={toggleRef}
             type="button"
             onClick={() => setMenuOpen((v) => !v)}
             aria-expanded={menuOpen}
             aria-controls={MOBILE_MENU_ID}
             aria-label={menuOpen ? t.nav.closeMenu : t.nav.openMenu}
             data-cursor="link"
-            className="flex h-9 w-9 items-center justify-center rounded-md border border-border text-text lg:hidden"
+            className="flex h-11 w-11 items-center justify-center rounded-md border border-border text-text lg:hidden"
           >
             {/* Two bars that rotate into a cross. One element per bar, both
                 animating transform only, so nothing reflows mid-toggle. */}
@@ -232,6 +284,8 @@ export default function NavBar() {
         {menuOpen && (
           <motion.nav
             id={MOBILE_MENU_ID}
+            role="dialog"
+            aria-modal="true"
             aria-label={t.nav.primaryNav}
             initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}

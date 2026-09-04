@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import Link from "next/link";
 import { motion, useScroll } from "framer-motion";
+import AboutPortrait from "./AboutPortrait";
 import SectionLabel from "@/components/SectionLabel";
 import ScrambleText from "@/components/ScrambleText";
 import Reveal, { RevealItem } from "@/components/Reveal";
@@ -44,7 +45,7 @@ export default function AboutSection() {
             standing on it reads as printed into the stock, not stamped on. */}
         <span
           aria-hidden="true"
-          className="pointer-events-none absolute -left-3 top-2 -z-10 select-none font-display text-[clamp(7rem,20vw,17rem)] font-bold leading-[0.7] text-accent-dim/25 sm:-left-8"
+          className="pointer-events-none absolute -left-3 top-2 -z-10 select-none font-display text-[clamp(3.5rem,20vw,17rem)] font-bold leading-[0.7] text-accent-dim/25 sm:-left-8"
         >
           01
         </span>
@@ -64,6 +65,14 @@ export default function AboutSection() {
                 <ScrambleText text={a.title} />
               </RevealItem>
 
+              {/* The photograph, with its background. It sits between the
+                  title and the readout so the column reads top-down as
+                  name → face → facts, and it travels with the sticky aside
+                  rather than scrolling away from the prose it belongs to. */}
+              <RevealItem className="mt-8">
+                <AboutPortrait />
+              </RevealItem>
+
               {/* A readout, not three cards. These are the only content on the
                   page that is a set of discrete equal-weight data points, and
                   a key/value list with dotted leaders says that in less ink
@@ -71,16 +80,27 @@ export default function AboutSection() {
                   between "printed" and "dashboard". */}
               <RevealItem as="dl" className="mt-9 space-y-3.5">
                 {facts.map(({ label, value }) => (
-                  <div
-                    key={label}
-                    className="flex items-baseline gap-2 font-mono text-xs"
-                  >
-                    <dt className="shrink-0 uppercase text-faint">{label}</dt>
-                    <span
-                      aria-hidden="true"
-                      className="min-w-4 flex-1 translate-y-[-0.2em] border-b border-dotted border-border"
-                    />
-                    <dd className="shrink-0 text-right text-text">{value}</dd>
+                  // Two shapes, because the leader needs width to exist.
+                  // Both the key and the value used to be `shrink-0` in a
+                  // non-wrapping row: "EDUCATION / Eastern Mediterranean
+                  // University (Senior)" measures ~408px of 12px mono against
+                  // 335px of usable width at 375px, and `body { overflow-x:
+                  // clip }` threw the overflow away with nothing on screen to
+                  // say so. Below `sm` the pair stacks and the leader is gone
+                  // — a dotted rule between two lines is not a leader, it is
+                  // a divider — and from `sm` up the readout returns.
+                  <div key={label} className="font-mono text-xs">
+                    <div className="flex items-baseline gap-2">
+                      <dt className="shrink-0 uppercase text-faint">{label}</dt>
+                      <span
+                        aria-hidden="true"
+                        className="hidden min-w-4 flex-1 translate-y-[-0.2em] border-b border-dotted border-border sm:block"
+                      />
+                      <dd className="hidden shrink-0 text-right text-text sm:block">
+                        {value}
+                      </dd>
+                    </div>
+                    <dd className="mt-0.5 text-text sm:hidden">{value}</dd>
                   </div>
                 ))}
               </RevealItem>
