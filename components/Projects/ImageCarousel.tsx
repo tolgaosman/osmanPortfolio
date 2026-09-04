@@ -6,6 +6,7 @@ import Image from "next/image";
 import { ChevronLeftIcon, ChevronRightIcon } from "@/components/Icons";
 import { asset, cn } from "@/lib/utils";
 import { useLang } from "@/lib/i18n";
+import { EASE_OUT } from "@/lib/motion";
 
 interface ImageCarouselProps {
   /**
@@ -48,12 +49,12 @@ export default function ImageCarousel({
   const single = count <= 1;
 
   return (
-    <div className="border-b-2 border-border bg-bg">
+    <div className="plane-well border-b border-border">
       <div
         className={cn(
           "relative w-full overflow-hidden",
           portrait
-            ? "h-[55vh] max-h-[480px] bg-grid bg-surface-2 sm:h-[70vh] sm:max-h-[640px]"
+            ? "h-[55vh] max-h-[480px] bg-surface-2 sm:h-[70vh] sm:max-h-[640px]"
             : "aspect-video",
         )}
         role="group"
@@ -68,7 +69,7 @@ export default function ImageCarousel({
         {/* Loading skeleton — reuses the existing grid/surface-2 texture
             instead of leaving a blank box while the screenshot downloads. */}
         {!loaded && (
-          <div className="bg-grid absolute inset-0 animate-pulse bg-surface-2" />
+          <div className="absolute inset-0 animate-pulse bg-surface-2" />
         )}
 
         <AnimatePresence initial={false} custom={dir} mode="popLayout">
@@ -78,7 +79,7 @@ export default function ImageCarousel({
             initial={{ opacity: 0, x: dir >= 0 ? 40 : -40 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: dir >= 0 ? -40 : 40 }}
-            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.3, ease: EASE_OUT }}
             className="absolute inset-0"
           >
             <Image
@@ -99,7 +100,7 @@ export default function ImageCarousel({
               type="button"
               onClick={() => paginate(-1)}
               aria-label={m.prevImage}
-              className="absolute left-3 top-1/2 -translate-y-1/2 border-2 border-border bg-surface/90 p-2 text-text transition-colors hover:border-accent hover:text-accent"
+              className="absolute left-3 top-1/2 -translate-y-1/2 border border-border-strong bg-surface/90 p-2 text-text shadow-lift transition-colors hover:border-accent hover:text-accent"
             >
               <ChevronLeftIcon className="h-4 w-4" />
             </button>
@@ -107,14 +108,14 @@ export default function ImageCarousel({
               type="button"
               onClick={() => paginate(1)}
               aria-label={m.nextImage}
-              className="absolute right-3 top-1/2 -translate-y-1/2 border-2 border-border bg-surface/90 p-2 text-text transition-colors hover:border-accent hover:text-accent"
+              className="absolute right-3 top-1/2 -translate-y-1/2 border border-border-strong bg-surface/90 p-2 text-text shadow-lift transition-colors hover:border-accent hover:text-accent"
             >
               <ChevronRightIcon className="h-4 w-4" />
             </button>
 
             <span
               aria-live="polite"
-              className="absolute bottom-3 right-3 border border-border bg-surface/90 px-2 py-0.5 font-mono text-[11px] text-muted"
+              className="absolute bottom-3 right-3 border border-border bg-surface/90 px-2 py-0.5 font-mono text-[11px] text-faint"
             >
               {index + 1} / {count}
             </span>
@@ -123,7 +124,7 @@ export default function ImageCarousel({
       </div>
 
       {!single && (
-        <div className="flex items-center justify-center gap-2 border-t-2 border-border bg-surface-2 py-2.5">
+        <div className="flex items-center justify-center gap-2 border-t border-border bg-surface-2 py-2.5">
           {Array.from({ length: count }).map((_, i) => (
             <button
               key={i}

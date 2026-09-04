@@ -22,9 +22,6 @@ export const skillCategories: SkillCategory[] = [
   },
 ];
 
-/** Tag shown next to the soft-skills card, matching the `~/web` / `~/backend` style above. */
-export const SOFT_SKILLS_TAG = "~/soft";
-
 export const socialLinks: SocialLink[] = [
   {
     label: "GitHub",

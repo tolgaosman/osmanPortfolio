@@ -1,152 +1,101 @@
 "use client";
 
-import Image from "next/image";
-import { motion } from "framer-motion";
+import SectionLabel from "@/components/SectionLabel";
+import Reveal, { RevealItem } from "@/components/Reveal";
+import Link from "next/link";
+import { ExternalLinkIcon } from "@/components/Icons";
 import { asset } from "@/lib/utils";
 import { useLang } from "@/lib/i18n";
-
-const item = {
-  hidden: { opacity: 0, y: 24 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] as const } },
-};
-
-const container = {
-  hidden: {},
-  show: { transition: { staggerChildren: 0.12 } },
-};
 
 export default function AboutSection() {
   const { t } = useLang();
   const a = t.about;
 
+  const facts = [
+    { label: a.factLocationLabel, value: a.factLocation },
+    { label: a.factEducationLabel, value: a.factEducation },
+    { label: a.factLanguagesLabel, value: a.factLanguages },
+  ];
+
   return (
-    <section id="about" className="relative py-24 sm:py-32">
-      <div className="mx-auto max-w-7xl px-5 sm:px-8">
-        {/* Section header */}
-        <motion.div
-          variants={container}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true }}
-          className="mb-16"
+    // A full-bleed slab on `surface`. The alternating background is what
+    // separates sections now, in place of six identical wells of whitespace.
+    <section id="about" className="plane-sheet relative z-10 border-b border-border-structural bg-surface">
+      <div className="mx-auto max-w-[92rem] px-5 py-20 sm:px-8 sm:py-28">
+        {/* Magazine folio. Used in two sections only — as wayfinding, not as
+            a badge stamped on every heading like the old `01 // about`. */}
+        {/* Large enough to sit genuinely behind the sidebar and prose rather
+            than just above the fold — occlusion is free depth, and a folio
+            numeral you can't quite read because the text is standing on it
+            reads as printed into the stock, not pasted on top of it. */}
+        <span
+          aria-hidden
+          className="pointer-events-none absolute -left-3 top-2 -z-10 select-none font-display text-[clamp(7rem,20vw,17rem)] leading-[0.7] text-accent-dim/25 sm:-left-8"
         >
-          <motion.p variants={item} className="mb-2 font-mono text-sm text-accent">
-            {a.index}
-          </motion.p>
-          <motion.h2
-            variants={item}
-            className="font-mono text-3xl font-bold text-text sm:text-4xl"
-          >
-            {a.title}
-          </motion.h2>
-          <motion.p variants={item} className="mt-3 max-w-xl text-muted">
-            {a.subtitle}
-          </motion.p>
-        </motion.div>
+          01
+        </span>
 
-        {/* Main grid: photo left, text right */}
-        <div className="grid grid-cols-1 items-start gap-12 lg:grid-cols-[auto_1fr]">
-          {/* Photo */}
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            className="relative mx-auto aspect-[5/6] w-72 shrink-0 sm:w-80 lg:mx-0"
-          >
-            <div className="aspect-[5/6] w-full border-2 border-accent shadow-neo shadow-glow overflow-hidden">
-              <Image
-                src={asset("/osman_cv_pp.jpeg")}
-                alt={a.photoAlt}
-                width={360}
-                height={432}
-                className="block h-full w-full object-cover grayscale-[20%]"
-                unoptimized
-                loading="lazy"
-              />
-            </div>
-            {/* decorative offset box */}
-            <div className="pointer-events-none absolute -bottom-3 -right-3 -z-10 h-full w-full border-2 border-border" />
-          </motion.div>
+        <div className="relative grid gap-14 lg:grid-cols-[18rem_1fr] lg:gap-16">
+          <aside className="lg:sticky lg:top-28 lg:self-start">
+            <SectionLabel>{a.label}</SectionLabel>
 
-          {/* Text */}
-          <motion.div
-            variants={container}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true }}
-            className="space-y-5"
-          >
-            <motion.p variants={item} className="leading-relaxed text-muted">
-              {a.p1}
-            </motion.p>
-            <motion.p variants={item} className="leading-relaxed text-muted">
-              {a.p2}
-            </motion.p>
-            <motion.p variants={item} className="leading-relaxed text-muted">
-              {a.p3}
-            </motion.p>
+            <Reveal stagger={0.07} className="mt-8">
+              <RevealItem as="h2" className="font-display text-sub text-text">
+                {a.title}
+              </RevealItem>
 
-            {/* Quick facts */}
-            <motion.div
-              variants={item}
-              className="mt-8 grid grid-cols-1 gap-3 border-t border-border pt-8 sm:grid-cols-3"
+              {/* Hairline definition list — the same three facts the old
+                  3-up card grid held, minus the three boxes. */}
+              <RevealItem as="dl" className="mt-8 divide-y divide-border-faint border-y border-border">
+                {facts.map(({ label, value }) => (
+                  <div key={label} className="flex flex-wrap justify-between gap-x-6 gap-y-1 py-3.5">
+                    <dt className="font-sans text-label font-medium uppercase text-faint">
+                      {label}
+                    </dt>
+                    <dd className="font-sans text-sm text-text">{value}</dd>
+                  </div>
+                ))}
+              </RevealItem>
+
+              <RevealItem className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
+                {/* Routes through the site's own /cv viewer (app/cv/page.tsx)
+                    rather than opening the raw file — that route existed and
+                    was in the sitemap already, but nothing on the page linked
+                    to it. */}
+                <Link
+                  href="/cv"
+                  className="group inline-flex items-center gap-2 font-sans text-sm text-text transition-colors hover:text-accent"
+                >
+                  <span className="link-underline">{a.viewCv}</span>
+                  <ExternalLinkIcon className="h-3.5 w-3.5 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                </Link>
+                <a
+                  href={asset("/osmanCV.pdf")}
+                  download="osmanCV.pdf"
+                  className="link-underline font-sans text-sm text-muted transition-colors hover:text-text"
+                >
+                  {a.downloadCv}
+                </a>
+              </RevealItem>
+            </Reveal>
+          </aside>
+
+          {/* Prose is primary text at reading size. Body copy in `muted` is a
+              template habit — it makes the one thing people came to read the
+              least legible thing on the page. */}
+          <Reveal
+            stagger={0.09}
+            className="max-w-[46rem] space-y-6 font-sans text-lede text-text"
+          >
+            <RevealItem
+              as="p"
+              className="first-letter:float-left first-letter:mr-3 first-letter:mt-2 first-letter:font-display first-letter:text-[4.25rem] first-letter:leading-[0.72] first-letter:text-accent"
             >
-              {[
-                { label: a.factLocationLabel, value: a.factLocation },
-                { label: a.factEducationLabel, value: a.factEducation },
-                { label: a.factLanguagesLabel, value: a.factLanguages },
-              ].map(({ label, value }) => (
-                <div key={label} className="border border-border bg-surface p-4">
-                  <p className="mb-1 font-mono text-xs text-accent">{label}</p>
-                  <p className="font-mono text-sm text-text">{value}</p>
-                </div>
-              ))}
-            </motion.div>
-
-            {/* CV Actions */}
-            <motion.div variants={item} className="mt-4 flex flex-wrap gap-4">
-              <a
-                href={asset("/osmanCV.pdf")}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group inline-flex items-center gap-2 border-2 border-border px-5 py-2.5 font-mono text-sm font-bold text-text transition-colors hover:border-accent hover:text-accent"
-              >
-                {a.viewCv}
-                <svg
-                  className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  aria-hidden
-                >
-                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14 21 3" />
-                </svg>
-              </a>
-              <a
-                href={asset("/osmanCV.pdf")}
-                download="osmanCV.pdf"
-                className="group inline-flex items-center gap-2 border-2 border-border px-5 py-2.5 font-mono text-sm font-bold text-text transition-colors hover:border-accent hover:text-accent"
-              >
-                {a.downloadCv}
-                <svg
-                  className="h-4 w-4 transition-transform group-hover:translate-y-0.5"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  aria-hidden
-                >
-                  <path d="M12 15V3m0 12-4-4m4 4 4-4M2 17l.621 2.485A2 2 0 0 0 4.561 21h14.878a2 2 0 0 0 1.94-1.515L22 17" />
-                </svg>
-              </a>
-            </motion.div>
-          </motion.div>
+              {a.p1}
+            </RevealItem>
+            <RevealItem as="p">{a.p2}</RevealItem>
+            <RevealItem as="p">{a.p3}</RevealItem>
+          </Reveal>
         </div>
       </div>
     </section>

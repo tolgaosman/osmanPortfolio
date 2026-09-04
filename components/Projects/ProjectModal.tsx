@@ -9,13 +9,16 @@ import {
   GitHubIcon,
 } from "@/components/Icons";
 import { useLang } from "@/lib/i18n";
+import { EASE_OUT } from "@/lib/motion";
 import ImageCarousel from "./ImageCarousel";
 
+// Reuses palette tokens rather than macOS traffic-light hexes, which were
+// borrowed for their familiarity and read as window chrome, not as status.
 const statusColor: Record<ProjectStatus, string> = {
-  live: "text-[#28c840] border-[#28c840]/40",
-  soon: "text-[#febc2e] border-[#febc2e]/40",
+  live: "text-accent-bright border-accent-bright/40",
+  soon: "text-faint border-border",
   wip: "text-accent border-accent/40",
-  prod: "text-[#28c840] border-[#28c840]/40",
+  prod: "text-accent-bright border-accent-bright/40",
 };
 
 export default function ProjectModal({
@@ -94,21 +97,20 @@ export default function ProjectModal({
         initial={{ opacity: 0, scale: 0.95, y: 12 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 12 }}
-        transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+        transition={{ duration: 0.25, ease: EASE_OUT }}
         onClick={(e) => e.stopPropagation()}
         role="dialog"
         aria-modal="true"
         aria-label={project.title[lang]}
-        className="flex max-h-[90vh] w-full max-w-3xl flex-col overflow-hidden border-2 border-border bg-surface shadow-neo"
+        className="flex max-h-[90vh] w-full max-w-3xl flex-col overflow-hidden border border-border bg-surface shadow-float"
       >
-        {/* Window title bar */}
-        <div className="flex shrink-0 items-center justify-between border-b-2 border-border bg-surface-2 px-3 py-2">
-          <div className="flex items-center gap-1.5">
-            <span className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]" />
-            <span className="h-2.5 w-2.5 rounded-full bg-[#febc2e]" />
-            <span className="h-2.5 w-2.5 rounded-full bg-[#28c840]" />
-          </div>
-          <span className="font-mono text-xs text-muted">{project.id}.app</span>
+        {/* Title bar. The macOS traffic lights and the `{id}.app` filename
+            are gone — they appeared in three separate components and turned
+            every panel into the same fake window. */}
+        <div className="flex shrink-0 items-center justify-between gap-4 border-b border-border bg-surface-2 px-4 py-3">
+          <span className="truncate font-sans text-label font-medium uppercase text-faint">
+            {project.title[lang]}
+          </span>
           <button
             ref={closeButtonRef}
             type="button"
@@ -139,7 +141,7 @@ export default function ProjectModal({
           <div className="p-5 sm:p-7">
             {/* Heading */}
             <div className="mb-6 flex items-start justify-between gap-3">
-              <h2 className="font-mono text-2xl font-bold text-text">
+              <h2 className="font-display text-3xl text-text">
                 {project.title[lang]}
               </h2>
               <span
@@ -151,7 +153,7 @@ export default function ProjectModal({
 
             {/* Overview */}
             <section className="mb-7">
-              <h3 className="mb-2 font-mono text-xs uppercase tracking-wider text-accent">
+              <h3 className="mb-2 font-sans text-label font-medium uppercase text-accent">
                 {m.overview}
               </h3>
               <p className="text-sm leading-relaxed text-muted">
@@ -162,7 +164,7 @@ export default function ProjectModal({
             {/* Key features */}
             {d?.features?.length ? (
               <section className="mb-7">
-                <h3 className="mb-3 font-mono text-xs uppercase tracking-wider text-accent">
+                <h3 className="mb-3 font-sans text-label font-medium uppercase text-accent">
                   {m.features}
                 </h3>
                 <ul className="space-y-2">
@@ -183,7 +185,7 @@ export default function ProjectModal({
 
             {/* Built with */}
             <section className="mb-7">
-              <h3 className="mb-3 font-mono text-xs uppercase tracking-wider text-accent">
+              <h3 className="mb-3 font-sans text-label font-medium uppercase text-accent">
                 {m.builtWith}
               </h3>
               <div className="flex flex-wrap gap-2">
@@ -200,27 +202,27 @@ export default function ProjectModal({
 
             {/* Info */}
             <section className="mb-7">
-              <h3 className="mb-3 font-mono text-xs uppercase tracking-wider text-accent">
+              <h3 className="mb-3 font-sans text-label font-medium uppercase text-accent">
                 {m.info}
               </h3>
               <dl className="grid grid-cols-1 gap-x-4 gap-y-3 font-mono text-xs sm:grid-cols-2 md:grid-cols-4">
                 <div>
-                  <dt className="text-muted/75">{m.category}</dt>
+                  <dt className="text-faint">{m.category}</dt>
                   <dd className="mt-0.5 text-text">{categoryLabel}</dd>
                 </div>
                 <div>
-                  <dt className="text-muted/75">{m.statusLabel}</dt>
+                  <dt className="text-faint">{m.statusLabel}</dt>
                   <dd className="mt-0.5 text-text">{p.status[project.status]}</dd>
                 </div>
                 {d?.role && (
                   <div>
-                    <dt className="text-muted/75">{m.role}</dt>
+                    <dt className="text-faint">{m.role}</dt>
                     <dd className="mt-0.5 text-text">{d.role[lang]}</dd>
                   </div>
                 )}
                 {d?.year && (
                   <div>
-                    <dt className="text-muted/75">{m.year}</dt>
+                    <dt className="text-faint">{m.year}</dt>
                     <dd className="mt-0.5 text-text">{d.year}</dd>
                   </div>
                 )}
@@ -229,7 +231,7 @@ export default function ProjectModal({
 
             {/* Links */}
             <section>
-              <h3 className="mb-3 font-mono text-xs uppercase tracking-wider text-accent">
+              <h3 className="mb-3 font-sans text-label font-medium uppercase text-accent">
                 {m.links}
               </h3>
               <div className="flex flex-wrap items-center gap-3">
@@ -238,7 +240,7 @@ export default function ProjectModal({
                     href={project.github}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 border-2 border-border px-3 py-2 font-mono text-xs text-muted transition-colors hover:border-text hover:text-text"
+                    className="inline-flex items-center gap-2 border border-border-strong px-3 py-2 font-mono text-xs text-muted transition-colors hover:border-text hover:text-text"
                   >
                     <GitHubIcon className="h-4 w-4" />
                     {p.source}
@@ -249,14 +251,14 @@ export default function ProjectModal({
                     href={project.live}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 border-2 border-accent bg-accent/10 px-3 py-2 font-mono text-xs text-accent transition-colors hover:bg-accent hover:text-bg"
+                    className="inline-flex items-center gap-2 border border-accent bg-accent/10 px-3 py-2 font-mono text-xs text-accent transition-colors hover:bg-accent hover:text-bg"
                   >
                     <ArrowUpRightIcon className="h-4 w-4" />
                     {p.live}
                   </a>
                 )}
                 {!project.github && !project.live && (
-                  <span className="font-mono text-xs text-muted/75">
+                  <span className="font-mono text-xs text-faint">
                     {p.privateRepo}
                   </span>
                 )}

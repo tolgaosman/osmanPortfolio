@@ -68,7 +68,7 @@ export default function LanguageToggle() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -4 }}
               transition={{ duration: 0.15 }}
-              className="absolute right-0 top-full z-50 mt-1 min-w-[70px] border border-border bg-surface shadow-neo-sm"
+              className="absolute right-0 top-full z-50 mt-1 min-w-[70px] border border-border bg-surface shadow-[0_1px_2px_rgb(0_0_0/.4),0_8px_24px_-12px_rgb(0_0_0/.6)]"
             >
               {OPTIONS.map((opt) => (
                 <li key={opt.value}>

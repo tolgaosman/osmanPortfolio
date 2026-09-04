@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { cn, smoothScrollTo } from "@/lib/utils";
+import { EASE_OUT, SPRING_SNAP } from "@/lib/motion";
 import { useLang } from "@/lib/i18n";
 import LanguageToggle from "@/components/LanguageToggle";
 
@@ -120,30 +121,24 @@ export default function NavBar() {
     <motion.header
       initial={{ y: -80, opacity: 0 }}
       animate={{ y: hidden ? "-100%" : 0, opacity: hidden ? 0 : 1 }}
-      transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: 0.3, ease: EASE_OUT }}
       className={cn(
         "fixed inset-x-0 top-0 z-50 transition-colors duration-300",
         scrolled
-          ? "border-b border-border bg-bg/80 backdrop-blur-md"
+          ? "border-b border-border bg-bg/80 shadow-[0_1px_0_0_rgb(var(--ink)/.6),0_10px_20px_-14px_rgb(var(--ink)/.8)] backdrop-blur-md"
           : "border-b border-transparent",
       )}
     >
       <nav
         aria-label={t.nav.primaryNav}
-        className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 sm:px-8"
+        className="mx-auto flex h-16 max-w-[92rem] items-center justify-between px-5 sm:px-8"
       >
         <button
           onClick={() => go("home")}
-          className="group font-mono text-base font-bold tracking-tight"
+          className="group font-display text-xl tracking-tight"
         >
-          <span className="text-text">tolga</span>
-          <span className="text-accent">osman</span>
-          <span
-            aria-hidden
-            className="ml-0.5 inline-block w-2 animate-blink text-accent"
-          >
-            _
-          </span>
+          <span className="text-text">Tolga Osman</span>{" "}
+          <span className="text-accent">Falay</span>
         </button>
 
         {/* Desktop links + language toggle */}
@@ -155,7 +150,7 @@ export default function NavBar() {
                   onClick={() => go(link.id)}
                   aria-current={active === link.id ? "true" : undefined}
                   className={cn(
-                    "relative px-3 py-2 font-mono text-sm transition-colors",
+                    "relative px-3 py-2 font-sans text-sm capitalize transition-colors",
                     active === link.id
                       ? "text-accent"
                       : "text-muted hover:text-text",
@@ -165,8 +160,8 @@ export default function NavBar() {
                   {active === link.id && (
                     <motion.span
                       layoutId="nav-underline"
-                      className="absolute inset-x-3 -bottom-0.5 h-0.5 bg-accent"
-                      transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                      className="absolute inset-x-3 -bottom-0.5 h-px bg-accent"
+                      transition={SPRING_SNAP}
                     />
                   )}
                 </button>
@@ -175,7 +170,7 @@ export default function NavBar() {
           </ul>
           <button
             onClick={() => go("contact")}
-            className="ml-3 border-2 border-accent bg-accent px-4 py-1.5 font-mono text-sm font-bold text-bg shadow-neo-sm transition-transform hover:-translate-x-0.5 hover:-translate-y-0.5 active:translate-x-0 active:translate-y-0"
+            className="ml-3 border border-accent bg-accent px-4 py-1.5 font-sans text-sm font-medium text-bg shadow-lift inset-shadow-lip transition-colors hover:bg-accent-bright"
           >
             {t.nav.hireMe}
           </button>
@@ -224,7 +219,7 @@ export default function NavBar() {
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.25 }}
-            className="overflow-hidden border-b border-border bg-bg/95 backdrop-blur-md md:hidden"
+            className="overflow-hidden border-b border-border bg-bg/95 shadow-float backdrop-blur-md md:hidden"
           >
             <ul className="flex flex-col gap-1 px-5 py-4">
               {LINKS.map((link) => (
@@ -233,7 +228,7 @@ export default function NavBar() {
                     onClick={() => go(link.id)}
                     aria-current={active === link.id ? "true" : undefined}
                     className={cn(
-                      "w-full px-2 py-3 text-left font-mono text-sm",
+                      "w-full px-2 py-3 text-left font-sans text-sm capitalize",
                       active === link.id ? "text-accent" : "text-muted",
                     )}
                   >
@@ -244,7 +239,7 @@ export default function NavBar() {
               <li className="pt-2">
                 <button
                   onClick={() => go("contact")}
-                  className="w-full border-2 border-accent bg-accent px-4 py-2.5 font-mono text-sm font-bold text-bg shadow-neo-sm"
+                  className="w-full border border-accent bg-accent px-4 py-2.5 font-sans text-sm font-medium text-bg shadow-lift inset-shadow-lip"
                 >
                   {t.nav.hireMe}
                 </button>

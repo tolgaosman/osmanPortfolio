@@ -52,10 +52,3 @@ export interface SocialLink {
   href: string;
   icon: "github" | "linkedin" | "whatsapp" | "instagram";
 }
-
-export type ServiceId = "web" | "mobile" | "backend";
-
-export interface HeroService {
-  id: ServiceId;
-  stack: string[];
-}

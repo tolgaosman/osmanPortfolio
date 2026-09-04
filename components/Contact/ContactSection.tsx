@@ -1,10 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
-import SectionHeading from "@/components/SectionHeading";
+import SectionLabel from "@/components/SectionLabel";
+import Reveal, { RevealItem } from "@/components/Reveal";
 import ContactForm from "./ContactForm";
-import StatusDashboard from "./StatusDashboard";
 import { socialLinks } from "@/data/skills";
 import { siteConfig } from "@/data/site";
 import { ArrowUpRightIcon, SOCIAL_ICONS } from "@/components/Icons";
@@ -32,111 +31,120 @@ export default function ContactSection() {
   const EMAIL = siteConfig.email;
   const PHONE = siteConfig.phoneDisplay;
 
+  const directRows = [
+    {
+      value: EMAIL,
+      label: c.emailLabel,
+      href: `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(EMAIL)}`,
+      external: true,
+    },
+    {
+      value: PHONE,
+      label: c.phoneLabel,
+      href: `tel:${siteConfig.phoneE164}`,
+      external: false,
+    },
+  ];
+
   return (
-    <section id="contact" className="relative overflow-hidden py-24 sm:py-32">
-      <div className="pointer-events-none absolute right-1/4 top-20 h-[400px] w-[400px] rounded-full bg-accent/5 blur-[120px]" />
+    <section id="contact" className="plane-sheet relative border-t border-border-structural bg-surface py-24 sm:py-32">
+      <div className="mx-auto max-w-[92rem] px-5 sm:px-8">
+        <SectionLabel className="max-w-md">{c.label}</SectionLabel>
 
-      <div className="mx-auto max-w-7xl px-5 sm:px-8">
-        <SectionHeading
-          index={c.index}
-          title={c.title}
-          subtitle={c.subtitle}
-        />
+        <Reveal stagger={0.08} className="mt-8 max-w-2xl">
+          <RevealItem as="h2" className="font-display text-title text-text">
+            {c.title}
+          </RevealItem>
+          <RevealItem as="p" className="mt-4 font-sans text-lede text-muted">
+            {c.subtitle}
+          </RevealItem>
+        </Reveal>
 
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr_0.9fr]">
-          {/* Form */}
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 0.5 }}
-          >
+        {/* The form is now the wide column — the inverse of the old
+            `1fr_0.9fr`, where a fake status dashboard took equal billing. */}
+        <div className="mt-14 grid grid-cols-1 gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
+          <Reveal stagger={0.05} className="lg:order-2">
             <ContactForm />
-          </motion.div>
+          </Reveal>
 
-          {/* Social links + availability */}
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 0.5, delay: 0.12 }}
-            className="flex flex-col gap-4"
-          >
-            <StatusDashboard />
-            <p className="px-1 text-sm leading-relaxed text-muted">
+          <Reveal stagger={0.06} className="lg:order-1">
+            <RevealItem
+              as="p"
+              className="flex items-center gap-3 font-sans text-sm text-text"
+            >
+              <span aria-hidden className="h-1.5 w-1.5 bg-accent" />
+              {c.available}
+            </RevealItem>
+            <RevealItem
+              as="p"
+              className="mt-3 font-sans text-sm leading-relaxed text-muted"
+            >
               {c.availableNote}
-            </p>
+            </RevealItem>
 
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            {/* Direct contact + socials collapse into one hairline list. The
+                old version had a 2-up grid of bordered social cards plus two
+                accent-filled boxes — four different box treatments in one
+                column. */}
+            <RevealItem
+              as="ul"
+              className="mt-10 divide-y divide-border-faint border-y border-border"
+            >
+              {directRows.map((row) => (
+                <li
+                  key={row.value}
+                  className="flex items-center justify-between gap-4 py-3.5"
+                >
+                  <a
+                    href={row.href}
+                    {...(row.external
+                      ? { target: "_blank", rel: "noopener noreferrer" }
+                      : {})}
+                    className="group flex min-w-0 flex-1 items-baseline gap-3"
+                  >
+                    <span className="w-16 shrink-0 font-sans text-label font-medium uppercase text-faint">
+                      {row.label}
+                    </span>
+                    <span className="link-underline break-all font-sans text-sm text-text">
+                      {row.value}
+                    </span>
+                  </a>
+                  <button
+                    type="button"
+                    onClick={() => copy(row.value)}
+                    className="shrink-0 font-sans text-label uppercase text-faint transition-colors hover:text-accent"
+                  >
+                    {copied === row.value ? c.copied : c.copy}
+                  </button>
+                </li>
+              ))}
+
               {socialLinks.map((link) => {
                 const Icon = SOCIAL_ICONS[link.icon];
                 return (
-                  <a
-                    key={link.label}
-                    href={link.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group flex items-center justify-between border-2 border-border bg-surface p-4 transition-all hover:-translate-x-0.5 hover:-translate-y-0.5 hover:border-accent hover:shadow-neo-sm"
-                  >
-                    <div className="flex items-center gap-3">
-                      <Icon className="h-5 w-5 text-text transition-colors group-hover:text-accent" />
-                      <div>
-                        <div className="font-mono text-sm font-bold text-text">
+                  <li key={link.label}>
+                    <a
+                      href={link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group flex items-center justify-between gap-4 py-3.5"
+                    >
+                      <span className="flex min-w-0 items-center gap-3">
+                        <Icon className="h-4 w-4 shrink-0 text-faint transition-colors group-hover:text-accent" />
+                        <span className="font-sans text-sm text-text">
                           {link.label}
-                        </div>
-                        <div className="font-mono text-xs text-muted">
+                        </span>
+                        <span className="truncate font-sans text-sm text-faint">
                           {link.handle}
-                        </div>
-                      </div>
-                    </div>
-                    <ArrowUpRightIcon className="h-4 w-4 text-muted transition-all group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-accent" />
-                  </a>
+                        </span>
+                      </span>
+                      <ArrowUpRightIcon className="h-3.5 w-3.5 shrink-0 text-faint transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-accent" />
+                    </a>
+                  </li>
                 );
               })}
-            </div>
-
-            <div className="space-y-3">
-              <div className="group flex items-center justify-between gap-3 border-2 border-accent bg-accent/10 p-4 transition-colors hover:bg-accent/20">
-                <a
-                  href={`https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(EMAIL)}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex min-w-0 flex-1 items-center gap-2"
-                >
-                  <span className="break-all font-mono text-sm text-accent">
-                    {EMAIL}
-                  </span>
-                  <ArrowUpRightIcon className="h-4 w-4 shrink-0 text-accent transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                </a>
-                {/* mailto:/tel: silently do nothing on many desktop setups
-                    with no default handler configured — copy is a reliable
-                    fallback that always works. */}
-                <button
-                  type="button"
-                  onClick={() => copy(EMAIL)}
-                  className="shrink-0 font-mono text-xs text-muted transition-colors hover:text-accent"
-                >
-                  {copied === EMAIL ? c.copied : c.copy}
-                </button>
-              </div>
-              <div className="group flex items-center justify-between gap-3 border-2 border-accent bg-accent/10 p-4 transition-colors hover:bg-accent/20">
-                <a
-                  href={`tel:${siteConfig.phoneE164}`}
-                  className="flex min-w-0 flex-1 items-center gap-2"
-                >
-                  <span className="font-mono text-sm text-accent">{PHONE}</span>
-                  <ArrowUpRightIcon className="h-4 w-4 shrink-0 text-accent transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                </a>
-                <button
-                  type="button"
-                  onClick={() => copy(PHONE)}
-                  className="shrink-0 font-mono text-xs text-muted transition-colors hover:text-accent"
-                >
-                  {copied === PHONE ? c.copied : c.copy}
-                </button>
-              </div>
-            </div>
-          </motion.div>
+            </RevealItem>
+          </Reveal>
         </div>
       </div>
     </section>

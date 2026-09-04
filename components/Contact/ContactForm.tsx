@@ -9,8 +9,8 @@ import { cn } from "@/lib/utils";
 import { siteConfig } from "@/data/site";
 
 const inputClass =
-  "w-full border-2 border-border bg-bg px-4 py-3 font-mono text-sm text-text placeholder:text-muted/75 transition-colors focus:border-accent";
-const inputErrorClass = "border-[#fca5a5]";
+  "w-full border border-border-strong bg-bg px-4 py-3 font-sans text-sm text-text placeholder:text-faint transition-colors focus:border-accent";
+const inputErrorClass = "border-danger";
 
 const NO_ERRORS: ContactFieldErrors = { name: false, contact: false, message: false };
 
@@ -88,7 +88,7 @@ export default function ContactForm() {
     <form
       onSubmit={handleSubmit}
       noValidate
-      className="border-2 border-border bg-surface p-6 sm:p-8"
+      className="border border-border-structural bg-surface p-6 shadow-lift inset-shadow-lip sm:p-8"
     >
       <div className="space-y-5">
         {/* Name */}
@@ -126,10 +126,10 @@ export default function ContactForm() {
                 onClick={() => pickChannel(ch)}
                 aria-pressed={active}
                 className={cn(
-                  "flex-1 border-2 px-4 py-2.5 font-mono text-sm transition-colors",
+                  "flex-1 border px-4 py-2.5 font-mono text-sm transition-colors",
                   active
                     ? "border-accent bg-accent text-bg"
-                    : "border-border text-muted hover:border-accent/50 hover:text-text",
+                    : "border-border-strong text-muted hover:border-accent/50 hover:text-text",
                 )}
               >
                 {ch === "whatsapp" ? c.channelWhatsApp : c.channelMail}
@@ -197,7 +197,7 @@ export default function ContactForm() {
         <div>
           <button
             type="submit"
-            className="group flex w-full items-center justify-center gap-2 border-2 border-accent bg-accent px-6 py-3.5 font-mono text-sm font-bold text-bg shadow-neo-sm transition-transform hover:-translate-x-0.5 hover:-translate-y-0.5 active:translate-x-0 active:translate-y-0"
+            className="group flex w-full items-center justify-center gap-2 border border-accent bg-accent px-6 py-3.5 font-sans text-sm font-medium text-bg shadow-lift inset-shadow-lip transition-colors hover:bg-accent-bright"
           >
             {isMail ? (
               <ExternalLinkIcon className="h-4 w-4" />
@@ -216,7 +216,7 @@ export default function ContactForm() {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
-              className="font-mono text-xs text-[#fca5a5]"
+              className="font-mono text-xs text-danger"
             >
               {errorMessage()}
             </motion.p>
@@ -227,7 +227,7 @@ export default function ContactForm() {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
-              className="font-mono text-xs text-[#fca5a5]"
+              className="font-mono text-xs text-danger"
             >
               {c.popupBlocked}
             </motion.p>

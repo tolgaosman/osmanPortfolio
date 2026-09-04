@@ -1,21 +1,40 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, JetBrains_Mono } from "next/font/google";
+import { Instrument_Sans, Instrument_Serif, JetBrains_Mono } from "next/font/google";
 import { MotionConfig } from "framer-motion";
 import { LanguageProvider } from "@/lib/i18n";
 import { socialLinks, skillCategories } from "@/data/skills";
 import { siteConfig } from "@/data/site";
 import "./globals.css";
 
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+// Every face here must carry "latin-ext". Turkish needs ı ş ğ İ Ğ Ş, which
+// live in Latin Extended-A — the "latin" subset alone drops them and the
+// browser substitutes a system font mid-word (184 such characters in
+// data/translations.ts). Verify latin-ext support before swapping any family.
+// next/font needs these spelled out literally — it parses the call statically,
+// so a shared constant or a spread is rejected at build time.
+// Body face. Instrument Sans is drawn as a companion to Instrument Serif,
+// so the two share proportions; Inter, which this replaces, is the default
+// sans of every generated portfolio and brought nothing the pair doesn't.
+const instrumentSans = Instrument_Sans({
+  variable: "--font-instrument-sans",
+  subsets: ["latin", "latin-ext"],
+  weight: ["400", "500", "600"],
+  display: "swap",
+});
+
+// Display face, headings only. High-contrast serif against the mono/sans
+// pair so headings read as typeset rather than as terminal output.
+const instrumentSerif = Instrument_Serif({
+  variable: "--font-instrument",
+  subsets: ["latin", "latin-ext"],
+  weight: ["400"],
+  style: ["normal", "italic"],
   display: "swap",
 });
 
 const jetbrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains",
-  subsets: ["latin"],
+  subsets: ["latin", "latin-ext"],
   weight: ["400", "500", "700"],
   display: "swap",
 });
@@ -50,7 +69,7 @@ const CSP = [
 const SITE_URL = siteConfig.url;
 const SITE_TITLE = "Tolga Osman — Software Engineering Student & Web/Mobile Developer";
 const SITE_DESCRIPTION =
-  "Software Engineering student building clean, scalable web and mobile experiences — from interface to deployment.";
+  "Software engineering student in Nicosia. I build websites and mobile apps end to end, from the first conversation to the live URL.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -97,7 +116,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0a0a0f",
+  themeColor: "#14120f",
 };
 
 // Person schema for search engines — invisible, no rendered UI. Derived from
@@ -139,7 +158,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${jetbrainsMono.variable} h-full`}
+      className={`${instrumentSans.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable} h-full`}
       suppressHydrationWarning
     >
       <head>
@@ -152,7 +171,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: personJsonLd() }}
         />
       </head>
-      <body className="min-h-full bg-bg text-text antialiased" suppressHydrationWarning>
+      <body className="grain min-h-full bg-bg text-text antialiased" suppressHydrationWarning>
         {/* Security headers — hoisted into <head> by React 19. */}
         <meta httpEquiv="Content-Security-Policy" content={CSP} />
         <meta name="referrer" content="strict-origin-when-cross-origin" />
