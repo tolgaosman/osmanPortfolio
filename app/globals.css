@@ -508,9 +508,22 @@
     background-size: 100% 1px;
   }
 
-  /* Grades the portrait toward the palette so the figure belongs to the page
-     rather than sitting on it. */
+  /* Two grades, because the two portrait sources need different amounts of
+     correction before they belong to the page.
+
+     `.photo-jade` is for the CUTOUT: a clean alpha matte with no background
+     left to fight, so it only needs a contact shadow and a light touch of
+     contrast — heavy desaturation on bare skin reads as ill, not as graded.
+     `.photo-jade-heavy` is for the FALLBACK rectangular photo, where the
+     original garden background is still in frame and has to be pulled hard
+     toward the palette or it fights the accent outright; it is layered under
+     `.photo-duotone`'s colour blend, which does most of that work by hue,
+     so this filter is mostly picking up contrast and depth. */
   .photo-jade {
+    filter: saturate(0.92) contrast(1.05) brightness(0.99)
+      drop-shadow(0 24px 48px rgb(var(--ink) / 0.7));
+  }
+  .photo-jade-heavy {
     filter: saturate(0.55) contrast(1.12) brightness(0.92)
       drop-shadow(0 24px 48px rgb(var(--ink) / 0.7));
   }

@@ -27,13 +27,19 @@ import { asset, cn } from "@/lib/utils";
  *           monochrome page. The `color` blend preserves luminance, so the
  *           face survives intact.
  *
- * When the cutout arrives it should be WebP with alpha, not PNG.
- * `images.unoptimized` is set for the static export, so nothing downsizes it
- * at build time, a full-height transparent PNG would be 1-3 MB, and this is
- * the LCP element.
+ * The cutout is WebP with alpha, not PNG — `images.unoptimized` is set for
+ * the static export so nothing downsizes it at build time, and a PNG at this
+ * resolution would run 1-3 MB on what is the page's LCP element. Encoded at
+ * quality 88 the actual asset is 57 KB.
+ *
+ * The face sits at x=50.4% of the 1024x1024 source (measured, not eyeballed —
+ * see the centroid script this was generated with). Because the hero's
+ * portrait frame is aspect-[3/4] — narrower than the 1:1 source — object-cover
+ * always shows the FULL HEIGHT and crops left/right only, so `object-center`
+ * keeps the face framed regardless of viewport height.
  */
-const HAS_CUTOUT = false;
-const PORTRAIT_SRC = "/osman_cv_pp.jpeg";
+const HAS_CUTOUT = true;
+const PORTRAIT_SRC = HAS_CUTOUT ? "/osman-cutout.webp" : "/osman_cv_pp.jpeg";
 
 export default function HeroPortrait({ className }: { className?: string }) {
   const { t } = useLang();
@@ -66,12 +72,11 @@ export default function HeroPortrait({ className }: { className?: string }) {
         decoding="async"
         onError={() => setFailed(true)}
         className={cn(
-          "photo-jade h-full w-full object-cover",
-          // Pulled down off the sky in the original frame. On a 3:4 crop of a
-          // square source this is the difference between a portrait and a
-          // holiday photo.
-          HAS_CUTOUT ? "object-[50%_12%]" : "object-[50%_38%]",
-          !HAS_CUTOUT && "photo-feather",
+          "h-full w-full object-cover object-center",
+          // .photo-jade / .photo-jade-heavy: see the grading note in
+          // globals.css — the cutout needs a light touch, the fallback
+          // photo's background needs to be pulled hard toward the palette.
+          HAS_CUTOUT ? "photo-jade" : "photo-jade-heavy object-[50%_38%] photo-feather",
         )}
       />
 
