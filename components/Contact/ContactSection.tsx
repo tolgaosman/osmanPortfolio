@@ -43,7 +43,7 @@ export default function ContactSection() {
       <div className="mx-auto max-w-[92rem] px-5 py-20 sm:px-8 sm:py-28">
         <span
           aria-hidden="true"
-          className="pointer-events-none absolute -left-3 top-4 -z-10 select-none font-display text-[clamp(3rem,17vw,14rem)] font-bold leading-[0.7] text-accent-dim/20 sm:-left-8"
+          className="pointer-events-none absolute -left-3 top-2 -z-10 select-none font-display text-[clamp(3.5rem,20vw,17rem)] font-bold leading-[0.7] text-accent-dim sm:-left-8"
         >
           05
         </span>

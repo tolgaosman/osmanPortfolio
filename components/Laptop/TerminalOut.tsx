@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useInView, useReducedMotion } from "framer-motion";
+import { useInView } from "framer-motion";
+import { useMediaQuery } from "@/lib/media";
 
 /**
  * A build running on a laptop screen.
@@ -39,7 +40,12 @@ const HOLD_MS = 3400;
 export default function TerminalOut() {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { amount: 0.2 });
-  const reduced = useReducedMotion();
+  // framer-motion's `useReducedMotion` reads `matchMedia` synchronously, so a
+  // client with the OS preference on is already `true` on its very first
+  // render while the server (no `matchMedia`) always rendered `false` — a
+  // hydration mismatch, since `reduced` feeds this component's first-paint
+  // output below. `useMediaQuery` is SSR-safe: same value on both.
+  const reduced = useMediaQuery("(prefers-reduced-motion: reduce)");
   const [shown, setShown] = useState(0);
 
   // Derived, not synchronised. Pushing LINES.length into state from inside

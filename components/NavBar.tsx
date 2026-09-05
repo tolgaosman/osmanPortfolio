@@ -22,16 +22,16 @@ const MOBILE_MENU_ID = "mobile-nav-menu";
 
 /**
  * Tuned to this header's height, not inherited. The scroll offset has to clear
- * the floating rail or every anchor lands with its heading tucked underneath;
- * if the rail's padding changes, these numbers change with it.
+ * the fixed band or every anchor lands with its heading tucked underneath; if
+ * the band's padding changes, these numbers change with it.
  *
- * There are two, because the rail is two heights. Desktop: 16px top padding +
- * 10px + a 36px control + 10px, plus breathing room. Mobile: the same padding
- * around a 44px control, and a rail that never gets the `sm:` padding bump.
- * A single desktop constant landed every mobile anchor ~16px low.
+ * There are two, because the band is two heights: 10px vertical padding
+ * around a 36px control on desktop, around a 44px control on mobile (which
+ * never gets the `sm:` padding bump), plus breathing room. A single desktop
+ * constant landed every mobile anchor low.
  */
-const NAV_OFFSET = 88;
-const NAV_OFFSET_SM = 96;
+const NAV_OFFSET = 72;
+const NAV_OFFSET_SM = 80;
 
 export default function NavBar() {
   const { t } = useLang();
@@ -177,24 +177,26 @@ export default function NavBar() {
       ref={headerRef}
       animate={{ y: hidden && !menuOpen ? "-140%" : "0%" }}
       transition={{ duration: 0.35, ease: EASE_OUT }}
-      className="fixed inset-x-0 top-0 z-50 px-3 pt-4 sm:px-6"
+      className={cn(
+        // A full-width band flush with the viewport edge, not a floating
+        // pill: no top gap, no rounding, border-b instead of a border box. At
+        // rest it is invisible chrome over the hero; once the page has moved
+        // it becomes a real surface so the copy behind it cannot read
+        // through the links.
+        "fixed inset-x-0 top-0 z-50 border-b transition-colors duration-300",
+        scrolled
+          ? "border-border bg-bg/85 shadow-rail backdrop-blur-md"
+          : "border-transparent bg-transparent",
+      )}
     >
       <div
-        className={cn(
-          // gap-2 / px-3 at the base size, not gap-4 / px-4: the wordmark, the
-          // language toggle and a 44px menu control together ran 3px past a
-          // 320px viewport, and the header is fixed — `body { overflow-x:
-          // clip }` propagates to the viewport but a fixed element's
-          // containing block IS the viewport, so it was the one thing on the
-          // page that could genuinely be cut off at the edge.
-          "mx-auto flex max-w-[92rem] items-center justify-between gap-2 rounded-full border px-3 py-2.5 transition-colors duration-300 sm:gap-4 sm:px-5",
-          // At rest the rail is invisible chrome over the hero; once the page
-          // has moved it becomes a real surface so the copy behind it cannot
-          // read through the links.
-          scrolled
-            ? "border-border bg-bg/85 shadow-rail backdrop-blur-md"
-            : "border-transparent bg-transparent",
-        )}
+        // gap-2 / px-3 at the base size, not gap-4 / px-4: the wordmark, the
+        // language toggle and a 44px menu control together ran 3px past a
+        // 320px viewport, and the header is fixed — `body { overflow-x:
+        // clip }` propagates to the viewport but a fixed element's
+        // containing block IS the viewport, so it was the one thing on the
+        // page that could genuinely be cut off at the edge.
+        className="mx-auto flex max-w-[92rem] items-center justify-between gap-2 px-3 py-2.5 sm:gap-4 sm:px-6"
       >
         <button
           onClick={() => go("home")}
@@ -210,6 +212,7 @@ export default function NavBar() {
             slides one element instead of cross-fading two. */}
         <nav
           aria-label={t.nav.primaryNav}
+          suppressHydrationWarning
           className="hidden items-center gap-1 rounded-full border border-border-faint bg-surface/60 p-1 lg:flex"
         >
           {LINKS.map((link) => {
@@ -287,11 +290,12 @@ export default function NavBar() {
             role="dialog"
             aria-modal="true"
             aria-label={t.nav.primaryNav}
+            suppressHydrationWarning
             initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.25, ease: EASE_OUT }}
-            className="mx-auto mt-2 max-w-[92rem] overflow-hidden rounded-lg border border-border-structural bg-surface shadow-float lg:hidden"
+            className="mx-3 mt-2 overflow-hidden rounded-lg border border-border-structural bg-surface shadow-float sm:mx-6 lg:hidden"
           >
             <ul className="divide-y divide-border-faint">
               {[...LINKS, { id: "contact", label: t.nav.hireMe }].map((link) => (

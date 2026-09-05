@@ -159,12 +159,15 @@
   /* The hero and footer wall name. Sized in vw so it spans the viewport at
      every width: TOLGA OSMAN is 11 characters, and Space Grotesk Bold at
      -0.04em tracking averages about 0.58em per character, so 100vw divided by
-     (11 x 0.58) lands at roughly 15.6vw. The ceiling keeps it from overflowing
-     a 4K panel. The FLOOR is set at 2.75rem rather than something more
-     comfortable because it is a floor on an overflow: the vw term is what
-     keeps the name inside the viewport, and any floor above ~2.9rem starts
-     winning below 360px and pushes the name back out past the edge. */
-  --text-wall: clamp(2.75rem, 15.2vw, 17rem);
+     (11 x 0.58) lands at roughly 15.6vw; the vw term here is dialed back from
+     that full-bleed size on purpose, so the name reads as scenery behind the
+     laptops rather than competing with them for the widest thing on the
+     page. The ceiling keeps it from overflowing a 4K panel. The FLOOR is set
+     at 2.75rem rather than something more comfortable because it is a floor
+     on an overflow: the vw term is what keeps the name inside the viewport,
+     and any floor above ~2.9rem starts winning below 360px and pushes the
+     name back out past the edge. */
+  --text-wall: clamp(2.75rem, 13vw, 14rem);
   --text-wall--line-height: 0.82;
   --text-wall--letter-spacing: -0.04em;
 

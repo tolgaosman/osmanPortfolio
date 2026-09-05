@@ -31,11 +31,12 @@ import { asset } from "@/lib/utils";
 
 const SLIDE_MS = 2800;
 
-// Only projects that actually ship screenshots. inventory-management has none
-// yet, and a laptop showing a "no image" placeholder is worse than a laptop
-// showing one fewer project.
+// Only web projects that actually ship screenshots. This laptop screen is
+// standing in for a browser, so a mobile app screenshot inside it reads as a
+// mistake; inventory-management has no screenshots yet, and a laptop showing
+// a "no image" placeholder is worse than a laptop showing one fewer project.
 const PEEKS = projects
-  .filter((p) => p.details?.images?.length)
+  .filter((p) => p.category === "Web" && p.details?.images?.length)
   .map((p) => ({ id: p.id, title: p.title, src: p.details!.images![0] }));
 
 export default function ProjectPeek({

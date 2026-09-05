@@ -135,6 +135,25 @@ export function revealVariants(
   }
 }
 
+/**
+ * A slow, self-looping vertical drift for scenery that should feel alive at
+ * rest — the hero laptops, not anything with a job to do. Two keyframes with
+ * `repeatType: "mirror"` read as floating rather than bouncing; give each
+ * instance its own `duration`/`delay` so several laptops don't breathe in
+ * lockstep. Transform-only, so it costs no repaint, and it is stripped
+ * entirely under `prefers-reduced-motion` by the app-wide
+ * `<MotionConfig reducedMotion="user">`.
+ */
+export function floatTransition(duration = 6, delay = 0): Transition {
+  return {
+    duration,
+    delay,
+    repeat: Infinity,
+    repeatType: "mirror",
+    ease: EASE_IN_OUT,
+  };
+}
+
 /** Parent variants that only orchestrate timing for `revealVariants` children. */
 export function staggerParent(stagger = 0.06, delayChildren = 0): Variants {
   return {

@@ -111,7 +111,7 @@ export default function Laptop3D({
 
         <div
           aria-hidden="true"
-          className="lap__deck absolute left-[-6%] top-full aspect-[16/9] w-[112%]"
+          className="lap__deck absolute left-0 top-full aspect-[16/9] w-full"
         >
           <div className="absolute inset-x-[5%] bottom-[38%] top-[9%] flex flex-col gap-[2.2%]">
             {KEY_ROWS.map((count, row) => (

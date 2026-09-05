@@ -39,7 +39,7 @@ export default function ProcessSection() {
       <div className="mx-auto max-w-5xl px-5 py-20 sm:px-8 sm:py-24">
         <span
           aria-hidden="true"
-          className="pointer-events-none absolute right-2 top-6 -z-10 select-none font-display text-[clamp(3rem,16vw,13rem)] font-bold leading-[0.7] text-accent-dim/20 sm:right-8"
+          className="pointer-events-none absolute -left-3 top-2 -z-10 select-none font-display text-[clamp(3.5rem,20vw,17rem)] font-bold leading-[0.7] text-accent-dim sm:-left-8"
         >
           03
         </span>

@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from "react";
 import { BrandMark } from "@/components/BrandMarks";
-import { useProjectModal } from "@/components/Projects/ProjectModalProvider";
 import { projects } from "@/data/projects";
 import { skillCategories } from "@/data/skills";
 import { siteConfig } from "@/data/site";
@@ -75,7 +74,6 @@ const INITIAL: Entry[] = [
 export default function TerminalPanel() {
   const { lang, t } = useLang();
   const term = t.skills.terminal;
-  const { openProject } = useProjectModal();
 
   const [entries, setEntries] = useState<Entry[]>(INITIAL);
   const [value, setValue] = useState("");
@@ -153,7 +151,7 @@ export default function TerminalPanel() {
           kind: "note",
           value: term.opening.replace("{0}", project.title[lang]),
         });
-        openProject(project.id);
+        smoothScrollTo("projects");
         return;
       }
       default:

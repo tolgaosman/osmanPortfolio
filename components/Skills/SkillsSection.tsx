@@ -28,8 +28,14 @@ export default function SkillsSection() {
   const s = t.skills;
 
   return (
-    <section id="skills" className="crt relative bg-bg py-20 sm:py-28">
+    <section id="skills" className="crt relative z-10 isolate bg-bg py-20 sm:py-28">
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute -left-3 top-2 -z-10 select-none font-display text-[clamp(3.5rem,20vw,17rem)] font-bold leading-[0.7] text-accent-dim sm:-left-8"
+        >
+          04
+        </span>
         <SectionLabel index="04">{s.label}</SectionLabel>
 
         {/* `[&>*]:min-w-0`: a grid item's default `min-width: auto` is its

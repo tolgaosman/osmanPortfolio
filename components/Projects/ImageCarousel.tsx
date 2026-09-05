@@ -56,10 +56,9 @@ export default function ImageCarousel({
         className={cn(
           "relative w-full overflow-hidden",
           portrait
-            // svh: this sits inside a panel capped at `max-h-[90svh]`, and two
-            // viewport units that disagree as the iOS URL bar moves make the
-            // frame and its container fight over the same pixels.
-            ? "h-[55svh] max-h-[480px] bg-surface-2 sm:h-[70svh] sm:max-h-[640px]"
+            // Use a precise phone aspect ratio instead of arbitrary heights.
+            // This ensures the container shape exactly matches the screenshot.
+            ? "aspect-[9/19.5] bg-surface-2"
             : "aspect-video",
         )}
         role="group"
@@ -106,7 +105,7 @@ export default function ImageCarousel({
               src={asset(images[index])}
               alt={`${title} — ${altLabel} ${index + 1}`}
               fill
-              className="object-contain"
+              className="object-cover"
               unoptimized
               onLoad={() => setLoaded(true)}
               sizes={portrait ? "(max-width: 768px) 100vw, 400px" : "(max-width: 768px) 100vw, 768px"}

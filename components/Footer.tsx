@@ -18,26 +18,7 @@ export default function Footer() {
 
   return (
     <footer className="crt relative overflow-hidden border-t border-border-structural bg-bg">
-      <div className="mx-auto max-w-[92rem] px-5 pt-14 sm:px-8">
-        <div className="flex flex-wrap items-end justify-between gap-6 border-b border-border-faint pb-10">
-          <div>
-            <p className="font-mono text-label uppercase text-faint">
-              {`// ${year}`}
-            </p>
-            <p className="mt-3 max-w-md text-sm leading-relaxed text-muted">
-              {t.footer.colophon}
-            </p>
-          </div>
 
-          <button
-            onClick={() => smoothScrollTo("home")}
-            data-cursor="link"
-            className={btnSecondarySm}
-          >
-            {t.nav.backToTop}
-          </button>
-        </div>
-      </div>
 
       {/* Bleeds off the bottom edge. -mb pulls the descender line under the
           document edge so the name is cut rather than centred in dead space. */}

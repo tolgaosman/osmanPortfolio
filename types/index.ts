@@ -1,6 +1,6 @@
 export type ProjectCategory = "Web" | "Mobile";
 
-export type ProjectStatus = "live" | "soon" | "wip" | "prod";
+export type ProjectStatus = "live" | "soon" | "wip" | "prod" | "intern";
 
 export interface Localized {
   en: string;

@@ -6,7 +6,6 @@ import ProcessSection from "@/components/Process/ProcessSection";
 import SkillsSection from "@/components/Skills/SkillsSection";
 import ContactSection from "@/components/Contact/ContactSection";
 import Footer from "@/components/Footer";
-import { ProjectModalProvider } from "@/components/Projects/ProjectModalProvider";
 
 /**
  * Six sections, and the rhythm between them is deliberately uneven:
@@ -34,7 +33,7 @@ import { ProjectModalProvider } from "@/components/Projects/ProjectModalProvider
  */
 export default function Home() {
   return (
-    <ProjectModalProvider>
+    <>
       <NavBar />
       <main id="main">
         <HeroSection />
@@ -45,6 +44,6 @@ export default function Home() {
         <ContactSection />
       </main>
       <Footer />
-    </ProjectModalProvider>
+    </>
   );
 }

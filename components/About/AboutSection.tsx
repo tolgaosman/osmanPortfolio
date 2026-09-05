@@ -45,12 +45,12 @@ export default function AboutSection() {
             standing on it reads as printed into the stock, not stamped on. */}
         <span
           aria-hidden="true"
-          className="pointer-events-none absolute -left-3 top-2 -z-10 select-none font-display text-[clamp(3.5rem,20vw,17rem)] font-bold leading-[0.7] text-accent-dim/25 sm:-left-8"
+          className="pointer-events-none absolute -left-3 top-2 -z-10 select-none font-display text-[clamp(3.5rem,20vw,17rem)] font-bold leading-[0.7] text-accent-dim sm:-left-8"
         >
           01
         </span>
 
-        <div className="relative grid gap-14 lg:grid-cols-[19rem_1fr] lg:gap-16">
+        <div className="relative grid gap-14 lg:grid-cols-[19rem_minmax(0,46rem)] lg:justify-center lg:gap-16">
           <aside className="lg:sticky lg:top-28 lg:self-start">
             <SectionLabel index="01">{a.label}</SectionLabel>
 
@@ -60,7 +60,7 @@ export default function AboutSection() {
               <RevealItem
                 as="h2"
                 variant="unmask"
-                className="font-display text-sub font-medium text-text"
+                className="font-display text-title font-medium text-text"
               >
                 <ScrambleText text={a.title} />
               </RevealItem>
@@ -73,55 +73,6 @@ export default function AboutSection() {
                 <AboutPortrait />
               </RevealItem>
 
-              {/* A readout, not three cards. These are the only content on the
-                  page that is a set of discrete equal-weight data points, and
-                  a key/value list with dotted leaders says that in less ink
-                  than three bordered boxes — which is also the difference
-                  between "printed" and "dashboard". */}
-              <RevealItem as="dl" className="mt-9 space-y-3.5">
-                {facts.map(({ label, value }) => (
-                  // Two shapes, because the leader needs width to exist.
-                  // Both the key and the value used to be `shrink-0` in a
-                  // non-wrapping row: "EDUCATION / Eastern Mediterranean
-                  // University (Senior)" measures ~408px of 12px mono against
-                  // 335px of usable width at 375px, and `body { overflow-x:
-                  // clip }` threw the overflow away with nothing on screen to
-                  // say so. Below `sm` the pair stacks and the leader is gone
-                  // — a dotted rule between two lines is not a leader, it is
-                  // a divider — and from `sm` up the readout returns.
-                  <div key={label} className="font-mono text-xs">
-                    <div className="flex items-baseline gap-2">
-                      <dt className="shrink-0 uppercase text-faint">{label}</dt>
-                      <span
-                        aria-hidden="true"
-                        className="hidden min-w-4 flex-1 translate-y-[-0.2em] border-b border-dotted border-border sm:block"
-                      />
-                      <dd className="hidden shrink-0 text-right text-text sm:block">
-                        {value}
-                      </dd>
-                    </div>
-                    <dd className="mt-0.5 text-text sm:hidden">{value}</dd>
-                  </div>
-                ))}
-              </RevealItem>
-
-              <RevealItem className="mt-9 flex flex-wrap items-center gap-x-4 gap-y-3">
-                {/* Routes through the site's own /cv viewer rather than the
-                    raw file — that route is in the sitemap and deserves a way
-                    in. Download stays quiet: same document, other route. */}
-                <Link href="/cv" data-cursor="link" className={`${btnSecondary} group`}>
-                  {a.viewCv}
-                  <ExternalLinkIcon className="h-3.5 w-3.5 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-                </Link>
-                <a
-                  href={asset("/osmanCV.pdf")}
-                  download="osmanCV.pdf"
-                  data-cursor="link"
-                  className={btnQuiet}
-                >
-                  {a.downloadCv}
-                </a>
-              </RevealItem>
             </Reveal>
           </aside>
 
@@ -157,6 +108,45 @@ export default function AboutSection() {
               </RevealItem>
               <RevealItem as="p" data-cursor="text">
                 {a.p3}
+              </RevealItem>
+
+              <RevealItem className="mt-14 flex flex-col gap-10 border-t border-border-faint pt-10 sm:flex-row sm:items-end sm:justify-between">
+                <dl className="w-full max-w-sm space-y-3.5 flex-1">
+                  {facts.map(({ label, value }) => (
+                    <div key={label} className="font-mono text-xs">
+                      <div className="flex items-baseline gap-2">
+                        <dt className="shrink-0 uppercase text-faint">{label}</dt>
+                        <span
+                          aria-hidden="true"
+                          className="hidden min-w-4 flex-1 translate-y-[-0.2em] border-b border-dotted border-border sm:block"
+                        />
+                        <dd className="hidden shrink-0 text-right text-text sm:block">
+                          {value}
+                        </dd>
+                      </div>
+                      <dd className="mt-0.5 text-text sm:hidden">{value}</dd>
+                    </div>
+                  ))}
+                </dl>
+
+                <div className="flex shrink-0 items-center gap-6">
+                  <Link
+                    href="/cv"
+                    data-cursor="link"
+                    className="group flex items-center gap-2 font-mono text-sm text-muted transition-colors hover:text-accent"
+                  >
+                    <span>[{a.viewCv}]</span>
+                    <ExternalLinkIcon className="h-3.5 w-3.5 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                  </Link>
+                  <a
+                    href={asset("/osmanCV.pdf")}
+                    download="osmanCV.pdf"
+                    data-cursor="link"
+                    className="group flex items-center gap-2 font-mono text-sm text-muted transition-colors hover:text-accent"
+                  >
+                    <span>[{a.downloadCv}]</span>
+                  </a>
+                </div>
               </RevealItem>
             </Reveal>
           </div>

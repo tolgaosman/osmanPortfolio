@@ -3,7 +3,6 @@ import { Space_Grotesk, JetBrains_Mono, Inter } from "next/font/google";
 import { MotionConfig } from "framer-motion";
 import { LanguageProvider } from "@/lib/i18n";
 import BootOverlay from "@/components/BootOverlay";
-import Cursor from "@/components/Cursor";
 import { socialLinks, skillCategories } from "@/data/skills";
 import { siteConfig } from "@/data/site";
 import "./globals.css";
@@ -75,7 +74,7 @@ const CSP = [
 ].join("; ");
 
 const SITE_URL = siteConfig.url;
-const SITE_TITLE = "Tolga Osman — Software Engineering Student & Web/Mobile Developer";
+const SITE_TITLE = "Tolga Osman Falay — Software Engineering Student & Web/Mobile Developer";
 const SITE_DESCRIPTION =
   "Software engineering student in Nicosia. I build websites and mobile apps end to end, from the first conversation to the live URL.";
 
@@ -154,11 +153,7 @@ function personJsonLd() {
   return JSON.stringify(json);
 }
 
-// Runs synchronously during HTML parsing, before the first paint. This has to
-// be a raw <script>, not next/script: `strategy="beforeInteractive"` in a
-// static export compiles to a `self.__next_s.push(...)` call that is only
-// drained once the framework bundle has loaded — far too late to prevent
-// either flash it is supposed to prevent.
+// Runs synchronously during HTML parsing, before the first paint.
 //
 // Two jobs:
 //   1. Apply the saved language to <html lang> before the static English
@@ -185,7 +180,7 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <head>
-        <script dangerouslySetInnerHTML={{ __html: HEAD_SCRIPT }} />
+        <script id="head-script" dangerouslySetInnerHTML={{ __html: HEAD_SCRIPT }} />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: personJsonLd() }}
@@ -207,7 +202,6 @@ export default function RootLayout({
                 containing-block'd to the nearest transformed ancestor, and
                 the hero subtree is full of them. */}
             <BootOverlay />
-            <Cursor />
             {children}
           </LanguageProvider>
         </MotionConfig>

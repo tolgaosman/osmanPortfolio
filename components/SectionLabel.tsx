@@ -28,16 +28,16 @@ export default function SectionLabel({
   className,
 }: SectionLabelProps) {
   return (
-    <div className={cn("flex items-center gap-4", className)}>
+    <div className={cn("flex items-center gap-3", className)}>
       {index && (
         <span
           aria-hidden="true"
-          className="shrink-0 font-mono text-label text-accent-dim"
+          className="shrink-0 font-display text-base font-bold text-accent"
         >
           {index}
         </span>
       )}
-      <span className="shrink-0 font-mono text-label uppercase text-accent">
+      <span className="shrink-0 font-mono text-sm tracking-widest uppercase text-accent">
         {children}
       </span>
       <motion.span

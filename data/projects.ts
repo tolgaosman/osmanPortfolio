@@ -143,7 +143,7 @@ export const projects: Project[] = [
     stack: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Laravel", "PHP", "MySQL"],
     github: "https://github.com/tolgaosman/staff-leave-tracker",
     live: "http://178.105.207.98:4003/login/",
-    status: "wip",
+    status: "intern",
     details: {
       overview: {
         en: "Staff Leave Tracker is a comprehensive human resources tool designed to streamline the process of requesting and managing employee leave. Built with a modern Next.js frontend and a robust Laravel backend, it allows staff to easily submit leave requests, while administrators can review, approve, or deny them through a dedicated dashboard. The system features dynamic calendar views, automated email notifications, and detailed reporting to ensure clear communication and efficient workforce planning.",
@@ -206,7 +206,7 @@ export const projects: Project[] = [
     stack: ["Next.js", "TypeScript", "Laravel", "PHP", "SQLite"],
     github: "https://github.com/tolgaosman/inventory-management",
     live: null,
-    status: "wip",
+    status: "intern",
     details: {
       overview: {
         en: "An inventory and warehouse management system built during a second internship, sized for a company running 5 warehouses, around 2,000 products, and 10 suppliers. Warehouse staff log stock entries, exits, and inter-warehouse transfers; purchasing staff manage suppliers and purchase orders through Draft, Ordered, Received, and Cancelled stages; administrators get a dashboard with product counts, critical-stock alerts, and movement reporting. Backend is a Laravel API, frontend is Next.js with shadcn/ui — the same split as the Staff Leave Tracker.",
