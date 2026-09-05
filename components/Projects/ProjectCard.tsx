@@ -44,6 +44,25 @@ export default function ProjectCard({
   const imageOrderClass = index % 2 === 0 ? `lg:order-1 ${imageCols}` : `lg:order-2 ${imageCols}`;
   const detailsOrderClass = index % 2 === 0 ? `lg:order-2 ${detailsCols}` : `lg:order-1 ${detailsCols}`;
 
+  const media = hasImages ? (
+    <ImageCarousel
+      images={d!.images!}
+      title={project.title[lang]}
+      altLabel={m.imageAlt}
+      orientation={isMobileApp ? "portrait" : "landscape"}
+    />
+  ) : (
+    <div className="term flex aspect-video w-full flex-col justify-center gap-1 bg-surface-2 px-6 text-screen">
+      <p className="text-text">{`$ cd ~/projects/${project.id}`}</p>
+      <p className="text-text">{"$ npm run dev"}</p>
+      <p className="text-faint">{"  starting development server"}</p>
+      <p className="text-accent">
+        {"  building"}
+        <span className="caret" aria-hidden="true" />
+      </p>
+    </div>
+  );
+
   return (
     <article className={cn("grid gap-14 lg:grid-cols-12 lg:items-start lg:gap-16", className)} id={`project-${project.id}`}>
 
@@ -76,31 +95,11 @@ export default function ProjectCard({
           imageOrderClass
         )}
       >
-        {(() => {
-          const Frame = isMobileApp ? PhoneFrame : LaptopFrame;
-          return (
-            <Frame>
-              {hasImages ? (
-                <ImageCarousel
-                  images={d!.images!}
-                  title={project.title[lang]}
-                  altLabel={m.imageAlt}
-                  orientation={isMobileApp ? "portrait" : "landscape"}
-                />
-              ) : (
-                <div className="term flex aspect-video w-full flex-col justify-center gap-1 bg-surface-2 px-6 text-screen">
-                  <p className="text-text">{`$ cd ~/projects/${project.id}`}</p>
-                  <p className="text-text">{"$ npm run dev"}</p>
-                  <p className="text-faint">{"  starting development server"}</p>
-                  <p className="text-accent">
-                    {"  building"}
-                    <span className="caret" aria-hidden="true" />
-                  </p>
-                </div>
-              )}
-            </Frame>
-          );
-        })()}
+        {isMobileApp ? (
+          <PhoneFrame>{media}</PhoneFrame>
+        ) : (
+          <LaptopFrame>{media}</LaptopFrame>
+        )}
       </div>
 
       {/* Details Column */}
