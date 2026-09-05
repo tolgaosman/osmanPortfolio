@@ -86,7 +86,7 @@ export default function Laptop3D({
               className="lap__cam absolute left-1/2 top-[1.4%] aspect-square w-[1.6%] -translate-x-1/2 rounded-full"
             />
 
-            <div className="lap__screen relative h-full overflow-hidden rounded-[2px] px-2 py-1.5">
+            <div className="lap__screen relative h-full overflow-hidden rounded-[2px]">
               {children}
               {/* Glare. A leaf inside a leaf — no 3D implications. */}
               <span

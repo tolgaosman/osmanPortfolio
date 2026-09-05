@@ -18,11 +18,27 @@ export default function Footer() {
 
   return (
     <footer className="crt relative overflow-hidden border-t border-border-structural bg-bg">
+      <div className="mx-auto max-w-[92rem] px-5 pt-16 sm:px-8">
+        <div className="flex flex-col items-center justify-center gap-6 text-center">
+          <div>
+            <p className="font-mono text-label uppercase text-faint">
+              {`// ${year}`}
+            </p>
+          </div>
 
+          <button
+            onClick={() => smoothScrollTo("home")}
+            data-cursor="link"
+            className={btnSecondarySm}
+          >
+            {t.nav.backToTop}
+          </button>
+        </div>
+      </div>
 
       {/* Bleeds off the bottom edge. -mb pulls the descender line under the
           document edge so the name is cut rather than centred in dead space. */}
-      <div className="pointer-events-none -mb-[3vw] mt-6 flex justify-center">
+      <div className="pointer-events-none -mb-[3vw] mt-10 flex justify-center">
         <WallName text={siteConfig.shortName.toUpperCase()} />
       </div>
     </footer>

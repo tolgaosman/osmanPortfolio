@@ -207,13 +207,13 @@ export default function NavBar() {
           <span className="text-accent">{nameParts[nameParts.length - 1]}</span>
         </button>
 
-        {/* The links sit in their own inset well rather than floating in the
-            rail. The active pill is a shared layoutId, so switching sections
-            slides one element instead of cross-fading two. */}
+        {/* Bare labels, not a pill rail. The active indicator is a shared
+            layoutId underline, so switching sections slides one element
+            instead of cross-fading two. */}
         <nav
           aria-label={t.nav.primaryNav}
           suppressHydrationWarning
-          className="hidden items-center gap-1 rounded-full border border-border-faint bg-surface/60 p-1 lg:flex"
+          className="hidden items-center gap-6 lg:flex"
         >
           {LINKS.map((link) => {
             const isActive = active === link.id;
@@ -224,18 +224,19 @@ export default function NavBar() {
                 aria-current={isActive ? "true" : undefined}
                 data-cursor="link"
                 className={cn(
-                  "relative rounded-full px-3.5 py-1.5 font-mono text-label uppercase transition-colors duration-200",
-                  isActive ? "text-bg" : "text-muted hover:text-text",
+                  "relative px-1 py-1.5 font-mono text-label uppercase transition-colors duration-200",
+                  isActive ? "text-accent" : "text-muted hover:text-text",
                 )}
               >
+                {link.label}
                 {isActive && (
                   <motion.span
                     layoutId="nav-pill"
                     transition={SPRING_SNAP}
-                    className="absolute inset-0 rounded-full bg-accent"
+                    aria-hidden="true"
+                    className="absolute inset-x-1 -bottom-1 h-px bg-accent"
                   />
                 )}
-                <span className="relative">{link.label}</span>
               </button>
             );
           })}

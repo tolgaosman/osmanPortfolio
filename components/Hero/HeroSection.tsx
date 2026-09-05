@@ -20,6 +20,8 @@ import { btnPrimary } from "@/lib/buttons";
 import {
   EASE_OUT,
   floatTransition,
+  orbitPath,
+  orbitTransition,
   revealVariants,
   staggerParent,
   usePointerVars,
@@ -37,34 +39,65 @@ const enter = (delay: number) => ({
 });
 
 /**
- * DESKTOP STAGE. The copy block now sits right under the wall name rather
- * than anchored to the section's bottom edge, so the machines are pushed
- * down into the lower band of the section — spread left to right rather than
- * stacked, at deliberately uneven `top`/size values so the row reads as
- * scattered rather than a mirrored triptych. `pointer-events-none` on the two
- * decorative laptops so they never steal a click; the third re-enables them
- * on its own button, because its screen IS a control.
+ * DESKTOP STAGE. The copy block sits under the wall name with a fixed
+ * clearance (`lg:top-[36%]` vs. the wall's `lg:top-[15%]`, sized to clear
+ * `--text-wall`'s rendered glyph height), and the machines fill the band that
+ * opens up below it, down to where `StackMarquee` is pinned at the section's
+ * bottom edge. The section is a hard `lg:h-[100svh]` — one viewport, no
+ * scroll — so all three bands (wall, copy, machines) share that one budget
+ * rather than assuming extra room below the fold.
  *
- * The section's `lg:min-h-[122svh]` exists for this trio: at 100svh there
- * isn't enough room below the relocated copy to fit three enlarged laptops
- * without clipping into the marquee. Each gets its own inner `motion.div` on
- * a slow vertical mirror-loop plus a hairline rotate — `floatTransition` —
- * with a different duration/delay so the three drift out of phase rather
- * than breathing in lockstep.
+ * Two groupings, not a scattered row: `ProjectPeek` — real project
+ * screenshots, and the only laptop that's actually a control — sits alone,
+ * left-aligned directly under the copy column, sized as the largest of the
+ * three and the one `pointer-events` is left enabled on. The two decorative
+ * laptops (`TypingCode`, `TerminalOut`) pair up in the empty space at the
+ * bottom right instead, both staying `pointer-events-none` so neither steals
+ * a click.
+ *
+ * Each gets its own inner `motion.div` drifting around a small ellipse via
+ * `orbitPath`/`orbitTransition` — a different radius, duration and starting
+ * phase per laptop, so the three circle independently rather than in
+ * lockstep.
  */
+const peekOrbit = orbitPath(8, 6, 8, 130);
+const pairOrbitA = orbitPath(9, 7, 8, 0);
+const pairOrbitB = orbitPath(10, 8, 8, 250);
+
 function DesktopStage({ peekLabel }: { peekLabel: string }) {
 
   return (
     <>
+      {/* Big interactive laptop on the right */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.8, ease: EASE_OUT, delay: 0.72 }}
+        className="absolute right-[8%] top-[38%] w-[clamp(18rem,40svh,32rem)] z-30"
+      >
+        <motion.div
+          animate={{ x: peekOrbit.x, y: peekOrbit.y, rotate: [0, -1.5, 1, 0] }}
+          transition={{ ...orbitTransition(26, 2), rotate: floatTransition(16, 2) }}
+        >
+          <Laptop3D label={peekLabel}>
+            <ProjectPeek onOpen={(id) => {
+              // Without the modal, the laptop screen simply takes you to the projects section
+              smoothScrollTo("projects");
+            }} />
+          </Laptop3D>
+        </motion.div>
+      </motion.div>
+
+      {/* Small decorative laptop 1, bottom left under text */}
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.8, ease: EASE_OUT, delay: 0.6 }}
-        className="pointer-events-none absolute left-[6%] top-[70%] w-[16rem]"
+        className="pointer-events-none absolute left-[10%] top-[68%] w-[clamp(12rem,22svh,19rem)] z-10"
       >
         <motion.div
-          animate={{ y: [0, -10, 0], rotate: [0, 1, 0] }}
-          transition={floatTransition(6, 0.6)}
+          animate={{ x: pairOrbitA.x, y: pairOrbitA.y, rotate: [0, 1.5, -0.5, 0] }}
+          transition={{ ...orbitTransition(20, 0), rotate: floatTransition(14, 0) }}
         >
           <Laptop3D label="Source code">
             <TypingCode />
@@ -72,37 +105,19 @@ function DesktopStage({ peekLabel }: { peekLabel: string }) {
         </motion.div>
       </motion.div>
 
-      <motion.div
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.8, ease: EASE_OUT, delay: 0.72 }}
-        className="pointer-events-none absolute left-[38%] top-[63%] w-[15rem]"
-      >
-        <motion.div
-          animate={{ y: [0, -8, 0], rotate: [0, -1, 0] }}
-          transition={floatTransition(5.2, 1)}
-        >
-          <Laptop3D label="Build output">
-            <TerminalOut />
-          </Laptop3D>
-        </motion.div>
-      </motion.div>
-
+      {/* Small decorative laptop 2, slightly right of the first one */}
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.8, ease: EASE_OUT, delay: 0.84 }}
-        className="absolute right-[7%] top-[75%] w-[14rem]"
+        className="pointer-events-none absolute left-[40%] top-[66%] w-[clamp(12rem,22svh,19rem)] z-20"
       >
         <motion.div
-          animate={{ y: [0, -9, 0], rotate: [0, 0.8, 0] }}
-          transition={floatTransition(6.8, 1.4)}
+          animate={{ x: pairOrbitB.x, y: pairOrbitB.y, rotate: [0, 2, -1, 0] }}
+          transition={{ ...orbitTransition(23, 4), rotate: floatTransition(18, 4) }}
         >
-          <Laptop3D label={peekLabel}>
-            <ProjectPeek onOpen={(id) => {
-              // Without the modal, the laptop screen simply takes you to the projects section
-              smoothScrollTo("projects");
-            }} />
+          <Laptop3D label="Build output">
+            <TerminalOut />
           </Laptop3D>
         </motion.div>
       </motion.div>
@@ -187,7 +202,7 @@ export default function HeroSection() {
     <section
       id="home"
       ref={heroRef}
-      className="relative isolate flex min-h-[100svh] flex-col overflow-hidden lg:min-h-[122svh]"
+      className="relative isolate flex min-h-[100svh] flex-col overflow-hidden lg:h-[100svh] lg:min-h-[600px]"
     >
       <GridFloor />
       <CodeRain />
@@ -197,7 +212,7 @@ export default function HeroSection() {
         variants={wall}
         initial="hidden"
         animate="show"
-        className="absolute inset-x-0 top-[19%] flex justify-center sm:top-[21%] lg:top-[23%]"
+        className="absolute inset-x-0 top-[19%] flex justify-center sm:top-[21%] lg:top-[15%]"
       >
         <WallName text="tolgaosman_" />
       </motion.div>
@@ -206,9 +221,9 @@ export default function HeroSection() {
 
       {isDesktop && <DesktopStage peekLabel={t.projects.label} />}
 
-      <div className="relative mx-auto flex w-full max-w-[92rem] flex-1 flex-col justify-end px-5 pb-8 pt-24 sm:px-8 sm:pt-28 lg:absolute lg:inset-x-0 lg:top-[38%] lg:flex-none lg:justify-start lg:pb-0 lg:pt-0">
+      <div className="relative z-40 mx-auto flex w-full max-w-[92rem] flex-1 flex-col justify-end px-5 pb-8 pt-24 sm:px-8 sm:pt-28 lg:absolute lg:inset-x-0 lg:top-[36%] lg:flex-none lg:justify-start lg:pb-0 lg:pt-0">
         <motion.div variants={lines} initial="hidden" animate="show">
-          <div className="grid items-end gap-8 lg:grid-cols-[minmax(0,30rem)_1fr_auto]">
+          <div className="grid items-end gap-8 lg:grid-cols-[minmax(0,28rem)_auto]">
             <motion.div variants={rise}>
               <h1>
                 {/* The accessible heading carries the name; the wall graphic
@@ -235,12 +250,7 @@ export default function HeroSection() {
               </p>
             </motion.div>
 
-            <div aria-hidden="true" className="hidden lg:block" />
-
-            <motion.div
-              variants={rise}
-              className="flex flex-wrap items-center gap-x-7 gap-y-4 lg:justify-end"
-            >
+            <motion.div variants={rise} className="flex flex-col items-start gap-4">
               <motion.button
                 onClick={() => smoothScrollTo("projects")}
                 whileHover={{ y: -2 }}

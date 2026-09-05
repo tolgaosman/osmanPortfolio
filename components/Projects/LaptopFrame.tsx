@@ -31,7 +31,7 @@ export default function LaptopFrame({
 
       {/* Base. Wider than the screen, like a real deck peeking out from under
           the lid — a thin bar, not the hero's full 3D keyboard. */}
-      <div className="relative mx-[-4%] h-2.5 rounded-b-md border border-t-0 border-border-structural bg-gradient-to-b from-surface-2 to-surface sm:h-3">
+      <div className="relative mx-[-4%] h-2.5 rounded-b-xl rounded-t-[4px] border border-t-0 border-border-structural bg-gradient-to-b from-surface-2 to-surface sm:h-3">
         <span
           aria-hidden="true"
           className="absolute left-1/2 top-0 h-1 w-14 -translate-x-1/2 rounded-b-full bg-[rgb(var(--ink))]"

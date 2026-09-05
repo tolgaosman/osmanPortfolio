@@ -12,7 +12,7 @@ import { useEffect, useRef, useState } from "react";
 import { useInView, useReducedMotion } from "framer-motion";
 import { projects } from "@/data/projects";
 import { useLang } from "@/lib/i18n";
-import { asset } from "@/lib/utils";
+import { asset, cn } from "@/lib/utils";
 
 /**
  * Real project screenshots cycling on a laptop screen, each one a shortcut
@@ -49,6 +49,14 @@ export default function ProjectPeek({
   const reduced = useReducedMotion();
   const { lang, t } = useLang();
   const [index, setIndex] = useState(0);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    // Pick a random project on mount to ensure a different one shows each time,
+    // without causing SSR hydration mismatches (since random differs on server vs client).
+    setIndex(Math.floor(Math.random() * Math.max(1, PEEKS.length)));
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     if (reduced || !inView || PEEKS.length < 2) return;
@@ -63,7 +71,7 @@ export default function ProjectPeek({
   const peek = PEEKS[index];
 
   return (
-    <div ref={ref} className="absolute inset-0">
+    <div ref={ref} className="absolute inset-0 bg-[#080808]">
       <button
         type="button"
         onClick={() => onOpen(peek.id)}
@@ -82,9 +90,12 @@ export default function ProjectPeek({
           height={800}
           loading="lazy"
           decoding="async"
-          className="h-full w-full object-cover object-top opacity-90 transition-opacity duration-500 group-hover:opacity-100"
+          className={cn(
+            "h-full w-full object-contain object-top transition-opacity duration-500",
+            mounted ? "opacity-90 group-hover:opacity-100" : "opacity-0"
+          )}
         />
-        <span className="absolute inset-x-0 bottom-0 flex items-center justify-between gap-2 bg-bg/85 px-1.5 py-1 font-mono text-[0.5625rem] leading-none">
+        <span className="absolute inset-x-0 bottom-0 flex items-center justify-between gap-2 bg-bg/95 backdrop-blur-sm px-1.5 py-1 font-mono text-[0.5625rem] leading-none">
           <span className="truncate text-text">{peek.title[lang]}</span>
           <span className="shrink-0 text-accent" aria-hidden="true">
             {index + 1}/{PEEKS.length}

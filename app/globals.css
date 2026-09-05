@@ -166,8 +166,9 @@
      at 2.75rem rather than something more comfortable because it is a floor
      on an overflow: the vw term is what keeps the name inside the viewport,
      and any floor above ~2.9rem starts winning below 360px and pushes the
-     name back out past the edge. */
-  --text-wall: clamp(2.75rem, 13vw, 14rem);
+     name back out past the edge. Also restricted by vh so it doesn't overlap 
+     laptops on short screens. */
+  --text-wall: clamp(2.75rem, min(13vw, 22vh), 14rem);
   --text-wall--line-height: 0.82;
   --text-wall--letter-spacing: -0.04em;
 
@@ -579,7 +580,7 @@
   .lap__front {
     transform-origin: 50% 0%;
     transform: rotateX(-60deg);
-    border-radius: 0 0 4px 4px;
+    border-radius: var(--radius-lg) var(--radius-lg) 4px 4px;
     background-image: linear-gradient(
       to bottom,
       var(--color-surface),
@@ -598,6 +599,41 @@
       rgb(var(--ink) / 0.9),
       transparent 72%
     );
+  }
+
+  /* ---------------------------------------------------------------------
+     LAPTOP VARIANTS
+     Differentiating the laptops so they don't look like identical clones.
+     --------------------------------------------------------------------- */
+  .lap--slate .lap__deck {
+    background-image: linear-gradient(to bottom, #1d262b, #151c20);
+    border-color: #2c3a42;
+  }
+  .lap--slate .lap__front {
+    background-image: linear-gradient(to bottom, #151c20, #0c1114);
+  }
+  .lap--slate .lap__hinge {
+    background-image: linear-gradient(to bottom, rgb(var(--hilite) / 0.18) 0 1px, #1d262b 1px, #0c1114 100%);
+  }
+  .lap--slate .lap__bezel {
+    border-color: #2c3a42;
+  }
+
+  .lap--silver .lap__deck {
+    background-image: linear-gradient(to bottom, #a5b0b6, #87939a);
+    border-color: #d4d8db;
+  }
+  .lap--silver .lap__front {
+    background-image: linear-gradient(to bottom, #87939a, #69747a);
+  }
+  .lap--silver .lap__hinge {
+    background-image: linear-gradient(to bottom, rgba(255,255,255,0.7) 0 1px, #a5b0b6 1px, #69747a 100%);
+  }
+  .lap--silver .lap__bezel {
+    border-color: #87939a;
+  }
+  .lap--silver .lap__key {
+    background-color: #111;
   }
 
   /* ---------------------------------------------------------------------

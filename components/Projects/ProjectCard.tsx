@@ -64,7 +64,7 @@ export default function ProjectCard({
   );
 
   return (
-    <article className={cn("grid gap-14 lg:grid-cols-12 lg:items-start lg:gap-16", className)} id={`project-${project.id}`}>
+    <article className={cn("grid gap-14 lg:grid-cols-12 lg:items-center lg:gap-16", className)} id={`project-${project.id}`}>
 
       {/* Title row. Full card width rather than confined to the details
           column's half — at the column's width "Inventory Management

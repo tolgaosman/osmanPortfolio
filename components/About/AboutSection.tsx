@@ -57,22 +57,19 @@ export default function AboutSection() {
             {/* The sidebar enters from the left against the prose's rise, so
                 the two columns arrive as two things rather than one block. */}
             <Reveal stagger={0.07} variant="slideL" className="mt-8">
-              <RevealItem
-                as="h2"
-                variant="unmask"
-                className="font-display text-title font-medium text-text"
-              >
-                <ScrambleText text={a.title} />
-              </RevealItem>
-
-              {/* The photograph, with its background. It sits between the
-                  title and the readout so the column reads top-down as
-                  name → face → facts, and it travels with the sticky aside
-                  rather than scrolling away from the prose it belongs to. */}
-              <RevealItem className="mt-8">
+              {/* The photograph, with its background. Moved above the title
+                  so the face introduces the section before the headline. */}
+              <RevealItem className="mb-8">
                 <AboutPortrait />
               </RevealItem>
 
+              <RevealItem
+                as="h2"
+                variant="unmask"
+                className="font-display text-2xl font-medium leading-[1.15] text-text sm:text-3xl lg:text-[2.25rem]"
+              >
+                <ScrambleText text={a.title} />
+              </RevealItem>
             </Reveal>
           </aside>
 
@@ -129,22 +126,22 @@ export default function AboutSection() {
                   ))}
                 </dl>
 
-                <div className="flex shrink-0 items-center gap-6">
+                <div className="flex shrink-0 items-center gap-3">
                   <Link
                     href="/cv"
                     data-cursor="link"
-                    className="group flex items-center gap-2 font-mono text-sm text-muted transition-colors hover:text-accent"
+                    className={btnSecondary}
                   >
-                    <span>[{a.viewCv}]</span>
+                    <span>{a.viewCv}</span>
                     <ExternalLinkIcon className="h-3.5 w-3.5 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
                   </Link>
                   <a
                     href={asset("/osmanCV.pdf")}
                     download="osmanCV.pdf"
                     data-cursor="link"
-                    className="group flex items-center gap-2 font-mono text-sm text-muted transition-colors hover:text-accent"
+                    className={btnSecondary}
                   >
-                    <span>[{a.downloadCv}]</span>
+                    <span>{a.downloadCv}</span>
                   </a>
                 </div>
               </RevealItem>

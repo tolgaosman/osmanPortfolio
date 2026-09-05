@@ -74,9 +74,9 @@ export default function ImageCarousel({
           <motion.div
             key={index}
             custom={dir}
-            initial={{ opacity: 0, x: dir > 0 ? "100%" : "-100%" }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: dir > 0 ? "-100%" : "100%" }}
+            initial={{ opacity: 0, x: dir > 0 ? "100%" : "-100%", rotateZ: 0.01 }}
+            animate={{ opacity: 1, x: 0, rotateZ: 0.01 }}
+            exit={{ opacity: 0, x: dir > 0 ? "-100%" : "100%", rotateZ: 0.01 }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
             // Swipe. `dragConstraints` pinned to zero with elastic resistance
             // means the slide never actually travels — the drag is a gesture
@@ -92,7 +92,8 @@ export default function ImageCarousel({
               if (throw_ < -SWIPE) paginate(1);
               else if (throw_ > SWIPE) paginate(-1);
             }}
-            className="absolute inset-0 touch-pan-y"
+            style={{ backfaceVisibility: "hidden", WebkitBackfaceVisibility: "hidden" }}
+            className="absolute inset-0 touch-pan-y will-change-transform"
           >
             {/* Loading skeleton, inside the slide rather than behind it.
                 As a sibling at `inset-0` it also pulsed in the letterbox

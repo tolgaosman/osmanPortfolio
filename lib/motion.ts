@@ -154,6 +154,46 @@ export function floatTransition(duration = 6, delay = 0): Transition {
   };
 }
 
+/**
+ * `steps + 1` points sampled around an ellipse, starting at `phaseDeg` — feed
+ * the `x`/`y` arrays straight into a framer-motion `animate` prop. The last
+ * point equals the first, so paired with `orbitTransition`'s `repeatType:
+ * "loop"` the cycle closes with no visible seam or snap-back.
+ */
+export function orbitPath(
+  radiusX: number,
+  radiusY: number,
+  steps = 8,
+  phaseDeg = 0,
+) {
+  const x: number[] = [];
+  const y: number[] = [];
+  for (let i = 0; i <= steps; i++) {
+    const angle = ((i / steps) * 360 + phaseDeg) * (Math.PI / 180);
+    x.push(Math.cos(angle) * radiusX);
+    y.push(Math.sin(angle) * radiusY);
+  }
+  return { x, y };
+}
+
+/**
+ * Companion to `orbitPath` — constant-speed (`ease: "linear"`), looping
+ * rather than mirrored, so the laptop actually travels around the ellipse
+ * instead of easing back and forth along it. Each instance gets its own
+ * `duration`/`delay` for the same reason `floatTransition` does: several
+ * laptops drifting on the same clock reads as one synchronized machine
+ * instead of three independent ones.
+ */
+export function orbitTransition(duration = 20, delay = 0): Transition {
+  return {
+    duration,
+    delay,
+    repeat: Infinity,
+    repeatType: "loop",
+    ease: "linear",
+  };
+}
+
 /** Parent variants that only orchestrate timing for `revealVariants` children. */
 export function staggerParent(stagger = 0.06, delayChildren = 0): Variants {
   return {
