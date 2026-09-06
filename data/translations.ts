@@ -138,6 +138,16 @@ export const en = {
       usageOpen: "usage: open <project-id>  —  run projects to list the ids",
       notFound: "no such project: {0}",
       opening: "opening {0}",
+      commandNames: {
+        help: "help",
+        skills: "skills",
+        projects: "projects",
+        about: "about",
+        whoami: "whoami",
+        contact: "contact",
+        clear: "clear",
+        open: "open",
+      },
       commands: {
         help: "list every command",
         skills: "the stack, grouped",
@@ -322,6 +332,16 @@ export const tr: Dict = {
       usageOpen: "kullanım: open <proje-id>  —  id listesi için projects yaz",
       notFound: "böyle bir proje yok: {0}",
       opening: "{0} açılıyor",
+      commandNames: {
+        help: "yardım",
+        skills: "yetenekler",
+        projects: "projeler",
+        about: "hakkımda",
+        whoami: "kimim",
+        contact: "iletişim",
+        clear: "temizle",
+        open: "aç",
+      },
       commands: {
         help: "bütün komutları listeler",
         skills: "yığın, gruplanmış hâlde",

@@ -107,7 +107,15 @@ export default function TerminalPanel() {
     setValue("");
 
     const [command, ...args] = input.split(/\s+/);
-    const cmd = command.toLowerCase();
+    let cmd = command.toLowerCase();
+
+    // Map localized (or English) command back to internal cmd string
+    for (const [key, value] of Object.entries(term.commandNames)) {
+      if (value === cmd || key === cmd) {
+        cmd = key;
+        break;
+      }
+    }
 
     if (cmd === "clear") {
       setEntries([]);
@@ -253,11 +261,11 @@ export default function TerminalPanel() {
           <button
             key={cmd}
             type="button"
-            onClick={() => run(cmd)}
+            onClick={() => run(term.commandNames[cmd as keyof typeof term.commandNames])}
             data-cursor="link"
             className={btnCommand}
           >
-            {cmd}
+            {term.commandNames[cmd as keyof typeof term.commandNames]}
           </button>
         ))}
       </div>
@@ -301,12 +309,12 @@ function Line({ entry }: { entry: Entry }) {
         <dl className="space-y-1">
           {COMMANDS.map((cmd) => (
             <div key={cmd} className="sm:flex sm:gap-3">
-              <dt className="text-accent sm:w-20 sm:shrink-0">{cmd}</dt>
-              <dd className="text-muted">{term.commands[cmd]}</dd>
+              <dt className="text-accent sm:w-20 sm:shrink-0">{term.commandNames[cmd as keyof typeof term.commandNames]}</dt>
+              <dd className="text-muted">{term.commands[cmd as keyof typeof term.commands]}</dd>
             </div>
           ))}
           <div className="sm:flex sm:gap-3">
-            <dt className="text-accent sm:w-20 sm:shrink-0">{"open <id>"}</dt>
+            <dt className="text-accent sm:w-24 sm:shrink-0">{`${term.commandNames.open} <id>`}</dt>
             <dd className="text-muted">{term.commands.open}</dd>
           </div>
         </dl>
