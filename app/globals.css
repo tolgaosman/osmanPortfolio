@@ -168,9 +168,9 @@
      and any floor above ~2.9rem starts winning below 360px and pushes the
      name back out past the edge. Also restricted by vh so it doesn't overlap 
      laptops on short screens. */
-  --text-wall: clamp(2.75rem, min(13vw, 22vh), 14rem);
+  --text-wall: clamp(1.75rem, min(11vw, 22vh), 14rem);
   --text-wall--line-height: 0.82;
-  --text-wall--letter-spacing: -0.04em;
+  --text-wall--letter-spacing: -0.05em;
 
   --text-display: clamp(2.5rem, 1rem + 6vw, 5.5rem);
   --text-display--line-height: 0.95;

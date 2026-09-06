@@ -32,18 +32,18 @@ export default function WallName({
     >
       {/* The base. text-border-structural rather than an /opacity modifier on
           a text token — the palette has a colour for "this far back". */}
-      <span className="block text-border-structural">{text}</span>
+      <span className="block whitespace-nowrap text-border-structural">{text}</span>
 
       {/* Chromatic split, positioned over the base. Both copies are absolute
           so they cannot affect layout even mid-glitch. */}
       <span
-        className="absolute inset-0 block text-accent mix-blend-screen"
+        className="absolute inset-0 block whitespace-nowrap text-accent mix-blend-screen"
         style={{ animation: "glitch-shift 7.3s steps(1, end) infinite" }}
       >
         {text}
       </span>
       <span
-        className="absolute inset-0 block text-danger mix-blend-screen"
+        className="absolute inset-0 block whitespace-nowrap text-danger mix-blend-screen"
         style={{ animation: "glitch-shift 7.3s steps(1, end) 0.06s infinite" }}
       >
         {text}

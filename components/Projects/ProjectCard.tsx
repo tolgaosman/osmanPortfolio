@@ -181,7 +181,7 @@ export default function ProjectCard({
             {m.links}
           </h3>
           <div className="flex flex-wrap items-center gap-3">
-            {project.github && (
+            {project.github && project.status !== "live" && (project.status === "intern" || project.category === "Mobile") && (
               <a
                 href={project.github}
                 target="_blank"
@@ -208,7 +208,7 @@ export default function ProjectCard({
                 {p.live}
               </a>
             )}
-            {!project.github && !project.live && (
+            {(!project.github || project.status === "live" || (project.status !== "intern" && project.category !== "Mobile")) && !project.live && (
               <span className="font-mono text-sm text-faint">
                 {p.privateRepo}
               </span>

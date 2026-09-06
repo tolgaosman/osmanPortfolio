@@ -17,7 +17,7 @@ export const projects: Project[] = [
     stack: ["Flutter", "Dart"],
     github: "https://github.com/tolgaosman/mobil_habit_tracker",
     live: null,
-    status: "prod",
+    status: "wip",
     details: {
       overview: {
         en: "Habits+ is a mobile habit-tracking app built with Flutter, designed to turn daily routines into lasting behaviours. The home screen greets the user by name, shows a real-time completion ring, and lists today's habits with one-tap check-off. Habits are colour-coded by category — nutrition, hydration, fitness, productivity, learning — and each one tracks its own streak. A calendar-based History view logs completion rates day by day, while the Insights screen renders a GitHub-style activity heatmap per habit. Side Quests adds a gamified twist: three randomly generated challenges each day, rated Easy / Medium / Hard, with a countdown timer and a searchable archive of past quest sets.",
@@ -237,4 +237,47 @@ export const projects: Project[] = [
       year: "2026",
     },
   },
+  {
+    id: "sevgi-butik",
+    title: {
+      en: "Sevgi Butik",
+      tr: "Sevgi Butik",
+    },
+    description: {
+      en: "E-commerce platform for a clothing boutique offering diverse collections from dresses to accessories.",
+      tr: "Elbiselerden aksesuarlara kadar geniş koleksiyonlar sunan bir giyim butiği için e-ticaret platformu.",
+    },
+    category: "Web",
+    stack: ["Next.js", "React", "Tailwind CSS", "TypeScript"],
+    github: "https://github.com/tolgaosman/sevgi-butik",
+    live: "https://sevgibutik.com",
+    status: "live",
+    details: {
+      overview: {
+        en: "Sevgi Butik is a modern e-commerce platform built for a local clothing boutique in Düzova, Cyprus. The platform offers a seamless shopping experience with categorized collections including dresses, tops, bottoms, accessories, makeup, and kids' clothing. It features a responsive design, fast loading times, and a user-friendly interface that brings the boutique's curated selections to customers island-wide.",
+        tr: "Sevgi Butik, Kıbrıs'ın Düzova bölgesindeki yerel bir giyim butiği için geliştirilmiş modern bir e-ticaret platformudur. Site, elbiseler, üst ve alt giyim, aksesuarlar, makyaj malzemeleri ve çocuk giyimi gibi kategorize edilmiş koleksiyonlarla kesintisiz bir alışveriş deneyimi sunar. Butiğin özenle seçilmiş ürünlerini tüm adaya ulaştıran duyarlı tasarıma, hızlı yüklenme sürelerine ve kullanıcı dostu bir arayüze sahiptir.",
+      },
+      features: [
+        {
+          en: "Comprehensive product catalog with advanced filtering and categories",
+          tr: "Gelişmiş filtreleme ve kategoriler ile kapsamlı ürün kataloğu",
+        },
+        {
+          en: "Fully responsive, mobile-first design for seamless shopping on any device",
+          tr: "Her cihazda kesintisiz alışveriş için tamamen duyarlı, mobil öncelikli tasarım",
+        },
+        {
+          en: "Integration with order tracking and customer account management",
+          tr: "Sipariş takibi ve müşteri hesabı yönetimi entegrasyonu",
+        },
+      ],
+      role: {
+        en: "Full-stack Developer",
+        tr: "Tam Yığın (Full-stack) Geliştirici",
+      },
+      year: "2024",
+      images: [],
+    },
+  },
 ];
+
