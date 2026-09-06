@@ -26,7 +26,8 @@ import { ArrowUpRightIcon, ExternalLinkIcon } from "@/components/Icons";
  * "there is a way to get the file" needs, not a browser trick nothing honors.
  */
 export default function CvViewer() {
-  const { t } = useLang();
+  const { lang, t } = useLang();
+  const cvFile = lang === "tr" ? "osmanCVtr.pdf" : "osmanCVen.pdf";
 
   return (
     <div className="flex h-screen w-screen flex-col bg-bg">
@@ -37,8 +38,8 @@ export default function CvViewer() {
           {t.cv.back}
         </Link>
         <a
-          href={asset("/osmanCV.pdf")}
-          download="osmanCV.pdf"
+          href={asset(`/${cvFile}`)}
+          download={cvFile}
           className={`${btnQuiet} inline-flex items-center gap-1.5`}
         >
           {t.cv.download}
@@ -47,7 +48,7 @@ export default function CvViewer() {
       </header>
 
       <iframe
-        src={asset("/osmanCV.pdf")}
+        src={asset(`/${cvFile}`)}
         className="min-h-0 flex-1 border-none"
         title="Tolga Osman CV"
       />
@@ -55,8 +56,8 @@ export default function CvViewer() {
       <p className="shrink-0 border-t border-border-faint bg-surface px-4 py-2.5 text-center font-mono text-xs text-faint sm:px-6">
         {t.cv.fallback}{" "}
         <a
-          href={asset("/osmanCV.pdf")}
-          download="osmanCV.pdf"
+          href={asset(`/${cvFile}`)}
+          download={cvFile}
           className="link-wipe text-accent"
         >
           {t.cv.download}

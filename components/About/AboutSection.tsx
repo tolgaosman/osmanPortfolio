@@ -13,9 +13,10 @@ import { btnQuiet, btnSecondary } from "@/lib/buttons";
 import { useLang } from "@/lib/i18n";
 
 export default function AboutSection() {
-  const { t } = useLang();
+  const { lang, t } = useLang();
   const a = t.about;
   const proseRef = useRef<HTMLDivElement>(null);
+  const cvFile = lang === "tr" ? "osmanCVtr.pdf" : "osmanCVen.pdf";
 
   // Reading progress through the prose column. `scrollYProgress` bound
   // straight to `scaleY` is the one case Framer can hand to the compositor,
@@ -136,8 +137,8 @@ export default function AboutSection() {
                     <ExternalLinkIcon className="h-3.5 w-3.5 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
                   </Link>
                   <a
-                    href={asset("/osmanCV.pdf")}
-                    download="osmanCV.pdf"
+                    href={asset(`/${cvFile}`)}
+                    download={cvFile}
                     data-cursor="link"
                     className={btnSecondary}
                   >
