@@ -70,7 +70,6 @@ const CSP = [
     : "script-src 'self' 'unsafe-inline'",
   "connect-src 'self'",
   "manifest-src 'self'",
-  "upgrade-insecure-requests",
 ].join("; ");
 
 const SITE_URL = siteConfig.url;
