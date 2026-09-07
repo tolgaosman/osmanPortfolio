@@ -11,7 +11,7 @@ export const siteConfig = {
   phoneDisplay: "+90 533 834 6699",
   phoneE164: "+905338346699",
   whatsappNumber: "905338346699",
-  url: "https://tolgaosman.github.io/osmanPortfolio/",
+  url: "https://tolgaosman.com",
 } as const;
 
 export const whatsappHref = `https://wa.me/${siteConfig.whatsappNumber}`;

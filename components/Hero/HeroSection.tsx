@@ -212,7 +212,7 @@ export default function HeroSection() {
         variants={wall}
         initial="hidden"
         animate="show"
-        className="absolute inset-x-0 top-[19%] flex justify-center sm:top-[21%] lg:top-[15%]"
+        className="absolute inset-x-0 top-[19svh] flex justify-center sm:top-[21svh] lg:top-[15%]"
       >
         <WallName text="tolgaosman_" />
       </motion.div>
