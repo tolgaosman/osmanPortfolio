@@ -34,6 +34,8 @@ export interface Project {
   /** Live deployment link, or null if none */
   live: string | null;
   status: ProjectStatus;
+  /** Whether the project is shown on the homepage showcase */
+  featured?: boolean;
   /** Extended content for the project detail modal */
   details?: ProjectDetails;
 }

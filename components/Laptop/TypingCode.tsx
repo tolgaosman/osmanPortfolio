@@ -140,7 +140,7 @@ export default function TypingCode() {
   }, [inView, reduced]);
 
   return (
-    <pre ref={ref} className="whitespace-pre text-screen">
+    <pre ref={ref} className="whitespace-pre p-2.5 text-screen">
       <code>
         {PLACED.map((line, i) => {
           const lineStart = LINE_START[i];

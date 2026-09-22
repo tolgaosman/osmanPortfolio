@@ -18,6 +18,7 @@ export const projects: Project[] = [
     github: "https://github.com/tolgaosman/mobil_habit_tracker",
     live: null,
     status: "wip",
+    featured: true,
     details: {
       overview: {
         en: "Habits+ is a mobile habit-tracking app built with Flutter, designed to turn daily routines into lasting behaviours. The home screen greets the user by name, shows a real-time completion ring, and lists today's habits with one-tap check-off. Habits are colour-coded by category — nutrition, hydration, fitness, productivity, learning — and each one tracks its own streak. A calendar-based History view logs completion rates day by day, while the Insights screen renders a GitHub-style activity heatmap per habit. Side Quests adds a gamified twist: three randomly generated challenges each day, rated Easy / Medium / Hard, with a countdown timer and a searchable archive of past quest sets.",
@@ -84,6 +85,7 @@ export const projects: Project[] = [
     github: "https://github.com/tolgaosman/webAS",
     live: "https://alarasysn.com",
     status: "live",
+    featured: true,
     details: {
       overview: {
         en: "A personal branding portfolio built for creative professional Alara Soysan. The design leans into a tactile, analog feeling — manila folder tabs for navigation and polaroid-style photo frames — while staying fast and fully responsive. Hand-built from scratch with vanilla HTML, CSS, and JavaScript, with no framework overhead, the site loads instantly and works flawlessly down to small mobile screens.",
@@ -144,6 +146,7 @@ export const projects: Project[] = [
     github: "https://github.com/tolgaosman/staff-leave-tracker",
     live: "http://178.105.207.98:4003/login/",
     status: "intern",
+    featured: true,
     details: {
       overview: {
         en: "Staff Leave Tracker is a comprehensive human resources tool designed to streamline the process of requesting and managing employee leave. Built with a modern Next.js frontend and a robust Laravel backend, it allows staff to easily submit leave requests, while administrators can review, approve, or deny them through a dedicated dashboard. The system features dynamic calendar views, automated email notifications, and detailed reporting to ensure clear communication and efficient workforce planning.",
@@ -174,7 +177,6 @@ export const projects: Project[] = [
       year: "2024",
       images: [
         "/screenshots/staff-leave-tracker/1.png",
-        "/screenshots/staff-leave-tracker/2.png",
         "/screenshots/staff-leave-tracker/3.png",
         "/screenshots/staff-leave-tracker/4.png",
         "/screenshots/staff-leave-tracker/5.png",
@@ -207,6 +209,7 @@ export const projects: Project[] = [
     github: "https://github.com/tolgaosman/inventory-management",
     live: null,
     status: "intern",
+    featured: true,
     details: {
       overview: {
         en: "An inventory and warehouse management system built during a second internship, sized for a company running 5 warehouses, around 2,000 products, and 10 suppliers. Warehouse staff log stock entries, exits, and inter-warehouse transfers; purchasing staff manage suppliers and purchase orders through Draft, Ordered, Received, and Cancelled stages; administrators get a dashboard with product counts, critical-stock alerts, and movement reporting. Backend is a Laravel API, frontend is Next.js with shadcn/ui — the same split as the Staff Leave Tracker.",
@@ -252,6 +255,7 @@ export const projects: Project[] = [
     github: "https://github.com/tolgaosman/sevgi-butik",
     live: "https://sevgibutik.com",
     status: "live",
+    featured: true,
     details: {
       overview: {
         en: "Sevgi Butik is a modern e-commerce platform built for a local clothing boutique in Düzova, Cyprus. The platform offers a seamless shopping experience with categorized collections including dresses, tops, bottoms, accessories, makeup, and kids' clothing. It features a responsive design, fast loading times, and a user-friendly interface that brings the boutique's curated selections to customers island-wide.",

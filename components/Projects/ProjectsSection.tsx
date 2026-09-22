@@ -1,14 +1,20 @@
 "use client";
 
+import Link from "next/link";
 import SectionLabel from "@/components/SectionLabel";
 import ScrambleText from "@/components/ScrambleText";
 import ProjectCard from "./ProjectCard";
 import { projects } from "@/data/projects";
 import { useLang } from "@/lib/i18n";
+import { ArrowUpRightIcon } from "@/components/Icons";
+import { btnSecondary } from "@/lib/buttons";
+import { cn } from "@/lib/utils";
 
 export default function ProjectsSection() {
   const { t } = useLang();
   const p = t.projects;
+
+  const featuredProjects = projects.filter(project => project.featured);
 
   return (
     <section id="projects" className="crt relative z-10 border-b border-border-structural bg-bg py-20 sm:py-28">
@@ -21,14 +27,27 @@ export default function ProjectsSection() {
         </span>
         <SectionLabel index="02">{p.label}</SectionLabel>
         
-        <div className="mt-8 grid gap-6 lg:grid-cols-1 lg:items-end">
-          <h2 className="max-w-2xl font-display text-title font-medium text-text">
-            <ScrambleText text={p.title} />
-          </h2>
+        <div className="mt-8">
+          <div className="flex flex-col items-start gap-6 sm:flex-row sm:items-center">
+            <h2 className="max-w-2xl font-display text-title font-medium text-text">
+              <ScrambleText text={p.title} />
+            </h2>
+            <Link
+              href="/projects"
+              data-cursor="link"
+              className={cn(btnSecondary, "px-4 py-2 text-muted whitespace-nowrap")}
+            >
+              <ArrowUpRightIcon className="mr-2 h-4 w-4 inline" />
+              {p.seeAll}
+            </Link>
+          </div>
+          <p className="mt-4 max-w-xl text-lede text-muted">
+            {p.showcaseDesc}
+          </p>
         </div>
 
         <div className="mt-16 flex flex-col sm:mt-24">
-          {projects.map((project, i) => (
+          {featuredProjects.map((project, i) => (
             <div 
               key={project.id} 
               // Using border-t as the separator, starting from the second item.

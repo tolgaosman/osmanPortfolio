@@ -90,6 +90,7 @@ export default function ProjectPeek({
           height={800}
           loading="lazy"
           decoding="async"
+          draggable={false}
           className={cn(
             "h-full w-full object-contain object-top transition-opacity duration-500",
             mounted ? "opacity-90 group-hover:opacity-100" : "opacity-0"

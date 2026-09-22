@@ -269,8 +269,8 @@
      generates the `font-mono` utility), so naming a next/font variable
      --font-mono produces a self-referential var() that silently resolves to
      nothing. */
-  --font-display: var(--font-grotesk);
-  --font-sans: var(--font-inter);
+  --font-display: var(--font-montserrat);
+  --font-sans: var(--font-montserrat);
   --font-mono: var(--font-jetbrains);
 }
 

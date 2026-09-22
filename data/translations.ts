@@ -4,7 +4,8 @@ export const en = {
   nav: {
     home: "home",
     about: "about",
-    work: "work",
+    featuredWork: "featured",
+    work: "projects",
     process: "process",
     skills: "skills",
     hireMe: "contact",
@@ -56,14 +57,19 @@ export const en = {
   projects: {
     label: "Selected work",
     title: "Things I've built",
+    allProjectsTitle: "All Projects",
+    seeAll: "View all projects",
     subtitle:
-      "Four projects. Three of them for someone else. Open one for the full breakdown.",
+      "A complete archive of the things I've built, from side projects to client work.",
+    showcaseDesc:
+      "These are just a handpicked selection for my homepage showcase. Click the button above to view my complete portfolio of work.",
     all: "all",
     web: "web",
     mobile: "mobile",
     source: "source",
     live: "visit site",
     privateRepo: "private repo",
+    mobilePreviewNote: "Click to view the app",
     status: {
       live: "live",
       soon: "soon",
@@ -202,7 +208,8 @@ export const tr: Dict = {
   nav: {
     home: "anasayfa",
     about: "hakkımda",
-    work: "projeler",
+    featuredWork: "öne çıkanlar",
+    work: "tüm projeler",
     process: "süreç",
     skills: "yetenekler",
     hireMe: "iletişim",
@@ -250,12 +257,17 @@ export const tr: Dict = {
   projects: {
     label: "Seçilmiş işler",
     title: "Yaptığım işler",
+    allProjectsTitle: "Tüm Projeler",
+    seeAll: "Tümünü gör",
     subtitle:
-      "Dört proje. Üçü bir başkası için. Detaylar için birine tıkla.",
+      "Kişisel denemelerden müşteri projelerine kadar geliştirdiğim işlerin tam arşivi.",
+    showcaseDesc:
+      "Aşağıdakiler tüm işlerim değil, sadece ana sayfadaki vitrinimde sunmak için aralarından seçtiğim projeler. Tüm işlerimi görmek için butona basabilirsiniz.",
     all: "tümü",
     web: "web",
     mobile: "mobil",
     source: "kaynak",
+    mobilePreviewNote: "Uygulamayı görmek için tıklayın",
     live: "siteyi ziyaret et",
     privateRepo: "özel depo",
     status: {

@@ -68,7 +68,7 @@ export default function TerminalOut() {
   }, [inView, reduced]);
 
   return (
-    <div ref={ref} className="text-screen">
+    <div ref={ref} className="p-2.5 text-screen">
       {LINES.slice(0, count).map((line) => (
         <p key={line.text} className={`whitespace-pre ${TONE[line.tone]}`}>
           {line.text}

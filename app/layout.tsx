@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Space_Grotesk, JetBrains_Mono, Inter } from "next/font/google";
+import { Montserrat, JetBrains_Mono } from "next/font/google";
 import { MotionConfig } from "framer-motion";
 import { LanguageProvider } from "@/lib/i18n";
 import BootOverlay from "@/components/BootOverlay";
@@ -22,9 +22,9 @@ import "./globals.css";
 // blocking preload hints). Omitting it ships one variable file per family per
 // subset — six files — and every weight in the axis range comes free.
 //
-// Display face: the wall name, headings, project titles, the wordmark.
-const spaceGrotesk = Space_Grotesk({
-  variable: "--font-grotesk",
+// Body and Display face — replaced Space Grotesk and Inter with Montserrat.
+const montserrat = Montserrat({
+  variable: "--font-montserrat",
   subsets: ["latin", "latin-ext"],
   display: "swap",
 });
@@ -33,14 +33,6 @@ const spaceGrotesk = Space_Grotesk({
 // numeral, meta strip, terminal line and laptop screen is set in it.
 const jetbrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains",
-  subsets: ["latin", "latin-ext"],
-  display: "swap",
-});
-
-// Body face — running prose only. Inter has a larger x-height than the
-// Montserrat it replaces, which is why --text-lede steps down in globals.css.
-const inter = Inter({
-  variable: "--font-inter",
   subsets: ["latin", "latin-ext"],
   display: "swap",
 });
@@ -175,7 +167,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} ${inter.variable} h-full`}
+      className={`${montserrat.variable} ${jetbrainsMono.variable} h-full`}
       suppressHydrationWarning
     >
       <head>

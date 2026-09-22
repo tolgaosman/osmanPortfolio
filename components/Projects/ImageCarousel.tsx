@@ -6,6 +6,7 @@ import Image from "next/image";
 import { ChevronLeftIcon, ChevronRightIcon } from "@/components/Icons";
 import { asset, cn } from "@/lib/utils";
 import { useLang } from "@/lib/i18n";
+import { SPRING_SOFT } from "@/lib/motion";
 
 /** Offset-plus-projected-velocity, in px, that counts as a swipe. */
 const SWIPE = 60;
@@ -77,7 +78,12 @@ export default function ImageCarousel({
             initial={{ opacity: 0, x: dir > 0 ? "100%" : "-100%", rotateZ: 0.01 }}
             animate={{ opacity: 1, x: 0, rotateZ: 0.01 }}
             exit={{ opacity: 0, x: dir > 0 ? "-100%" : "100%", rotateZ: 0.01 }}
-            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+            // Underdamped at the old stiffness/damping pair, the slide
+            // overshot its resting position and bounced back — read as a
+            // jitter right as each transition settled. SPRING_SOFT sits at
+            // (very nearly) critical damping, so it decelerates into place
+            // instead.
+            transition={SPRING_SOFT}
             // Swipe. `dragConstraints` pinned to zero with elastic resistance
             // means the slide never actually travels — the drag is a gesture
             // reader, and the real movement is the same AnimatePresence
@@ -106,6 +112,7 @@ export default function ImageCarousel({
               src={asset(images[index])}
               alt={`${title} — ${altLabel} ${index + 1}`}
               fill
+              draggable={false}
               className="object-contain"
               unoptimized
               onLoad={() => setLoaded(true)}
@@ -144,12 +151,11 @@ export default function ImageCarousel({
       </div>
 
       {!single && (
-        <div className="flex items-center justify-center gap-0.5 border-t border-border bg-surface-2 py-1.5">
-          {/* The bar is the indicator; the button around it is the target.
-              These used to BE the button at h-1.5 — a 6px-tall hit area,
-              well under any usable touch target and the crudest control on
-              the page. The padding does the reaching, the bar does the
-              showing. */}
+        <div className="flex items-center justify-center gap-1.5 border-t border-border bg-surface-2 py-2">
+          {/* The dot is the indicator; the button around it is the target —
+              h-6 clears the 24px WCAG minimum without the row itself ballooning
+              into a slab, which is what happened at the old 44px iOS-ideal
+              target on an 8-image row inside a phone-width card. */}
           {Array.from({ length: count }).map((_, i) => (
             <button
               key={i}
@@ -161,15 +167,15 @@ export default function ImageCarousel({
                 setLoaded(false);
                 setState([i, i > index ? 1 : -1]);
               }}
-              className="group flex h-11 items-center px-1.5 sm:h-7 sm:px-1"
+              className="group flex h-6 items-center px-0.5"
             >
               <span
                 aria-hidden
                 className={cn(
-                  "block h-1 rounded-full transition-all duration-300",
+                  "block h-1.5 rounded-full transition-all duration-300",
                   i === index
-                    ? "w-7 bg-accent"
-                    : "w-4 bg-border-strong group-hover:w-5 group-hover:bg-accent-bright",
+                    ? "w-6 bg-accent shadow-glow-sm"
+                    : "w-1.5 bg-border-strong group-hover:bg-accent-bright",
                 )}
               />
             </button>

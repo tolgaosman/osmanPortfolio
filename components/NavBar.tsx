@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { usePathname, useRouter } from "next/navigation";
 import { cn, smoothScrollTo } from "@/lib/utils";
 import { EASE_OUT, SPRING_SNAP } from "@/lib/motion";
 import { useScrollLock } from "@/lib/scroll-lock";
@@ -11,38 +12,24 @@ import { useLang } from "@/lib/i18n";
 import { siteConfig } from "@/data/site";
 import LanguageToggle from "@/components/LanguageToggle";
 
-/**
- * These ids are a hard contract with the page. They drive the scroll-spy
- * observer AND `smoothScrollTo`, and nothing throws if a section is renamed —
- * the observer simply observes fewer elements and the active tab stops
- * moving. Rename here and in app/page.tsx together, or not at all.
- */
 const LINK_IDS = ["home", "about", "projects", "process", "skills", "contact"] as const;
 const MOBILE_MENU_ID = "mobile-nav-menu";
 
-/**
- * Tuned to this header's height, not inherited. The scroll offset has to clear
- * the fixed band or every anchor lands with its heading tucked underneath; if
- * the band's padding changes, these numbers change with it.
- *
- * There are two, because the band is two heights: 10px vertical padding
- * around a 36px control on desktop, around a 44px control on mobile (which
- * never gets the `sm:` padding bump), plus breathing room. A single desktop
- * constant landed every mobile anchor low.
- */
 const NAV_OFFSET = 72;
 const NAV_OFFSET_SM = 80;
 
+type NavLink = { id: string; label: string; href?: string };
+
 export default function NavBar() {
   const { t } = useLang();
+  const pathname = usePathname();
+  const router = useRouter();
+  
   const [scrolled, setScrolled] = useState(false);
   const [hidden, setHidden] = useState(false);
   const [active, setActive] = useState("home");
   const [menuOpen, setMenuOpen] = useState(false);
   const lastScrollY = useRef(0);
-  // Suppressed while a programmatic scroll is in flight, so clicking a nav
-  // link cannot trip the hide-on-scroll-down rule and slide the bar away
-  // mid-navigation.
   const suppressHideRef = useRef(false);
   const rafRef = useRef<number | null>(null);
   const headerRef = useRef<HTMLElement>(null);
@@ -50,11 +37,12 @@ export default function NavBar() {
 
   useScrollLock(menuOpen);
 
-  const LINKS = useMemo(
+  const LINKS: NavLink[] = useMemo(
     () => [
       { id: "home", label: t.nav.home },
       { id: "about", label: t.nav.about },
-      { id: "projects", label: t.nav.work },
+      { id: "projects", label: t.nav.featuredWork }, // showcase
+      { id: "all-projects", label: t.nav.work, href: "/projects" },
       { id: "process", label: t.nav.process },
       { id: "skills", label: t.nav.skills },
     ],
@@ -63,7 +51,7 @@ export default function NavBar() {
 
   useEffect(() => {
     const onScroll = () => {
-      if (rafRef.current !== null) return; // already scheduled this frame
+      if (rafRef.current !== null) return;
       rafRef.current = requestAnimationFrame(() => {
         rafRef.current = null;
         const y = window.scrollY;
@@ -83,12 +71,14 @@ export default function NavBar() {
   }, []);
 
   useEffect(() => {
+    if (pathname === "/projects") {
+      setActive("all-projects");
+      return;
+    }
+
     const sections = LINK_IDS.map((id) => document.getElementById(id)).filter(
       (el): el is HTMLElement => Boolean(el),
     );
-    // Track the entry with the greatest intersection ratio rather than the
-    // last one to fire — when two sections cross the band at once, "last in
-    // the callback's array" picks the wrong tab.
     const ratios = new Map<string, number>();
     const observer = new IntersectionObserver(
       (entries) => {
@@ -112,20 +102,8 @@ export default function NavBar() {
     );
     sections.forEach((s) => observer.observe(s));
     return () => observer.disconnect();
-  }, []);
+  }, [pathname]);
 
-  /**
-   * Dismissal. Escape was already handled; tapping the page was not, and on a
-   * phone that is the gesture people actually reach for — the sheet covers a
-   * sixth of the screen and the other five sixths did nothing. `pointerdown`
-   * rather than `click` so it beats the scroll the tap would otherwise start,
-   * and the header is excluded so the toggle's own click is not swallowed and
-   * immediately re-opened.
-   *
-   * `inert` on <main> while the sheet is open is the same treatment the boot
-   * overlay gives the page: without it, a screen reader and Tab both walk
-   * straight past the sheet into content that is visually behind it.
-   */
   useEffect(() => {
     if (!menuOpen) return;
 
@@ -137,9 +115,6 @@ export default function NavBar() {
     };
 
     const main = document.querySelector("main");
-    // Captured now: by cleanup time React may have swapped the node the ref
-    // points at, and the whole point is to return focus to the control this
-    // effect was opened from.
     const toggle = toggleRef.current;
     main?.setAttribute("inert", "");
 
@@ -149,22 +124,30 @@ export default function NavBar() {
       document.removeEventListener("keydown", onKey);
       document.removeEventListener("pointerdown", onPointerDown);
       main?.removeAttribute("inert");
-      // Back to the control that opened it — the sheet's own buttons are gone
-      // by now, and focus on <body> strands a keyboard user at the top.
       toggle?.focus();
     };
   }, [menuOpen]);
 
-  const go = (id: string) => {
+  const go = (link: NavLink | { id: string, href?: string }) => {
     setMenuOpen(false);
+
+    if (link.href) {
+      if (pathname === link.href) return;
+      router.push(link.href);
+      return;
+    }
+
+    if (pathname !== "/") {
+      router.push(`/#${link.id}`);
+      return;
+    }
+
     suppressHideRef.current = true;
     smoothScrollTo(
-      id,
+      link.id,
       window.matchMedia(LG).matches ? NAV_OFFSET : NAV_OFFSET_SM,
     );
     setHidden(false);
-    // Matches the scroll animation duration in lib/utils.ts, plus a margin so
-    // the suppression outlives the last scroll event it triggers.
     window.setTimeout(() => {
       suppressHideRef.current = false;
     }, 700);
@@ -178,28 +161,15 @@ export default function NavBar() {
       animate={{ y: hidden && !menuOpen ? "-140%" : "0%" }}
       transition={{ duration: 0.35, ease: EASE_OUT }}
       className={cn(
-        // A full-width band flush with the viewport edge, not a floating
-        // pill: no top gap, no rounding, border-b instead of a border box. At
-        // rest it is invisible chrome over the hero; once the page has moved
-        // it becomes a real surface so the copy behind it cannot read
-        // through the links.
         "fixed inset-x-0 top-0 z-50 border-b transition-colors duration-300",
         scrolled
           ? "border-border bg-bg/85 shadow-rail backdrop-blur-md"
           : "border-transparent bg-transparent",
       )}
     >
-      <div
-        // gap-2 / px-3 at the base size, not gap-4 / px-4: the wordmark, the
-        // language toggle and a 44px menu control together ran 3px past a
-        // 320px viewport, and the header is fixed — `body { overflow-x:
-        // clip }` propagates to the viewport but a fixed element's
-        // containing block IS the viewport, so it was the one thing on the
-        // page that could genuinely be cut off at the edge.
-        className="mx-auto flex max-w-[92rem] items-center justify-between gap-2 px-3 py-2.5 sm:gap-4 sm:px-6"
-      >
+      <div className="mx-auto flex max-w-[92rem] items-center justify-between gap-2 px-3 py-2.5 sm:gap-4 sm:px-6">
         <button
-          onClick={() => go("home")}
+          onClick={() => go({ id: "home" })}
           data-cursor="link"
           className="min-w-0 shrink font-display text-sm font-medium tracking-tight text-text sm:shrink-0 sm:text-base"
         >
@@ -207,37 +177,40 @@ export default function NavBar() {
           <span className="text-accent">{nameParts[nameParts.length - 1]}</span>
         </button>
 
-        {/* Bare labels, not a pill rail. The active indicator is a shared
-            layoutId underline, so switching sections slides one element
-            instead of cross-fading two. */}
         <nav
           aria-label={t.nav.primaryNav}
           suppressHydrationWarning
-          className="hidden items-center gap-6 lg:flex"
+          className="hidden items-center gap-4 lg:flex"
         >
-          {LINKS.map((link) => {
+          {LINKS.map((link, index) => {
             const isActive = active === link.id;
             return (
-              <button
-                key={link.id}
-                onClick={() => go(link.id)}
-                aria-current={isActive ? "true" : undefined}
-                data-cursor="link"
-                className={cn(
-                  "relative px-1 py-1.5 font-mono text-label uppercase transition-colors duration-200",
-                  isActive ? "text-accent" : "text-muted hover:text-text",
+              <React.Fragment key={link.id}>
+                <button
+                  onClick={() => go(link)}
+                  aria-current={isActive ? "true" : undefined}
+                  data-cursor="link"
+                  className={cn(
+                    "relative px-1 py-1.5 font-mono text-label uppercase transition-colors duration-200",
+                    isActive ? "text-accent" : "text-muted hover:text-text",
+                  )}
+                >
+                  {link.label}
+                  {isActive && (
+                    <motion.span
+                      layoutId="nav-pill"
+                      transition={SPRING_SNAP}
+                      aria-hidden="true"
+                      className="absolute inset-x-1 -bottom-1 h-px bg-accent"
+                    />
+                  )}
+                </button>
+                {index < LINKS.length - 1 && (
+                  <span aria-hidden="true" className="text-border-faint select-none">
+                    /
+                  </span>
                 )}
-              >
-                {link.label}
-                {isActive && (
-                  <motion.span
-                    layoutId="nav-pill"
-                    transition={SPRING_SNAP}
-                    aria-hidden="true"
-                    className="absolute inset-x-1 -bottom-1 h-px bg-accent"
-                  />
-                )}
-              </button>
+              </React.Fragment>
             );
           })}
         </nav>
@@ -245,12 +218,8 @@ export default function NavBar() {
         <div className="flex shrink-0 items-center gap-2">
           <LanguageToggle />
           <button
-            onClick={() => go("contact")}
+            onClick={() => go({ id: "contact" })}
             data-cursor="link"
-            // Outlined, not filled. `btnPrimary` carries `shadow-glow`, and
-            // glow is scoped to THE primary action on the screen — with the
-            // hero CTA already filled and lit, a second green pill in the rail
-            // reads as two primary actions, which is no hierarchy at all.
             className={cn(btnSecondary, "hidden px-4 py-1.5 text-label uppercase sm:inline-flex")}
           >
             {t.nav.hireMe}
@@ -266,8 +235,6 @@ export default function NavBar() {
             data-cursor="link"
             className="flex h-11 w-11 items-center justify-center rounded-md border border-border text-text lg:hidden"
           >
-            {/* Two bars that rotate into a cross. One element per bar, both
-                animating transform only, so nothing reflows mid-toggle. */}
             <span className="relative block h-3 w-4">
               <motion.span
                 animate={menuOpen ? { rotate: 45, y: 5 } : { rotate: 0, y: 0 }}
@@ -302,7 +269,7 @@ export default function NavBar() {
               {[...LINKS, { id: "contact", label: t.nav.hireMe }].map((link) => (
                 <li key={link.id}>
                   <button
-                    onClick={() => go(link.id)}
+                    onClick={() => go(link)}
                     className={cn(
                       "flex w-full items-center justify-between px-5 py-3.5 font-mono text-sm transition-colors",
                       active === link.id
