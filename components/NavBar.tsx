@@ -71,7 +71,7 @@ export default function NavBar() {
   }, []);
 
   useEffect(() => {
-    if (pathname === "/projects") {
+    if (pathname === "/projects" || pathname === "/projects/") {
       setActive("all-projects");
       return;
     }
