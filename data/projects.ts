@@ -283,5 +283,55 @@ export const projects: Project[] = [
       images: [],
     },
   },
+  {
+    id: "ib-tattoo",
+    title: {
+      en: "tatt2me",
+      tr: "tatt2me",
+    },
+    description: {
+      en: "A modern portfolio and booking website for tattoo artist Irmak Bozkurt.",
+      tr: "Dövme sanatçısı Irmak Bozkurt için modern portföy ve randevu web sitesi.",
+    },
+    category: "Web",
+    stack: ["Next.js", "React", "Tailwind CSS", "TypeScript"],
+    github: null,
+    live: "https://tatt2me.net",
+    status: "live",
+    featured: true,
+    details: {
+      overview: {
+        en: "tatt2me is a minimalist portfolio and booking website built for Irmak Bozkurt, a tattoo artist based in North Cyprus. The site features a clean, responsive design that highlights the artist's fine line, neo-traditional, and geometric dot work. It includes a gallery of recent tattoos, a detailed explanation of the booking process, and an integrated contact form for appointment requests.",
+        tr: "tatt2me, Kuzey Kıbrıs'ta yaşayan dövme sanatçısı Irmak Bozkurt için hazırlanmış minimalist bir portföy ve randevu web sitesidir. Site, sanatçının ince çizgi, neo-traditional ve geometrik nokta çalışmalarını öne çıkaran temiz ve duyarlı bir tasarıma sahiptir. Güncel dövmelerden oluşan bir galeri, randevu sürecinin detaylı bir açıklaması ve randevu talepleri için entegre bir iletişim formu içerir.",
+      },
+      features: [
+        {
+          en: "Minimalist design with a focus on typography and high-quality imagery",
+          tr: "Tipografi ve yüksek kaliteli görsellere odaklanan minimalist tasarım",
+        },
+        {
+          en: "Fully responsive layout optimized for all devices",
+          tr: "Tüm cihazlar için optimize edilmiş tamamen duyarlı düzen",
+        },
+        {
+          en: "Integrated booking form for easy appointment scheduling",
+          tr: "Kolay randevu planlama için entegre rezervasyon formu",
+        },
+      ],
+      role: {
+        en: "Design + Full-stack build",
+        tr: "Tasarım + Tam Yığın (Full-stack) Geliştirme",
+      },
+      year: "2024",
+      images: [
+        "/screenshots/ib-tattoo/1.jpeg",
+        "/screenshots/ib-tattoo/2.jpeg",
+        "/screenshots/ib-tattoo/3.jpeg",
+        "/screenshots/ib-tattoo/4.jpeg",
+        "/screenshots/ib-tattoo/5.jpeg",
+        "/screenshots/ib-tattoo/6.jpeg",
+      ],
+    },
+  },
 ];
 
