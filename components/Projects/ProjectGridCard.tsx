@@ -95,7 +95,7 @@ export default function ProjectGridCard({
 
         <div className="flex flex-1 flex-col p-5 pb-0">
           <div className="mb-2 flex items-start justify-between gap-2">
-            <h3 className="font-display text-lg font-medium text-text">
+            <h3 className="min-w-0 font-display text-lg font-medium text-text">
               {project.title[lang]}
             </h3>
             <span className="shrink-0 rounded-xs border border-border bg-bg px-2 py-0.5 font-mono text-[10px] uppercase text-muted">

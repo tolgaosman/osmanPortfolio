@@ -8,6 +8,7 @@ import { btnSecondary } from "@/lib/buttons";
 import ImageCarousel from "./ImageCarousel";
 import PhoneFrame from "./PhoneFrame";
 import LaptopFrame from "./LaptopFrame";
+import DesktopOnlyNotice from "./DesktopOnlyNotice";
 
 const statusColor: Record<ProjectStatus, string> = {
   live: "text-accent-bright border-accent-bright/40",
@@ -70,8 +71,8 @@ export default function ProjectCard({
           column's half — at the column's width "Inventory Management
           System" wraps to three lines; spanning both columns gives it room
           to sit on one. */}
-      <div className="flex items-center gap-4 lg:col-span-12">
-        <h2 className="font-display text-title font-medium text-text">
+      <div className="flex flex-col items-start gap-2.5 sm:flex-row sm:items-center sm:gap-4 lg:col-span-12">
+        <h2 className="min-w-0 font-display text-title font-medium text-text">
           {project.title[lang]}
         </h2>
         <span
@@ -104,6 +105,7 @@ export default function ProjectCard({
 
       {/* Details Column */}
       <div className={cn("flex flex-col min-w-0", detailsOrderClass)}>
+        {project.desktopOnly && <DesktopOnlyNotice className="mb-6" />}
         <section className="mb-8">
           <p className="text-lede text-text">
             {d?.overview[lang] ?? project.description[lang]}

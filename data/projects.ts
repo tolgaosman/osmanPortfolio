@@ -79,6 +79,7 @@ export const projects: Project[] = [
     github: "https://github.com/tolgaosman/staff-leave-tracker",
     live: "http://5.75.128.196:4006",
     status: "intern",
+    desktopOnly: true,
     details: {
       overview: {
         en: "Staff Leave Tracker is a comprehensive human resources tool designed to streamline the process of requesting and managing employee leave. Built with a modern Next.js frontend and a robust Laravel backend, it allows staff to easily submit leave requests, while administrators can review, approve, or deny them through a dedicated dashboard. The system features dynamic calendar views, automated email notifications, and detailed reporting to ensure clear communication and efficient workforce planning.",
@@ -141,6 +142,7 @@ export const projects: Project[] = [
     github: "https://github.com/tolgaosman/inventory-management",
     live: "http://5.75.128.196:4005",
     status: "intern",
+    desktopOnly: true,
     details: {
       overview: {
         en: "An inventory and warehouse management system built during a second internship, sized for a company running 5 warehouses, around 2,000 products, and 10 suppliers. Warehouse staff log stock entries, exits, and inter-warehouse transfers; purchasing staff manage suppliers and purchase orders through Draft, Ordered, Received, and Cancelled stages; administrators get a dashboard with product counts, critical-stock alerts, and movement reporting. Backend is a Laravel API, frontend is Next.js with shadcn/ui — the same split as the Staff Leave Tracker.",
@@ -375,6 +377,7 @@ export const projects: Project[] = [
     github: "https://github.com/tolgaosman/hotelReservation",
     live: "http://5.75.128.196:4008",
     status: "intern",
+    desktopOnly: true,
     details: {
       overview: {
         en: "The staff-side half of the hotel system: one panel for running a resort day to day. Reception creates and updates reservations with automatic totals and a hard double-booking check, runs check-in and check-out, and records multiple payments per stay; housekeeping, room service and restaurant-adjacent add-ons are tracked alongside. Admins get a dashboard with arrivals, departures, room status and revenue by date range, exportable to Excel and PDF, plus employee, role and permission management and an audit log. Backend is a Laravel 11 JSON API with Sanctum token auth; frontend is Next.js.",

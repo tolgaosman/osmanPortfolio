@@ -11,6 +11,7 @@ import { btnSecondary } from "@/lib/buttons";
 import { cn } from "@/lib/utils";
 import ImageCarousel from "./ImageCarousel";
 import PhoneFrame from "./PhoneFrame";
+import DesktopOnlyNotice from "./DesktopOnlyNotice";
 
 // Palette tokens rather than macOS traffic-light hexes, which get borrowed
 // for their familiarity and end up reading as window chrome instead of state.
@@ -163,7 +164,7 @@ function ModalPanel({
         <div className="flex-1 overflow-y-auto">
           {project.category === "Mobile" && hasImages ? (
             <div className="flex min-h-full flex-col lg:flex-row">
-              <div className="flex shrink-0 items-start justify-center border-b border-border-faint bg-surface-2/30 p-8 lg:w-[45%] lg:border-b-0 lg:border-r">
+              <div className="flex shrink-0 items-start justify-center border-b border-border-faint bg-surface-2/30 p-5 sm:p-8 lg:w-[45%] lg:border-b-0 lg:border-r">
                 <div className="w-full max-w-[320px] lg:sticky lg:top-8">
                   <PhoneFrame>
                     <ImageCarousel
@@ -177,8 +178,8 @@ function ModalPanel({
                 </div>
               </div>
               <div className="flex-1 p-5 sm:p-8 lg:w-[55%]">
-                <div className="mb-6 flex items-start justify-between gap-3">
-                  <h2 className="font-display text-title font-medium text-text">
+                <div className="mb-6 flex flex-col items-start gap-2.5 sm:flex-row sm:justify-between sm:gap-3">
+                  <h2 className="min-w-0 font-display text-title font-medium text-text">
                     {project.title[lang]}
                   </h2>
                   <span
@@ -190,6 +191,8 @@ function ModalPanel({
                     {p.status[project.status]}
                   </span>
                 </div>
+
+                {project.desktopOnly && <DesktopOnlyNotice className="mb-6" />}
 
                 <section className="mb-8">
                   <p className="text-lede text-text">
@@ -316,8 +319,8 @@ function ModalPanel({
                 />
               )}
               <div className="p-5 sm:p-7">
-                <div className="mb-6 flex items-start justify-between gap-3">
-                  <h2 className="font-display text-title font-medium text-text">
+                <div className="mb-6 flex flex-col items-start gap-2.5 sm:flex-row sm:justify-between sm:gap-3">
+                  <h2 className="min-w-0 font-display text-title font-medium text-text">
                     {project.title[lang]}
                   </h2>
                   <span
@@ -329,6 +332,8 @@ function ModalPanel({
                     {p.status[project.status]}
                   </span>
                 </div>
+
+                {project.desktopOnly && <DesktopOnlyNotice className="mb-6" />}
 
                 <section className="mb-8">
                   <p className="text-lede text-text">

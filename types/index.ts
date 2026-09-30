@@ -34,6 +34,11 @@ export interface Project {
   /** Live deployment link, or null if none */
   live: string | null;
   status: ProjectStatus;
+  /**
+   * Built for company workstations only (internal tools). Surfaces a notice
+   * on the card and in the modal that the UI is not adapted to phones.
+   */
+  desktopOnly?: boolean;
   /** Extended content for the project detail modal */
   details?: ProjectDetails;
 }

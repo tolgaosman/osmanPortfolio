@@ -10,6 +10,8 @@ import { SPRING_SOFT } from "@/lib/motion";
 
 /** Offset-plus-projected-velocity, in px, that counts as a swipe. */
 const SWIPE = 60;
+/** Most pagination dots ever mounted at once. */
+const DOT_WINDOW = 9;
 
 interface ImageCarouselProps {
   /**
@@ -50,9 +52,14 @@ export default function ImageCarousel({
   );
 
   const single = count <= 1;
+  const visibleCount = Math.min(count, DOT_WINDOW);
+  const windowStart = Math.max(
+    0,
+    Math.min(index - Math.floor(DOT_WINDOW / 2), count - visibleCount),
+  );
 
   return (
-    <div className="term border-b border-border">
+    <div className="term min-w-0 max-w-full overflow-hidden border-b border-border">
       <div
         className={cn(
           "relative w-full overflow-hidden",
@@ -151,35 +158,48 @@ export default function ImageCarousel({
       </div>
 
       {!single && (
-        <div className="flex items-center justify-center gap-1.5 border-t border-border bg-surface-2 py-2">
-          {/* The dot is the indicator; the button around it is the target —
-              h-6 clears the 24px WCAG minimum without the row itself ballooning
-              into a slab, which is what happened at the old 44px iOS-ideal
-              target on an 8-image row inside a phone-width card. */}
-          {Array.from({ length: count }).map((_, i) => (
-            <button
-              key={i}
-              type="button"
-              aria-label={`${m.goToImage} ${i + 1}`}
-              aria-current={i === index ? "true" : undefined}
-              onClick={() => {
-                if (i === index) return;
-                setLoaded(false);
-                setState([i, i > index ? 1 : -1]);
-              }}
-              className="group flex h-6 items-center px-0.5"
-            >
-              <span
-                aria-hidden
-                className={cn(
-                  "block h-1.5 rounded-full transition-all duration-300",
-                  i === index
-                    ? "w-6 bg-accent shadow-glow-sm"
-                    : "w-1.5 bg-border-strong group-hover:bg-accent-bright",
-                )}
-              />
-            </button>
-          ))}
+        <div
+          role="group"
+          aria-label={altLabel}
+          className="flex items-center justify-center gap-1 overflow-hidden border-t border-border bg-surface-2 py-2"
+        >
+          {/* Windowed: at most DOT_WINDOW dots are ever mounted, so a 28-shot
+              gallery can't widen the panel past a phone viewport. The window
+              follows the active index; the dots at a truncated edge shrink to
+              signal more beyond. The button is the target (h-6 clears the
+              24px WCAG minimum), the dot is the indicator. */}
+          {Array.from({ length: visibleCount }).map((_, n) => {
+            const i = windowStart + n;
+            const edge =
+              (n === 0 && windowStart > 0) ||
+              (n === visibleCount - 1 && windowStart + visibleCount < count);
+            return (
+              <button
+                key={i}
+                type="button"
+                aria-label={`${m.goToImage} ${i + 1}`}
+                aria-current={i === index ? "true" : undefined}
+                onClick={() => {
+                  if (i === index) return;
+                  setLoaded(false);
+                  setState([i, i > index ? 1 : -1]);
+                }}
+                className="group flex h-6 shrink-0 items-center px-0.5"
+              >
+                <span
+                  aria-hidden
+                  className={cn(
+                    "block rounded-full transition-all duration-300",
+                    i === index
+                      ? "h-1.5 w-6 bg-accent shadow-glow-sm"
+                      : edge
+                        ? "h-1 w-1 bg-border-strong"
+                        : "h-1.5 w-1.5 bg-border-strong group-hover:bg-accent-bright",
+                  )}
+                />
+              </button>
+            );
+          })}
         </div>
       )}
     </div>

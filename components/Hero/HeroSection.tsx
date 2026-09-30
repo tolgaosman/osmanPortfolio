@@ -233,7 +233,7 @@ export default function HeroSection() {
                 </span>
                 <span
                   aria-hidden="true"
-                  className="block font-mono text-label uppercase text-accent"
+                  className="block font-mono text-label uppercase leading-relaxed text-accent"
                 >
                   {h.roleTitle}
                 </span>

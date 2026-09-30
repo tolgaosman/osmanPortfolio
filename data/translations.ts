@@ -70,6 +70,10 @@ export const en = {
     source: "source",
     live: "visit site",
     privateRepo: "private repo",
+    desktopOnly: {
+      title: "Desktop-only application",
+      body: "This is an internal tool built to run on company workstations, not on phones or tablets. Its interface was never adapted to small screens, so on a mobile device it may look largely broken. That is by design: the screenshots show how it is meant to be used, on a work computer.",
+    },
     mobilePreviewNote: "Click to view the app",
     status: {
       live: "live",
@@ -139,7 +143,7 @@ export const en = {
     terminal: {
       label: "skills",
       inputLabel: "Terminal command",
-      placeholder: "type a command, or press a button below",
+      placeholder: "type a command, or tap below",
       help: "Type help for a list of commands: skills, projects, about, whoami, contact, clear.",
       unknown: "command not found: {0}",
       usageOpen: "usage: open <project-id>  —  run projects to list the ids",
@@ -272,6 +276,10 @@ export const tr: Dict = {
     mobilePreviewNote: "Uygulamayı görmek için tıklayın",
     live: "siteyi ziyaret et",
     privateRepo: "özel depo",
+    desktopOnly: {
+      title: "Yalnızca masaüstü uygulaması",
+      body: "Bu uygulama, şirket içinde iş bilgisayarlarında kullanılmak üzere geliştirilmiş bir iç araçtır; telefon veya tablet için tasarlanmamıştır. Arayüzü küçük ekranlara uyarlanmadığından mobil cihazlarda büyük oranda bozuk görünebilir. Bu bilinçli bir tercihtir: ekran görüntüleri, uygulamanın asıl kullanım biçimini, yani iş bilgisayarındaki halini gösterir.",
+    },
     status: {
       live: "canlı",
       soon: "yakında",
@@ -340,7 +348,7 @@ export const tr: Dict = {
     terminal: {
       label: "yetenekler",
       inputLabel: "Terminal komutu",
-      placeholder: "bir komut yaz veya aşağıdaki düğmelere bas",
+      placeholder: "bir komut yaz veya aşağıdan seç",
       help: "Komut listesi için help yaz: skills, projects, about, whoami, contact, clear.",
       unknown: "komut bulunamadı: {0}",
       usageOpen: "kullanım: open <proje-id>  —  id listesi için projects yaz",
