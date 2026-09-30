@@ -55,7 +55,10 @@ function ModalPanel({
   const p = t.projects;
   const m = p.modal;
   const d = project.details;
-  const categoryLabel = project.category === "Mobile" ? p.mobile : p.web;
+  const categoryLabel =
+    project.category === "Mobile" ? p.mobile :
+    project.category === "Intern" ? p.intern :
+    p.web;
   const hasImages = Boolean(d?.images?.length);
 
   const panelRef = useRef<HTMLDivElement>(null);

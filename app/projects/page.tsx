@@ -21,7 +21,7 @@ export default function ProjectsGallery() {
   const filters: { key: Filter; label: string }[] = [
     { key: "all", label: p.all },
     { key: "Web", label: p.web },
-    { key: "Mobile", label: p.mobile },
+    { key: "Intern", label: p.intern },
   ];
 
   const filtered = useMemo(

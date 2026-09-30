@@ -99,7 +99,7 @@ export default function ProjectGridCard({
               {project.title[lang]}
             </h3>
             <span className="shrink-0 rounded-xs border border-border bg-bg px-2 py-0.5 font-mono text-[10px] uppercase text-muted">
-              {project.category === "Mobile" ? p.mobile : p.web}
+              {project.category === "Mobile" ? p.mobile : project.category === "Intern" ? p.intern : p.web}
             </span>
           </div>
 

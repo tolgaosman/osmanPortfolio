@@ -32,7 +32,7 @@ export default function ProjectCard({
   const d = project.details;
 
   const isMobileApp = project.category === "Mobile";
-  const categoryLabel = isMobileApp ? p.mobile : p.web;
+  const categoryLabel = isMobileApp ? p.mobile : project.category === "Intern" ? p.intern : p.web;
   const hasImages = Boolean(d?.images?.length);
 
   // For mobile apps (portrait images), a 5/7 split looks better to remove empty space on sides.
