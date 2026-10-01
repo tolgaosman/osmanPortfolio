@@ -161,8 +161,10 @@ export default function ImageCarousel({
         <div
           role="group"
           aria-label={altLabel}
-          className="flex items-center justify-center gap-1 overflow-hidden border-t border-border bg-surface-2 py-2"
+          className="hidden items-center justify-center gap-1 overflow-hidden border-t border-border bg-surface-2 py-2 sm:flex"
         >
+          {/* Hidden on phones: the arrows, swipe and "n / total" counter already
+              cover navigation there. */}
           {/* Windowed: at most DOT_WINDOW dots are ever mounted, so a 28-shot
               gallery can't widen the panel past a phone viewport. The window
               follows the active index; the dots at a truncated edge shrink to
