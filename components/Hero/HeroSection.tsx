@@ -73,7 +73,7 @@ function DesktopStage({ peekLabel }: { peekLabel: string }) {
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.8, ease: EASE_OUT, delay: 0.72 }}
-        className="absolute right-[8%] top-[38%] w-[clamp(18rem,40svh,32rem)] z-30"
+        className="absolute right-[8%] top-[30%] 2xl:top-[38%] w-[clamp(18rem,40svh,32rem)] z-30"
       >
         <motion.div
           animate={{ x: peekOrbit.x, y: peekOrbit.y, rotate: [0, -1.5, 1, 0] }}
@@ -93,7 +93,7 @@ function DesktopStage({ peekLabel }: { peekLabel: string }) {
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.8, ease: EASE_OUT, delay: 0.6 }}
-        className="pointer-events-none absolute left-[10%] top-[68%] w-[clamp(12rem,22svh,19rem)] z-10"
+        className="pointer-events-none absolute left-[10%] top-[58%] 2xl:top-[68%] w-[clamp(12rem,22svh,19rem)] z-10"
       >
         <motion.div
           animate={{ x: pairOrbitA.x, y: pairOrbitA.y, rotate: [0, 1.5, -0.5, 0] }}
@@ -110,7 +110,7 @@ function DesktopStage({ peekLabel }: { peekLabel: string }) {
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.8, ease: EASE_OUT, delay: 0.84 }}
-        className="pointer-events-none absolute left-[40%] top-[66%] w-[clamp(12rem,22svh,19rem)] z-20"
+        className="pointer-events-none absolute left-[40%] top-[56%] 2xl:top-[66%] w-[clamp(12rem,22svh,19rem)] z-20"
       >
         <motion.div
           animate={{ x: pairOrbitB.x, y: pairOrbitB.y, rotate: [0, 2, -1, 0] }}
