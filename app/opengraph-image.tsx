@@ -41,12 +41,16 @@ const COLOR = {
  */
 async function loadDisplayFont(): Promise<ArrayBuffer | null> {
   try {
+    // A hard timeout on both requests: with no network in the build
+    // container an unbounded fetch can stall the whole deploy, and the card
+    // is not worth that — the catch below falls back to the system sans.
     const css = await fetch(
       "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700",
+      { signal: AbortSignal.timeout(8000) },
     ).then((r) => r.text());
     const url = css.match(/src:\s*url\((https:[^)]+)\)/)?.[1];
     if (!url) return null;
-    const res = await fetch(url);
+    const res = await fetch(url, { signal: AbortSignal.timeout(8000) });
     if (!res.ok) return null;
     return await res.arrayBuffer();
   } catch {

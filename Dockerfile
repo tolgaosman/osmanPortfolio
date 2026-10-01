@@ -2,8 +2,12 @@
 FROM node:20-alpine AS builder
 
 WORKDIR /app
+ENV NEXT_TELEMETRY_DISABLED=1
 COPY package*.json ./
-RUN npm ci
+# Cache the npm download dir between builds and skip audit/fund network calls,
+# so a redeploy after a code-only change does not re-download every package.
+RUN --mount=type=cache,target=/root/.npm \
+    npm ci --no-audit --no-fund --prefer-offline
 
 COPY . .
 RUN npm run build
