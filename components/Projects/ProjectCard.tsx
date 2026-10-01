@@ -96,6 +96,7 @@ export default function ProjectCard({
           imageOrderClass
         )}
       >
+        {project.desktopOnly && <DesktopOnlyNotice className="mb-5 hidden lg:flex" />}
         {isMobileApp ? (
           <PhoneFrame>{media}</PhoneFrame>
         ) : (
@@ -105,7 +106,9 @@ export default function ProjectCard({
 
       {/* Details Column */}
       <div className={cn("flex flex-col min-w-0", detailsOrderClass)}>
-        {project.desktopOnly && <DesktopOnlyNotice className="mb-6" />}
+        {/* Phones: here, above the overview. Desktop shows it over the
+            screenshots instead (see the image column). */}
+        {project.desktopOnly && <DesktopOnlyNotice className="mb-6 lg:hidden" />}
         <section className="mb-8">
           <p className="text-lede text-text">
             {d?.overview[lang] ?? project.description[lang]}
