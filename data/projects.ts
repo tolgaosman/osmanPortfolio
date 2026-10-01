@@ -451,8 +451,8 @@ export const projects: Project[] = [
 const SHOWCASE_IDS = [
   "inventory-management",
   "hotel-customer",
-  "ib-tattoo",
   "hotel-personnel",
+  "ib-tattoo",
   "alara-soysan",
 ];
 
