@@ -10,7 +10,9 @@ RUN --mount=type=cache,target=/root/.npm \
     npm ci --no-audit --no-fund --prefer-offline
 
 COPY . .
-RUN npm run build
+# Cap the V8 heap so the build fails fast and predictably instead of dragging
+# a small host into swap; the native bundler needs headroom beyond this.
+RUN NODE_OPTIONS=--max-old-space-size=1024 npm run build
 
 # Step 2: Serve the static application with Nginx
 FROM nginx:alpine
