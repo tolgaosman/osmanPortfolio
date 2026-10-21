@@ -1,7 +1,6 @@
 "use client";
 
 import { useRef } from "react";
-import Link from "next/link";
 import { motion, useScroll } from "framer-motion";
 import AboutPortrait from "./AboutPortrait";
 import SectionLabel from "@/components/SectionLabel";
@@ -9,7 +8,7 @@ import ScrambleText from "@/components/ScrambleText";
 import Reveal, { RevealItem } from "@/components/Reveal";
 import { ExternalLinkIcon } from "@/components/Icons";
 import { asset } from "@/lib/utils";
-import { btnQuiet, btnSecondary } from "@/lib/buttons";
+import { btnSecondary } from "@/lib/buttons";
 import { useLang } from "@/lib/i18n";
 
 export default function AboutSection() {
@@ -128,14 +127,16 @@ export default function AboutSection() {
                 </dl>
 
                 <div className="flex shrink-0 items-center gap-3">
-                  <Link
-                    href="/cv"
+                  <a
+                    href={asset(`/${cvFile}`)}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     data-cursor="link"
                     className={btnSecondary}
                   >
                     <span>{a.viewCv}</span>
                     <ExternalLinkIcon className="h-3.5 w-3.5 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-                  </Link>
+                  </a>
                   <a
                     href={asset(`/${cvFile}`)}
                     download={cvFile}
