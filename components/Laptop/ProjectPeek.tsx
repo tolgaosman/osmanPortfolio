@@ -53,8 +53,11 @@ export default function ProjectPeek({
   useEffect(() => {
     // Pick a random project on mount to ensure a different one shows each time,
     // without causing SSR hydration mismatches (since random differs on server vs client).
-    setIndex(Math.floor(Math.random() * Math.max(1, PEEKS.length)));
-    setMounted(true);
+    const timer = setTimeout(() => {
+      setIndex(Math.floor(Math.random() * Math.max(1, PEEKS.length)));
+      setMounted(true);
+    }, 0);
+    return () => clearTimeout(timer);
   }, []);
 
   useEffect(() => {

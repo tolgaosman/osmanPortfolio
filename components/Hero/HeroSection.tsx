@@ -80,7 +80,7 @@ function DesktopStage({ peekLabel }: { peekLabel: string }) {
           transition={{ ...orbitTransition(26, 2), rotate: floatTransition(16, 2) }}
         >
           <Laptop3D label={peekLabel}>
-            <ProjectPeek onOpen={(id) => {
+            <ProjectPeek onOpen={() => {
               // Without the modal, the laptop screen simply takes you to the projects section
               smoothScrollTo("projects");
             }} />

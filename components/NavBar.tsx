@@ -28,6 +28,8 @@ export default function NavBar() {
   const [scrolled, setScrolled] = useState(false);
   const [hidden, setHidden] = useState(false);
   const [active, setActive] = useState("home");
+  const isProjectsPage = pathname === "/projects" || pathname === "/projects/";
+  const currentActive = isProjectsPage ? "all-projects" : active;
   const [menuOpen, setMenuOpen] = useState(false);
   const lastScrollY = useRef(0);
   const suppressHideRef = useRef(false);
@@ -71,8 +73,7 @@ export default function NavBar() {
   }, []);
 
   useEffect(() => {
-    if (pathname === "/projects" || pathname === "/projects/") {
-      setActive("all-projects");
+    if (isProjectsPage) {
       return;
     }
 
@@ -102,7 +103,7 @@ export default function NavBar() {
     );
     sections.forEach((s) => observer.observe(s));
     return () => observer.disconnect();
-  }, [pathname]);
+  }, [pathname, isProjectsPage]);
 
   useEffect(() => {
     if (!menuOpen) return;
@@ -183,7 +184,7 @@ export default function NavBar() {
           className="hidden items-center gap-4 lg:flex"
         >
           {LINKS.map((link, index) => {
-            const isActive = active === link.id;
+            const isActive = currentActive === link.id;
             return (
               <React.Fragment key={link.id}>
                 <button
@@ -272,7 +273,7 @@ export default function NavBar() {
                     onClick={() => go(link)}
                     className={cn(
                       "flex w-full items-center justify-between px-5 py-3.5 font-mono text-sm transition-colors",
-                      active === link.id
+                      currentActive === link.id
                         ? "text-accent"
                         : "text-muted hover:text-text",
                     )}
