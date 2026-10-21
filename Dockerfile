@@ -18,7 +18,12 @@ RUN NODE_OPTIONS=--max-old-space-size=1024 npm run build
 FROM nginx:alpine
 
 # Copy the static export to Nginx html directory
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=builder /app/out /usr/share/nginx/html
 
-EXPOSE 80
+EXPOSE 80 4444
+# Traefik only routes to healthy containers; 127.0.0.1 avoids busybox wget
+# resolving localhost to ::1.
+HEALTHCHECK --interval=10s --timeout=3s --start-period=5s --retries=3 \
+    CMD wget -q -O /dev/null http://127.0.0.1/ || exit 1
 CMD ["nginx", "-g", "daemon off;"]
