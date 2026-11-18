@@ -77,7 +77,6 @@ export default function ProjectPeek({
       <button
         type="button"
         onClick={() => onOpen(peek.id)}
-        data-cursor="view"
         className="group absolute inset-0 block overflow-hidden text-left"
         aria-label={`${t.projects.viewDetails}: ${peek.title[lang]}`}
       >

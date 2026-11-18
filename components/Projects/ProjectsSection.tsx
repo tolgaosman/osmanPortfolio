@@ -32,7 +32,6 @@ export default function ProjectsSection() {
             </h2>
             <Link
               href="/projects"
-              data-cursor="link"
               className={cn(btnSecondary, "px-4 py-2 text-muted whitespace-nowrap")}
             >
               <ArrowUpRightIcon className="mr-2 h-4 w-4 inline" />

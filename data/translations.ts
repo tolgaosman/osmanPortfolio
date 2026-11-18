@@ -16,8 +16,6 @@ export const en = {
     backToTop: "Back to top",
   },
   footer: {
-    colophon:
-      "Built with Next.js and Tailwind. Set in Space Grotesk, JetBrains Mono and Inter.",
     elsewhere: "Elsewhere",
   },
   cv: {
@@ -225,8 +223,6 @@ export const tr: Dict = {
     backToTop: "Başa dön",
   },
   footer: {
-    colophon:
-      "Next.js ve Tailwind ile yapıldı. Space Grotesk, JetBrains Mono ve Inter ile dizildi.",
     elsewhere: "Diğer",
   },
   cv: {

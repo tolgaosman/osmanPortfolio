@@ -97,13 +97,13 @@ export default function AboutSection() {
                   set in; Space Grotesk's capital I is a bare stem, so a 4rem
                   first-letter on a paragraph starting "I'm" renders as a
                   stray quotation mark rather than as an initial. */}
-              <RevealItem as="p" data-cursor="text">
+              <RevealItem as="p">
                 {a.p1}
               </RevealItem>
-              <RevealItem as="p" data-cursor="text">
+              <RevealItem as="p">
                 {a.p2}
               </RevealItem>
-              <RevealItem as="p" data-cursor="text">
+              <RevealItem as="p">
                 {a.p3}
               </RevealItem>
 
@@ -131,7 +131,6 @@ export default function AboutSection() {
                     href={asset(`/${cvFile}`)}
                     target="_blank"
                     rel="noopener noreferrer"
-                    data-cursor="link"
                     className={btnSecondary}
                   >
                     <span>{a.viewCv}</span>
@@ -140,7 +139,6 @@ export default function AboutSection() {
                   <a
                     href={asset(`/${cvFile}`)}
                     download={cvFile}
-                    data-cursor="link"
                     className={btnSecondary}
                   >
                     <span>{a.downloadCv}</span>

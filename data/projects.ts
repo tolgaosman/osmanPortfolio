@@ -110,6 +110,7 @@ export const projects: Project[] = [
       year: "2024",
       images: [
         "/screenshots/staff-leave-tracker/1.png",
+        "/screenshots/staff-leave-tracker/2.png",
         "/screenshots/staff-leave-tracker/3.png",
         "/screenshots/staff-leave-tracker/4.png",
         "/screenshots/staff-leave-tracker/5.png",
@@ -123,7 +124,6 @@ export const projects: Project[] = [
         "/screenshots/staff-leave-tracker/13.png",
         "/screenshots/staff-leave-tracker/14.png",
         "/screenshots/staff-leave-tracker/15.png",
-        "/screenshots/staff-leave-tracker/16.png",
       ],
     },
   },

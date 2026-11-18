@@ -38,7 +38,6 @@ export default function LanguageToggle() {
             type="button"
             onClick={() => setLang(option)}
             aria-pressed={isActive}
-            data-cursor="link"
             className={cn(
               "relative rounded-full px-2.5 py-1 font-mono text-label uppercase transition-colors duration-200",
               isActive ? "text-bg" : "text-faint hover:text-text",

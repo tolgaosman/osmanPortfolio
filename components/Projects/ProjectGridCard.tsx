@@ -48,7 +48,6 @@ export default function ProjectGridCard({
       <button
         type="button"
         onClick={() => openProject(project.id)}
-        data-cursor="view"
         aria-label={`${p.viewDetails}: ${project.title[lang]}`}
         className="flex flex-1 flex-col text-left"
       >
@@ -135,7 +134,6 @@ export default function ProjectGridCard({
             href={primaryLink}
             target="_blank"
             rel="noopener noreferrer"
-            data-cursor="link"
             className="flex items-center gap-1.5 text-xs text-accent transition-colors hover:text-accent-bright"
           >
             {linkText}

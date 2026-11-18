@@ -186,12 +186,11 @@ export default function ProjectCard({
             {m.links}
           </h3>
           <div className="flex flex-wrap items-center gap-3">
-            {project.github && project.status !== "live" && (project.status === "intern" || project.category === "Mobile") && (
+            {project.github && (
               <a
                 href={project.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                data-cursor="link"
                 className={cn(btnSecondary, "px-4 py-2 text-muted")}
               >
                 <GitHubIcon className="h-4 w-4" />
@@ -203,7 +202,6 @@ export default function ProjectCard({
                 href={project.live}
                 target="_blank"
                 rel="noopener noreferrer"
-                data-cursor="link"
                 className={cn(
                   btnSecondary,
                   "border-accent bg-accent/10 px-4 py-2 text-accent hover:bg-accent hover:text-bg",
@@ -213,7 +211,7 @@ export default function ProjectCard({
                 {p.live}
               </a>
             )}
-            {(!project.github || project.status === "live" || (project.status !== "intern" && project.category !== "Mobile")) && !project.live && (
+            {!project.github && !project.live && (
               <span className="font-mono text-sm text-faint">
                 {p.privateRepo}
               </span>

@@ -37,11 +37,9 @@
        `background-attachment` stays at its default `scroll`. `fixed` would
        re-anchor the gradient to the viewport on every scroll frame, which is
        a full-surface repaint on iOS and shimmers on high-DPR panels. */
-    --crt: repeating-linear-gradient(
-      to bottom,
-      rgb(var(--ink) / 0.12) 0 1px,
-      transparent 1px 3px
-    );
+    --crt: repeating-linear-gradient(to bottom,
+        rgb(var(--ink) / 0.12) 0 1px,
+        transparent 1px 3px);
   }
 
   body {
@@ -88,12 +86,15 @@
   ::-webkit-scrollbar {
     width: 10px;
   }
+
   ::-webkit-scrollbar-track {
     background: var(--color-bg);
   }
+
   ::-webkit-scrollbar-thumb {
     background: var(--color-border-structural);
   }
+
   ::-webkit-scrollbar-thumb:hover {
     background: var(--color-accent-dim);
   }
@@ -284,16 +285,19 @@
   inherits: false;
   initial-value: 0deg;
 }
+
 @property --ry {
   syntax: "<angle>";
   inherits: false;
   initial-value: 0deg;
 }
+
 @property --sx {
   syntax: "<length>";
   inherits: false;
   initial-value: 50vw;
 }
+
 @property --sy {
   syntax: "<length>";
   inherits: false;
@@ -301,6 +305,7 @@
 }
 
 @layer utilities {
+
   /* ---------------------------------------------------------------------
      PERSPECTIVE GRID FLOOR
      Two repeating gradients on one plane, rotated back and travelling
@@ -339,16 +344,12 @@
        boundaries and shimmers on 2x DPR phones. The extra quarter-pixel with
        reduced alpha reads as the same hairline and stops the crawl. */
     background-image:
-      repeating-linear-gradient(
-        90deg,
+      repeating-linear-gradient(90deg,
         rgb(var(--accent-rgb) / 0.14) 0 1.25px,
-        transparent 1.25px var(--cell)
-      ),
-      repeating-linear-gradient(
-        0deg,
+        transparent 1.25px var(--cell)),
+      repeating-linear-gradient(0deg,
         rgb(var(--accent-rgb) / 0.14) 0 1.25px,
-        transparent 1.25px var(--cell)
-      );
+        transparent 1.25px var(--cell));
     animation: floor-travel 5.6s linear infinite;
     will-change: transform;
   }
@@ -360,12 +361,10 @@
     position: absolute;
     inset: 0;
     pointer-events: none;
-    background-image: linear-gradient(
-      to top,
-      transparent 0%,
-      transparent 20%,
-      var(--color-bg) 84%
-    );
+    background-image: linear-gradient(to top,
+        transparent 0%,
+        transparent 20%,
+        var(--color-bg) 84%);
   }
 
   /* ---------------------------------------------------------------------
@@ -386,12 +385,10 @@
     margin: -23rem 0 0 -23rem;
     pointer-events: none;
     border-radius: 50%;
-    background: radial-gradient(
-      circle closest-side,
-      rgb(var(--accent-rgb) / 0.16),
-      rgb(var(--accent-rgb) / 0.05) 45%,
-      transparent 100%
-    );
+    background: radial-gradient(circle closest-side,
+        rgb(var(--accent-rgb) / 0.16),
+        rgb(var(--accent-rgb) / 0.05) 45%,
+        transparent 100%);
     mix-blend-mode: screen;
     transform: translate3d(var(--sx), var(--sy), 0);
     will-change: transform;
@@ -519,11 +516,9 @@
        INSIDE the bezel rather than spilling onto the page. */
     background-image:
       var(--crt),
-      radial-gradient(
-        120% 100% at 50% 0%,
+      radial-gradient(120% 100% at 50% 0%,
         rgb(var(--accent-rgb) / 0.07),
-        transparent 70%
-      );
+        transparent 70%);
   }
 
   /* The hinge barrel. Lives on the rig rather than inside the lid so it stays
@@ -534,12 +529,10 @@
   .lap__hinge {
     transform: translateZ(1px);
     border-radius: 0 0 3px 3px;
-    background-image: linear-gradient(
-      to bottom,
-      rgb(var(--hilite) / 0.18) 0 1px,
-      var(--color-surface-2) 1px,
-      #060d0a 100%
-    );
+    background-image: linear-gradient(to bottom,
+        rgb(var(--hilite) / 0.18) 0 1px,
+        var(--color-surface-2) 1px,
+        #060d0a 100%);
   }
 
   /* The deck. preserve-3d because its front lip counter-rotates back to face
@@ -548,11 +541,9 @@
     transform-style: preserve-3d;
     transform-origin: 50% 0%;
     transform: rotateX(60deg);
-    background-image: linear-gradient(
-      to bottom,
-      var(--color-surface-2),
-      var(--color-surface)
-    );
+    background-image: linear-gradient(to bottom,
+        var(--color-surface-2),
+        var(--color-surface));
     border: 1px solid var(--color-border-structural);
     border-top: none;
     border-radius: 0 0 var(--radius-lg) var(--radius-lg);
@@ -581,11 +572,9 @@
     transform-origin: 50% 0%;
     transform: rotateX(-60deg);
     border-radius: var(--radius-lg) var(--radius-lg) 4px 4px;
-    background-image: linear-gradient(
-      to bottom,
-      var(--color-surface),
-      #08120d
-    );
+    background-image: linear-gradient(to bottom,
+        var(--color-surface),
+        #08120d);
     box-shadow: inset 0 1px 0 0 rgb(var(--hilite) / 0.06);
   }
 
@@ -594,11 +583,9 @@
      A radial gradient rather than a blurred box: `filter` on anything in this
      subtree would collapse transform-style to flat. */
   .lap__ground {
-    background-image: radial-gradient(
-      55% 50% at 50% 45%,
-      rgb(var(--ink) / 0.9),
-      transparent 72%
-    );
+    background-image: radial-gradient(55% 50% at 50% 45%,
+        rgb(var(--ink) / 0.9),
+        transparent 72%);
   }
 
   /* ---------------------------------------------------------------------
@@ -609,12 +596,15 @@
     background-image: linear-gradient(to bottom, #1d262b, #151c20);
     border-color: #2c3a42;
   }
+
   .lap--slate .lap__front {
     background-image: linear-gradient(to bottom, #151c20, #0c1114);
   }
+
   .lap--slate .lap__hinge {
     background-image: linear-gradient(to bottom, rgb(var(--hilite) / 0.18) 0 1px, #1d262b 1px, #0c1114 100%);
   }
+
   .lap--slate .lap__bezel {
     border-color: #2c3a42;
   }
@@ -623,15 +613,19 @@
     background-image: linear-gradient(to bottom, #a5b0b6, #87939a);
     border-color: #d4d8db;
   }
+
   .lap--silver .lap__front {
     background-image: linear-gradient(to bottom, #87939a, #69747a);
   }
+
   .lap--silver .lap__hinge {
-    background-image: linear-gradient(to bottom, rgba(255,255,255,0.7) 0 1px, #a5b0b6 1px, #69747a 100%);
+    background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.7) 0 1px, #a5b0b6 1px, #69747a 100%);
   }
+
   .lap--silver .lap__bezel {
     border-color: #87939a;
   }
+
   .lap--silver .lap__key {
     background-color: #111;
   }
@@ -673,73 +667,16 @@
     background-size: 0% 1px;
     transition: background-size 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   }
+
   .link-wipe:hover,
   .link-wipe:focus-visible {
     background-size: 100% 1px;
   }
 
-  /* Three grades, because the portrait sources need different amounts of
-     correction before they belong to the page.
-
-     `.photo-jade` is for the CUTOUT: a clean alpha matte with no background
-     left to fight, so it only needs a contact shadow and a light touch of
-     contrast — heavy desaturation on bare skin reads as ill, not as graded.
-     `.photo-jade-heavy` is for the FALLBACK rectangular photo, where the
-     original garden background is still in frame and has to be pulled hard
-     toward the palette or it fights the accent outright; it is layered under
-     `.photo-duotone`'s colour blend, which does most of that work by hue,
-     so this filter is mostly picking up contrast and depth. */
-  .photo-jade {
-    filter: saturate(0.92) contrast(1.05) brightness(0.99)
-      drop-shadow(0 24px 48px rgb(var(--ink) / 0.7));
-  }
-  .photo-jade-heavy {
-    filter: saturate(0.55) contrast(1.12) brightness(0.92)
-      drop-shadow(0 24px 48px rgb(var(--ink) / 0.7));
-  }
-  /* `.photo-jade-flat` is the same colour grade as `.photo-jade` with the
-     contact shadow removed: it is for a photograph inside a FRAME, where the
-     frame's own `shadow-plate` already carries the elevation and a
-     drop-shadow would only be clipped by the frame's overflow — an entire
-     filter pass rendering nothing. Used by the About portrait, which keeps
-     its background on purpose and must not be desaturated into a monochrome
-     plate the way the fallback hero treatment does. */
+  /* Used by the About portrait inside a frame, where the frame's own
+     `shadow-plate` already carries the elevation. */
   .photo-jade-flat {
     filter: saturate(0.92) contrast(1.05) brightness(0.99);
-  }
-
-  /* FALLBACK PATH ONLY — used while the source is a rectangular photograph
-     rather than an alpha cutout. HeroPortrait switches on one constant.
-
-     Two linear masks intersected rather than one radial. A radial large
-     enough not to cut the shoulders off only fades within a few percent of
-     the corners, which reads as a hard-edged photo pasted onto the page; two
-     crossed linears fade all four edges evenly and independently, so the
-     figure can keep its full width while still dissolving into the ground.
-
-     `-webkit-mask-composite: source-in` is the legacy spelling of the same
-     operation and has to come FIRST — Safari versions that understand the
-     standard `mask-composite` ignore the prefixed one, and versions that do
-     not would otherwise get an unmasked photo. */
-  .photo-feather {
-    -webkit-mask-image:
-      linear-gradient(90deg, transparent 0%, #000 20%, #000 80%, transparent 100%),
-      linear-gradient(180deg, transparent 0%, #000 15%, #000 84%, transparent 100%);
-    mask-image:
-      linear-gradient(90deg, transparent 0%, #000 20%, #000 80%, transparent 100%),
-      linear-gradient(180deg, transparent 0%, #000 15%, #000 84%, transparent 100%);
-    -webkit-mask-composite: source-in;
-    mask-composite: intersect;
-  }
-
-  /* Pushes the remaining photograph toward the accent so foliage, sky and
-     lawn read as one graded surface instead of as a colour photo dropped
-     into a monochrome page. `color` blend keeps the luminance — and so the
-     face — intact while replacing the hue. */
-  .photo-duotone {
-    background-color: var(--color-accent-dim);
-    mix-blend-mode: color;
-    opacity: 0.72;
   }
 
   /* Opaque surfaces that are NOT .plane slabs still have to carry the CRT
@@ -764,67 +701,16 @@
       inset 0 -1px 0 0 rgb(var(--ink) / 0.6);
   }
 
-  /* ---------------------------------------------------------------------
-     PINNED HORIZONTAL TRACK
-     The section is taller than the viewport by exactly the distance the
-     track has to travel; a sticky child holds the viewport still while that
-     extra height scrolls past, and JS translates the track along X by the
-     same distance.
-
-     The geometry is defined HERE rather than in JS so the page height is
-     correct in the exported HTML and there is zero layout shift while the
-     measurement settles. The component then measures `scrollWidth` of the
-     real DOM — which this CSS produced — so the two can only agree.
-
-     `--cards` is set inline from projects.length. `100svh`, not `100vh`: on
-     iOS the large viewport unit overshoots by the URL bar's height and the
-     pin releases before the last card has finished arriving.
-     --------------------------------------------------------------------- */
-  .pin {
-    --card-w: 62vw;
-    --gap: 4vw;
-    --pad: 6vw;
-    --travel: calc(
-      2 * var(--pad) + var(--cards) * var(--card-w) + (var(--cards) - 1) *
-        var(--gap) - 100vw
-    );
-    height: calc(100svh + var(--travel));
-  }
-
-  .pin__sticky {
-    position: sticky;
-    top: 0;
-    display: flex;
-    height: 100svh;
-    align-items: center;
-    /* Safe: nothing in this subtree is a preserve-3d assembly root. The
-       cards own their own `.lap` perspective contexts, which are leaves as
-       far as this container is concerned. */
-    overflow: hidden;
-  }
-
-  .pin__track {
-    display: flex;
-    gap: var(--gap);
-    padding-inline: var(--pad);
-    will-change: transform;
-  }
-
-  .pin__track > * {
-    flex: 0 0 var(--card-w);
-  }
-
   .marquee-track {
     animation: marquee 38s linear infinite;
   }
+
   .marquee-mask {
-    -webkit-mask-image: linear-gradient(
-      90deg,
-      transparent,
-      #000 8%,
-      #000 92%,
-      transparent
-    );
+    -webkit-mask-image: linear-gradient(90deg,
+        transparent,
+        #000 8%,
+        #000 92%,
+        transparent);
     mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
   }
 }
@@ -833,16 +719,19 @@
   from {
     transform: rotateX(76deg) translateY(0);
   }
+
   to {
     transform: rotateX(76deg) translateY(var(--cell));
   }
 }
 
 @keyframes caret-blink {
+
   0%,
   50% {
     opacity: 1;
   }
+
   50.01%,
   100% {
     opacity: 0;
@@ -853,6 +742,7 @@
   from {
     transform: translate3d(0, -110%, 0);
   }
+
   to {
     transform: translate3d(0, 110svh, 0);
   }
@@ -862,6 +752,7 @@
   from {
     transform: translate3d(0, 0, 0);
   }
+
   to {
     /* The track renders its content twice; travelling exactly half its width
        returns it to a visually identical position. */
@@ -870,20 +761,24 @@
 }
 
 @keyframes glitch-shift {
+
   0%,
   92%,
   100% {
     transform: translate3d(0, 0, 0);
     opacity: 0;
   }
+
   93% {
     transform: translate3d(-3px, 1px, 0);
     opacity: 0.55;
   }
+
   95% {
     transform: translate3d(2px, -1px, 0);
     opacity: 0.4;
   }
+
   97% {
     transform: translate3d(-1px, 0, 0);
     opacity: 0.5;
@@ -899,6 +794,7 @@
    outright, because a frozen column of glyphs is worse than no column at all.
    The CRT texture goes with it by emptying --crt. */
 @media (prefers-reduced-motion: reduce) {
+
   *,
   *::before,
   *::after {

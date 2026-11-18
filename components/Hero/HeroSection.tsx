@@ -80,9 +80,12 @@ function DesktopStage({ peekLabel }: { peekLabel: string }) {
           transition={{ ...orbitTransition(26, 2), rotate: floatTransition(16, 2) }}
         >
           <Laptop3D label={peekLabel}>
-            <ProjectPeek onOpen={() => {
-              // Without the modal, the laptop screen simply takes you to the projects section
-              smoothScrollTo("projects");
+            <ProjectPeek onOpen={(id) => {
+              if (document.getElementById(`project-${id}`)) {
+                smoothScrollTo(`project-${id}`);
+              } else {
+                smoothScrollTo("projects");
+              }
             }} />
           </Laptop3D>
         </motion.div>
@@ -256,7 +259,6 @@ export default function HeroSection() {
                 whileHover={{ y: -2 }}
                 whileTap={{ scale: 0.98 }}
                 transition={{ duration: 0.25, ease: EASE_OUT }}
-                data-cursor="link"
                 className={cn(btnPrimary, "group")}
               >
                 {h.viewWork}
@@ -268,7 +270,6 @@ export default function HeroSection() {
                   is the opposite of a hierarchy. */}
               <button
                 onClick={() => smoothScrollTo("contact")}
-                data-cursor="link"
                 className="group inline-flex min-h-11 items-center gap-1.5 font-mono text-sm text-muted transition-colors hover:text-text"
               >
                 <span className="link-wipe">{h.contactMe}</span>

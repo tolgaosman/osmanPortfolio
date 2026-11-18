@@ -154,7 +154,6 @@ function ModalPanel({
             type="button"
             onClick={onClose}
             aria-label={m.close}
-            data-cursor="link"
             className="-mr-2 flex h-11 w-11 shrink-0 items-center justify-center rounded-md text-muted transition-colors hover:bg-surface hover:text-text sm:-mr-1 sm:h-8 sm:w-8"
           >
             <CloseIcon className="h-4 w-4" />
@@ -276,7 +275,6 @@ function ModalPanel({
                         href={project.github}
                         target="_blank"
                         rel="noopener noreferrer"
-                        data-cursor="link"
                         className={cn(btnSecondary, "px-4 py-2 text-muted")}
                       >
                         <GitHubIcon className="h-4 w-4" />
@@ -288,7 +286,6 @@ function ModalPanel({
                         href={project.live}
                         target="_blank"
                         rel="noopener noreferrer"
-                        data-cursor="link"
                         className={cn(
                           btnSecondary,
                           "border-accent bg-accent/10 px-4 py-2 text-accent hover:bg-accent hover:text-bg",
@@ -417,7 +414,6 @@ function ModalPanel({
                         href={project.github}
                         target="_blank"
                         rel="noopener noreferrer"
-                        data-cursor="link"
                         className={cn(btnSecondary, "px-4 py-2 text-muted")}
                       >
                         <GitHubIcon className="h-4 w-4" />
@@ -429,7 +425,6 @@ function ModalPanel({
                         href={project.live}
                         target="_blank"
                         rel="noopener noreferrer"
-                        data-cursor="link"
                         className={cn(
                           btnSecondary,
                           "border-accent bg-accent/10 px-4 py-2 text-accent hover:bg-accent hover:text-bg",

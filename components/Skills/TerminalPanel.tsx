@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import { BrandMark } from "@/components/BrandMarks";
 import { projects } from "@/data/projects";
 import { skillCategories } from "@/data/skills";
@@ -73,6 +74,7 @@ const INITIAL: Entry[] = [
 
 export default function TerminalPanel() {
   const { lang, t } = useLang();
+  const router = useRouter();
   const term = t.skills.terminal;
 
   const [entries, setEntries] = useState<Entry[]>(INITIAL);
@@ -159,7 +161,11 @@ export default function TerminalPanel() {
           kind: "note",
           value: term.opening.replace("{0}", project.title[lang]),
         });
-        smoothScrollTo("projects");
+        if (document.getElementById(`project-${project.id}`)) {
+          smoothScrollTo(`project-${project.id}`);
+        } else {
+          router.push("/projects");
+        }
         return;
       }
       default:
@@ -262,7 +268,6 @@ export default function TerminalPanel() {
             key={cmd}
             type="button"
             onClick={() => run(term.commandNames[cmd as keyof typeof term.commandNames])}
-            data-cursor="link"
             className={btnCommand}
           >
             {term.commandNames[cmd as keyof typeof term.commandNames]}

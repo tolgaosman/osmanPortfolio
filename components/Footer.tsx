@@ -28,7 +28,6 @@ export default function Footer() {
 
           <button
             onClick={() => smoothScrollTo("home")}
-            data-cursor="link"
             className={btnSecondarySm}
           >
             {t.nav.backToTop}

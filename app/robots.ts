@@ -1,8 +1,7 @@
 import type { MetadataRoute } from "next";
+import { siteConfig } from "@/data/site";
 
 export const dynamic = "force-static";
-
-const SITE_URL = "https://tolgaosman.github.io/osmanPortfolio";
 
 export default function robots(): MetadataRoute.Robots {
   return {
@@ -10,6 +9,6 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: "*",
       allow: "/",
     },
-    sitemap: `${SITE_URL}/sitemap.xml`,
+    sitemap: `${siteConfig.url}/sitemap.xml`,
   };
 }

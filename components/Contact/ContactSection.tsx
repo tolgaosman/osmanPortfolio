@@ -89,7 +89,6 @@ export default function ContactSection() {
                       href={row.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      data-cursor="link"
                       className="link-wipe font-mono text-sm text-text"
                     >
                       {row.value}
@@ -97,7 +96,6 @@ export default function ContactSection() {
                     <button
                       type="button"
                       onClick={() => copy(row.value)}
-                      data-cursor="link"
                       className="relative inline-flex min-h-9 items-center rounded-xs border border-border px-2.5 py-0.5 font-mono text-[0.625rem] uppercase text-faint transition-colors hover:border-accent-dim hover:text-accent sm:min-h-0 sm:px-2"
                     >
                       <AnimatePresence mode="wait" initial={false}>
@@ -131,7 +129,6 @@ export default function ContactSection() {
                         href={link.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        data-cursor="link"
                         className={cn(
                           "group flex items-center gap-3 rounded-md border border-transparent px-3 py-2.5 -mx-3 transition-colors",
                           "hover:border-border hover:bg-surface-2",

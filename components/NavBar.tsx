@@ -171,7 +171,6 @@ export default function NavBar() {
       <div className="mx-auto flex max-w-[92rem] items-center justify-between gap-2 px-3 py-2.5 sm:gap-4 sm:px-6">
         <button
           onClick={() => go({ id: "home" })}
-          data-cursor="link"
           className="min-w-0 shrink font-display text-sm font-medium tracking-tight text-text sm:shrink-0 sm:text-base"
         >
           {nameParts.slice(0, -1).join(" ")}{" "}
@@ -190,7 +189,6 @@ export default function NavBar() {
                 <button
                   onClick={() => go(link)}
                   aria-current={isActive ? "true" : undefined}
-                  data-cursor="link"
                   className={cn(
                     "relative px-1 py-1.5 font-mono text-label uppercase transition-colors duration-200",
                     isActive ? "text-accent" : "text-muted hover:text-text",
@@ -220,7 +218,6 @@ export default function NavBar() {
           <LanguageToggle />
           <button
             onClick={() => go({ id: "contact" })}
-            data-cursor="link"
             className={cn(btnSecondary, "hidden px-4 py-1.5 text-label uppercase sm:inline-flex")}
           >
             {t.nav.hireMe}
@@ -233,7 +230,6 @@ export default function NavBar() {
             aria-expanded={menuOpen}
             aria-controls={MOBILE_MENU_ID}
             aria-label={menuOpen ? t.nav.closeMenu : t.nav.openMenu}
-            data-cursor="link"
             className="flex h-11 w-11 items-center justify-center rounded-md border border-border text-text lg:hidden"
           >
             <span className="relative block h-3 w-4">

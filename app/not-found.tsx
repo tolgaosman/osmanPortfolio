@@ -32,7 +32,7 @@ export default function NotFound() {
           <p className="text-faint">
             {"  the page was moved, renamed, or never existed"}
           </p>
-          <p className="text-accent">{"  1 known route: /"}</p>
+          <p className="text-accent">{"  3 known routes: /, /projects, /cv"}</p>
         </div>
 
         <div className="border-t border-border bg-surface p-6">
