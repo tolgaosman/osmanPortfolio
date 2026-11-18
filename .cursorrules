@@ -11,5 +11,5 @@ See CLAUDE.md for the full architectural ground truth. This file is the condense
 ## Code law
 - Next.js 16 (App Router), React 19, TypeScript, Tailwind CSS v4.
 - TypeScript, component-driven, one clear state shape per feature.
-- Content is data-driven (edit `data/projects.ts` and `data/skills.ts`).
+- Content is data-driven (edit `data/projects.ts` and `data/skills.ts`). When adding/updating a project in `data/projects.ts`, check if its GitHub repo is public or private: set `github` URL only if public (shows `Source` button), set `github: null` if private (hides `Source` button).
 - Before moving to the next task: code must run, `npm run lint` must pass.

@@ -2,6 +2,11 @@ import type { Project, ProjectCategory } from "@/types";
 
 export const PROJECT_CATEGORIES: ("All" | ProjectCategory)[] = ["All", "Web", "Intern"];
 
+/**
+ * Source-link rule: ONLY set `github` to a URL when the GitHub repository is
+ * verified PUBLIC (renders the `Source` button on cards and modals). If a
+ * repository is PRIVATE, set `github: null` so no `Source` button is shown.
+ */
 export const projects: Project[] = [
 
   {
@@ -16,7 +21,7 @@ export const projects: Project[] = [
     },
     category: "Web",
     stack: ["HTML", "CSS", "JavaScript"],
-    github: "https://github.com/tolgaosman/webAS",
+    github: null,
     live: "https://alarasysn.com",
     status: "live",
     details: {
@@ -52,14 +57,16 @@ export const projects: Project[] = [
       },
       year: "2024",
       images: [
-        "/screenshots/alara-soysan/alara1.webp",
-        "/screenshots/alara-soysan/alara2.webp",
-        "/screenshots/alara-soysan/alara3.webp",
-        "/screenshots/alara-soysan/alara4.webp",
-        "/screenshots/alara-soysan/alara5.webp",
-        "/screenshots/alara-soysan/alara6.webp",
-        "/screenshots/alara-soysan/alara7.webp",
-        "/screenshots/alara-soysan/alara8.webp",
+        "/screenshots/alara-soysan/alara1.png",
+        "/screenshots/alara-soysan/alara2.png",
+        "/screenshots/alara-soysan/alara3.png",
+        "/screenshots/alara-soysan/alara4.png",
+        "/screenshots/alara-soysan/alara5.png",
+        "/screenshots/alara-soysan/alara6.png",
+        "/screenshots/alara-soysan/alara7.png",
+        "/screenshots/alara-soysan/alara8.png",
+        "/screenshots/alara-soysan/alara9.png",
+        "/screenshots/alara-soysan/alara10.png",
       ],
     },
   },
@@ -123,7 +130,6 @@ export const projects: Project[] = [
         "/screenshots/staff-leave-tracker/12.png",
         "/screenshots/staff-leave-tracker/13.png",
         "/screenshots/staff-leave-tracker/14.png",
-        "/screenshots/staff-leave-tracker/15.png",
       ],
     },
   },
@@ -215,7 +221,7 @@ export const projects: Project[] = [
     },
     category: "Web",
     stack: ["Next.js", "React", "Tailwind CSS", "TypeScript"],
-    github: "https://github.com/tolgaosman/sevgi-butik",
+    github: null,
     live: "https://sevgibutik.com",
     status: "live",
     details: {
