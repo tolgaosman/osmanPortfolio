@@ -2,7 +2,7 @@ import { ImageResponse } from "next/og";
 import { siteConfig } from "@/data/site";
 
 export const dynamic = "force-static";
-export const alt = "Tolga Osman — Web & mobile developer, Nicosia";
+export const alt = "Tolga Osman — Web developer, Nicosia";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -144,7 +144,7 @@ export default async function OpengraphImage() {
             }}
           >
             <div style={{ width: 12, height: 12, backgroundColor: COLOR.accent }} />
-            Web &amp; mobile developer · Nicosia, Cyprus
+            Web developer · Nicosia, Cyprus
           </div>
 
           <div
@@ -159,7 +159,7 @@ export default async function OpengraphImage() {
               maxWidth: 900,
             }}
           >
-            I build websites and mobile apps, end to end.
+            I build websites and web apps, end to end.
           </div>
 
           <div
@@ -174,7 +174,7 @@ export default async function OpengraphImage() {
             }}
           >
             <div style={{ display: "flex" }}>
-              Next.js · React · TypeScript · Flutter · Laravel
+              Next.js · React · TypeScript · Tailwind · Laravel
             </div>
             <div style={{ display: "flex", color: COLOR.muted }}>
               {host}

@@ -26,13 +26,10 @@ export const en = {
   },
   hero: {
     // Location folded into the role line, replacing the mono meta strip.
-    roleTitle: "Web & mobile developer · Nicosia, Cyprus",
+    roleTitle: "Web developer · Nicosia, Cyprus",
     slogan: "Transforming complex requirements into elegant, high-performance software.",
-    // Not rendered in the hero any more — its first sentence duplicated
-    // about.p1 almost word for word. Kept because the second half ("from the
-    // first conversation to the live URL") exists nowhere else on the site.
     description:
-      "I'm a final-year software engineering student in Nicosia. Most of what I do is client work: websites and mobile apps, taken from the first conversation to the live URL.",
+      "I'm a final-year software engineering student in Nicosia. Most of what I do is client work: modern websites and full-stack web applications, taken from the first conversation to the live URL.",
     viewWork: "See the work",
     contactMe: "Get in touch",
   },
@@ -128,7 +125,7 @@ export const en = {
     subtitle: "No proficiency bars — just what I've actually shipped with.",
     categories: {
       web: "Web",
-      languages: "Backend & mobile",
+      languages: "Backend",
     },
     softSkillsTitle: "Working with me",
     softSkills: [
@@ -232,10 +229,10 @@ export const tr: Dict = {
       "Tarayıcınız bu PDF'i sayfa içinde gösteremiyor. Bunun yerine indirebilirsiniz.",
   },
   hero: {
-    roleTitle: "Web & mobil geliştirici · Lefkoşa, Kıbrıs",
+    roleTitle: "Web geliştirici · Lefkoşa, Kıbrıs",
     slogan: "Karmaşık gereksinimleri zarif ve yüksek performanslı yazılımlara dönüştürüyorum.",
     description:
-      "Lefkoşa'da yazılım mühendisliği son sınıf öğrencisiyim. Fikir aşamasından yayına alınma sürecine kadar, müşterilerim için uçtan uca web siteleri ve mobil uygulamalar geliştiriyorum.",
+      "Lefkoşa'da yazılım mühendisliği son sınıf öğrencisiyim. Fikir aşamasından yayına alınma sürecine kadar, müşterilerim için uçtan uca modern web siteleri ve tam yığın web uygulamaları geliştiriyorum.",
     viewWork: "Projelere bak",
     contactMe: "İletişime geç",
   },
@@ -331,7 +328,7 @@ export const tr: Dict = {
     subtitle: "Yüzdelik çubuk yok; sadece gerçekten iş çıkardıklarım.",
     categories: {
       web: "Web",
-      languages: "Backend & mobil",
+      languages: "Backend",
     },
     softSkillsTitle: "Benimle çalışmak",
     softSkills: [

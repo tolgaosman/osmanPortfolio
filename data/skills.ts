@@ -18,7 +18,7 @@ export const skillCategories: SkillCategory[] = [
   {
     name: "languages",
     tag: "~/backend",
-    skills: ["PHP", "Laravel", "SQL", "Dart / Flutter"],
+    skills: ["PHP", "Laravel", "SQL", "Docker"],
   },
 ];
 

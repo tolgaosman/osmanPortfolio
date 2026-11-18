@@ -9,7 +9,7 @@ import {
   SiPhp,
   SiLaravel,
   SiMysql,
-  SiFlutter,
+  SiDocker,
 } from "@icons-pack/react-simple-icons";
 import type { ComponentType } from "react";
 
@@ -37,7 +37,7 @@ export const BRAND_MARKS: Record<string, ComponentType<{ className?: string }>> 
   PHP: SiPhp,
   Laravel: SiLaravel,
   SQL: SiMysql,
-  "Dart / Flutter": SiFlutter,
+  Docker: SiDocker,
 };
 
 export function BrandMark({

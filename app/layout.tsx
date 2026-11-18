@@ -65,9 +65,9 @@ const CSP = [
 ].join("; ");
 
 const SITE_URL = siteConfig.url;
-const SITE_TITLE = "Tolga Osman Falay — Software Engineering Student & Web/Mobile Developer";
+const SITE_TITLE = "Tolga Osman Falay — Software Engineering Student & Web Developer";
 const SITE_DESCRIPTION =
-  "Software engineering student in Nicosia. I build websites and mobile apps end to end, from the first conversation to the live URL.";
+  "Software engineering student in Nicosia. I build websites and full-stack web applications end to end, from the first conversation to the live URL.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -76,9 +76,10 @@ export const metadata: Metadata = {
   keywords: [
     "Software Engineering Student",
     "Web Developer",
-    "Mobile Developer",
+    "Full-Stack Developer",
     "Next.js",
-    "Flutter",
+    "React",
+    "Laravel",
     "Tolga Osman",
   ],
   authors: [{ name: siteConfig.shortName, url: SITE_URL }],
@@ -131,7 +132,7 @@ function personJsonLd() {
     "@type": "Person",
     name: siteConfig.name,
     url: SITE_URL,
-    jobTitle: "Software Engineering Student & Web/Mobile Developer",
+    jobTitle: "Software Engineering Student & Web Developer",
     alumniOf: {
       "@type": "CollegeOrUniversity",
       name: "Eastern Mediterranean University",

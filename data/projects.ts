@@ -16,8 +16,8 @@ export const projects: Project[] = [
       tr: "Alara Soysan Portföyü",
     },
     description: {
-      en: "Minimalist branding portfolio with custom folder-tabs and polaroid-style image grids.",
-      tr: "Klasör sekmeli tasarım ve polaroid resim ızgaralı minimalist pazarlama portföyü.",
+      en: "Bilingual Y2K/scrapbook marketing portfolio with interactive campaign showcases, Windows XP certificate folders, and WhatsApp integration.",
+      tr: "Etkileşimli kampanya vitrinleri, Windows XP tarzı sertifika klasörleri ve WhatsApp entegrasyonu içeren iki dilli Y2K/kolaj pazarlama portföyü.",
     },
     category: "Web",
     stack: ["HTML", "CSS", "JavaScript"],
@@ -26,36 +26,36 @@ export const projects: Project[] = [
     status: "live",
     details: {
       overview: {
-        en: "A personal branding portfolio built for creative professional Alara Soysan. The design leans into a tactile, analog feeling — manila folder tabs for navigation and polaroid-style photo frames — while staying fast and fully responsive. Hand-built from scratch with vanilla HTML, CSS, and JavaScript, with no framework overhead, the site loads instantly and works flawlessly down to small mobile screens.",
-        tr: "Yaratıcı profesyonel Alara Soysan için hazırlanmış kişisel marka portföyü. Tasarım; gezinme için klasör sekmeleri ve polaroid tarzı fotoğraf çerçeveleriyle dokunsal, analog bir his yakalarken hızlı ve tamamen duyarlı kalıyor. Hiçbir framework yükü olmadan sıfırdan saf HTML, CSS ve JavaScript ile inşa edildi; site anında yükleniyor ve küçük mobil ekranlara kadar kusursuz çalışıyor.",
+        en: "A vibrant, bilingual (TR/EN) marketing and personal branding portfolio crafted for Rotterdam-based international business student and employer-branding specialist Alara Soysan. Redesigned from the ground up around a tactile Y2K scrapbook aesthetic — denim and leopard-print textures, ripped notebook paper, taped polaroids, and sticky-note skill cards — the site showcases her marketing campaigns, resume timeline, and interactive Windows XP-inspired certificate folders, closing with an airmail postcard form that sends inquiries straight to WhatsApp.",
+        tr: "Rotterdam merkezli uluslararası işletme öğrencisi ve işveren markası uzmanı Alara Soysan için tasarlanan, Türkçe ve İngilizce iki dilli kişisel pazarlama portföyü. Kot ve leopar dokuları, yırtık defter sayfaları, bantlanmış polaroid kareler ve post-it yetenek kartlarıyla dokunsal bir Y2K kolaj (scrapbook) estetiği etrafında baştan sona yenilendi. Seçilmiş pazarlama kampanyalarını, özgeçmiş zaman çizelgesini ve Windows XP esintili etkileşimli sertifika klasörlerini bir araya getiren site, mesajları doğrudan WhatsApp'a ileten kartpostal tarzı iletişim formuyla tamamlanıyor.",
       },
       features: [
         {
-          en: "Custom folder-tab navigation that mimics a physical document organizer",
-          tr: "Fiziksel bir dosya düzenleyiciyi taklit eden özel klasör-sekme navigasyonu",
+          en: "Tactile Y2K scrapbook aesthetic with ripped-paper edges, taped polaroids, and sticky-note cards",
+          tr: "Yırtık kağıt kenarları, bantlanmış polaroidler ve post-it kartlarla dokunsal Y2K kolaj (scrapbook) estetiği",
         },
         {
-          en: "Polaroid-style image grid with subtle tilt and hover interactions",
-          tr: "İnce eğim ve hover etkileşimleri içeren polaroid tarzı resim ızgarası",
+          en: "Interactive Windows XP-inspired desktop section with clickable certificate folders",
+          tr: "Tıklanabilir sertifika klasörleri içeren nostaljik Windows XP esintili interaktif bölüm",
         },
         {
-          en: "Fully responsive layout, optimized from desktop down to mobile",
-          tr: "Masaüstünden mobile kadar optimize edilmiş tamamen duyarlı düzen",
+          en: "Curated marketing campaign showcase with case-study views and inline/downloadable CV access",
+          tr: "Kampanya incelemeleri sunan portfolyo vitrini ve çevrimiçi görüntülenebilir/indirilebilir özgeçmiş alanı",
         },
         {
-          en: "Zero-dependency vanilla build for instant load times",
-          tr: "Anında yükleme için bağımlılıksız saf (vanilla) yapı",
+          en: "Instant Turkish / English (TR/EN) language switcher across the entire experience",
+          tr: "Tüm sayfa içeriğini anında değiştiren Türkçe / İngilizce (TR/EN) dil desteği",
         },
         {
-          en: "Deployed on a custom domain (alarasysn.com)",
-          tr: "Özel alan adında yayında (alarasysn.com)",
+          en: "Airmail postcard-styled contact form wired directly to WhatsApp on a custom domain (alarasysn.com)",
+          tr: "Özel alan adında (alarasysn.com) doğrudan WhatsApp'a bağlanan kartpostal tasarımlı iletişim formu",
         },
       ],
       role: {
         en: "Design + Front-end build",
         tr: "Tasarım + Ön yüz geliştirme",
       },
-      year: "2024",
+      year: "2026",
       images: [
         "/screenshots/alara-soysan/alara1.png",
         "/screenshots/alara-soysan/alara2.png",

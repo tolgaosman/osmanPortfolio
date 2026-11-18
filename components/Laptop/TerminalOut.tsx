@@ -23,6 +23,7 @@ const LINES: readonly Line[] = [
   { text: "✓ Compiled successfully", tone: "ok" },
   { text: "  Route (app)              Size", tone: "dim" },
   { text: "  ○ /                      static", tone: "dim" },
+  { text: "  ○ /projects              static", tone: "dim" },
   { text: "  ○ /cv                    static", tone: "dim" },
   { text: "✓ Exporting (4/4)", tone: "ok" },
 ];
