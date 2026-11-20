@@ -146,7 +146,7 @@ export default function ContactForm() {
                 onClick={() => pickChannel(ch)}
                 aria-pressed={active}
                 className={cn(
-                  "flex-1 rounded-sm border px-4 py-2.5 font-mono text-sm transition-colors duration-300",
+                  "flex min-h-11 flex-1 items-center justify-center rounded-sm border px-4 py-2.5 font-mono text-sm transition-colors duration-300 sm:min-h-0",
                   // Tinted, not filled. This is a state indicator, and a
                   // solid accent block here competes with the submit button
                   // directly below it for "the loud green thing you press".

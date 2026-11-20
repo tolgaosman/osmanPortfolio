@@ -107,7 +107,7 @@ export default function AboutSection() {
                 {a.p3}
               </RevealItem>
 
-              <RevealItem className="mt-14 flex flex-col gap-10 border-t border-border-faint pt-10 sm:flex-row sm:items-end sm:justify-between">
+              <RevealItem className="mt-14 flex flex-col gap-10 border-t border-border-faint pt-10 md:flex-row md:items-end md:justify-between">
                 <dl className="w-full max-w-sm space-y-3.5 flex-1">
                   {facts.map(({ label, value }) => (
                     <div key={label} className="font-mono text-xs">
@@ -126,7 +126,7 @@ export default function AboutSection() {
                   ))}
                 </dl>
 
-                <div className="flex shrink-0 items-center gap-3">
+                <div className="flex shrink-0 flex-wrap items-center gap-3">
                   <a
                     href={asset(`/${cvFile}`)}
                     target="_blank"

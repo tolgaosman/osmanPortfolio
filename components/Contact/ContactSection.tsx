@@ -84,12 +84,12 @@ export default function ContactSection() {
                   <dt className="font-mono text-label uppercase text-faint">
                     {row.label}
                   </dt>
-                  <dd className="flex items-center gap-3">
+                  <dd className="flex min-w-0 flex-wrap items-center gap-3">
                     <a
                       href={row.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="link-wipe font-mono text-sm text-text"
+                      className="link-wipe break-all font-mono text-sm text-text sm:break-normal"
                     >
                       {row.value}
                     </a>

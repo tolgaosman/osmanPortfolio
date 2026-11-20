@@ -19,14 +19,14 @@ export default function CvViewer() {
   const cvFile = lang === "tr" ? "osmanCVtr.pdf" : "osmanCVen.pdf";
 
   return (
-    <div className="flex h-screen w-screen flex-col bg-bg">
+    <div className="flex min-h-[100svh] w-full flex-col bg-bg sm:h-[100svh]">
       <header className="flex shrink-0 items-center justify-between gap-4 border-b border-border-structural px-4 py-3 sm:px-6">
         <Link href="/" className={`${btnSecondarySm} group`}>
           {/* The one arrow glyph in Icons.tsx, turned to point back west. */}
           <ArrowUpRightIcon className="h-3 w-3 -rotate-[135deg] transition-transform duration-300 group-hover:-translate-x-0.5" />
           {t.cv.back}
         </Link>
-        <div className="flex items-center gap-2">
+        <div className="hidden items-center gap-4 sm:flex">
           <a
             href={asset(`/${cvFile}`)}
             target="_blank"

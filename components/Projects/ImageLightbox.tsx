@@ -161,21 +161,30 @@ function LightboxPanel({
       </div>
 
       {/* Stage — plain surface with no CRT scanlines over the photograph. */}
-      <div className="relative flex min-h-0 flex-1 items-center justify-center p-4 sm:p-10">
+      <div className="relative flex min-h-0 flex-1 items-center justify-center p-3 sm:p-10">
         <motion.div
           key={images[index]}
           initial={{ opacity: 0, scale: 0.97 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.98 }}
           transition={SPRING_SOFT}
+          drag={single ? false : "x"}
+          dragDirectionLock
+          dragConstraints={{ left: 0, right: 0 }}
+          dragElastic={0.18}
+          onDragEnd={(_, info) => {
+            const throw_ = info.offset.x + info.velocity.x * 0.2;
+            if (throw_ < -60) onPaginate(1);
+            else if (throw_ > 60) onPaginate(-1);
+          }}
           onClick={(e) => e.stopPropagation()}
-          className="relative flex max-h-full max-w-full items-center justify-center"
+          className="relative flex max-h-full max-w-full touch-pan-y items-center justify-center"
         >
           <img
             src={asset(images[index])}
             alt={`${title} — ${altLabel} ${index + 1}`}
             draggable={false}
-            className="max-h-[82svh] max-w-[92vw] rounded-sm border border-border-structural object-contain shadow-float"
+            className="max-h-[76svh] max-w-[95vw] rounded-sm border border-border-structural object-contain shadow-float sm:max-h-[82svh] sm:max-w-[90vw]"
           />
         </motion.div>
 
@@ -188,7 +197,7 @@ function LightboxPanel({
                 onPaginate(-1);
               }}
               aria-label={m.prevImage}
-              className="absolute left-3 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-md border border-border-strong bg-surface/90 text-text shadow-plate backdrop-blur-sm transition-all duration-200 hover:border-accent hover:bg-surface hover:text-accent active:scale-95 sm:left-6 sm:h-10 sm:w-10"
+              className="absolute left-6 top-1/2 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-md border border-border-strong bg-surface/90 text-text shadow-plate backdrop-blur-sm transition-all duration-200 hover:border-accent hover:bg-surface hover:text-accent active:scale-95 sm:flex"
             >
               <ChevronLeftIcon className="h-5 w-5" />
             </button>
@@ -199,13 +208,41 @@ function LightboxPanel({
                 onPaginate(1);
               }}
               aria-label={m.nextImage}
-              className="absolute right-3 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-md border border-border-strong bg-surface/90 text-text shadow-plate backdrop-blur-sm transition-all duration-200 hover:border-accent hover:bg-surface hover:text-accent active:scale-95 sm:right-6 sm:h-10 sm:w-10"
+              className="absolute right-6 top-1/2 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-md border border-border-strong bg-surface/90 text-text shadow-plate backdrop-blur-sm transition-all duration-200 hover:border-accent hover:bg-surface hover:text-accent active:scale-95 sm:flex"
             >
               <ChevronRightIcon className="h-5 w-5" />
             </button>
           </>
         )}
       </div>
+
+      {/* Mobile thumb-reach navigation bar so side arrows never cover the image */}
+      {!single && (
+        <div
+          onClick={(e) => e.stopPropagation()}
+          className="flex shrink-0 items-center justify-between gap-4 border-t border-border bg-surface-2 px-4 py-3 sm:hidden"
+        >
+          <button
+            type="button"
+            onClick={() => onPaginate(-1)}
+            aria-label={m.prevImage}
+            className="flex h-11 min-w-11 items-center justify-center rounded-md border border-border-strong bg-surface px-4 text-text transition-colors active:scale-95"
+          >
+            <ChevronLeftIcon className="h-5 w-5" />
+          </button>
+          <span aria-hidden="true" className="font-mono text-xs text-muted">
+            {index + 1} / {count}
+          </span>
+          <button
+            type="button"
+            onClick={() => onPaginate(1)}
+            aria-label={m.nextImage}
+            className="flex h-11 min-w-11 items-center justify-center rounded-md border border-border-strong bg-surface px-4 text-text transition-colors active:scale-95"
+          >
+            <ChevronRightIcon className="h-5 w-5" />
+          </button>
+        </div>
+      )}
     </motion.div>
   );
 }

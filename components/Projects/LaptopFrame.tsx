@@ -19,7 +19,7 @@ export default function LaptopFrame({
   className?: string;
 }) {
   return (
-    <div className={cn("relative", className)}>
+    <div className={cn("relative px-2 sm:px-0", className)}>
       <div className="relative rounded-t-xl border border-b-0 border-border-structural bg-[rgb(var(--ink))] p-2 shadow-plate sm:p-2.5">
         {/* Camera, centred in the top bezel. */}
         <span

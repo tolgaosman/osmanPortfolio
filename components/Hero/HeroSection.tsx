@@ -149,7 +149,7 @@ function MobileMachines() {
       className="mt-12 flex items-start justify-center gap-8 pb-20 sm:gap-10 sm:pb-24"
     >
       <motion.div animate={{ y: [0, -8, 0] }} transition={floatTransition(6, 0.6)}>
-        <Laptop3D label="Source code" className="w-[14rem] shrink-0 sm:w-[16rem]">
+        <Laptop3D label="Source code" className="w-[14rem] shrink-0 sm:w-[14.5rem] md:w-[16rem]">
           <TypingCode />
         </Laptop3D>
       </motion.div>
@@ -158,7 +158,7 @@ function MobileMachines() {
         transition={floatTransition(5.2, 1)}
         className="hidden sm:block"
       >
-        <Laptop3D label="Build output" className="w-[16rem] shrink-0">
+        <Laptop3D label="Build output" className="w-[14.5rem] shrink-0 md:w-[16rem]">
           <TerminalOut />
         </Laptop3D>
       </motion.div>
@@ -215,7 +215,7 @@ export default function HeroSection() {
         variants={wall}
         initial="hidden"
         animate="show"
-        className="absolute inset-x-0 top-[19svh] flex justify-center sm:top-[21svh] lg:top-[15%]"
+        className="absolute inset-x-0 top-[11.5svh] flex justify-center sm:top-[13svh] lg:top-[15%]"
       >
         <WallName text="tolgaosman_" />
       </motion.div>
@@ -224,7 +224,7 @@ export default function HeroSection() {
 
       {isDesktop && <DesktopStage peekLabel={t.projects.label} />}
 
-      <div className="relative z-40 mx-auto flex w-full max-w-[92rem] flex-1 flex-col justify-end px-5 pb-8 pt-24 sm:px-8 sm:pt-28 lg:absolute lg:inset-x-0 lg:top-[36%] lg:flex-none lg:justify-start lg:pb-0 lg:pt-0">
+      <div className="relative z-40 mx-auto flex w-full max-w-[92rem] flex-1 flex-col justify-end px-5 pb-8 pt-36 sm:px-8 sm:pt-40 lg:absolute lg:inset-x-0 lg:top-[36%] lg:flex-none lg:justify-start lg:pb-0 lg:pt-0">
         <motion.div variants={lines} initial="hidden" animate="show">
           <div className="grid items-end gap-8 lg:grid-cols-[minmax(0,28rem)_auto]">
             <motion.div variants={rise}>

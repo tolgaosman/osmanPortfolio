@@ -171,7 +171,7 @@ export default function NavBar() {
       <div className="mx-auto flex max-w-[92rem] items-center justify-between gap-2 px-3 py-2.5 sm:gap-4 sm:px-6">
         <button
           onClick={() => go({ id: "home" })}
-          className="min-w-0 shrink font-display text-sm font-medium tracking-tight text-text sm:shrink-0 sm:text-base"
+          className="min-w-0 shrink truncate font-display text-sm font-medium tracking-tight text-text sm:shrink-0 sm:text-base"
         >
           {nameParts.slice(0, -1).join(" ")}{" "}
           <span className="text-accent">{nameParts[nameParts.length - 1]}</span>
@@ -260,7 +260,7 @@ export default function NavBar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.25, ease: EASE_OUT }}
-            className="mx-3 mt-2 overflow-hidden rounded-lg border border-border-structural bg-surface shadow-float sm:mx-6 lg:hidden"
+            className="mx-3 mt-2 max-h-[calc(100svh-5rem)] overflow-y-auto rounded-lg border border-border-structural bg-surface shadow-float sm:mx-6 lg:hidden"
           >
             <ul className="divide-y divide-border-faint">
               {[...LINKS, { id: "contact", label: t.nav.hireMe }].map((link) => (

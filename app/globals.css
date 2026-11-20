@@ -56,6 +56,11 @@
     overflow-x: clip;
   }
 
+  section[id],
+  article[id] {
+    scroll-margin-top: 5rem;
+  }
+
   ::selection {
     background-color: var(--color-accent);
     color: var(--color-bg);

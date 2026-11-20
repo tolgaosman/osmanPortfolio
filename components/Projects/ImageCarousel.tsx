@@ -145,7 +145,7 @@ export default function ImageCarousel({
           type="button"
           onClick={() => setLightboxOpen(true)}
           aria-label={m.expandImage}
-          className="absolute right-2 top-2 flex h-11 w-11 items-center justify-center rounded-md border border-border-strong bg-surface/90 text-text shadow-plate backdrop-blur-sm transition-all duration-200 hover:border-accent hover:bg-surface hover:text-accent active:scale-95 sm:right-3 sm:top-3 sm:h-9 sm:w-9"
+          className="absolute right-2 top-2 flex h-9 w-9 items-center justify-center rounded-md border border-border-strong bg-surface/90 text-text shadow-plate backdrop-blur-sm transition-all duration-200 hover:border-accent hover:bg-surface hover:text-accent active:scale-95 sm:right-3 sm:top-3"
         >
           <ExpandIcon className="h-3.5 w-3.5" />
         </button>
@@ -156,7 +156,7 @@ export default function ImageCarousel({
               type="button"
               onClick={() => paginate(-1)}
               aria-label={m.prevImage}
-              className="absolute left-2 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-md border border-border-strong bg-surface/90 text-text shadow-plate backdrop-blur-sm transition-all duration-200 hover:border-accent hover:bg-surface hover:text-accent active:scale-95 sm:left-3 sm:h-9 sm:w-9"
+              className="absolute left-2 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-md border border-border-strong bg-surface/90 text-text shadow-plate backdrop-blur-sm transition-all duration-200 hover:border-accent hover:bg-surface hover:text-accent active:scale-95 sm:left-3"
             >
               <ChevronLeftIcon className="h-4 w-4" />
             </button>
@@ -164,7 +164,7 @@ export default function ImageCarousel({
               type="button"
               onClick={() => paginate(1)}
               aria-label={m.nextImage}
-              className="absolute right-2 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-md border border-border-strong bg-surface/90 text-text shadow-plate backdrop-blur-sm transition-all duration-200 hover:border-accent hover:bg-surface hover:text-accent active:scale-95 sm:right-3 sm:h-9 sm:w-9"
+              className="absolute right-2 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-md border border-border-strong bg-surface/90 text-text shadow-plate backdrop-blur-sm transition-all duration-200 hover:border-accent hover:bg-surface hover:text-accent active:scale-95 sm:right-3"
             >
               <ChevronRightIcon className="h-4 w-4" />
             </button>
