@@ -17,6 +17,8 @@ export const en = {
   },
   footer: {
     elsewhere: "Elsewhere",
+    quickLinks: "Quick links",
+    cv: "CV",
   },
   cv: {
     back: "Back to the site",
@@ -94,6 +96,7 @@ export const en = {
       prevImage: "Previous image",
       nextImage: "Next image",
       goToImage: "Go to image",
+      expandImage: "Expand image",
     },
   },
   process: {
@@ -221,6 +224,8 @@ export const tr: Dict = {
   },
   footer: {
     elsewhere: "Diğer",
+    quickLinks: "Hızlı bağlantılar",
+    cv: "Özgeçmiş",
   },
   cv: {
     back: "Siteye dön",
@@ -297,6 +302,7 @@ export const tr: Dict = {
       prevImage: "Önceki görsel",
       nextImage: "Sonraki görsel",
       goToImage: "Görsele git",
+      expandImage: "Görseli büyüt",
     },
   },
   process: {

@@ -60,9 +60,9 @@ const enter = (delay: number) => ({
  * phase per laptop, so the three circle independently rather than in
  * lockstep.
  */
-const peekOrbit = orbitPath(8, 6, 8, 130);
-const pairOrbitA = orbitPath(9, 7, 8, 0);
-const pairOrbitB = orbitPath(10, 8, 8, 250);
+const peekOrbit = orbitPath(7, 5, 8, 130);
+const pairOrbitA = orbitPath(6, 4, 8, 0);
+const pairOrbitB = orbitPath(7, 5, 8, 250);
 
 function DesktopStage({ peekLabel }: { peekLabel: string }) {
 
@@ -73,7 +73,7 @@ function DesktopStage({ peekLabel }: { peekLabel: string }) {
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.8, ease: EASE_OUT, delay: 0.72 }}
-        className="absolute right-[8%] top-[38%] w-[clamp(10rem,40svh,32rem)] z-30"
+        className="absolute right-[5%] top-[36%] z-30 w-[clamp(14rem,36svh,29rem)] xl:right-[7%]"
       >
         <motion.div
           animate={{ x: peekOrbit.x, y: peekOrbit.y, rotate: [0, -1.5, 1, 0] }}
@@ -96,7 +96,7 @@ function DesktopStage({ peekLabel }: { peekLabel: string }) {
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.8, ease: EASE_OUT, delay: 0.6 }}
-        className="pointer-events-none absolute left-[10%] top-[68%] w-[clamp(6rem,22svh,19rem)] z-10"
+        className="pointer-events-none absolute left-[8%] top-[69%] z-10 w-[clamp(8.5rem,18.5svh,16rem)] xl:top-[67%]"
       >
         <motion.div
           animate={{ x: pairOrbitA.x, y: pairOrbitA.y, rotate: [0, 1.5, -0.5, 0] }}
@@ -108,12 +108,12 @@ function DesktopStage({ peekLabel }: { peekLabel: string }) {
         </motion.div>
       </motion.div>
 
-      {/* Small decorative laptop 2, slightly right of the first one */}
+      {/* Small decorative laptop 2, joins at xl where the stage has room for both */}
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.8, ease: EASE_OUT, delay: 0.84 }}
-        className="pointer-events-none absolute left-[40%] top-[66%] w-[clamp(6rem,22svh,19rem)] z-20"
+        className="pointer-events-none absolute left-[34%] top-[67%] z-20 hidden w-[clamp(8.5rem,18.5svh,16rem)] xl:block"
       >
         <motion.div
           animate={{ x: pairOrbitB.x, y: pairOrbitB.y, rotate: [0, 2, -1, 0] }}
@@ -224,7 +224,7 @@ export default function HeroSection() {
 
       {isDesktop && <DesktopStage peekLabel={t.projects.label} />}
 
-      <div className="relative z-40 mx-auto flex w-full max-w-[92rem] flex-1 flex-col justify-end px-5 pb-8 pt-24 sm:px-8 sm:pt-28 lg:absolute lg:inset-x-0 lg:top-[36%] lg:flex-none lg:justify-start lg:pb-0 lg:pt-0">
+      <div className="relative z-40 mx-auto flex w-full max-w-[92rem] flex-1 flex-col justify-end px-5 pb-8 pt-24 sm:px-8 sm:pt-28 lg:absolute lg:inset-x-0 lg:top-[33%] lg:flex-none lg:justify-start lg:pb-0 lg:pt-0 xl:top-[35%]">
         <motion.div variants={lines} initial="hidden" animate="show">
           <div className="grid items-end gap-8 lg:grid-cols-[minmax(0,28rem)_auto]">
             <motion.div variants={rise}>

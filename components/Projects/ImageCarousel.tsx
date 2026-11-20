@@ -1,12 +1,13 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
-import { ChevronLeftIcon, ChevronRightIcon } from "@/components/Icons";
+import { ChevronLeftIcon, ChevronRightIcon, ExpandIcon } from "@/components/Icons";
 import { asset, cn } from "@/lib/utils";
 import { useLang } from "@/lib/i18n";
 import { SPRING_SOFT } from "@/lib/motion";
+import ImageLightbox from "./ImageLightbox";
 
 /** Offset-plus-projected-velocity, in px, that counts as a swipe. */
 const SWIPE = 60;
@@ -39,6 +40,8 @@ export default function ImageCarousel({
 
   const [[index, dir], setState] = useState<[number, number]>([0, 0]);
   const [loaded, setLoaded] = useState(false);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const draggedRef = useRef(false);
 
   const paginate = useCallback(
     (step: number) => {
@@ -100,13 +103,23 @@ export default function ImageCarousel({
             dragDirectionLock
             dragConstraints={{ left: 0, right: 0 }}
             dragElastic={0.18}
+            onDragStart={() => {
+              draggedRef.current = true;
+            }}
             onDragEnd={(_, info) => {
               const throw_ = info.offset.x + info.velocity.x * 0.2;
               if (throw_ < -SWIPE) paginate(1);
               else if (throw_ > SWIPE) paginate(-1);
+              window.setTimeout(() => {
+                draggedRef.current = false;
+              }, 0);
+            }}
+            onClick={() => {
+              if (draggedRef.current) return;
+              setLightboxOpen(true);
             }}
             style={{ backfaceVisibility: "hidden", WebkitBackfaceVisibility: "hidden" }}
-            className="absolute inset-0 touch-pan-y will-change-transform"
+            className="absolute inset-0 cursor-zoom-in touch-pan-y will-change-transform"
           >
             {/* Loading skeleton, inside the slide rather than behind it.
                 As a sibling at `inset-0` it also pulsed in the letterbox
@@ -127,6 +140,15 @@ export default function ImageCarousel({
             />
           </motion.div>
         </AnimatePresence>
+
+        <button
+          type="button"
+          onClick={() => setLightboxOpen(true)}
+          aria-label={m.expandImage}
+          className="absolute right-2 top-2 flex h-11 w-11 items-center justify-center rounded-md border border-border-strong bg-surface/90 text-text shadow-plate backdrop-blur-sm transition-all duration-200 hover:border-accent hover:bg-surface hover:text-accent active:scale-95 sm:right-3 sm:top-3 sm:h-9 sm:w-9"
+        >
+          <ExpandIcon className="h-3.5 w-3.5" />
+        </button>
 
         {!single && (
           <>
@@ -204,6 +226,16 @@ export default function ImageCarousel({
           })}
         </div>
       )}
+
+      <ImageLightbox
+        open={lightboxOpen}
+        images={images}
+        index={index}
+        title={title}
+        altLabel={altLabel}
+        onClose={() => setLightboxOpen(false)}
+        onPaginate={paginate}
+      />
     </div>
   );
 }
