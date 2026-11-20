@@ -73,7 +73,7 @@ function DesktopStage({ peekLabel }: { peekLabel: string }) {
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.8, ease: EASE_OUT, delay: 0.72 }}
-        className="absolute right-[8%] top-[38%] w-[clamp(10rem,40svh,32rem)] z-30"
+        className="absolute right-[4%] top-[35%] z-30 w-[clamp(16rem,min(34vw,52svh),40rem)] xl:right-[6%]"
       >
         <motion.div
           animate={{ x: peekOrbit.x, y: peekOrbit.y, rotate: [0, -1.5, 1, 0] }}
@@ -226,7 +226,7 @@ export default function HeroSection() {
 
       <div className="relative z-40 mx-auto flex w-full max-w-[92rem] flex-1 flex-col justify-end px-5 pb-8 pt-36 sm:px-8 sm:pt-40 lg:absolute lg:inset-x-0 lg:top-[36%] lg:flex-none lg:justify-start lg:pb-0 lg:pt-0">
         <motion.div variants={lines} initial="hidden" animate="show">
-          <div className="grid items-end gap-8 lg:grid-cols-[minmax(0,28rem)_auto]">
+          <div className="grid items-end gap-8 lg:grid-cols-[minmax(0,28rem)_auto] lg:items-start">
             <motion.div variants={rise}>
               <h1>
                 {/* The accessible heading carries the name; the wall graphic
@@ -253,7 +253,7 @@ export default function HeroSection() {
               </p>
             </motion.div>
 
-            <motion.div variants={rise} className="flex flex-col items-start gap-4">
+            <motion.div variants={rise} className="flex flex-col items-start gap-4 lg:pt-6">
               <motion.button
                 onClick={() => smoothScrollTo("projects")}
                 whileHover={{ y: -2 }}
