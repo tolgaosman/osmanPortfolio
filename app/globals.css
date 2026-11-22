@@ -622,18 +622,33 @@
     opacity: 0.75;
   }
 
-  /* Recessed keyboard tray milled into the aluminum unibody. */
+  /* Recessed keyboard tray milled into the aluminum unibody.
+     `container-type: inline-size` lives safely here because `.lap__well` is a
+     flat 2D leaf on `.lap__deck` — never put containment on `.lap__deck` or
+     `.lap__rig`, which would flatten `preserve-3d`. */
   .lap__well {
+    container-type: inline-size;
     border-radius: 3px;
     background-color: #070d0a;
     box-shadow:
       inset 0 2px 4px rgb(var(--ink) / 0.95),
       0 1px 0 0 rgb(var(--hilite) / 0.09);
     border: 1px solid rgb(var(--ink) / 0.85);
+    font-family: var(--font-mono), ui-monospace, monospace;
+    font-variant-ligatures: none;
+    user-select: none;
   }
 
-  /* Backlit matte-black keycaps with subtle jade under-rim bleed. */
+  /* Backlit matte-black US QWERTY keycaps with laser-etched legends and subtle
+     jade under-rim bleed. Font sizes scale in `cqi` of `.lap__well` so the
+     legends fit both the large showcase laptop and the small pair. */
   .lap__key {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    min-width: 0;
     background-image: linear-gradient(
       to bottom,
       #141e19 0%,
@@ -644,6 +659,58 @@
       inset 0 1px 0 0 rgb(var(--hilite) / 0.12),
       0 0 0 0.5px rgb(var(--accent-rgb) / 0.14),
       0 1px 1px rgb(var(--ink) / 0.9);
+    color: rgb(var(--hilite) / 0.74);
+    font-size: clamp(2.8px, 1.85cqi, 8.5px);
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: 0;
+    white-space: nowrap;
+  }
+
+  .lap__key--word {
+    font-size: clamp(2.2px, 1.2cqi, 5.8px);
+    font-weight: 500;
+    color: rgb(var(--hilite) / 0.58);
+    padding-inline: 0.8cqi;
+  }
+
+  .lap__key--fn {
+    font-size: clamp(2px, 1.1cqi, 5.2px);
+    font-weight: 500;
+    color: rgb(var(--hilite) / 0.56);
+  }
+
+  .lap__key--left {
+    justify-content: flex-start;
+    align-items: flex-end;
+    padding-bottom: 0.55cqi;
+  }
+
+  .lap__key--right {
+    justify-content: flex-end;
+    align-items: flex-end;
+    padding-bottom: 0.55cqi;
+  }
+
+  /* Tactile homing bar under F and J. */
+  .lap__homing {
+    position: absolute;
+    bottom: 12%;
+    left: 50%;
+    width: 30%;
+    height: 1px;
+    transform: translateX(-50%);
+    background-color: rgb(var(--accent-rgb) / 0.45);
+    border-radius: 1px;
+  }
+
+  /* Recessed circular Touch ID sensor ring on top-right keycap. */
+  .lap__touchid {
+    width: 52%;
+    aspect-ratio: 1;
+    border-radius: 9999px;
+    border: 1px solid rgb(var(--hilite) / 0.28);
+    box-shadow: inset 0 1px 1px rgb(var(--ink) / 0.8);
   }
 
   /* Chamfered dark glass trackpad with metallic inner lip. */
