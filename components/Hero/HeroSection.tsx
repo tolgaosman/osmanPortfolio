@@ -73,7 +73,7 @@ function DesktopStage({ peekLabel }: { peekLabel: string }) {
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.8, ease: EASE_OUT, delay: 0.72 }}
-        className="absolute right-[4%] top-[35%] z-30 w-[clamp(16rem,min(34vw,52svh),40rem)] xl:right-[6%]"
+        className="absolute right-[4%] top-[33%] z-30 w-[clamp(16rem,min(34vw,47svh),40rem)] xl:right-[6%]"
       >
         <motion.div
           animate={{ x: peekOrbit.x, y: peekOrbit.y, rotate: [0, -1.5, 1, 0] }}
