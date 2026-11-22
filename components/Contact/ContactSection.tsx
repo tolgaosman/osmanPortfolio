@@ -79,7 +79,7 @@ export default function ContactSection() {
               {rows.map((row) => (
                 <div
                   key={row.value}
-                  className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 py-3.5"
+                  className="flex flex-col items-start gap-2 py-3.5 sm:flex-row sm:items-center sm:justify-between sm:gap-x-4"
                 >
                   <dt className="font-mono text-label uppercase text-faint">
                     {row.label}

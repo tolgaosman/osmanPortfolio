@@ -42,6 +42,13 @@
         transparent 1px 3px);
   }
 
+  /* Reserve the scrollbar's width permanently. Locking scroll (mobile sheet,
+     modal, lightbox) then never changes the viewport width, so fixed elements
+     such as the nav's language switch cannot jump sideways when it opens. */
+  html {
+    scrollbar-gutter: stable;
+  }
+
   body {
     background-color: var(--color-bg);
     background-image: var(--crt);
