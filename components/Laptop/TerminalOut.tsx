@@ -19,13 +19,12 @@ type Line = { text: string; tone: "cmd" | "ok" | "dim" | "brand" };
 const LINES: readonly Line[] = [
   { text: "$ npm run build", tone: "cmd" },
   { text: "▲ Next.js 16.2.7", tone: "brand" },
-  { text: "  Creating an optimized production build", tone: "dim" },
+  { text: "  Creating production build", tone: "dim" },
   { text: "✓ Compiled successfully", tone: "ok" },
-  { text: "  Route (app)              Size", tone: "dim" },
-  { text: "  ○ /                      static", tone: "dim" },
-  { text: "  ○ /projects              static", tone: "dim" },
-  { text: "  ○ /cv                    static", tone: "dim" },
-  { text: "✓ Exporting (4/4)", tone: "ok" },
+  { text: "  ○ /           static", tone: "dim" },
+  { text: "  ○ /projects   static", tone: "dim" },
+  { text: "  ○ /cv         static", tone: "dim" },
+  { text: "✓ Exporting (5/5)", tone: "ok" },
 ];
 
 const TONE: Record<Line["tone"], string> = {
@@ -69,18 +68,24 @@ export default function TerminalOut() {
   }, [inView, reduced]);
 
   return (
-    <div ref={ref} className="p-2.5 text-screen">
-      {LINES.slice(0, count).map((line) => (
-        <p key={line.text} className={`whitespace-pre ${TONE[line.tone]}`}>
-          {line.text}
-        </p>
-      ))}
-      {count === LINES.length && (
-        <p className="text-text">
-          {"$ "}
-          <span className="caret" aria-hidden="true" />
-        </p>
-      )}
+    <div ref={ref} className="flex h-full flex-col">
+      <div className="flex shrink-0 items-center justify-between border-b border-border/60 bg-bg/80 px-2 py-1 text-[clamp(0.42rem,0.5vw,0.5625rem)] leading-none text-faint">
+        <span>zsh · build</span>
+        <span className="text-accent-dim">out/</span>
+      </div>
+      <div className="min-h-0 flex-1 overflow-hidden px-2 py-1.5 text-[clamp(0.45rem,0.56vw,0.65rem)] leading-[1.45]">
+        {LINES.slice(0, count).map((line) => (
+          <p key={line.text} className={`whitespace-pre ${TONE[line.tone]}`}>
+            {line.text}
+          </p>
+        ))}
+        {count === LINES.length && (
+          <p className="text-text">
+            {"$ "}
+            <span className="caret" aria-hidden="true" />
+          </p>
+        )}
+      </div>
     </div>
   );
 }

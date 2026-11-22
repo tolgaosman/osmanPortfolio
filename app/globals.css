@@ -484,155 +484,224 @@
     transform: rotateX(8deg) translateZ(0.01px);
   }
 
-  /* LEAF. transform-style is implicitly flat here, which is required.
-     The radius is asymmetric — generous at the top corners, tight where the
-     lid meets the hinge — because that is the shape of a lid, and a uniform
-     radius is the shape of a card. */
+  /* LEAF. Edge-to-edge obsidian glass display framed by a machined metallic
+     anodized aluminum rim. Asymmetric radius matches a real laptop lid. */
   .lap__bezel {
     position: relative;
     overflow: hidden;
     border-radius: var(--radius-lg) var(--radius-lg) 3px 3px;
-    background-color: #05100a;
+    background-color: #030705;
+    background-image: linear-gradient(
+      165deg,
+      #101915 0%,
+      #040806 24%,
+      #020504 100%
+    );
     box-shadow:
-      var(--inset-shadow-edge),
-      inset 0 0 0 1px rgb(var(--ink) / 0.8),
-      var(--shadow-plate);
-    border: 1px solid var(--color-border-structural);
+      inset 0 1px 0 0 rgb(var(--hilite) / 0.22),
+      inset 1px 0 0 0 rgb(var(--hilite) / 0.08),
+      inset -1px 0 0 0 rgb(var(--hilite) / 0.08),
+      inset 0 0 0 1px rgb(var(--ink) / 0.9),
+      0 2px 6px -2px rgb(var(--ink) / 0.85),
+      0 22px 44px -18px rgb(var(--ink) / 0.9);
+    border: 1px solid #354c41;
   }
 
-  /* The camera. Three pixels of nothing that do more to say "laptop" than
-     any amount of chassis rendering, because no other object has one. */
+  /* Recessed dark webcam lens ring. */
   .lap__cam {
-    background-color: rgb(var(--hilite) / 0.22);
-    box-shadow: 0 0 0 1px rgb(var(--ink) / 0.9);
+    background-color: #030705;
+    box-shadow:
+      inset 0 1px 1px rgb(var(--ink) / 0.95),
+      0 0 0 1px rgb(var(--hilite) / 0.14);
   }
 
-  /* The chin's brand hairline. Deliberately anonymous — a real wordmark here
-     would be someone else's trademark on a page about this work. */
+  /* Diagonal anti-reflective glass sheen across the display. */
+  .lap__glare {
+    background-image: linear-gradient(
+      128deg,
+      rgb(var(--hilite) / 0.07) 0%,
+      rgb(var(--hilite) / 0.025) 28%,
+      transparent 48%,
+      transparent 100%
+    );
+  }
+
+  /* Subtle chin mark. */
   .lap__chin {
-    background-color: rgb(var(--hilite) / 0.1);
+    background-color: rgb(var(--hilite) / 0.14);
   }
 
   .lap__screen {
     font-family: var(--font-mono), ui-monospace, monospace;
     font-size: var(--text-screen);
     line-height: 1.55;
-    /* Screen emission. Legal glow: this is a lit display, and the light stays
-       INSIDE the bezel rather than spilling onto the page. */
+    background-color: #050a08;
+    box-shadow:
+      inset 0 0 0 1px rgb(var(--ink) / 0.85),
+      0 0 0 1px rgb(var(--hilite) / 0.05);
+    /* Screen emission stays inside the display glass. */
     background-image:
       var(--crt),
-      radial-gradient(120% 100% at 50% 0%,
-        rgb(var(--accent-rgb) / 0.07),
-        transparent 70%);
+      radial-gradient(
+        120% 95% at 50% 0%,
+        rgb(var(--accent-rgb) / 0.09),
+        transparent 72%
+      );
   }
 
-  /* The hinge barrel. Lives on the rig rather than inside the lid so it stays
-     square to the camera while the lid leans, and is nudged 1px forward so it
-     wins the coincident-Z contest with the deck's rear edge instead of
-     z-fighting it. A lit top hairline and a dark body: that pairing is the
-     whole reason the fold reads as a fold. */
+  /* Machined dark-anodized clutch hinge barrel. */
   .lap__hinge {
     transform: translateZ(1px);
     border-radius: 0 0 3px 3px;
-    background-image: linear-gradient(to bottom,
-        rgb(var(--hilite) / 0.18) 0 1px,
-        var(--color-surface-2) 1px,
-        #060d0a 100%);
+    background-image:
+      linear-gradient(
+        to right,
+        #1a2721 0%,
+        #0a110e 6%,
+        #0a110e 94%,
+        #1a2721 100%
+      ),
+      linear-gradient(
+        to bottom,
+        rgb(var(--hilite) / 0.24) 0 1px,
+        #19251f 1px,
+        #050a08 100%
+      );
+    box-shadow:
+      inset 0 1px 0 0 rgb(var(--hilite) / 0.22),
+      0 2px 4px rgb(var(--ink) / 0.85);
   }
 
-  /* The deck. preserve-3d because its front lip counter-rotates back to face
-     the camera; nothing else inside it leaves the plane. */
+  /* Anodized Space-Black aluminum deck with directional metallic sheen. */
   .lap__deck {
     transform-style: preserve-3d;
     transform-origin: 50% 0%;
     transform: rotateX(60deg);
-    background-image: linear-gradient(to bottom,
-        var(--color-surface-2),
-        var(--color-surface));
-    border: 1px solid var(--color-border-structural);
+    background-image:
+      linear-gradient(
+        90deg,
+        rgb(var(--hilite) / 0.06) 0%,
+        transparent 14%,
+        transparent 86%,
+        rgb(var(--hilite) / 0.05) 100%
+      ),
+      linear-gradient(
+        to bottom,
+        #22312a 0%,
+        #18231e 32%,
+        #121b17 78%,
+        #0e1512 100%
+      );
+    border: 1px solid #354c41;
     border-top: none;
     border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+    box-shadow:
+      inset 0 1px 0 0 rgb(var(--hilite) / 0.14),
+      inset 1px 0 0 0 rgb(var(--hilite) / 0.06),
+      inset -1px 0 0 0 rgb(var(--hilite) / 0.06);
   }
 
-  /* Keycaps, not a ruled grid. The old two-axis repeating gradient drew the
-     GAPS between keys, which at this scale is a sheet of graph paper; caps
-     with a lit top edge read as objects you could press. */
+  /* Subtle bounce light cast from the lit screen onto the aluminum deck. */
+  .lap__deck-glow {
+    background-image: radial-gradient(
+      65% 95% at 50% 0%,
+      rgb(var(--accent-rgb) / 0.11),
+      rgb(var(--hilite) / 0.03) 45%,
+      transparent 78%
+    );
+  }
+
+  /* Micro-perforated speaker grille flanking the keyboard well. */
+  .lap__grille {
+    background-image: radial-gradient(
+      circle,
+      rgb(var(--ink) / 0.85) 0.75px,
+      transparent 0.9px
+    );
+    background-size: 3.5px 3.5px;
+    opacity: 0.75;
+  }
+
+  /* Recessed keyboard tray milled into the aluminum unibody. */
+  .lap__well {
+    border-radius: 3px;
+    background-color: #070d0a;
+    box-shadow:
+      inset 0 2px 4px rgb(var(--ink) / 0.95),
+      0 1px 0 0 rgb(var(--hilite) / 0.09);
+    border: 1px solid rgb(var(--ink) / 0.85);
+  }
+
+  /* Backlit matte-black keycaps with subtle jade under-rim bleed. */
   .lap__key {
-    background-color: rgb(var(--ink) / 0.62);
-    border-radius: 1px;
-    box-shadow: inset 0 1px 0 0 rgb(var(--hilite) / 0.06);
+    background-image: linear-gradient(
+      to bottom,
+      #141e19 0%,
+      #0c1310 100%
+    );
+    border-radius: 1.5px;
+    box-shadow:
+      inset 0 1px 0 0 rgb(var(--hilite) / 0.12),
+      0 0 0 0.5px rgb(var(--accent-rgb) / 0.14),
+      0 1px 1px rgb(var(--ink) / 0.9);
   }
 
+  /* Chamfered dark glass trackpad with metallic inner lip. */
   .lap__pad {
-    border: 1px solid var(--color-border);
-    border-radius: 2px;
-    background-color: rgb(var(--ink) / 0.35);
-    box-shadow: var(--inset-shadow-well);
+    border: 1px solid #2b3f35;
+    border-radius: 3px;
+    background-image: linear-gradient(
+      155deg,
+      #16221c 0%,
+      #0f1814 55%,
+      #0c1410 100%
+    );
+    box-shadow:
+      inset 0 1px 0 0 rgb(var(--hilite) / 0.12),
+      inset 0 2px 5px rgb(var(--ink) / 0.55),
+      0 1px 0 0 rgb(var(--hilite) / 0.07);
   }
 
-  /* The chassis front, counter-rotated by exactly the deck's own angle so it
-     stands vertical to the camera. This is the element that carries the
-     machine's THICKNESS — without it the deck is a decal on the floor. */
+  /* Machined aluminum front lip giving real chassis thickness. */
   .lap__front {
     transform-origin: 50% 0%;
     transform: rotateX(-60deg);
-    border-radius: var(--radius-lg) var(--radius-lg) 4px 4px;
-    background-image: linear-gradient(to bottom,
-        var(--color-surface),
-        #08120d);
-    box-shadow: inset 0 1px 0 0 rgb(var(--hilite) / 0.06);
+    border-radius: 2px 2px 6px 6px;
+    background-image: linear-gradient(
+      90deg,
+      #1a2621 0%,
+      #2d4137 18%,
+      #22322b 50%,
+      #2d4137 82%,
+      #16211c 100%
+    );
+    border-bottom: 1px solid rgb(var(--ink) / 0.95);
+    box-shadow:
+      inset 0 1px 0 0 rgb(var(--hilite) / 0.28),
+      inset 0 -1px 0 0 rgb(var(--ink) / 0.85);
   }
 
-  /* Contact shadow. A sibling of the rig, OUTSIDE its 3D context, because a
-     flat child inside would sit on the lid plane rather than on the ground.
-     A radial gradient rather than a blurred box: `filter` on anything in this
-     subtree would collapse transform-style to flat. */
+  /* Recessed machined thumb scoop on the front edge. */
+  .lap__notch {
+    background-image: linear-gradient(to bottom, #070d0a, #121c18);
+    box-shadow:
+      inset 0 1px 2px rgb(var(--ink) / 0.95),
+      0 1px 0 0 rgb(var(--hilite) / 0.14);
+  }
+
+  /* Ground contact + ambient shadow outside the 3D context. */
   .lap__ground {
-    background-image: radial-gradient(55% 50% at 50% 45%,
-        rgb(var(--ink) / 0.9),
-        transparent 72%);
-  }
-
-  /* ---------------------------------------------------------------------
-     LAPTOP VARIANTS
-     Differentiating the laptops so they don't look like identical clones.
-     --------------------------------------------------------------------- */
-  .lap--slate .lap__deck {
-    background-image: linear-gradient(to bottom, #1d262b, #151c20);
-    border-color: #2c3a42;
-  }
-
-  .lap--slate .lap__front {
-    background-image: linear-gradient(to bottom, #151c20, #0c1114);
-  }
-
-  .lap--slate .lap__hinge {
-    background-image: linear-gradient(to bottom, rgb(var(--hilite) / 0.18) 0 1px, #1d262b 1px, #0c1114 100%);
-  }
-
-  .lap--slate .lap__bezel {
-    border-color: #2c3a42;
-  }
-
-  .lap--silver .lap__deck {
-    background-image: linear-gradient(to bottom, #a5b0b6, #87939a);
-    border-color: #d4d8db;
-  }
-
-  .lap--silver .lap__front {
-    background-image: linear-gradient(to bottom, #87939a, #69747a);
-  }
-
-  .lap--silver .lap__hinge {
-    background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.7) 0 1px, #a5b0b6 1px, #69747a 100%);
-  }
-
-  .lap--silver .lap__bezel {
-    border-color: #87939a;
-  }
-
-  .lap--silver .lap__key {
-    background-color: #111;
+    background-image:
+      radial-gradient(
+        46% 36% at 50% 44%,
+        rgb(var(--ink) / 0.95),
+        transparent 68%
+      ),
+      radial-gradient(
+        68% 54% at 50% 48%,
+        rgb(var(--ink) / 0.65),
+        transparent 76%
+      );
   }
 
   /* ---------------------------------------------------------------------

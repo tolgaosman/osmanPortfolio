@@ -106,7 +106,7 @@ const TOTAL = LINE_START.length
   : 0;
 
 export default function TypingCode() {
-  const ref = useRef<HTMLPreElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { amount: 0.2 });
   // framer-motion's `useReducedMotion` reads `matchMedia` synchronously, so a
   // client with the OS preference on is already `true` on its very first
@@ -140,32 +140,43 @@ export default function TypingCode() {
   }, [inView, reduced]);
 
   return (
-    <pre ref={ref} className="whitespace-pre p-2.5 text-screen">
-      <code>
-        {PLACED.map((line, i) => {
-          const lineStart = LINE_START[i];
-          const nextStart = LINE_START[i + 1] ?? TOTAL;
-          const isCurrent = shown > lineStart && shown <= nextStart;
-          return (
-            <span key={i} className="block">
-              {line.map((token, j) => {
-                const visible = Math.max(
-                  0,
-                  Math.min(token.text.length, shown - token.start),
-                );
-                if (visible === 0) return null;
-                return (
-                  <span key={j} className={TONE[token.kind]}>
-                    {token.text.slice(0, visible)}
-                  </span>
-                );
-              })}
-              {/* The caret rides whichever line is currently being written. */}
-              {isCurrent && <span className="caret" aria-hidden="true" />}
-            </span>
-          );
-        })}
-      </code>
-    </pre>
+    <div ref={ref} className="flex h-full flex-col">
+      <div className="flex shrink-0 items-center justify-between border-b border-border/60 bg-bg/80 px-2 py-1 text-[clamp(0.42rem,0.5vw,0.5625rem)] leading-none text-faint">
+        <span>motion.ts</span>
+        <span className="text-accent-dim">TS</span>
+      </div>
+      <pre className="min-h-0 flex-1 overflow-hidden whitespace-pre px-2 py-1.5 text-[clamp(0.45rem,0.56vw,0.65rem)] leading-[1.45]">
+        <code>
+          {PLACED.map((line, i) => {
+            const lineStart = LINE_START[i];
+            const nextStart = LINE_START[i + 1] ?? TOTAL;
+            const isCurrent = shown > lineStart && shown <= nextStart;
+            return (
+              <span key={i} className="flex gap-1.5">
+                <span aria-hidden="true" className="w-2.5 shrink-0 select-none text-right text-border-strong/60">
+                  {i + 1}
+                </span>
+                <span>
+                  {line.map((token, j) => {
+                    const visible = Math.max(
+                      0,
+                      Math.min(token.text.length, shown - token.start),
+                    );
+                    if (visible === 0) return null;
+                    return (
+                      <span key={j} className={TONE[token.kind]}>
+                        {token.text.slice(0, visible)}
+                      </span>
+                    );
+                  })}
+                  {/* The caret rides whichever line is currently being written. */}
+                  {isCurrent && <span className="caret" aria-hidden="true" />}
+                </span>
+              </span>
+            );
+          })}
+        </code>
+      </pre>
+    </div>
   );
 }
