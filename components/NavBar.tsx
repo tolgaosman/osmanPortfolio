@@ -7,7 +7,8 @@ import { cn, smoothScrollTo } from "@/lib/utils";
 import { EASE_OUT, SPRING_SNAP } from "@/lib/motion";
 import { useScrollLock } from "@/lib/scroll-lock";
 import { LG } from "@/lib/media";
-import { btnSecondary } from "@/lib/buttons";
+import { btnAccentSubtle } from "@/lib/buttons";
+import { ArrowUpRightIcon } from "@/components/Icons";
 import { useLang } from "@/lib/i18n";
 import { siteConfig } from "@/data/site";
 import LanguageToggle from "@/components/LanguageToggle";
@@ -214,13 +215,17 @@ export default function NavBar() {
           })}
         </nav>
 
-        <div className="flex shrink-0 items-center gap-2">
+        <div className="flex shrink-0 items-center gap-2.5">
           <LanguageToggle />
           <button
             onClick={() => go({ id: "contact" })}
-            className={cn(btnSecondary, "hidden px-4 py-1.5 text-label uppercase sm:inline-flex")}
+            className={cn(
+              btnAccentSubtle,
+              "group hidden px-3.5 py-2 text-label font-medium uppercase sm:inline-flex",
+            )}
           >
-            {t.nav.hireMe}
+            <span>{t.nav.hireMe}</span>
+            <ArrowUpRightIcon className="h-3 w-3 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
           </button>
 
           <button

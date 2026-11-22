@@ -4,7 +4,7 @@ import type { Project, ProjectStatus } from "@/types";
 import { ArrowUpRightIcon, GitHubIcon } from "@/components/Icons";
 import { useLang } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
-import { btnSecondary } from "@/lib/buttons";
+import { btnAccentSubtle, btnSecondary } from "@/lib/buttons";
 import ImageCarousel from "./ImageCarousel";
 import PhoneFrame from "./PhoneFrame";
 import LaptopFrame from "./LaptopFrame";
@@ -191,10 +191,10 @@ export default function ProjectCard({
                 href={project.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={cn(btnSecondary, "px-4 py-2 text-muted")}
+                className={cn(btnSecondary, "group text-muted")}
               >
-                <GitHubIcon className="h-4 w-4" />
-                {p.source}
+                <GitHubIcon className="h-4 w-4 transition-colors duration-200 group-hover:text-accent" />
+                <span>{p.source}</span>
               </a>
             )}
             {project.live && (
@@ -202,13 +202,10 @@ export default function ProjectCard({
                 href={project.live}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={cn(
-                  btnSecondary,
-                  "border-accent bg-accent/10 px-4 py-2 text-accent hover:bg-accent hover:text-bg",
-                )}
+                className={cn(btnAccentSubtle, "group")}
               >
-                <ArrowUpRightIcon className="h-4 w-4" />
-                {p.live}
+                <span>{p.live}</span>
+                <ArrowUpRightIcon className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
               </a>
             )}
             {!project.github && !project.live && (

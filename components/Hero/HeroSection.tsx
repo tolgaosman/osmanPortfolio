@@ -16,7 +16,7 @@ import { siteConfig } from "@/data/site";
 import { useLang } from "@/lib/i18n";
 import { LG, useMediaQuery } from "@/lib/media";
 import { cn, smoothScrollTo } from "@/lib/utils";
-import { btnPrimary } from "@/lib/buttons";
+import { btnPrimary, btnSecondary } from "@/lib/buttons";
 import {
   EASE_OUT,
   floatTransition,
@@ -253,7 +253,7 @@ export default function HeroSection() {
               </p>
             </motion.div>
 
-            <motion.div variants={rise} className="flex flex-col items-start gap-4 lg:pt-6">
+            <motion.div variants={rise} className="flex flex-col items-start gap-3 lg:pt-6">
               <motion.button
                 onClick={() => smoothScrollTo("projects")}
                 whileHover={{ y: -2 }}
@@ -261,19 +261,16 @@ export default function HeroSection() {
                 transition={{ duration: 0.25, ease: EASE_OUT }}
                 className={cn(btnPrimary, "group")}
               >
-                {h.viewWork}
+                <span>{h.viewWork}</span>
                 <ArrowUpRightIcon className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
               </motion.button>
 
-              {/* Not a second pill. An outlined pill beside a filled one
-                  shares its silhouette and reads as a pair of equals, which
-                  is the opposite of a hierarchy. */}
               <button
                 onClick={() => smoothScrollTo("contact")}
-                className="group inline-flex min-h-11 items-center gap-1.5 font-mono text-sm text-muted transition-colors hover:text-text"
+                className={cn(btnSecondary, "group text-muted")}
               >
-                <span className="link-wipe">{h.contactMe}</span>
-                <ArrowUpRightIcon className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                <span>{h.contactMe}</span>
+                <ArrowUpRightIcon className="h-3.5 w-3.5 text-faint transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-accent" />
               </button>
             </motion.div>
           </div>

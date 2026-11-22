@@ -9,17 +9,10 @@ import type { Lang } from "@/data/translations";
 const OPTIONS: readonly Lang[] = ["en", "tr"];
 
 /**
- * A two-position switch rather than the dropdown this replaces.
+ * Recessed two-position hardware switch (`EN` / `TR`).
  *
- * With exactly two languages, a listbox is three interactions (open, read,
- * pick) to accomplish one, and it needs its own open state, outside-click
- * handling and keyboard model. A segmented control shows both options at once
- * and costs one click — and at this size it fits inside the nav rail instead
- * of hanging a panel off it.
- *
- * `role="group"` with `aria-pressed` on each button, not a listbox: these are
- * toggles that take effect immediately, not a value being selected from a
- * list and committed later.
+ * Matches the site's `rounded-md` instrument geometry: a sunken well
+ * (`inset-shadow-well`) housing a tactile, spring-animated backlit keycap.
  */
 export default function LanguageToggle() {
   const { lang, setLang, t } = useLang();
@@ -28,7 +21,7 @@ export default function LanguageToggle() {
     <div
       role="group"
       aria-label={t.nav.language}
-      className="flex items-center gap-0.5 rounded-full border border-border-faint bg-surface/60 p-0.5"
+      className="flex items-center gap-0.5 rounded-md border border-border-structural bg-bg/90 p-0.5 inset-shadow-well"
     >
       {OPTIONS.map((option) => {
         const isActive = lang === option;
@@ -39,15 +32,15 @@ export default function LanguageToggle() {
             onClick={() => setLang(option)}
             aria-pressed={isActive}
             className={cn(
-              "relative inline-flex min-h-9 items-center justify-center rounded-full px-3 py-1.5 font-mono text-label uppercase transition-colors duration-200 sm:min-h-0 sm:px-2.5 sm:py-1",
-              isActive ? "text-bg" : "text-faint hover:text-text",
+              "relative inline-flex min-h-9 items-center justify-center rounded-sm px-3 py-1.5 font-mono text-label font-semibold uppercase transition-colors duration-200 sm:min-h-0 sm:px-2.5 sm:py-1.5",
+              isActive ? "text-bg" : "text-muted hover:text-text",
             )}
           >
             {isActive && (
               <motion.span
                 layoutId="lang-pill"
                 transition={SPRING_SNAP}
-                className="absolute inset-0 rounded-full bg-accent"
+                className="absolute inset-0 rounded-sm border border-accent-bright/50 bg-gradient-to-b from-accent-bright via-accent to-[#20c978] shadow-glow-sm inset-shadow-[0_1px_0_rgba(255,255,255,0.38)]"
               />
             )}
             <span className="relative">{option}</span>

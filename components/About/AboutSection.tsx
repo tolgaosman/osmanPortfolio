@@ -6,7 +6,7 @@ import AboutPortrait from "./AboutPortrait";
 import SectionLabel from "@/components/SectionLabel";
 import ScrambleText from "@/components/ScrambleText";
 import Reveal, { RevealItem } from "@/components/Reveal";
-import { ExternalLinkIcon } from "@/components/Icons";
+import { DownloadIcon, ExternalLinkIcon } from "@/components/Icons";
 import { asset } from "@/lib/utils";
 import { btnSecondary } from "@/lib/buttons";
 import { useLang } from "@/lib/i18n";
@@ -126,17 +126,18 @@ export default function AboutSection() {
                     href={asset(`/${cvFile}`)}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className={btnSecondary}
+                    className={`${btnSecondary} group`}
                   >
                     <span>{a.viewCv}</span>
-                    <ExternalLinkIcon className="h-3.5 w-3.5 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                    <ExternalLinkIcon className="h-3.5 w-3.5 text-muted transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-accent" />
                   </a>
                   <a
                     href={asset(`/${cvFile}`)}
                     download={cvFile}
-                    className={btnSecondary}
+                    className={`${btnSecondary} group`}
                   >
                     <span>{a.downloadCv}</span>
+                    <DownloadIcon className="h-3.5 w-3.5 text-muted transition-all duration-300 group-hover:translate-y-0.5 group-hover:text-accent" />
                   </a>
                 </div>
               </RevealItem>

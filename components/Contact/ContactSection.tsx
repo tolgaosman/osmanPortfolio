@@ -120,7 +120,7 @@ export default function ContactSection() {
               <h3 className="font-mono text-label uppercase text-faint">
                 {t.footer.elsewhere}
               </h3>
-              <ul className="mt-4 grid gap-2 sm:grid-cols-2">
+              <ul className="mt-4 grid gap-3 sm:grid-cols-2">
                 {socialLinks.map((link) => {
                   const Icon = SOCIAL_ICONS[link.icon];
                   return (
@@ -130,13 +130,15 @@ export default function ContactSection() {
                         target="_blank"
                         rel="noopener noreferrer"
                         className={cn(
-                          "group flex items-center gap-3 rounded-md border border-transparent px-3 py-2.5 -mx-3 transition-colors",
-                          "hover:border-border hover:bg-surface-2",
+                          "group flex items-center gap-3.5 rounded-md border border-border bg-bg/75 px-3.5 py-3 shadow-lift inset-shadow-lip transition-[transform,border-color,background-color] duration-250",
+                          "hover:-translate-y-0.5 hover:border-accent-dim hover:bg-surface-2",
                         )}
                       >
-                        <Icon className="h-4 w-4 shrink-0 text-faint transition-colors group-hover:text-accent" />
+                        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-sm border border-border-faint bg-surface-2 text-muted transition-colors duration-200 group-hover:border-accent-dim group-hover:text-accent">
+                          <Icon className="h-4 w-4" />
+                        </span>
                         <span className="min-w-0 flex-1">
-                          <span className="block font-mono text-sm text-text">
+                          <span className="block font-mono text-sm text-text transition-colors group-hover:text-accent-bright">
                             {link.label}
                           </span>
                           <span className="block truncate font-mono text-xs text-faint">

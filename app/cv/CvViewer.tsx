@@ -4,7 +4,7 @@ import Link from "next/link";
 import { asset } from "@/lib/utils";
 import { useLang } from "@/lib/i18n";
 import { btnQuiet, btnSecondary, btnSecondarySm } from "@/lib/buttons";
-import { ArrowUpRightIcon, ExternalLinkIcon } from "@/components/Icons";
+import { ArrowUpRightIcon, DownloadIcon, ExternalLinkIcon } from "@/components/Icons";
 
 /**
  * PDF viewer component.
@@ -42,7 +42,7 @@ export default function CvViewer() {
             className={`${btnQuiet} inline-flex items-center gap-1.5`}
           >
             <span>{t.cv.download}</span>
-            <ExternalLinkIcon className="h-3.5 w-3.5" />
+            <DownloadIcon className="h-3.5 w-3.5" />
           </a>
         </div>
       </header>
@@ -70,17 +70,18 @@ export default function CvViewer() {
               href={asset(`/${cvFile}`)}
               target="_blank"
               rel="noopener noreferrer"
-              className={btnSecondary}
+              className={`${btnSecondary} group`}
             >
               <span>{t.about.viewCv}</span>
-              <ExternalLinkIcon className="h-3.5 w-3.5" />
+              <ExternalLinkIcon className="h-3.5 w-3.5 text-muted transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-accent" />
             </a>
             <a
               href={asset(`/${cvFile}`)}
               download={cvFile}
-              className={btnSecondary}
+              className={`${btnSecondary} group`}
             >
               <span>{t.cv.download}</span>
+              <DownloadIcon className="h-3.5 w-3.5 text-muted transition-all duration-300 group-hover:translate-y-0.5 group-hover:text-accent" />
             </a>
           </div>
         </div>

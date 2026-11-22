@@ -32,10 +32,10 @@ export default function ProjectsSection() {
             </h2>
             <Link
               href="/projects"
-              className={cn(btnSecondary, "px-4 py-2 text-muted whitespace-nowrap")}
+              className={cn(btnSecondary, "group whitespace-nowrap")}
             >
-              <ArrowUpRightIcon className="mr-2 h-4 w-4 inline" />
-              {p.seeAll}
+              <span>{p.seeAll}</span>
+              <ArrowUpRightIcon className="h-4 w-4 text-accent transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </Link>
           </div>
           <p className="mt-4 max-w-xl text-lede text-muted">
