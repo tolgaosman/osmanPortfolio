@@ -110,18 +110,13 @@ export default function AboutSection() {
               <RevealItem className="mt-14 flex flex-col gap-10 border-t border-border-faint pt-10 md:flex-row md:items-end md:justify-between">
                 <dl className="w-full max-w-sm space-y-3.5 flex-1">
                   {facts.map(({ label, value }) => (
-                    <div key={label} className="font-mono text-xs">
-                      <div className="flex items-baseline gap-2">
-                        <dt className="shrink-0 uppercase text-faint">{label}</dt>
-                        <span
-                          aria-hidden="true"
-                          className="hidden min-w-4 flex-1 translate-y-[-0.2em] border-b border-dotted border-border sm:block"
-                        />
-                        <dd className="hidden shrink-0 text-right text-text sm:block">
-                          {value}
-                        </dd>
-                      </div>
-                      <dd className="mt-0.5 text-text sm:hidden">{value}</dd>
+                    <div key={label} className="flex flex-col font-mono text-xs sm:flex-row sm:items-baseline sm:gap-2">
+                      {/* The dotted leader is a pseudo-element so <dl> keeps
+                          only dt/dd children, and one <dd> serves every width. */}
+                      <dt className="uppercase text-faint sm:flex sm:flex-1 sm:items-baseline sm:gap-2 sm:after:block sm:after:min-w-4 sm:after:flex-1 sm:after:translate-y-[-0.2em] sm:after:border-b sm:after:border-dotted sm:after:border-border sm:after:content-['']">
+                        {label}
+                      </dt>
+                      <dd className="mt-0.5 text-text sm:mt-0 sm:shrink-0 sm:text-right">{value}</dd>
                     </div>
                   ))}
                 </dl>

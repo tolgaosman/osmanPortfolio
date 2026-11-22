@@ -1,8 +1,11 @@
 "use client";
+/* eslint-disable @next/next/no-img-element --
+   next/image cannot help on this site (`images.unoptimized` is set for the
+   static export) and its absolutely-positioned `fill` wrapper breaks inside
+   this transformed, draggable slide on mobile. */
 
 import { useCallback, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import Image from "next/image";
 import { ChevronLeftIcon, ChevronRightIcon, ExpandIcon } from "@/components/Icons";
 import { asset, cn } from "@/lib/utils";
 import { useLang } from "@/lib/i18n";
@@ -128,15 +131,17 @@ export default function ImageCarousel({
             {!loaded && (
               <div className="absolute inset-0 animate-pulse bg-surface-2" />
             )}
-            <Image
+            <img
+              ref={(el) => {
+                // A cached image can finish before React attaches onLoad.
+                if (el?.complete && el.naturalWidth > 0) setLoaded(true);
+              }}
               src={asset(images[index])}
               alt={`${title} — ${altLabel} ${index + 1}`}
-              fill
               draggable={false}
-              className="object-contain"
-              unoptimized
+              decoding="async"
+              className="absolute inset-0 h-full w-full select-none object-contain"
               onLoad={() => setLoaded(true)}
-              sizes={portrait ? "(max-width: 768px) 100vw, 400px" : "(max-width: 768px) 100vw, 768px"}
             />
           </motion.div>
         </AnimatePresence>
@@ -208,7 +213,7 @@ export default function ImageCarousel({
                   setLoaded(false);
                   setState([i, i > index ? 1 : -1]);
                 }}
-                className="group flex h-6 shrink-0 items-center px-0.5"
+                className="group flex h-6 min-w-6 shrink-0 items-center justify-center"
               >
                 <span
                   aria-hidden
