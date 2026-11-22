@@ -45,7 +45,7 @@ async function loadDisplayFont(): Promise<ArrayBuffer | null> {
     // container an unbounded fetch can stall the whole deploy, and the card
     // is not worth that — the catch below falls back to the system sans.
     const css = await fetch(
-      "https://fonts.googleapis.com/css2?family=Montserrat:wght@700",
+      "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700",
       { signal: AbortSignal.timeout(8000) },
     ).then((r) => r.text());
     const url = css.match(/src:\s*url\((https:[^)]+)\)/)?.[1];
@@ -60,7 +60,7 @@ async function loadDisplayFont(): Promise<ArrayBuffer | null> {
 
 export default async function OpengraphImage() {
   const displayFont = await loadDisplayFont();
-  const display = displayFont ? "Montserrat" : "sans-serif";
+  const display = displayFont ? "Space Grotesk" : "sans-serif";
   const host = siteConfig.url.replace(/^https?:\/\//, "");
 
   return new ImageResponse(
@@ -186,7 +186,7 @@ export default async function OpengraphImage() {
     {
       ...size,
       fonts: displayFont
-        ? [{ name: "Montserrat", data: displayFont, weight: 700, style: "normal" }]
+        ? [{ name: "Space Grotesk", data: displayFont, weight: 700, style: "normal" }]
         : [],
     },
   );

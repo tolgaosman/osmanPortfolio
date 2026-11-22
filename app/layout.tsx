@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Montserrat, JetBrains_Mono } from "next/font/google";
+import { Space_Grotesk, Geist, JetBrains_Mono } from "next/font/google";
 import { MotionConfig } from "framer-motion";
 import { LanguageProvider } from "@/lib/i18n";
 import BootOverlay from "@/components/BootOverlay";
@@ -22,9 +22,18 @@ import "./globals.css";
 // blocking preload hints). Omitting it ships one variable file per family per
 // subset — six files — and every weight in the axis range comes free.
 //
-// Body and Display face — replaced Space Grotesk and Inter with Montserrat.
-const montserrat = Montserrat({
-  variable: "--font-montserrat",
+// Display face — architectural geometry for headings, wall-scale wordmarks,
+// and section folio numerals.
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-grotesk",
+  subsets: ["latin", "latin-ext"],
+  display: "swap",
+});
+
+// Body face — Vercel's Geist, engineered for high legibility in running prose
+// on dark UI surfaces.
+const geistSans = Geist({
+  variable: "--font-geist",
   subsets: ["latin", "latin-ext"],
   display: "swap",
 });
@@ -168,7 +177,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${montserrat.variable} ${jetbrainsMono.variable} h-full`}
+      className={`${spaceGrotesk.variable} ${geistSans.variable} ${jetbrainsMono.variable} h-full`}
       suppressHydrationWarning
     >
       <head>
