@@ -253,13 +253,13 @@ export default function HeroSection() {
               </p>
             </motion.div>
 
-            <motion.div variants={rise} className="flex flex-col items-start gap-3 lg:pt-6">
+            <motion.div variants={rise} className="flex flex-row flex-wrap items-center gap-2.5 sm:gap-3 lg:pt-6">
               <motion.button
                 onClick={() => smoothScrollTo("projects")}
                 whileHover={{ y: -2 }}
                 whileTap={{ scale: 0.98 }}
                 transition={{ duration: 0.25, ease: EASE_OUT }}
-                className={cn(btnPrimary, "group")}
+                className={cn(btnPrimary, "group px-4 sm:px-6")}
               >
                 <span>{h.viewWork}</span>
                 <ArrowUpRightIcon className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
@@ -267,7 +267,7 @@ export default function HeroSection() {
 
               <button
                 onClick={() => smoothScrollTo("contact")}
-                className={cn(btnSecondary, "group text-muted")}
+                className={cn(btnSecondary, "group px-3.5 text-muted sm:px-4")}
               >
                 <span>{h.contactMe}</span>
                 <ArrowUpRightIcon className="h-3.5 w-3.5 text-faint transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-accent" />
