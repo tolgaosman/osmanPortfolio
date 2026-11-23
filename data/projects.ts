@@ -10,6 +10,85 @@ export const PROJECT_CATEGORIES: ("All" | ProjectCategory)[] = ["All", "Web", "I
 export const projects: Project[] = [
 
   {
+    id: "scroll-animation",
+    title: {
+      en: "Cyprus Roasters — Scroll Animation Study",
+      tr: "Cyprus Roasters — Scroll Animasyon Çalışması",
+    },
+    description: {
+      en: "Personal scroll-animation study set in a fictional Nicosia roastery — scrubbing a 240-frame canvas espresso extraction and ice-pour sequence as you scroll.",
+      tr: "Scroll animasyonları üzerine kendimi geliştirmek için kurgusal bir Lefkoşa kafesi etrafında hazırladığım, 240 karelik canvas sekansına sahip keyfi proje.",
+    },
+    category: "Web",
+    stack: [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "Tailwind CSS",
+      "Framer Motion",
+      "HTML5 Canvas",
+      "next-intl",
+      "Playwright",
+      "Docker",
+    ],
+    github: "https://github.com/tolgaosman/scrollAnimationExample",
+    live: "http://5.75.128.196:4010",
+    status: "live",
+    details: {
+      overview: {
+        en: "Cyprus Roasters is not a real café — it is a self-directed passion project built around a fictional specialty roastery inside Nicosia's Venetian walls to sharpen my scroll-driven animation engineering. As you scroll the homepage, a sticky HTML5 canvas scrubs through a 240-frame (1600×900) sequence of a walnut espresso machine pulling a 9-bar double ristretto and pouring it over ice. Frames are decoded off the main thread into an LRU ImageBitmap cache ahead of the scroll direction and drawn via Motion's useScroll → useSpring pipeline, keeping scroll ticks completely outside React's render cycle. Around the hero stage sits a full bilingual (TR/EN) multi-page site with a bean explorer and SVG roast curves, an interactive brew ratio calculator, a Venetian walls map, and a Zod-validated contact form, shipped in a standalone Docker container.",
+        tr: "Cyprus Roasters gerçek bir kafe veya müşteri işi değil; kaydırma tabanlı (scroll-driven) animasyon teknikleri üzerinde kendimi geliştirmek için Lefkoşa Surlariçi'nde kurgusal bir kahve kavurmahanesi etrafında hazırladığım keyfi bir kişisel çalışma. Ana sayfada aşağı kaydırdıkça sabitlenen HTML5 canvas sahnesi, ceviz panelli bir espresso makinesinin 9 bar basınçla çift ristretto çekip buzlu bardağa dökmesini 240 karelik (1600×900) bir sekans üzerinden kare kare oynatıyor. Kareler kaydırma yönünün ilerisinde ana iş parçacığı dışında (createImageBitmap + LRU önbellek) çözülüyor ve Motion'ın useScroll → useSpring hattıyla doğrudan canvas'a çizilerek kaydırma sırasında sıfır React yeniden-render maliyetiyle çalışıyor. Bu sahnenin etrafında ise SVG kavurma eğrili çekirdek kataloğu, etkileşimli demleme oranı hesaplayıcısı, Venedik surları haritası ve Zod doğrulamalı iletişim formu içeren iki dilli (TR/EN) çok sayfalı bir yapı Docker üzerinde canlıda çalışıyor.",
+      },
+      features: [
+        {
+          en: "240-frame scroll-scrubbed HTML5 canvas with directional ImageBitmap pre-decoding, DPR capping, and zero React re-renders per scroll tick",
+          tr: "Yön duyarlı ImageBitmap ön-çözme, DPR sınırı ve kaydırma başına sıfır React render ile çalışan 240 karelik scroll-scrubbed HTML5 canvas motoru",
+        },
+        {
+          en: "Interactive 4-act scrubber (Ready, Extract, Barista, Pour) with pointer-draggable progress rail and live bar / °C / timer / gram telemetry",
+          tr: "Sürüklenebilir ilerleme çubuğu ve anlık basınç (bar) / sıcaklık (°C) / süre / gramaj göstergeleriyle senkronize 4 aşamalı sahne kontrolü",
+        },
+        {
+          en: "Dedicated mobile pinned hero runway (360svh) alongside a 12-column desktop sticky stage, verified across 5 mobile viewports with Playwright",
+          tr: "Masaüstü 12 kolonlu sabit sahneye ek olarak mobil ekranlara özel 360svh sabitleme akışı ve Playwright ile çoklu ekran doğrulaması",
+        },
+        {
+          en: "Bean catalogue with slide-over SVG roast curves plus an interactive Pour-Over / Espresso / Cold Brew ratio calculator",
+          tr: "SVG kavurma eğrili çekirdek inceleme paneli ve Pour-Over / Espresso / Cold Brew için etkileşimli demleme oranı hesaplayıcısı",
+        },
+        {
+          en: "Bilingual TR/EN localized routing (next-intl), Venetian walls SVG map, and standalone Docker deployment",
+          tr: "Yerelleştirilmiş TR/EN sayfa rotaları (next-intl), Venedik surları SVG haritası ve bağımsız Docker dağıtımı",
+        },
+      ],
+      role: {
+        en: "Personal study · Design + Front-end",
+        tr: "Kişisel çalışma · Tasarım + Ön yüz",
+      },
+      year: "2026",
+      images: [
+        "/screenshots/scroll-animation/1.png",
+        "/screenshots/scroll-animation/2.png",
+        "/screenshots/scroll-animation/3.png",
+        "/screenshots/scroll-animation/4.png",
+        "/screenshots/scroll-animation/5.png",
+        "/screenshots/scroll-animation/6.png",
+        "/screenshots/scroll-animation/7.png",
+        "/screenshots/scroll-animation/8.png",
+        "/screenshots/scroll-animation/9.png",
+        "/screenshots/scroll-animation/10.png",
+        "/screenshots/scroll-animation/11.png",
+        "/screenshots/scroll-animation/12.png",
+        "/screenshots/scroll-animation/13.png",
+        "/screenshots/scroll-animation/14.png",
+        "/screenshots/scroll-animation/15.png",
+        "/screenshots/scroll-animation/16.png",
+        "/screenshots/scroll-animation/17.png",
+      ],
+    },
+  },
+
+  {
     id: "alara-soysan",
     title: {
       en: "Alara Soysan Portfolio",
@@ -406,6 +485,7 @@ export const projects: Project[] = [
  * through every project that has screenshots) still draws from `projects`.
  */
 const SHOWCASE_IDS = [
+  "scroll-animation",
   "inventory-management",
   "hotel-customer",
   "hotel-personnel",
